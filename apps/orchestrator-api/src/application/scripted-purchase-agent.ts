@@ -15,6 +15,8 @@ export interface Buyer {
 export interface ScriptedPurchaseInput {
   readonly baseUrl: string;
   readonly buyer: Buyer;
+  /** Stops the agent between actions (the browser session is still closed). */
+  readonly signal?: AbortSignal;
 }
 
 type Action =
@@ -108,6 +110,7 @@ export class ScriptedPurchaseAgent {
       for (const [stepIndex, step] of steps.entries()) {
         const stepStarted = this.now();
         for (const action of step.actions) {
+          input.signal?.throwIfAborted();
           await this.perform(session, baseUrl, stepIndex, action);
         }
         url = (await this.browser.snapshot(session)).url;

@@ -1,3 +1,4 @@
+import type { RunSummary } from './run-summary.js';
 import type { StoredEvent } from './stored-event.js';
 
 export interface SubscribeOptions {
@@ -26,6 +27,9 @@ export interface EventStorePort {
    * with no gaps or duplicates. Stops when the consumer breaks out or the signal aborts.
    */
   subscribe(runId: string, options?: SubscribeOptions): AsyncIterable<StoredEvent>;
+
+  /** Latest runs first (at most `limit`), each summarised from its own events. */
+  listRuns(limit?: number): Promise<RunSummary[]>;
 }
 
 export const EVENT_STORE_PORT = Symbol('EventStorePort');

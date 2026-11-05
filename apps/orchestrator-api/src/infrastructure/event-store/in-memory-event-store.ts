@@ -3,6 +3,7 @@ import type {
   EventStorePort,
   SubscribeOptions,
 } from '../../domain/event-store/event-store-port.js';
+import { summarizeRun, type RunSummary } from '../../domain/event-store/run-summary.js';
 import type { StoredEvent } from '../../domain/event-store/stored-event.js';
 import { findDuplicateSeq } from './find-duplicate-seq.js';
 import { followRun } from './follow-run.js';
@@ -66,5 +67,14 @@ export class InMemoryEventStore implements EventStorePort {
       options.fromSeq ?? 0,
       options.signal,
     );
+  }
+
+  async listRuns(limit = 100): Promise<RunSummary[]> {
+    const summaries: RunSummary[] = [];
+    for (const runId of this.runs.keys()) {
+      const summary = summarizeRun(await this.readRun(runId));
+      if (summary !== null) summaries.push(summary);
+    }
+    return summaries.sort((a, b) => b.startedAt.localeCompare(a.startedAt)).slice(0, limit);
   }
 }

@@ -230,5 +230,41 @@ export function describeEventStoreContract(name: string, harness: EventStoreCont
       await expect(done).resolves.toBeUndefined();
       expect(seqs(received)).toEqual([0]);
     });
+
+    it('lists runs, newest first, with a status derived from their events', async () => {
+      const store = await harness.create();
+      const running = testUlid();
+      const finished = testUlid();
+      await store.append([stepEvent(running, 0), stepEvent(running, 1)]);
+      await store.append([
+        { ...stepEvent(finished, 0), ts: '2026-11-05T11:00:00.000Z' },
+        {
+          ...stepEvent(finished, 1),
+          ts: '2026-11-05T11:00:01.000Z',
+          actor: { agentId: 'orchestrator', role: 'orchestrator' },
+          type: 'run.completed',
+          payload: { outcome: 'error', reason: 'stopped by user' },
+        },
+      ]);
+
+      const runs = await store.listRuns(1000);
+      const byId = new Map(runs.map((run) => [run.runId, run]));
+
+      expect(byId.get(running)).toEqual({
+        runId: running,
+        startedAt: '2026-11-05T10:00:00.000Z',
+        eventCount: 2,
+        status: 'running',
+        outcome: null,
+        reason: null,
+      });
+      expect(byId.get(finished)).toMatchObject({
+        status: 'completed',
+        outcome: 'error',
+        reason: 'stopped by user',
+      });
+      const order = runs.map((run) => run.runId);
+      expect(order.indexOf(finished)).toBeLessThan(order.indexOf(running));
+    });
   });
 }

@@ -3,7 +3,10 @@ import { existsSync } from 'node:fs';
 import { defineConfig } from 'vitest/config';
 
 // `pnpm test:integration`: needs `docker compose up`. Reads DATABASE_URL_TEST from the env or ../../.env.
-if (process.env.DATABASE_URL_TEST === undefined && existsSync('../../.env')) {
+if (
+  (process.env.DATABASE_URL_TEST === undefined || process.env.REDIS_URL === undefined) &&
+  existsSync('../../.env')
+) {
   process.loadEnvFile('../../.env');
 }
 

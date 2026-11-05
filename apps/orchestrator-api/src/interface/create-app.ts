@@ -4,14 +4,16 @@ import type { NestApplicationOptions } from '@nestjs/common';
 import { NestFactory } from '@nestjs/core';
 import { FastifyAdapter, type NestFastifyApplication } from '@nestjs/platform-fastify';
 
+import type { AppAdapters } from './app-adapters.js';
 import { AppModule } from './app.module.js';
 
 // Builds and initialises the app without listening, so tests can use app.inject().
 export async function createApp(
+  adapters: AppAdapters,
   options: NestApplicationOptions = {},
 ): Promise<NestFastifyApplication> {
   const app = await NestFactory.create<NestFastifyApplication>(
-    AppModule,
+    AppModule.register(adapters),
     new FastifyAdapter(),
     options,
   );

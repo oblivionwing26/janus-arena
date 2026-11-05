@@ -151,12 +151,14 @@ Nota F0.9: el navegador es un servidor de Playwright (`docker/browser`) conectad
 
 ### F0.10 · Ciclo de vida de una ejecución — M (5–7 h)
 
-- [ ] Caso de uso `StartRun`: crea el run, levanta el sandbox, encola sesiones, cierra con `run.completed` (éxito, error o presupuesto agotado)
-- [ ] BullMQ: cola `agent-sessions`, concurrencia por parámetro, reintentos solo para errores de infraestructura (marcados como tales, no cuentan como fricción)
-- [ ] API: `POST /runs`, `GET /runs`, `GET /runs/:id/events` (SSE en vivo; con `?replay=1` lee de la tabla)
-- [ ] Parada: `POST /runs/:id/stop` corta sesiones y baja el sandbox
+- [x] Caso de uso `StartRun`: crea el run, levanta el sandbox, encola sesiones, cierra con `run.completed` (éxito, error o presupuesto agotado)
+- [x] BullMQ: cola `agent-sessions`, concurrencia por parámetro, reintentos solo para errores de infraestructura (marcados como tales, no cuentan como fricción)
+- [x] API: `POST /runs`, `GET /runs`, `GET /runs/:id/events` (SSE en vivo; con `?replay=1` lee de la tabla)
+- [x] Parada: `POST /runs/:id/stop` corta sesiones y baja el sandbox
 
 Hecho cuando: un `curl` lanza un run, el stream SSE muestra los eventos y la parada deja cero contenedores vivos.
+
+Nota F0.10: verificado a mano con el orquestador real (`pnpm --filter @janus/orchestrator-api start`, puerto por `PORT`). Un `curl -X POST /runs` con 2 sesiones transmitió en vivo por SSE 46 eventos (`run.started`, 32 `agent.action`, 12 `agent.step`, `run.completed` con `success`) y el stream se cerró solo; un segundo run de 3 sesiones, parado con `POST /runs/:id/stop` en cuanto su app arrancó, terminó con `run.completed` `stopped by user` y cero contenedores `janus.variant` vivos. El estado de un run se deriva de sus eventos (`GET /runs`), sin columnas nuevas. Sesiones y cierre van en un flow de BullMQ (cola `agent-sessions`, 3 intentos solo ante `InfrastructureError`); el worker corre en el proceso de la API. La parada usa `outcome: 'error'` con `reason: 'stopped by user'`, sin tocar el esquema v1.
 
 ### F0.11 · Consola mínima y replay — M (6–8 h)
 

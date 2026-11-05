@@ -82,6 +82,19 @@ describe('ScriptedPurchaseAgent', () => {
     expect(signUp.every((event) => event.type === 'agent.action' && event.payload.ok)).toBe(true);
   });
 
+  it('stops between actions when its signal aborts and closes the session', async () => {
+    const { store, agent, browser } = setup();
+    const controller = new AbortController();
+    controller.abort();
+
+    await expect(
+      agent.run({ baseUrl: BASE_URL, buyer, signal: controller.signal }),
+    ).rejects.toThrow();
+
+    expect(await store.readRun(RUN_ID)).toEqual([]);
+    await expect(browser.snapshot('scripted-1')).rejects.toThrow(/closed/);
+  });
+
   it('records the failed action and stops when an element is missing', async () => {
     const pages = { ...SHOPLAB_PAGES, '/cart': { title: 'ShopLab', elements: [] } };
     const { store, agent } = setup(pages);

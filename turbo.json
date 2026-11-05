@@ -23,7 +23,7 @@
     "test:integration": {
       "dependsOn": ["^build"],
       "cache": false,
-      "passThroughEnv": ["DATABASE_URL_TEST"]
+      "passThroughEnv": ["DATABASE_URL_TEST", "REDIS_URL"]
     }
   }
 }

@@ -1,4 +1,4 @@
-import { parseEvent } from '@janus/shared-kernel';
+import { parseEvent, type RunCompletedEvent } from '@janus/shared-kernel';
 import { PrismaPg } from '@prisma/adapter-pg';
 
 import { DuplicateEventSeqError } from '../../domain/event-store/duplicate-event-seq-error.js';
@@ -6,6 +6,7 @@ import type {
   EventStorePort,
   SubscribeOptions,
 } from '../../domain/event-store/event-store-port.js';
+import { isRunCompleted, type RunSummary } from '../../domain/event-store/run-summary.js';
 import type { StoredEvent } from '../../domain/event-store/stored-event.js';
 import { Prisma, PrismaClient } from '../persistence/generated/prisma/client.js';
 import { findDuplicateSeq } from './find-duplicate-seq.js';
@@ -85,6 +86,39 @@ export class PostgresEventStore implements EventStorePort {
       options.fromSeq ?? 0,
       options.signal,
     );
+  }
+
+  async listRuns(limit = 100): Promise<RunSummary[]> {
+    const groups = await this.prisma.event.groupBy({
+      by: ['runId'],
+      _min: { ts: true },
+      _count: { _all: true },
+      orderBy: { _min: { ts: 'desc' } },
+      take: limit,
+    });
+    const completions = await this.prisma.event.findMany({
+      where: { runId: { in: groups.map((group) => group.runId) }, type: 'run.completed' },
+      orderBy: { seq: 'asc' },
+      select: { runId: true, body: true },
+    });
+    const completedByRun = new Map<string, RunCompletedEvent>();
+    for (const row of completions) {
+      const event = parseEvent(row.body);
+      if (isRunCompleted(event) && !completedByRun.has(row.runId)) {
+        completedByRun.set(row.runId, event);
+      }
+    }
+    return groups.map((group) => {
+      const completed = completedByRun.get(group.runId);
+      return {
+        runId: group.runId,
+        startedAt: (group._min.ts ?? new Date(0)).toISOString(),
+        eventCount: group._count._all,
+        status: completed === undefined ? 'running' : 'completed',
+        outcome: completed?.payload.outcome ?? null,
+        reason: completed?.payload.reason ?? null,
+      };
+    });
   }
 
   async close(): Promise<void> {
