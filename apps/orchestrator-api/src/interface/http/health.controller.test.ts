@@ -1,13 +1,14 @@
 import type { NestFastifyApplication } from '@nestjs/platform-fastify';
 import { afterAll, beforeAll, describe, expect, it } from 'vitest';
 
+import { inMemoryAdapters } from '../../test-support/in-memory-adapters.js';
 import { createApp } from '../create-app.js';
 
 describe('GET /health', () => {
   let app: NestFastifyApplication;
 
   beforeAll(async () => {
-    app = await createApp({ logger: false });
+    app = await createApp(inMemoryAdapters(), { logger: false });
   });
 
   afterAll(async () => {

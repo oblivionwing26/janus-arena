@@ -5,6 +5,7 @@ import {
   type JanusEventType,
 } from '@janus/shared-kernel';
 
+import { DuplicateEventSeqError } from '../domain/event-store/duplicate-event-seq-error.js';
 import type { EventStorePort } from '../domain/event-store/event-store-port.js';
 import type { StoredEvent } from '../domain/event-store/stored-event.js';
 
@@ -15,12 +16,16 @@ export interface RecorderActor {
   readonly role: ActorRole;
 }
 
+const MAX_SEQ_ATTEMPTS = 100;
+
 /**
- * Appends one actor's events to a run with consecutive seq numbers and fresh ULIDs.
- * One recorder per run and actor; seq allocation across concurrent actors is F0.10's job.
+ * Appends one actor's events to a run with fresh ULIDs and the next free seq. Several actors
+ * (the orchestrator and every session) write to the same run at once: when another one took
+ * the seq first, the store rejects the duplicate and the recorder moves past it and retries.
  */
 export class RunEventRecorder {
   private seq: number;
+  private readonly now: () => Date;
 
   constructor(
     private readonly store: EventStorePort,
@@ -32,20 +37,30 @@ export class RunEventRecorder {
     this.now = options.now ?? (() => new Date());
   }
 
-  private readonly now: () => Date;
-
   async record<T extends JanusEventType>(type: T, payload: PayloadOf<T>): Promise<void> {
-    const event = {
-      id: newUlid(),
-      runId: this.runId,
-      seq: this.seq,
-      ts: this.now().toISOString(),
-      schemaVersion: 1,
-      actor: { agentId: this.actor.agentId, role: this.actor.role },
-      type,
-      payload,
-    } as StoredEvent;
-    await this.store.append([event]);
-    this.seq += 1;
+    const id = newUlid();
+    const ts = this.now().toISOString();
+    for (let attempt = 0; attempt < MAX_SEQ_ATTEMPTS; attempt++) {
+      const event = {
+        id,
+        runId: this.runId,
+        seq: this.seq,
+        ts,
+        schemaVersion: 1,
+        actor: { agentId: this.actor.agentId, role: this.actor.role },
+        type,
+        payload,
+      } as StoredEvent;
+      try {
+        await this.store.append([event]);
+        this.seq += 1;
+        return;
+      } catch (error) {
+        if (!(error instanceof DuplicateEventSeqError)) throw error;
+        const taken = await this.store.readRun(this.runId, this.seq);
+        this.seq = (taken.at(-1)?.seq ?? this.seq) + 1;
+      }
+    }
+    throw new Error(`Could not find a free seq in run ${this.runId}`);
   }
 }
