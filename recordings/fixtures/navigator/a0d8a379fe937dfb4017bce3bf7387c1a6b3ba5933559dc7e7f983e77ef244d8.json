@@ -1,0 +1,62 @@
+{
+  "version": 1,
+  "role": "navigator",
+  "requestHash": "sha256:a0d8a379fe937dfb4017bce3bf7387c1a6b3ba5933559dc7e7f983e77ef244d8",
+  "model": "claude-haiku-5-5",
+  "recordedAt": "2026-11-05T11:32:01.086Z",
+  "request": {
+    "model": "claude-haiku-5-5",
+    "max_tokens": 4096,
+    "system": [
+      {
+        "type": "text",
+        "text": "You are a fixture used to test the Janus Arena LLM gateway. Answer with one word only.",
+        "cache_control": {
+          "type": "ephemeral"
+        }
+      }
+    ],
+    "messages": [
+      {
+        "role": "user",
+        "content": "Reply with the word: ready"
+      }
+    ],
+    "output_config": {
+      "effort": "low"
+    }
+  },
+  "response": {
+    "model": "claude-haiku-5-5",
+    "id": "msg_011CgjhyGhXowTYHk4fXAye1",
+    "type": "message",
+    "role": "assistant",
+    "content": [
+      {
+        "type": "text",
+        "text": "ready"
+      }
+    ],
+    "container": null,
+    "stop_reason": "end_turn",
+    "stop_sequence": null,
+    "stop_details": null,
+    "usage": {
+      "input_tokens": 49,
+      "cache_creation_input_tokens": 0,
+      "cache_read_input_tokens": 0,
+      "cache_creation": {
+        "ephemeral_5m_input_tokens": 0,
+        "ephemeral_1h_input_tokens": 0
+      },
+      "output_tokens": 4,
+      "output_tokens_details": {
+        "thinking_tokens": 0
+      },
+      "service_tier": "standard",
+      "inference_geo": "global",
+      "speed": "standard"
+    },
+    "diagnostics": null
+  }
+}

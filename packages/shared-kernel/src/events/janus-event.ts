@@ -2,6 +2,7 @@ import { z } from 'zod';
 
 import { agentActionEventSchema } from './v1/agent-action.js';
 import { agentStepEventSchema } from './v1/agent-step.js';
+import { budgetThresholdEventSchema } from './v1/budget-threshold.js';
 import { findingCreatedEventSchema } from './v1/finding-created.js';
 import { frictionSignalEventSchema } from './v1/friction-signal.js';
 import { llmCallEventSchema } from './v1/llm-call.js';
@@ -20,6 +21,7 @@ const knownEventSchemas = [
   findingCreatedEventSchema,
   patchProposedEventSchema,
   verificationResultEventSchema,
+  budgetThresholdEventSchema,
 ] as const;
 
 export const janusEventSchema = z.discriminatedUnion('type', knownEventSchemas);

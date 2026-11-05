@@ -91,4 +91,11 @@ export const validEvents: Record<JanusEventType, Record<string, unknown>> = {
     verifier: 'poc-replay',
     passed: true,
   }),
+  'budget.threshold': envelope('budget.threshold', {
+    level: 'warning',
+    usedTokens: 160_000,
+    usedEur: 0.4,
+    maxTokens: 200_000,
+    maxEur: 2,
+  }),
 };
