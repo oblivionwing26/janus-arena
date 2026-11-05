@@ -32,6 +32,7 @@ const invalidEvents: Record<JanusEventType, [string, Record<string, unknown>]> =
     withPayload('finding.created', { severity: 'urgent' }),
   ],
   'patch.proposed': ['a branch outside janus/*', withPayload('patch.proposed', { branch: 'main' })],
+  'budget.threshold': ['an unknown level', withPayload('budget.threshold', { level: 'panic' })],
   'verification.result': [
     'a missing passed flag',
     withPayload('verification.result', { passed: undefined }),
@@ -41,7 +42,7 @@ const invalidEvents: Record<JanusEventType, [string, Record<string, unknown>]> =
 describe('v1 event schemas', () => {
   const types = Object.keys(validEvents) as JanusEventType[];
 
-  it('covers the nine v1 event types', () => {
+  it('covers the ten v1 event types', () => {
     expect(types.sort()).toEqual(
       [
         'agent.action',
@@ -53,6 +54,7 @@ describe('v1 event schemas', () => {
         'run.completed',
         'run.started',
         'verification.result',
+        'budget.threshold',
       ].sort(),
     );
   });

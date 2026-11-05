@@ -26,4 +26,5 @@ All calls go through `LLMGatewayPort`, which also enforces the per-run budget (w
 
 - **Positive:** swapping or testing a model is a config change; cost per role is visible; recorded adapters can replay by role and request hash.
 - **Negative:** roles can drift from real needs; the price table must be kept current by hand.
-- **Follow-ups:** F0.6 implements the gateway, budgets and `RecordedLLMAdapter`; F1.9 measures real tokens per step to update the FinOps estimates.
+- **Implementation (F0.6):** `AnthropicGateway` is the only adapter; it reaches the network through a transport (real SDK, or `RecordedLLMAdapter` in `record`/`replay` mode), so caching, cost and budget logic run identically in replay. Recordings are keyed by role plus the SHA-256 of the normalised request without the model id.
+- **Follow-ups:** F1.9 measures real tokens per step to update the FinOps estimates.

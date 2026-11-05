@@ -13,6 +13,10 @@ export { isKnownEvent, unknownEventSchema, type UnknownEvent } from './events/un
 export { agentActionEventSchema, type AgentActionEvent } from './events/v1/agent-action.js';
 export { agentStepEventSchema, type AgentStepEvent } from './events/v1/agent-step.js';
 export {
+  budgetThresholdEventSchema,
+  type BudgetThresholdEvent,
+} from './events/v1/budget-threshold.js';
+export {
   findingCreatedEventSchema,
   type FindingCreatedEvent,
 } from './events/v1/finding-created.js';

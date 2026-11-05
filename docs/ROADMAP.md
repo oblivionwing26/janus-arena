@@ -94,14 +94,16 @@ Nota F0.5: Postgres se publica en `127.0.0.1:55432` y Redis en `127.0.0.1:56379`
 
 ### F0.6 · LLM gateway con presupuesto — M (6–8 h)
 
-- [ ] Entidad `Budget` en dominio: límites de tokens y euros, estado, umbral de aviso 80 % y corte 100 %
-- [ ] Puerto `LLMGatewayPort.complete({ role, system, messages, tools?, budget })`
-- [ ] `config/models.yaml`: rol → modelo, y tabla de precios editable (sin precios fijos en el código)
-- [ ] `AnthropicGateway`: marca `cache_control` solo en el prefijo estable (system + persona + tools), calcula coste y emite `llm.call`
-- [ ] `RecordedLLMAdapter`: clave = hash de la petición normalizada; modo `record` guarda en `recordings/`, modo `replay` lee y falla si falta la grabación
-- [ ] Tests: presupuesto que corta en la llamada que lo supera; aviso al 80 %; grabación y reproducción idénticas
+- [x] Entidad `Budget` en dominio: límites de tokens y euros, estado, umbral de aviso 80 % y corte 100 %
+- [x] Puerto `LLMGatewayPort.complete({ role, system, messages, tools?, budget })`
+- [x] `config/models.yaml`: rol → modelo, y tabla de precios editable (sin precios fijos en el código)
+- [x] `AnthropicGateway`: marca `cache_control` solo en el prefijo estable (system + persona + tools), calcula coste y emite `llm.call`
+- [x] `RecordedLLMAdapter`: clave = hash de la petición normalizada; modo `record` guarda en `recordings/`, modo `replay` lee y falla si falta la grabación
+- [x] Tests: presupuesto que corta en la llamada que lo supera; aviso al 80 %; grabación y reproducción idénticas
 
 Hecho cuando: una llamada real grabada se reproduce en test sin red y sin clave de API.
+
+Nota F0.6: la fixture `recordings/fixtures/navigator/<hash>.json` es una llamada real a `claude-haiku-5-5` (49 tokens de entrada, 4 de salida). `record-fixture.test.ts` la reproduce con `ANTHROPIC_API_KEY` vacía y `fetch` sustituido por uno que lanza error, y comprueba que el fichero no contiene credenciales. Para volver a grabarla: `pnpm --filter @janus/orchestrator-api llm:record-fixture` (necesita una API key asociada a un workspace en `.env`). Decisiones: la llamada que supera el presupuesto se cobra y después lanza `BudgetExhaustedError`; el aviso del 80 % es el evento nuevo `budget.threshold`; el límite de tokens suma los cuatro tipos. Quedan fuera: Message Batches, `fallbacks` ante rechazos (un rechazo es `LlmRefusalError`) y el HUD de FinOps (F0.11). `usdToEur` en `config/models.yaml` se actualiza a mano.
 
 ### F0.7 · App objetivo ShopLab — L (12–18 h, repo aparte `janus-shoplab`)
 
