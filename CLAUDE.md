@@ -14,7 +14,7 @@ More context: `docs/VISION.md` (product), `docs/adr/` (decisions), `docs/ROADMAP
 
 ## Current step
 
-**F0.1 — Repository and tooling.** Read this step in `docs/ROADMAP.md` before starting. Do not build features from later steps.
+**F0.2 — CLAUDE.md, vision and ADRs.** Read this step in `docs/ROADMAP.md` before starting. Do not build features from later steps.
 
 (Update this line every time a step is closed.)
 
