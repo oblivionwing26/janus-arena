@@ -109,20 +109,22 @@ Nota F0.6: la fixture `recordings/fixtures/navigator/<hash>.json` es una llamada
 
 Sub-entrega A (5–7 h): tienda funcional
 
-- [ ] Next.js + Postgres: registro, login, catálogo, carrito, cupón, checkout con pago simulado, historial de pedidos, reseñas
-- [ ] Script de seed con 3 usuarios de prueba, cada uno con pedidos y un **valor canario** único (por ejemplo, una dirección inventada) para detectar fugas sin ambigüedad
-- [ ] Dockerfile y healthcheck
+- [x] Next.js + Postgres: registro, login, catálogo, carrito, cupón, checkout con pago simulado, historial de pedidos, reseñas
+- [x] Script de seed con 3 usuarios de prueba, cada uno con pedidos y un **valor canario** único (por ejemplo, una dirección inventada) para detectar fugas sin ambigüedad
+- [x] Dockerfile y healthcheck
 
 Sub-entrega B (4–6 h): fricción sembrada
 
-- [ ] 3 problemas de UX documentados en `UX_FLAWS.md`: gastos de envío que solo aparecen en el último paso, campo de cupón escondido tras un enlace ambiguo, formulario que borra los datos al fallar la validación
+- [x] 3 problemas de UX documentados en `UX_FLAWS.md`: gastos de envío que solo aparecen en el último paso, campo de cupón escondido tras un enlace ambiguo, formulario que borra los datos al fallar la validación
 
-Sub-entrega C (3–5 h): vulnerabilidades sembradas
+Sub-entrega C (3–5 h): tests propios. Las vulnerabilidades sembradas se sustituyen por OWASP Juice Shop como objetivo de seguridad ([ADR 0006](adr/0006-juice-shop-as-security-target.md))
 
-- [ ] 4 vulnerabilidades documentadas en `SEEDED_VULNS.md`: IDOR en `/api/orders/:id`, XSS almacenado en reseñas, cupón canjeable dos veces con peticiones simultáneas, precio manipulable en el cuerpo del checkout
-- [ ] Tests propios de ShopLab que pasan (los usarán luego los verificadores del Blue Team)
+- [x] ~~Vulnerabilidades sembradas en ShopLab~~: fuera de alcance, ver ADR 0006
+- [x] Tests propios de ShopLab que pasan (los usarán luego los verificadores del Blue Team)
 
 Hecho cuando: `docker compose up` levanta ShopLab con datos, y cada fallo sembrado se reproduce a mano siguiendo su ficha.
+
+Nota F0.7: ShopLab vive en `oblivionwing26/janus-shoplab` (app en `127.0.0.1:3100`, Postgres en `127.0.0.1:55433`). Se verificó a mano desde un volumen vacío: compra completa con cupón, aislamiento de pedidos entre usuarios y las tres fichas de `UX_FLAWS.md`. Tests propios: 8 unitarios y 20 de integración (servicios y todas las rutas de la API). `UX_FLAWS.md` es verdad de referencia: ningún agente de Janus debe verla (ver F0.8 y F2.2).
 
 ### F0.8 · Sandbox de variantes — M (5–7 h)
 
@@ -130,6 +132,7 @@ Hecho cuando: `docker compose up` levanta ShopLab con datos, y cada fallo sembra
 - [ ] Red Docker `janus-sbx` con `internal: true` (sin salida a internet)
 - [ ] Proxy del socket de Docker con lista blanca de operaciones; el orquestador habla con el proxy, nunca con el socket directamente
 - [ ] `DockerSandbox`: construye la imagen de una rama de ShopLab, la levanta en la red interna con su Postgres efímero y espera al healthcheck
+- [ ] El clonado del objetivo a `.workspaces/` excluye `UX_FLAWS.md` (verdad de referencia; ningún agente debe leerla)
 - [ ] Test de aislamiento: desde el contenedor, una petición a un host público debe fallar
 
 Hecho cuando: `up('a')` devuelve una URL accesible por los navegadores de agentes y el test de salida a internet falla como debe.
@@ -317,6 +320,7 @@ Hecho cuando: un test de integración clona ShopLab, aplica un parche, hace comm
 - [ ] Buscar esos textos en el repo objetivo (ripgrep) y mapear ruta → fichero de página según las convenciones de Next.js
 - [ ] Ordenar ficheros candidatos por coincidencias y devolver un contexto compacto (fragmentos, no ficheros enteros)
 - [ ] Tope de tamaño del contexto y medición en tokens
+- [ ] El contexto nunca incluye `UX_FLAWS.md` (la búsqueda la excluye explícitamente)
 
 Hecho cuando: para cada fallo de `UX_FLAWS.md`, el fichero real aparece entre los 3 primeros candidatos.
 
@@ -388,6 +392,8 @@ Hecho cuando: una Variante B con un fallo inyectado a propósito queda bloqueada
 ## F3 · Red Team, Blue Team y gate (85–120 h)
 
 F3 cierra el ciclo completo. La regla que lo sostiene todo: el éxito de un ataque lo decide un **oráculo determinista** (por ejemplo, el valor canario del usuario A aparece en la respuesta del usuario B), nunca la opinión del LLM.
+
+> **Pendiente de replanificar (ADR 0006):** los pasos de F3 que citan "vulnerabilidades sembradas" de ShopLab (F3.1, F3.3, F3.4, F3.6 y F4.2) se reescribirán contra OWASP Juice Shop al reestimar las fases tras cerrar F2. ShopLab sigue siendo el objetivo de UX y de los re-checks de SynthLab.
 
 ### F3.1 · Alcance y verificación de propiedad — M (5–7 h)
 

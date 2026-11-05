@@ -14,7 +14,7 @@ More context: `docs/VISION.md` (product), `docs/adr/` (decisions), `docs/ROADMAP
 
 ## Current step
 
-**F0.7 — ShopLab target app (separate repo `janus-shoplab`).** Read this step in `docs/ROADMAP.md` before starting. Do not build features from later steps.
+**F0.8 — Variant sandbox.** Read this step in `docs/ROADMAP.md` before starting. Do not build features from later steps.
 
 (Update this line every time a step is closed.)
 
@@ -59,7 +59,7 @@ recordings/              recorded LLM responses (gitignored except fixtures)
 .workspaces/             cloned target repos per run (gitignored)
 ```
 
-The demo target app (ShopLab) lives in a separate repo, `janus-shoplab`, and is cloned into `.workspaces/`.
+The demo target app (ShopLab) lives in a separate repo, `janus-shoplab`, and is cloned into `.workspaces/`. It is the UX target; the security target is OWASP Juice Shop (ADR 0006). ShopLab's `UX_FLAWS.md` is ground truth and must never reach an agent.
 
 ## Architecture rules (enforced by `pnpm check:arch` in CI)
 
