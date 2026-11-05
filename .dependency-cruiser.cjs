@@ -20,7 +20,9 @@ module.exports = {
       name: 'not-to-unresolvable',
       severity: 'error',
       comment: 'Every import must resolve to a file or an installed package.',
-      from: {},
+      // package-exports.test.ts imports @janus/shared-kernel by name on purpose: it resolves to
+      // dist/, which does not exist before `pnpm build`. Only that file is exempt.
+      from: { pathNot: '^packages/shared-kernel/src/package-exports[.]test[.]ts$' },
       to: { couldNotResolve: true },
     },
     {

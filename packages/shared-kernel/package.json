@@ -19,5 +19,8 @@
     "lint": "eslint .",
     "typecheck": "tsc -p tsconfig.json --noEmit",
     "test": "vitest run"
+  },
+  "dependencies": {
+    "zod": "^4.6.7"
   }
 }
