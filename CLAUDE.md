@@ -14,7 +14,7 @@ More context: `docs/VISION.md` (product), `docs/adr/` (decisions), `docs/ROADMAP
 
 ## Current step
 
-**F0.5 — Database and event store.** Read this step in `docs/ROADMAP.md` before starting. Do not build features from later steps.
+**F0.6 — LLM gateway with budget.** Read this step in `docs/ROADMAP.md` before starting. Do not build features from later steps.
 
 (Update this line every time a step is closed.)
 

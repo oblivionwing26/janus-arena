@@ -14,6 +14,7 @@ export default tseslint.config(
       '**/coverage/**',
       '.workspaces/**',
       'recordings/**',
+      '**/persistence/generated/**',
     ],
   },
   js.configs.recommended,

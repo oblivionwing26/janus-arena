@@ -80,14 +80,16 @@ module.exports = {
     {
       name: 'not-to-dev-dep',
       severity: 'error',
-      comment: 'Production code must not depend on devDependencies.',
-      from: { path: '^(apps|packages)/[^/]+/src', pathNot: '[.](?:test|spec)[.]ts$' },
+      comment: 'Production code must not depend on devDependencies. test-support/ is test-only.',
+      from: { path: '^(apps|packages)/[^/]+/src', pathNot: [TEST_FILE, '/src/test-support/'] },
       to: { dependencyTypes: ['npm-dev'], dependencyTypesNot: ['type-only'] },
     },
   ],
   options: {
     doNotFollow: { path: ['node_modules'] },
-    exclude: { path: ['(^|/)dist/', '(^|/)[.]next/', '(^|/)coverage/'] },
+    exclude: {
+      path: ['(^|/)dist/', '(^|/)[.]next/', '(^|/)coverage/', '/persistence/generated/'],
+    },
     tsPreCompilationDeps: true,
     combinedDependencies: true,
     enhancedResolveOptions: {

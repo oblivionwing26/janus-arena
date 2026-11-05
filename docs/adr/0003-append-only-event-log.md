@@ -15,7 +15,8 @@ Every observable fact is an event in an append-only log. The `events` table is t
 - Envelope: `id` (ULID), `runId`, `seq`, `ts`, `schemaVersion`, `actor { agentId, role }`, `type`, `payload`, optional `cost`.
 - `actor.agentId` is a readable slug (`^[a-z0-9][a-z0-9-]{0,63}$`, e.g. `orchestrator`, `persona-ana-1`), not a ULID. This is the one exception to "IDs are ULIDs".
 - Schemas are zod definitions in `shared-kernel`. Unknown event types are preserved as `UnknownEvent` so old replays never break on newer data.
-- A database trigger rejects `UPDATE` and `DELETE` on `events`.
+- A database trigger rejects `UPDATE`, `DELETE` and `TRUNCATE` on `events`. Integration tests reset their own `*_test` database with `DROP SCHEMA`, never by mutating rows.
+- An `AFTER INSERT` trigger sends `pg_notify('janus_events', run_id)` so live subscribers re-read from their last `seq`; the stored `body` is the event exactly as appended.
 - `(runId, seq)` is unique. Reports store a hash of the run's event log.
 - Replay reads recorded events and recorded LLM responses and never calls a model.
 
