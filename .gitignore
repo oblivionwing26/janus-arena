@@ -1,0 +1,33 @@
+# dependencies
+node_modules/
+
+# build output
+dist/
+.next/
+out/
+*.tsbuildinfo
+
+# tooling caches
+.turbo/
+coverage/
+.eslintcache
+
+# environment and secrets
+.env
+.env.*
+!.env.example
+
+# Janus runtime data
+.workspaces/
+recordings/*
+!recordings/fixtures/
+
+# logs and OS files
+*.log
+.DS_Store
+Thumbs.db
+
+# editors
+.vscode/*
+!.vscode/extensions.json
+.idea/
