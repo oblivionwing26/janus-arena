@@ -5,6 +5,7 @@
   "type": "module",
   "scripts": {
     "build": "prisma generate && tsc -p tsconfig.build.json",
+    "dev": "node scripts/dev.mjs",
     "start": "node dist/interface/main.js",
     "lint": "eslint .",
     "typecheck": "tsc -p tsconfig.json --noEmit",

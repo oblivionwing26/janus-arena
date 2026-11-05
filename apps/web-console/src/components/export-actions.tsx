@@ -1,9 +1,9 @@
 'use client';
 
+import { buildRunExport } from '@janus/shared-kernel';
 import { useRouter } from 'next/navigation';
 
 import type { ConsoleEvent } from '@/lib/console-event';
-import { buildRunExport } from '@/lib/run-export';
 
 export const OFFLINE_RUN_KEY = 'janus.offline-run';
 

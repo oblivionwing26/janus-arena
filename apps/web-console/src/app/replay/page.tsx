@@ -1,10 +1,10 @@
 'use client';
 
+import { parseRunExport } from '@janus/shared-kernel';
 import { useEffect, useState } from 'react';
 
 import { OFFLINE_RUN_KEY } from '@/components/export-actions';
 import { RunViewer } from '@/components/run-viewer';
-import { parseRunExport } from '@/lib/run-export';
 import { RecordedSource } from '@/lib/sources';
 
 interface Loaded {
@@ -23,7 +23,9 @@ export default function ReplayPage() {
       setLoaded({ runId: run.runId, source: new RecordedSource(run.events) });
       setError(null);
     } catch (caught) {
-      setError(caught instanceof Error ? caught.message : String(caught));
+      setError(
+        `No se pudo abrir el run: ${caught instanceof Error ? caught.message : String(caught)}`,
+      );
     }
   }
 

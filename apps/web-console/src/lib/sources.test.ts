@@ -1,13 +1,13 @@
 // F0.11 "Done when", automated part: the same run looks identical whether it arrives live over
 // SSE or from an exported JSON file.
 
+import { buildRunExport, parseRunExport } from '@janus/shared-kernel';
 import { describe, expect, it } from 'vitest';
 
 import { RUN_ID, sampleRun } from '@/test-support/sample-run';
 
 import type { ConsoleEvent } from './console-event';
 import { summarizeCost } from './cost';
-import { buildRunExport, parseRunExport } from './run-export';
 import { LiveSource, RecordedSource, type RunEventSource } from './sources';
 import { buildTimeline } from './timeline';
 

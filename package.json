@@ -15,6 +15,7 @@
     "test:integration": "turbo run test:integration",
     "test:sandbox": "pnpm --filter @janus/orchestrator-api test:sandbox",
     "db:migrate": "pnpm --filter @janus/orchestrator-api db:migrate",
+    "run:replay": "node scripts/run-replay.mjs",
     "check:arch": "turbo run build && depcruise --config .dependency-cruiser.cjs apps packages",
     "format": "prettier --write .",
     "format:check": "prettier --check ."
