@@ -33,3 +33,9 @@ Every observable fact is an event in an append-only log. The `events` table is t
 - **Positive:** deterministic replay, a no-cost demo mode, auditable runs, a stable base for hashing and signing reports.
 - **Negative:** schema evolution needs discipline (`schemaVersion`, tolerant parsing); the table grows and will need retention rules later.
 - **Follow-ups:** F0.3 defines the envelope; F0.5 adds the trigger and contract tests; F3.7 hashes the log into the signed report.
+
+## Implementation notes (F0.5–F0.12)
+
+- A run's status is derived from its own events (`run.started`, `run.completed`); there is no mutable runs table.
+- Live view and replay share one renderer in the console (`RunViewer`), fed by either the SSE stream or recorded events. The console reads SSE with `fetch` and its own parser, because `EventSource` only listens to event names it knows in advance and unknown types must survive.
+- The interchange format for a recorded run is `janus-run` v1 (`buildRunExport` / `parseRunExport` in `shared-kernel`): a header plus the events exactly as stored, unknown types included. The console's offline replay and `pnpm run:replay` read the same format; the CLI can also read a run straight from Postgres.

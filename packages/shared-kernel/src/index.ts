@@ -10,6 +10,8 @@ export { janusEventSchema, type JanusEvent, type JanusEventType } from './events
 export { modelRoleSchema, type ModelRole } from './events/model-role.js';
 export { parseEvent } from './events/parse-event.js';
 export { isKnownEvent, unknownEventSchema, type UnknownEvent } from './events/unknown-event.js';
+export { InvalidRunExportError } from './export/invalid-run-export-error.js';
+export { buildRunExport, parseRunExport, type RunExport } from './export/run-export.js';
 
 export { agentActionEventSchema, type AgentActionEvent } from './events/v1/agent-action.js';
 export { agentStepEventSchema, type AgentStepEvent } from './events/v1/agent-step.js';
