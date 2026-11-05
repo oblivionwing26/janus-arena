@@ -44,15 +44,43 @@ services:
       IMAGES: 1
       CONTAINERS: 1
       NETWORKS: 1
-      SESSION: 1
-      GRPC: 1
       POST: 1
       DELETE: 1
-      # Closed: EXEC, VOLUMES, SWARM, SERVICES, NODES, SECRETS, CONFIGS, PLUGINS, SYSTEM, AUTH.
+      # Closed: EXEC, VOLUMES, SESSION, GRPC, SWARM, SERVICES, NODES, SECRETS, CONFIGS, PLUGINS,
+      # SYSTEM, AUTH. Builds use the classic builder (POST /build), so BuildKit sessions stay shut.
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock:ro
     ports:
       - '127.0.0.1:23750:2375'
+
+  # Remote Playwright server for agent browsers: on janus-sbx only, so no internet (ADR 0005).
+  browser:
+    build: docker/browser
+    image: janus/browser:1.64.1
+    init: true
+    ipc: private
+    networks:
+      - janus-sbx
+
+  # Forwards one port so the orchestrator on the host can drive the browser. It runs no agent
+  # code; it is the only container on both networks.
+  browser-relay:
+    # Pinned by digest; bump it on purpose.
+    image: alpine/socat@sha256:466c8a0383e16463fabdb7df01008292fb78d07da60224a46cb5d3142ce122ed
+    command: ['TCP-LISTEN:3000,fork,reuseaddr', 'TCP:browser:3000']
+    depends_on:
+      - browser
+    networks:
+      - default
+      - janus-sbx
+    ports:
+      - '127.0.0.1:53000:3000'
+
+networks:
+  # Variants and agent browsers live here (ADR 0005). DockerSandbox requires it to exist.
+  janus-sbx:
+    name: janus-sbx
+    internal: true
 
 volumes:
   postgres-data:
