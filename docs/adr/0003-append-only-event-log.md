@@ -13,6 +13,7 @@ Janus runs agents that act in browsers, call LLMs, launch attacks and propose pa
 Every observable fact is an event in an append-only log. The `events` table is the source of truth, and the live view and the replay view consume the same stream.
 
 - Envelope: `id` (ULID), `runId`, `seq`, `ts`, `schemaVersion`, `actor { agentId, role }`, `type`, `payload`, optional `cost`.
+- `actor.agentId` is a readable slug (`^[a-z0-9][a-z0-9-]{0,63}$`, e.g. `orchestrator`, `persona-ana-1`), not a ULID. This is the one exception to "IDs are ULIDs".
 - Schemas are zod definitions in `shared-kernel`. Unknown event types are preserved as `UnknownEvent` so old replays never break on newer data.
 - A database trigger rejects `UPDATE` and `DELETE` on `events`.
 - `(runId, seq)` is unique. Reports store a hash of the run's event log.

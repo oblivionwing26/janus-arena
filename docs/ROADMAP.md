@@ -56,13 +56,15 @@ Hecho cuando: Claude Code, preguntado "¿en qué paso estamos y qué reglas apli
 
 ### F0.3 · shared-kernel: eventos v1 — S (3–4 h)
 
-- [ ] Paquete `packages/shared-kernel` con zod
-- [ ] Sobre de evento: `id` (ULID), `runId`, `seq`, `ts`, `schemaVersion`, `actor` (`agentId`, `role`), `type`, `payload`, `cost?`
-- [ ] Esquemas v1: `run.started`, `run.completed`, `agent.step`, `agent.action`, `friction.signal`, `llm.call`, `finding.created`, `patch.proposed`, `verification.result`
-- [ ] `parseEvent()` que valida y devuelve un tipo discriminado; los tipos desconocidos se conservan como `UnknownEvent` (el replay no debe romperse con eventos futuros)
-- [ ] Tests: cada esquema acepta un ejemplo válido y rechaza uno inválido
+- [x] Paquete `packages/shared-kernel` con zod
+- [x] Sobre de evento: `id` (ULID), `runId`, `seq`, `ts`, `schemaVersion`, `actor` (`agentId`, `role`), `type`, `payload`, `cost?`
+- [x] Esquemas v1: `run.started`, `run.completed`, `agent.step`, `agent.action`, `friction.signal`, `llm.call`, `finding.created`, `patch.proposed`, `verification.result`
+- [x] `parseEvent()` que valida y devuelve un tipo discriminado; los tipos desconocidos se conservan como `UnknownEvent` (el replay no debe romperse con eventos futuros)
+- [x] Tests: cada esquema acepta un ejemplo válido y rechaza uno inválido
 
 Hecho cuando: `pnpm test --filter shared-kernel` en verde y los tipos se importan desde las dos apps.
+
+Nota F0.3: el comando real es `pnpm test --filter @janus/shared-kernel` (turbo exige el nombre completo del paquete). Las apps aún no existen, así que en este paso se verificó con `pnpm build` (genera los `.d.ts`) y con un test que importa el paquete por su nombre `@janus/shared-kernel` y usa `parseEvent` y los tipos. La importación desde las apps se comprobará en F0.4 (`orchestrator-api`) y F0.11 (`web-console`).
 
 ### F0.4 · Esqueleto hexagonal del orquestador — M (4–6 h)
 
