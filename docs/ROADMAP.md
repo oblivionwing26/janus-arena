@@ -68,14 +68,16 @@ Nota F0.3: el comando real es `pnpm test --filter @janus/shared-kernel` (turbo e
 
 ### F0.4 · Esqueleto hexagonal del orquestador — M (4–6 h)
 
-- [ ] `apps/orchestrator-api` con NestJS + adaptador Fastify
-- [ ] Carpetas `src/domain`, `src/application`, `src/infrastructure`, `src/interface` (controladores HTTP, workers, módulos Nest)
-- [ ] dependency-cruiser con reglas: `domain` no importa nada salvo `shared-kernel`; `application` solo `domain` y `shared-kernel`; `infrastructure` no importa `interface`
-- [ ] Script `check:arch` conectado a Turborepo y al CI
-- [ ] Endpoint `GET /health`
+- [x] `apps/orchestrator-api` con NestJS + adaptador Fastify
+- [x] Carpetas `src/domain`, `src/application`, `src/infrastructure`, `src/interface` (controladores HTTP, workers, módulos Nest)
+- [x] dependency-cruiser con reglas: `domain` no importa nada salvo `shared-kernel`; `application` solo `domain` y `shared-kernel`; `infrastructure` no importa `interface`
+- [x] Script `check:arch` conectado a Turborepo y al CI
+- [x] Endpoint `GET /health`
 - [ ] Prueba de la regla: rama temporal que importa `@anthropic-ai/sdk` en `domain/` y comprobar que el CI falla
 
 Hecho cuando: la violación intencionada hace fallar el CI y la rama limpia pasa.
+
+Nota F0.4: `check:arch` ejecuta `turbo run build` antes de dependency-cruiser, para que `@janus/shared-kernel` se resuelva aunque no exista `dist/`. Las tres reglas de capas se probaron en local con violaciones intencionadas (SDK, `@nestjs/common` y `node:fs` en `domain/`; `infrastructure` y `zod` en `application/`; `interface/` desde `infrastructure/`) y todas fallaron con su propio nombre de regla. `pnpm dev` con recarga en caliente queda pendiente: Node no ejecuta decoradores TS, así que hará falta `tsx` o `@nestjs/cli` (decidir en F0.10/F0.11).
 
 ### F0.5 · Base de datos y event store — M (5–7 h)
 

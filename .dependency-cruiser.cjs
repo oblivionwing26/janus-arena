@@ -1,14 +1,42 @@
 /**
  * Architecture rules for Janus Arena.
  *
- * F0.1 ships the generic rules below so `pnpm check:arch` runs in CI from day one.
- * F0.4 adds the hexagonal boundary rules for apps/orchestrator-api
- * (domain -> nothing but shared-kernel, application -> domain only, etc.).
+ * F0.1 ships the generic rules so `pnpm check:arch` runs in CI from day one.
+ * F0.4 adds the hexagonal boundary rules for apps/orchestrator-api (ADR 0001).
  *
  * @type {import('dependency-cruiser').IConfiguration}
  */
+
+const ORCHESTRATOR = '^apps/orchestrator-api/src';
+const SHARED_KERNEL = '^packages/shared-kernel/';
+const TEST_FILE = '[.](?:test|spec)[.]ts$';
+
 module.exports = {
   forbidden: [
+    {
+      name: 'domain-only-shared-kernel',
+      severity: 'error',
+      comment:
+        'ADR 0001: domain/ imports nothing except shared-kernel. No SDKs, Nest, Prisma, Playwright or Node builtins.',
+      from: { path: `${ORCHESTRATOR}/domain/`, pathNot: TEST_FILE },
+      to: { pathNot: [`${ORCHESTRATOR}/domain/`, SHARED_KERNEL] },
+    },
+    {
+      name: 'application-only-domain-and-shared-kernel',
+      severity: 'error',
+      comment: 'ADR 0001: application/ imports only domain/ and shared-kernel.',
+      from: { path: `${ORCHESTRATOR}/application/`, pathNot: TEST_FILE },
+      to: {
+        pathNot: [`${ORCHESTRATOR}/application/`, `${ORCHESTRATOR}/domain/`, SHARED_KERNEL],
+      },
+    },
+    {
+      name: 'infrastructure-not-interface',
+      severity: 'error',
+      comment: 'ADR 0001: infrastructure/ implements ports; only interface/ wires them together.',
+      from: { path: `${ORCHESTRATOR}/infrastructure/` },
+      to: { path: `${ORCHESTRATOR}/interface/` },
+    },
     {
       name: 'no-circular',
       severity: 'error',
