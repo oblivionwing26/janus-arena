@@ -31,6 +31,29 @@ services:
       timeout: 3s
       retries: 10
 
+  # The only way the orchestrator reaches Docker (ADR 0005). It filters by API section, not by
+  # request body, so it listens on 127.0.0.1 only and never joins the janus-sbx network.
+  docker-proxy:
+    # Pinned by digest (the project publishes no version tags); bump it on purpose.
+    image: tecnativa/docker-socket-proxy@sha256:1f5038b54f06c3e18422902cf00ba21803d1c97805aae032e5e6673d532d3459
+    environment:
+      INFO: 1
+      PING: 1
+      VERSION: 1
+      BUILD: 1
+      IMAGES: 1
+      CONTAINERS: 1
+      NETWORKS: 1
+      SESSION: 1
+      GRPC: 1
+      POST: 1
+      DELETE: 1
+      # Closed: EXEC, VOLUMES, SWARM, SERVICES, NODES, SECRETS, CONFIGS, PLUGINS, SYSTEM, AUTH.
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+    ports:
+      - '127.0.0.1:23750:2375'
+
 volumes:
   postgres-data:
   redis-data:

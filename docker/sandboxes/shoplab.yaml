@@ -1,0 +1,25 @@
+# How DockerSandbox builds and runs ShopLab (repo janus-shoplab) on the janus-sbx network.
+name: shoplab
+repo: https://github.com/oblivionwing26/janus-shoplab.git
+
+# Ground truth that no agent may read (ADR 0006). Removed from every cloned workspace.
+excludeFiles:
+  - UX_FLAWS.md
+
+build:
+  setupTarget: tools
+  appTarget: runner
+
+database:
+  image: postgres:17-alpine
+  user: shoplab
+  password: shoplab
+  name: shoplab
+
+# Runs once in the setup image against the variant's database: migrations, then synthetic seed.
+setup:
+  command: [sh, -c, 'pnpm db:migrate && pnpm db:seed']
+
+app:
+  port: 3100
+  healthPath: /api/health
