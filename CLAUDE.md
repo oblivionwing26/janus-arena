@@ -14,7 +14,7 @@ More context: `docs/VISION.md` (product), `docs/adr/` (decisions), `docs/ROADMAP
 
 ## Current step
 
-**F0.8 — Variant sandbox.** Read this step in `docs/ROADMAP.md` before starting. Do not build features from later steps.
+**F0.9 — Browser and scripted agent.** Read this step in `docs/ROADMAP.md` before starting. Do not build features from later steps.
 
 (Update this line every time a step is closed.)
 
@@ -30,6 +30,7 @@ pnpm lint
 pnpm typecheck
 pnpm test                     # unit + contract tests, no network, no API keys
 pnpm test:integration         # needs docker compose up
+pnpm test:sandbox             # local only: Docker + socket proxy + ShopLab clone (DockerSandbox)
 pnpm check:arch               # dependency-cruiser architecture rules
 pnpm db:migrate
 pnpm run:replay <runId|file>  # replay a run from DB or exported JSON, never calls an LLM

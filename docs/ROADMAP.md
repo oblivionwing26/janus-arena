@@ -128,14 +128,16 @@ Nota F0.7: ShopLab vive en `oblivionwing26/janus-shoplab` (app en `127.0.0.1:310
 
 ### F0.8 · Sandbox de variantes — M (5–7 h)
 
-- [ ] Puerto `SandboxPort`: `up(variant) → { baseUrl }`, `down(variant)`, `logs(variant)`
-- [ ] Red Docker `janus-sbx` con `internal: true` (sin salida a internet)
-- [ ] Proxy del socket de Docker con lista blanca de operaciones; el orquestador habla con el proxy, nunca con el socket directamente
-- [ ] `DockerSandbox`: construye la imagen de una rama de ShopLab, la levanta en la red interna con su Postgres efímero y espera al healthcheck
-- [ ] El clonado del objetivo a `.workspaces/` excluye `UX_FLAWS.md` (verdad de referencia; ningún agente debe leerla)
-- [ ] Test de aislamiento: desde el contenedor, una petición a un host público debe fallar
+- [x] Puerto `SandboxPort`: `up(variant) → { baseUrl }`, `down(variant)`, `logs(variant)`
+- [x] Red Docker `janus-sbx` con `internal: true` (sin salida a internet)
+- [x] Proxy del socket de Docker con lista blanca de operaciones; el orquestador habla con el proxy, nunca con el socket directamente
+- [x] `DockerSandbox`: construye la imagen de una rama de ShopLab, la levanta en la red interna con su Postgres efímero y espera al healthcheck
+- [x] El clonado del objetivo a `.workspaces/` excluye `UX_FLAWS.md` (verdad de referencia; ningún agente debe leerla)
+- [x] Test de aislamiento: desde el contenedor, una petición a un host público debe fallar
 
 Hecho cuando: `up('a')` devuelve una URL accesible por los navegadores de agentes y el test de salida a internet falla como debe.
+
+Nota F0.8: `up({ id, target: 'shoplab', ref })` clona ShopLab en `.workspaces/<id>/` (sin `UX_FLAWS.md`), construye sus imágenes con el builder clásico a través del proxy (`127.0.0.1:23750`), levanta un Postgres efímero, ejecuta migrate + seed y espera al healthcheck; devuelve `http://janus-<id>-app:3100`, accesible solo dentro de `janus-sbx` (los navegadores de F0.9 irán en esa red). `pnpm test:sandbox` (solo local) pasa la suite de contrato contra `DockerSandbox` y el "Hecho cuando": un contenedor en `janus-sbx` recibe 200 de `/api/health` y su petición a `https://example.com` falla. Detalles del proxy y del incidente con buildx en el ADR 0005.
 
 ### F0.9 · Navegador y agente programado — M (4–6 h)
 

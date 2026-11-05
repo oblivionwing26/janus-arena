@@ -29,3 +29,10 @@ Janus runs target apps, headless browsers and offensive tooling. A misconfigured
 - **Positive:** safe by default; legal and reputational risk is much lower; the isolation test (a request to a public host must fail) is simple and automatic.
 - **Negative:** targets that need external services must be stubbed; pulling images or packages happens outside the sandbox at build time.
 - **Follow-ups:** F0.8 adds the isolation test; F3.1 adds scope policy, ownership verification and the network guard; later steps never relax these rules without a new ADR.
+
+## Implementation notes (F0.8)
+
+- The socket proxy (`tecnativa/docker-socket-proxy`, pinned by digest) filters by API section, not by request body: with `CONTAINERS` and `POST` open, anything that can reach it could create a privileged container. So it listens on `127.0.0.1:23750` only, never joins `janus-sbx`, and only the orchestrator's `DockerCli` uses it. `EXEC`, `VOLUMES`, `SWARM`, `SECRETS`, `PLUGINS` and the rest stay closed.
+- `DockerCli` refuses any `DOCKER_HOST` other than the local proxy, and refuses bind mounts, host namespaces, extra capabilities, devices, the socket path and the `buildx`, `builder`, `exec`, `volume`, `plugin` and `swarm` commands.
+- Images are built with the engine's classic builder (`DOCKER_BUILDKIT=0`, plain `POST /build`). The first attempt used buildx, whose default builder silently created its own **privileged** BuildKit container through the proxy; it was removed and buildx is now refused.
+- Variant containers share `janus-sbx` and are told apart by name (`janus-<variant>-app`, `janus-<variant>-db`); isolation between variants of the same run is not a goal until F3.
