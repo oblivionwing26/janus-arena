@@ -73,7 +73,7 @@ Nota F0.3: el comando real es `pnpm test --filter @janus/shared-kernel` (turbo e
 - [x] dependency-cruiser con reglas: `domain` no importa nada salvo `shared-kernel`; `application` solo `domain` y `shared-kernel`; `infrastructure` no importa `interface`
 - [x] Script `check:arch` conectado a Turborepo y al CI
 - [x] Endpoint `GET /health`
-- [ ] Prueba de la regla: rama temporal que importa `@anthropic-ai/sdk` en `domain/` y comprobar que el CI falla
+- [x] Prueba de la regla: rama temporal que importa `@anthropic-ai/sdk` en `domain/` y comprobar que el CI falla. Se usó `@nestjs/common` en lugar del SDK: el SDK no está instalado y `typecheck` habría fallado antes de llegar a `check:arch`; con Nest solo falla `domain-only-shared-kernel`
 
 Hecho cuando: la violación intencionada hace fallar el CI y la rama limpia pasa.
 
