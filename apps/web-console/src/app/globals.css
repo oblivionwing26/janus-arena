@@ -1,0 +1,286 @@
+:root {
+  --bg: #f7f7f4;
+  --surface: #ffffff;
+  --text: #1c1c1a;
+  --muted: #62625c;
+  --border: #dcdcd4;
+  --accent: #2a5d8f;
+  --ok: #2f7a3e;
+  --warning: #9a6700;
+  --error: #b42318;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --bg: #151514;
+    --surface: #1f1f1d;
+    --text: #ecece7;
+    --muted: #a3a39c;
+    --border: #3a3a36;
+    --accent: #7fb3e6;
+    --ok: #6cc47f;
+    --warning: #e0b04a;
+    --error: #f27a6e;
+  }
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  font-family: system-ui, sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  line-height: 1.45;
+}
+
+a {
+  color: var(--accent);
+}
+
+main {
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 16px 16px 48px;
+}
+
+.site-header {
+  display: flex;
+  gap: 24px;
+  align-items: center;
+  padding: 12px 16px;
+  background: var(--surface);
+  border-bottom: 1px solid var(--border);
+}
+
+.site-header nav {
+  display: flex;
+  gap: 16px;
+}
+
+.brand {
+  font-weight: 700;
+  text-decoration: none;
+}
+
+h1 {
+  font-size: 1.4rem;
+  word-break: break-all;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  background: var(--surface);
+}
+
+th,
+td {
+  padding: 8px;
+  text-align: left;
+  border-bottom: 1px solid var(--border);
+  font-size: 0.9rem;
+}
+
+button {
+  font: inherit;
+  padding: 4px 12px;
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  background: var(--surface);
+  color: var(--text);
+  cursor: pointer;
+}
+
+button[aria-pressed='true'] {
+  background: var(--accent);
+  color: var(--bg);
+}
+
+button:disabled {
+  opacity: 0.5;
+  cursor: default;
+}
+
+input {
+  font: inherit;
+  padding: 4px 6px;
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  background: var(--surface);
+  color: var(--text);
+}
+
+.error {
+  color: var(--error);
+}
+
+.toolbar,
+.filters,
+.export-actions,
+.speeds,
+.seek {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  align-items: center;
+}
+
+.toolbar {
+  padding: 8px 0;
+}
+
+.seek input {
+  width: 6rem;
+  margin-left: 6px;
+}
+
+.filters {
+  font-size: 0.85rem;
+  color: var(--muted);
+  padding: 4px 0 12px;
+}
+
+.badge {
+  padding: 2px 8px;
+  border-radius: 999px;
+  border: 1px solid var(--border);
+  font-size: 0.85rem;
+}
+
+.badge-error {
+  color: var(--error);
+}
+
+.position {
+  color: var(--muted);
+  font-size: 0.85rem;
+}
+
+.run-body {
+  display: grid;
+  grid-template-columns: 1fr 260px;
+  gap: 16px;
+  align-items: start;
+}
+
+@media (max-width: 800px) {
+  .run-body {
+    grid-template-columns: 1fr;
+  }
+}
+
+.lanes {
+  display: flex;
+  gap: 12px;
+  overflow-x: auto;
+  padding-bottom: 8px;
+}
+
+.lane {
+  flex: 1 0 280px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 8px;
+}
+
+.lane h3 {
+  margin: 0 0 8px;
+  font-size: 0.95rem;
+}
+
+.role {
+  color: var(--muted);
+  font-weight: 400;
+  font-size: 0.8rem;
+}
+
+.lane ol {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: 4px;
+}
+
+.item {
+  display: grid;
+  grid-template-columns: auto auto 1fr;
+  gap: 2px 8px;
+  font-size: 0.8rem;
+  padding: 4px 6px;
+  border-left: 3px solid var(--border);
+}
+
+.item .label {
+  grid-column: 1 / -1;
+  word-break: break-word;
+}
+
+.item .seq,
+.item time,
+.item .type {
+  color: var(--muted);
+}
+
+.tone-ok {
+  border-left-color: var(--ok);
+}
+
+.tone-warning {
+  border-left-color: var(--warning);
+}
+
+.tone-error {
+  border-left-color: var(--error);
+}
+
+.item[data-known='false'] .label {
+  font-style: italic;
+}
+
+.cost-panel {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 12px;
+  font-size: 0.85rem;
+}
+
+.cost-panel h3 {
+  margin: 0 0 8px;
+}
+
+.cost-panel dl {
+  margin: 0;
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: 4px 8px;
+}
+
+.cost-panel dt {
+  color: var(--muted);
+}
+
+.cost-panel dd {
+  margin: 0;
+  text-align: right;
+}
+
+.threshold {
+  color: var(--warning);
+}
+
+.file-picker {
+  display: grid;
+  gap: 6px;
+  margin-bottom: 16px;
+  font-weight: 600;
+}
+
+.empty {
+  color: var(--muted);
+}

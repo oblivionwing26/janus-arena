@@ -25,13 +25,14 @@ beforeAll(async () => {
   git(repo, 'add', '.');
   git(repo, '-c', 'user.email=t@janus.test', '-c', 'user.name=t', 'commit', '-q', '-m', 'init');
   repoUrl = pathToFileURL(repo).href;
-});
+}, 30_000);
 
 afterAll(async () => {
   await rm(base, { recursive: true, force: true });
 });
 
-describe('prepareWorkspace', () => {
+// Each test spawns git; on Windows under load a clone can take several seconds.
+describe('prepareWorkspace', { timeout: 30_000 }, () => {
   it('clones the ref and removes ground-truth files', async () => {
     const root = join(base, 'workspaces');
 
