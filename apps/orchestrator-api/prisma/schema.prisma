@@ -1,0 +1,38 @@
+// Event store schema (ADR 0003). The append-only triggers live in the hand-edited migration.
+
+generator client {
+  provider             = "prisma-client"
+  output               = "../src/infrastructure/persistence/generated/prisma"
+  moduleFormat         = "esm"
+  importFileExtension  = "js"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+model Run {
+  id        String   @id
+  createdAt DateTime @default(now()) @map("created_at") @db.Timestamptz(3)
+  events    Event[]
+
+  @@map("runs")
+}
+
+model Event {
+  id            String   @id
+  runId         String   @map("run_id")
+  seq           Int
+  ts            DateTime @db.Timestamptz(3)
+  schemaVersion Int      @map("schema_version")
+  actorAgentId  String   @map("actor_agent_id")
+  actorRole     String   @map("actor_role")
+  type          String
+  /// The full event exactly as appended; the source of truth for replay.
+  body          Json     @db.JsonB
+  recordedAt    DateTime @default(now()) @map("recorded_at") @db.Timestamptz(3)
+  run           Run      @relation(fields: [runId], references: [id])
+
+  @@unique([runId, seq])
+  @@map("events")
+}

@@ -73,7 +73,7 @@ Nota F0.3: el comando real es `pnpm test --filter @janus/shared-kernel` (turbo e
 - [x] dependency-cruiser con reglas: `domain` no importa nada salvo `shared-kernel`; `application` solo `domain` y `shared-kernel`; `infrastructure` no importa `interface`
 - [x] Script `check:arch` conectado a Turborepo y al CI
 - [x] Endpoint `GET /health`
-- [ ] Prueba de la regla: rama temporal que importa `@anthropic-ai/sdk` en `domain/` y comprobar que el CI falla
+- [x] Prueba de la regla: rama temporal que importa `@anthropic-ai/sdk` en `domain/` y comprobar que el CI falla. Se usó `@nestjs/common` en lugar del SDK: el SDK no está instalado y `typecheck` habría fallado antes de llegar a `check:arch`; con Nest solo falla `domain-only-shared-kernel`
 
 Hecho cuando: la violación intencionada hace fallar el CI y la rama limpia pasa.
 
@@ -81,14 +81,16 @@ Nota F0.4: `check:arch` ejecuta `turbo run build` antes de dependency-cruiser, p
 
 ### F0.5 · Base de datos y event store — M (5–7 h)
 
-- [ ] `docker-compose.yml` de desarrollo con Postgres y Redis (volúmenes con nombre, healthchecks)
-- [ ] Prisma: tablas `runs` y `events` (`runId` + `seq` únicos, índice por `runId`)
-- [ ] Migración SQL a mano con un trigger que rechaza `UPDATE` y `DELETE` en `events`
-- [ ] Puerto `EventStorePort` en `domain`: `append(events)`, `readRun(runId, fromSeq?)`, `subscribe(runId)`
-- [ ] Adaptadores `PostgresEventStore` e `InMemoryEventStore`
-- [ ] Suite de **tests de contrato** común que pasan ambos adaptadores (orden por `seq`, rechazo de `seq` duplicado, lectura parcial)
+- [x] `docker-compose.yml` de desarrollo con Postgres y Redis (volúmenes con nombre, healthchecks)
+- [x] Prisma: tablas `runs` y `events` (`runId` + `seq` únicos, índice por `runId`)
+- [x] Migración SQL a mano con un trigger que rechaza `UPDATE` y `DELETE` en `events`
+- [x] Puerto `EventStorePort` en `domain`: `append(events)`, `readRun(runId, fromSeq?)`, `subscribe(runId)`
+- [x] Adaptadores `PostgresEventStore` e `InMemoryEventStore`
+- [x] Suite de **tests de contrato** común que pasan ambos adaptadores (orden por `seq`, rechazo de `seq` duplicado, lectura parcial)
 
 Hecho cuando: la misma suite de contrato pasa contra memoria y contra Postgres, y un `UPDATE` manual sobre `events` falla.
+
+Nota F0.5: Postgres se publica en `127.0.0.1:55432` y Redis en `127.0.0.1:56379` para no chocar con instalaciones locales. La suite de contrato (13 casos, incluido `subscribe` con catch-up y en vivo) pasa contra `InMemoryEventStore` en `pnpm test` y contra `PostgresEventStore` en `pnpm test:integration`, que también se ejecuta en un job propio del CI. El trigger rechaza `UPDATE`, `DELETE` y también `TRUNCATE`; un `UPDATE` manual con `psql` sobre la base de desarrollo falla con `events is append-only: UPDATE is not allowed`. La migración se llama `20261105092712_init` (nombre de Prisma).
 
 ### F0.6 · LLM gateway con presupuesto — M (6–8 h)
 

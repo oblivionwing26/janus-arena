@@ -31,3 +31,6 @@ Thumbs.db
 .vscode/*
 !.vscode/extensions.json
 .idea/
+
+# generated Prisma client
+apps/orchestrator-api/src/infrastructure/persistence/generated/

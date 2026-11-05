@@ -6,3 +6,4 @@ coverage
 pnpm-lock.yaml
 .workspaces
 recordings
+apps/orchestrator-api/src/infrastructure/persistence/generated
