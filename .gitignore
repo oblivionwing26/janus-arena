@@ -34,3 +34,6 @@ Thumbs.db
 
 # generated Prisma client
 apps/orchestrator-api/src/infrastructure/persistence/generated/
+
+# Next.js generated types
+next-env.d.ts

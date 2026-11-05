@@ -91,6 +91,8 @@ module.exports = {
       path: ['(^|/)dist/', '(^|/)[.]next/', '(^|/)coverage/', '/persistence/generated/'],
     },
     tsPreCompilationDeps: true,
+    // Resolves the web console's `@/` path alias; no other workspace uses `paths`.
+    tsConfig: { fileName: 'apps/web-console/tsconfig.json' },
     combinedDependencies: true,
     enhancedResolveOptions: {
       exportsFields: ['exports'],

@@ -162,13 +162,15 @@ Nota F0.10: verificado a mano con el orquestador real (`pnpm --filter @janus/orc
 
 ### F0.11 · Consola mínima y replay — M (6–8 h)
 
-- [ ] `apps/web-console` con Next.js: lista de runs y vista de run
-- [ ] Vista de run: línea temporal de eventos agrupada por agente, filtro por tipo, panel de coste
-- [ ] Reproductor: play, pausa, velocidad (1×, 4×, 16×), saltar a un `seq`
-- [ ] Un único componente consume eventos tanto del SSE en vivo como del replay
-- [ ] Exportar un run a JSON y cargarlo sin backend (base del modo demo de G2)
+- [x] `apps/web-console` con Next.js: lista de runs y vista de run
+- [x] Vista de run: línea temporal de eventos agrupada por agente, filtro por tipo, panel de coste
+- [x] Reproductor: play, pausa, velocidad (1×, 4×, 16×), saltar a un `seq`
+- [x] Un único componente consume eventos tanto del SSE en vivo como del replay
+- [x] Exportar un run a JSON y cargarlo sin backend (base del modo demo de G2)
 
 Hecho cuando: el run de F0.10 se reproduce igual en vivo y desde el JSON exportado, sin backend.
+
+Nota F0.11: `apps/web-console` (Next.js, `127.0.0.1:3012`) llega al orquestador por un rewrite `/api/orchestrator/*` → `ORCHESTRATOR_URL` (por defecto `http://127.0.0.1:3011`), sin CORS; el SSE atraviesa el rewrite sin quedarse en búfer. El stream se lee con `fetch` y un parser SSE propio, porque `EventSource` solo escucha nombres de evento conocidos y la consola debe conservar tipos futuros. `RunViewer` es el único componente que pinta eventos, de `LiveSource` o `RecordedSource`. Verificado en el navegador: un run de 2 sesiones se vio en vivo (46 eventos en tandas, 3 columnas por agente), se abrió con "Abrir sin backend", se paró el orquestador y el replay mostró exactamente la misma línea temporal; saltar a un `seq` y 16× funcionan. Pendiente para F0.12: `pnpm dev` con recarga del orquestador y el comando `pnpm run:replay`.
 
 ### F0.12 · Cierre de F0 — S (1–2 h)
 
