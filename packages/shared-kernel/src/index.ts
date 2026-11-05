@@ -5,6 +5,7 @@ export { agentIdSchema, type AgentId } from './events/agent-id.js';
 export { eventCostSchema, type EventCost } from './events/event-cost.js';
 export { eventEnvelopeSchema, type EventEnvelope } from './events/event-envelope.js';
 export { InvalidEventError } from './events/invalid-event-error.js';
+export { newUlid } from './ids/new-ulid.js';
 export { janusEventSchema, type JanusEvent, type JanusEventType } from './events/janus-event.js';
 export { modelRoleSchema, type ModelRole } from './events/model-role.js';
 export { parseEvent } from './events/parse-event.js';

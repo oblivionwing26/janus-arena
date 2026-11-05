@@ -159,21 +159,14 @@ export class DockerSandbox implements SandboxPort {
     return { baseUrl: `http://${appName(variant.id)}:${String(definition.app.port)}` };
   }
 
-  // The network must exist with Internal=true; an existing non-internal one is an error.
+  // docker-compose.yml owns janus-sbx (the agent browser joins it too). It must exist and be
+  // internal; the sandbox never creates or relaxes it.
   private async ensureInternalNetwork(): Promise<void> {
     const existing = await this.docker
       .run(['network', 'inspect', '--format', '{{.Internal}}', SANDBOX_NETWORK])
       .catch(() => null);
     if (existing === null) {
-      await this.docker.run([
-        'network',
-        'create',
-        '--internal',
-        '--label',
-        'janus.managed=true',
-        SANDBOX_NETWORK,
-      ]);
-      return;
+      throw new Error(`Network ${SANDBOX_NETWORK} not found: run \`docker compose up -d\` first`);
     }
     if (existing.stdout.trim() !== 'true') {
       throw new Error(`Network ${SANDBOX_NETWORK} exists but is not internal`);

@@ -14,7 +14,7 @@ More context: `docs/VISION.md` (product), `docs/adr/` (decisions), `docs/ROADMAP
 
 ## Current step
 
-**F0.9 — Browser and scripted agent.** Read this step in `docs/ROADMAP.md` before starting. Do not build features from later steps.
+**F0.10 — Run lifecycle.** Read this step in `docs/ROADMAP.md` before starting. Do not build features from later steps.
 
 (Update this line every time a step is closed.)
 

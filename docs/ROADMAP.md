@@ -141,11 +141,13 @@ Nota F0.8: `up({ id, target: 'shoplab', ref })` clona ShopLab en `.workspaces/<i
 
 ### F0.9 · Navegador y agente programado — M (4–6 h)
 
-- [ ] Puerto `BrowserPort`: `newSession()`, `goto`, `click`, `type`, `snapshot`, `close`
-- [ ] `PlaywrightRunner` con un `BrowserContext` por sesión, conectado a la red del sandbox
-- [ ] Agente programado (sin LLM) que recorre registro → compra y emite `agent.step` y `agent.action` con tiempos
+- [x] Puerto `BrowserPort`: `newSession()`, `goto`, `click`, `type`, `snapshot`, `close`
+- [x] `PlaywrightRunner` con un `BrowserContext` por sesión, conectado a la red del sandbox
+- [x] Agente programado (sin LLM) que recorre registro → compra y emite `agent.step` y `agent.action` con tiempos
 
 Hecho cuando: el agente programado compra en ShopLab y sus eventos quedan en Postgres en orden.
+
+Nota F0.9: el navegador es un servidor de Playwright (`docker/browser`) conectado solo a `janus-sbx`; el orquestador lo maneja a través de `browser-relay` (`127.0.0.1:53000`), un `socat` que solo reenvía ese puerto. `docker-compose.yml` declara ahora la red `janus-sbx` y `DockerSandbox` exige que exista. Cada contexto de Playwright aborta además las peticiones fuera del origen de la variante. `BrowserPort` elige elementos por rol y nombre o por etiqueta (nunca CSS) y añade `waitForUrl`. En `pnpm test:sandbox` el agente compra en una variante real y deja 22 eventos (`seq` 0–21, 6 `agent.step`) en Postgres. `run.started`/`run.completed` llegan con `StartRun` en F0.10.
 
 ### F0.10 · Ciclo de vida de una ejecución — M (5–7 h)
 
