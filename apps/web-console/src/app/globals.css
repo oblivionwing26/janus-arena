@@ -380,3 +380,56 @@ input {
   font-weight: 600;
   padding: 4px 0;
 }
+
+/* Swarm canvas (F1.12) */
+.swarm {
+  margin: 12px 0 16px;
+  padding: 8px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+}
+
+.swarm-canvas {
+  width: 100%;
+  min-height: 380px;
+}
+
+.swarm figcaption {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px 16px;
+  font-size: 0.85rem;
+  color: var(--muted);
+}
+
+.swarm-key::before {
+  content: '';
+  display: inline-block;
+  width: 10px;
+  height: 10px;
+  margin-right: 5px;
+  border-radius: 50%;
+  vertical-align: middle;
+}
+
+.swarm-key.navigating::before {
+  background: var(--accent);
+}
+
+.swarm-key.friction::before {
+  background: var(--warning);
+}
+
+.swarm-key.success::before {
+  background: var(--ok);
+}
+
+.swarm-key.abandon::before {
+  background: var(--error);
+}
+
+.swarm .fps {
+  margin-left: auto;
+  font-variant-numeric: tabular-nums;
+}

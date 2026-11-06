@@ -14,7 +14,7 @@ More context: `docs/VISION.md` (product), `docs/adr/` (decisions), `docs/ROADMAP
 
 ## Current step
 
-**F1.12 — Swarm canvas (PixiJS).** Read this step in `docs/ROADMAP.md` before starting. Do not build features from later steps.
+**F1.13 — Gate G1.** Read this step in `docs/ROADMAP.md` before starting. Do not build features from later steps.
 
 (Update this line every time a step is closed.)
 

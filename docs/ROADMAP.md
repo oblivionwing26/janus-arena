@@ -320,12 +320,14 @@ Nota F1.11: la variante B es la rama `variant/manual-b` de janus-shoplab (subida
 
 ### F1.12 · Lienzo del enjambre (PixiJS) — L (8–12 h)
 
-- [ ] Mapa de la app: nodos = rutas visitadas, aristas = transiciones observadas
-- [ ] Cada agente es un punto que se mueve entre nodos; color según estado (navegando, fricción, éxito, abandono)
-- [ ] Pulso visual en cada `friction.signal`
-- [ ] Alimentado por el mismo flujo de eventos (vivo y replay); probar con 20 agentes sin bajar de 30 fps
+- [x] Mapa de la app: nodos = rutas visitadas, aristas = transiciones observadas
+- [x] Cada agente es un punto que se mueve entre nodos; color según estado (navegando, fricción, éxito, abandono)
+- [x] Pulso visual en cada `friction.signal`
+- [x] Alimentado por el mismo flujo de eventos (vivo y replay); probar con 20 agentes sin bajar de 30 fps
 
 Hecho cuando: el replay del A/B de F1.11 se ve en el lienzo a 4× de forma fluida.
+
+Nota F1.12: dependencia nueva `pixi.js` 8.22.0 (MIT, fijada exacta, solo en la consola), aprobada; se carga con import dinámico en el navegador. El modelo es puro y testeado (`lib/swarm.ts`): nodos = rutas (`routeOf` de synthlab-report, ids numéricos plegados), aristas = transiciones con su número, cada agente en su última ruta con estado navegando / éxito / abandono; la disposición es determinista (columnas por distancia desde `/`, la columna más llena hace crecer el lienzo) y cada agente tiene un desplazamiento estable sacado de su id. Variante a = círculo, b = cuadrado, para leerlo sin color. Las señales de fricción se calculan al cerrar el run, así que un pulso sale cuando su paso ya está en pantalla y la señal se conoce: en un replay es su momento real; en vivo, cuando llega la señal. El agente queda en naranja un momento tras su pulso. `SwarmCanvas` va en `RunViewer`, el mismo componente para vivo y replay. Verificado a mano: replay sin backend del A/B de F1.11 (2.639 eventos, 37 agentes, todos dibujados en cada frame) a 4×: ~145 fps según el contador del lienzo, 13 rutas, 37 transiciones y 29 pulsos al llegar al seq 1983. El modelo recalcula todo el A/B por cada movimiento del cursor en milisegundos (test con la exportación de F1.11).
 
 ### F1.13 · Puerta G1 — S (3–4 h)
 

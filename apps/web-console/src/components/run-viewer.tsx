@@ -15,6 +15,7 @@ import { buildTimeline } from '@/lib/timeline';
 import type { ConsoleEvent } from '@/lib/console-event';
 
 import { CostPanel } from './cost-panel';
+import { SwarmCanvas } from './swarm-canvas';
 import { TimelineView } from './timeline-view';
 
 interface RunViewerProps {
@@ -155,6 +156,8 @@ export function RunViewer({ source, mode, actions }: RunViewerProps) {
           </label>
         ))}
       </section>
+
+      <SwarmCanvas visible={visible} known={state.events} speed={state.speed} />
 
       <div className="run-body">
         <TimelineView timeline={timeline} />
