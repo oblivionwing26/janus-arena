@@ -244,13 +244,15 @@ Nota F1.4: el bucle es `NavigatorSession` (application); `RunAgentSession` sigue
 
 ### F1.5 · Friction engine — L (10–14 h)
 
-- [ ] Paquete `packages/friction-engine`: funciones puras que reciben eventos y devuelven `friction.signal`
-- [ ] Detectores: rage click, dead click, retroceso, error de formulario, pasos extra contra el baseline, abandono, error técnico, rendimiento
-- [ ] Umbrales en configuración (por ejemplo, rage click = 3 clics en el mismo ref en menos de 1 s)
-- [ ] Tests con secuencias de eventos sintéticas por detector, incluido al menos un falso positivo típico que no debe dispararse
-- [ ] Cero dependencias de Playwright o LLM (lo vigila dependency-cruiser)
+- [x] Paquete `packages/friction-engine`: funciones puras que reciben eventos y devuelven `friction.signal`
+- [x] Detectores: rage click, dead click, retroceso, error de formulario, pasos extra contra el baseline, abandono, error técnico, rendimiento
+- [x] Umbrales en configuración (por ejemplo, rage click = 3 clics en el mismo ref en menos de 1 s)
+- [x] Tests con secuencias de eventos sintéticas por detector, incluido al menos un falso positivo típico que no debe dispararse
+- [x] Cero dependencias de Playwright o LLM (lo vigila dependency-cruiser)
 
 Hecho cuando: cada detector tiene casos positivos y negativos en verde.
+
+Nota F1.5: `detectFriction(events, config)` es puro (regla `friction-engine-pure`: solo `zod` y `shared-kernel`) y devuelve borradores de `friction.signal` con detector, severidad, evidencia (ids de eventos), sesión, paso y URL; nunca lee `agent.thought` ni salida del LLM. Umbrales en `config/friction.yaml`, validados por el esquema del paquete; un test exige que coincidan con los valores por defecto. Rage click se mide por acciones consecutivas y tiempo (3 clics en el mismo ref en 4 acciones y 30 s), porque un agente LLM tarda segundos en cada decisión; para humanos bastaría 1 s. Las esperas (`wait`) no cuentan como pasos ni rompen ráfagas. Esquemas aditivos para lo que capturará F1.6: `agent.action.domMutations`, `agent.step.alerts`, eventos `page.error` y `page.vitals`, y `friction.signal` con `agentId`, `stepIndex` y `url`; la consola muestra los eventos nuevos. Verificado: 42 tests del motor, con casos positivos, negativos y el falso positivo típico de cada detector (tres botones distintos seguidos, clic en un campo, avance normal, aviso que ya estaba, baseline que no tuvo éxito, presupuesto agotado, favicon 404, valores justo en el umbral); la sesión real de Carmen (F1.4) no da ninguna señal y, cambiada a abandono, da solo `abandonment`. Para F1.6: emitir los datos de entrada, llamar al motor al terminar el run y registrar `friction.signal`; cuando `application/` lo use habrá que añadirlo a la regla de capas (enmienda del ADR 0001). Para F1.7: `extra-steps` compara con el baseline del run; con dos variantes tendrá que comparar dentro de cada variante.
 
 ### F1.6 · Instrumentación del runner — M (4–6 h)
 

@@ -37,6 +37,8 @@ const invalidEvents: Record<JanusEventType, [string, Record<string, unknown>]> =
     'a thought over 200 characters',
     withPayload('agent.thought', { text: 'x'.repeat(201) }),
   ],
+  'page.error': ['an unknown kind', withPayload('page.error', { kind: 'network' })],
+  'page.vitals': ['a negative CLS', withPayload('page.vitals', { cls: -0.1 })],
   'session.ended': ['an unknown outcome', withPayload('session.ended', { outcome: 'crashed' })],
   'verification.result': [
     'a missing passed flag',
@@ -62,6 +64,8 @@ describe('v1 event schemas', () => {
         'budget.threshold',
         'agent.thought',
         'session.ended',
+        'page.error',
+        'page.vitals',
       ].sort(),
     );
   });

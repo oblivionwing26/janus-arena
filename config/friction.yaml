@@ -1,0 +1,42 @@
+# Friction detector thresholds (F1.5). Code computes every signal from events; these numbers
+# only say where "friction" starts. packages/friction-engine keeps the same defaults, and a
+# test fails if the two drift apart.
+
+rageClick:
+  # Clicks on the same element that make a burst...
+  minClicks: 3
+  # ...within this many consecutive actions (waits not counted)...
+  windowActions: 4
+  # ...and this many milliseconds. An LLM agent needs seconds per decision; for real
+  # humans this would be about 1000.
+  windowMs: 30000
+
+deadClick:
+  # Clicking these only gives focus; no DOM change is expected.
+  ignoreRoles: [textbox, searchbox, combobox, spinbutton, listbox]
+
+backtrack:
+  # A -> B -> A counts as going back when B lasted at most this many steps.
+  returnWithinSteps: 1
+
+formError:
+  # The same validation error shown again this many times is high.
+  highAfterRepeats: 2
+
+extraSteps:
+  # Ratio of a persona's steps (waits not counted) to the competent baseline's.
+  low: 1.5
+  medium: 2
+  high: 3
+
+technicalError:
+  # Regular expressions for resource URLs whose errors are noise.
+  ignoreUrls:
+    - '/favicon\.ico(\?.*)?$'
+    - '\.(png|jpe?g|gif|svg|webp|ico|css|woff2?)(\?.*)?$'
+
+performance:
+  # web.dev Core Web Vitals: above `medium` is "needs improvement", above `high` is "poor".
+  lcpMs: { medium: 2500, high: 4000 }
+  cls: { medium: 0.1, high: 0.25 }
+  inpMs: { medium: 200, high: 500 }

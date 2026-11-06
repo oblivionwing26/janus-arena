@@ -22,6 +22,8 @@ export const agentActionEventSchema = defineEventSchema(
       .optional(),
     durationMs: z.number().min(0),
     ok: z.boolean(),
+    /** DOM mutations seen right after the action (F1.6). 0 on a click is a dead click. */
+    domMutations: z.int().min(0).optional(),
     /** Why a failed action failed, as a domain error code (e.g. `browser.element-obscured`). */
     errorCode: z
       .string()

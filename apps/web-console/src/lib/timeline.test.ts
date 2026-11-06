@@ -66,6 +66,37 @@ describe('buildTimeline', () => {
     ]);
   });
 
+  it('labels technical errors and web vitals (F1.5 inputs)', () => {
+    const base = events[1];
+    if (base === undefined) throw new Error('sample run is empty');
+    const extra = [
+      {
+        ...base,
+        seq: 30,
+        type: 'page.error',
+        payload: {
+          stepIndex: 1,
+          kind: 'http',
+          url: 'http://x.test/api',
+          status: 500,
+          message: 'Fallo',
+        },
+      },
+      {
+        ...base,
+        seq: 31,
+        type: 'page.vitals',
+        payload: { stepIndex: 1, url: 'http://x.test/', lcpMs: 2600.4, cls: 0.031 },
+      },
+    ] as ConsoleEvent[];
+
+    const labels = buildTimeline(extra)
+      .lanes.flatMap((lane) => lane.items)
+      .map((item) => item.label);
+
+    expect(labels).toEqual(['Error técnico (HTTP 500): Fallo', 'Vitals: LCP 2600 ms · CLS 0.03']);
+  });
+
   it('lists every type present and filters by type', () => {
     const all = buildTimeline(events);
     expect(all.types).toEqual([
