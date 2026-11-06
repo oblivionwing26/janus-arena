@@ -6,6 +6,7 @@ import type {
   SessionQueueHandlers,
   SessionResult,
 } from '../../domain/run/session-queue-port.js';
+import { personaFor } from '../../domain/run/persona-for.js';
 import type { SessionQueueRuntime } from './session-queue-runtime.js';
 
 export const AGENT_SESSIONS_QUEUE = 'agent-sessions';
@@ -94,7 +95,9 @@ export class BullMqSessionQueue implements SessionQueueRuntime {
 
   private async process(job: Job, handlers: SessionQueueHandlers): Promise<unknown> {
     if (job.name === 'session') {
-      const { runId, variantId, baseUrl, sessionIndex } = job.data as SessionData;
+      const data = job.data as SessionData;
+      const { runId, variantId, baseUrl, sessionIndex } = data;
+      const persona = personaFor(data, sessionIndex);
       try {
         return await handlers.runSession({
           runId,
@@ -102,6 +105,7 @@ export class BullMqSessionQueue implements SessionQueueRuntime {
           baseUrl,
           sessionIndex,
           attempt: job.attemptsMade + 1,
+          ...(persona === undefined ? {} : { persona }),
         });
       } catch (error) {
         if (error instanceof InfrastructureError) throw error;

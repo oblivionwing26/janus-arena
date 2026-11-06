@@ -1,6 +1,10 @@
 // Public entry point of @janus/shared-kernel.
 
-export { actionToolDefinitions, type ActionToolDefinition } from './actions/action-tools.js';
+export {
+  actionToolDefinitions,
+  fromToolCall,
+  type ActionToolDefinition,
+} from './actions/action-tools.js';
 export {
   agentActionInputs,
   agentActionSchema,
@@ -24,6 +28,7 @@ export { buildRunExport, parseRunExport, type RunExport } from './export/run-exp
 
 export { agentActionEventSchema, type AgentActionEvent } from './events/v1/agent-action.js';
 export { agentStepEventSchema, type AgentStepEvent } from './events/v1/agent-step.js';
+export { agentThoughtEventSchema, type AgentThoughtEvent } from './events/v1/agent-thought.js';
 export {
   budgetThresholdEventSchema,
   type BudgetThresholdEvent,
@@ -40,6 +45,7 @@ export { llmCallEventSchema, type LlmCallEvent } from './events/v1/llm-call.js';
 export { patchProposedEventSchema, type PatchProposedEvent } from './events/v1/patch-proposed.js';
 export { runCompletedEventSchema, type RunCompletedEvent } from './events/v1/run-completed.js';
 export { runStartedEventSchema, type RunStartedEvent } from './events/v1/run-started.js';
+export { sessionEndedEventSchema, type SessionEndedEvent } from './events/v1/session-ended.js';
 export {
   verificationResultEventSchema,
   type VerificationResultEvent,

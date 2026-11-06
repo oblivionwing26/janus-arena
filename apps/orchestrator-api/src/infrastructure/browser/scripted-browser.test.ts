@@ -7,6 +7,7 @@ describeBrowserContract('ScriptedBrowser', {
   baseUrl: () => 'http://janus-test-app:3100',
   page: '/login',
   field: { label: 'Email' },
+  secret: { label: 'Contraseña' },
   link: { role: 'link', name: 'Crea una' },
   linkTarget: /\/register$/,
   choice: {

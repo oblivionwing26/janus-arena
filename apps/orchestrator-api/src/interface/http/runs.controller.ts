@@ -28,6 +28,7 @@ import type { StoredEvent } from '../../domain/event-store/stored-event.js';
 import { RunNotFoundError } from '../../domain/run/run-errors.js';
 import { START_RUN, STOP_RUN } from '../tokens.js';
 import { startRunBodySchema } from './start-run-body.js';
+import { PersonaNotFoundError } from '../../domain/persona/persona-not-found-error.js';
 
 const runIdSchema = z.ulid();
 
@@ -50,7 +51,14 @@ export class RunsController {
   async start(@Body() body: unknown): Promise<{ runId: string }> {
     const parsed = startRunBodySchema.safeParse(body);
     if (!parsed.success) throw new BadRequestException(z.prettifyError(parsed.error));
-    const { runId, launched } = await this.startRun.execute(parsed.data);
+    let started: Awaited<ReturnType<StartRun['execute']>>;
+    try {
+      started = await this.startRun.execute(parsed.data);
+    } catch (error) {
+      if (error instanceof PersonaNotFoundError) throw new BadRequestException(error.message);
+      throw error;
+    }
+    const { runId, launched } = started;
     launched.catch((error: unknown) => {
       this.logger.error(`Run ${runId} failed to launch`, error);
     });

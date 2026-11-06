@@ -1,4 +1,4 @@
-import { isKnownEvent, type JanusEvent } from '@janus/shared-kernel';
+import { isKnownEvent, type JanusEvent, type SessionEndedEvent } from '@janus/shared-kernel';
 
 import type { ConsoleEvent } from './console-event';
 
@@ -33,6 +33,13 @@ function pathOf(url: string): string {
     return url;
   }
 }
+
+const SESSION_OUTCOMES: Record<SessionEndedEvent['payload']['outcome'], string> = {
+  success: 'objetivo conseguido',
+  abandon: 'abandona',
+  patience_exhausted: 'se le acaba la paciencia',
+  budget_exhausted: 'presupuesto agotado',
+};
 
 function describe(event: JanusEvent): { label: string; tone: Tone } {
   switch (event.type) {
@@ -78,6 +85,15 @@ function describe(event: JanusEvent): { label: string; tone: Tone } {
       return { label: `Hallazgo: ${event.payload.title}`, tone: 'warning' };
     case 'patch.proposed':
       return { label: `Parche propuesto (${event.payload.author})`, tone: 'neutral' };
+    case 'agent.thought':
+      return { label: `Pensamiento: «${event.payload.text}»`, tone: 'neutral' };
+    case 'session.ended': {
+      const { outcome, reason } = event.payload;
+      return {
+        label: `Sesión: ${SESSION_OUTCOMES[outcome]}${reason === undefined ? '' : ` (${reason})`}`,
+        tone: outcome === 'success' ? 'ok' : outcome === 'budget_exhausted' ? 'error' : 'warning',
+      };
+    }
     case 'verification.result':
       return {
         label: `Verificación ${event.payload.verifier}: ${event.payload.passed ? 'ok' : 'falla'}`,

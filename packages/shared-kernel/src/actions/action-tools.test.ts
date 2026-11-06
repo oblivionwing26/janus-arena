@@ -1,7 +1,7 @@
 import { describe, expect, it } from 'vitest';
 
 import { parseAgentAction } from './agent-action.js';
-import { actionToolDefinitions } from './action-tools.js';
+import { actionToolDefinitions, fromToolCall } from './action-tools.js';
 
 describe('actionToolDefinitions', () => {
   const tools = actionToolDefinitions();
@@ -38,10 +38,22 @@ describe('actionToolDefinitions', () => {
     expect(JSON.stringify(actionToolDefinitions())).toBe(JSON.stringify(tools));
   });
 
-  it('turns a tool call into a valid action', () => {
-    expect(parseAgentAction({ type: 'click', ...{ ref: 'e4' } })).toEqual({
-      type: 'click',
-      ref: 'e4',
-    });
+  it('offers an optional thought on every tool', () => {
+    for (const tool of tools) {
+      expect(tool.inputSchema).toMatchObject({ properties: { thought: { maxLength: 200 } } });
+      expect(tool.inputSchema.required ?? []).not.toContain('thought');
+    }
+  });
+
+  it('turns a tool call into a valid action and a separate thought', () => {
+    const call = fromToolCall('click', { ref: 'e4', thought: 'Este parece el botón.' });
+
+    expect(call.thought).toBe('Este parece el botón.');
+    expect(parseAgentAction(call.action)).toEqual({ type: 'click', ref: 'e4' });
+  });
+
+  it('drops a malformed thought and keeps the action', () => {
+    expect(fromToolCall('back', { thought: 42 })).toEqual({ action: { type: 'back' } });
+    expect(fromToolCall('wait', 'garbage')).toEqual({ action: { type: 'wait' } });
   });
 });

@@ -1,6 +1,7 @@
 import {
   newUlid,
   type ActorRole,
+  type EventCost,
   type JanusEvent,
   type JanusEventType,
 } from '@janus/shared-kernel';
@@ -37,7 +38,12 @@ export class RunEventRecorder {
     this.now = options.now ?? (() => new Date());
   }
 
-  async record<T extends JanusEventType>(type: T, payload: PayloadOf<T>): Promise<void> {
+  /** `cost` goes on the envelope; llm.call events must carry it. */
+  async record<T extends JanusEventType>(
+    type: T,
+    payload: PayloadOf<T>,
+    options: { cost?: EventCost } = {},
+  ): Promise<void> {
     const id = newUlid();
     const ts = this.now().toISOString();
     for (let attempt = 0; attempt < MAX_SEQ_ATTEMPTS; attempt++) {
@@ -50,6 +56,7 @@ export class RunEventRecorder {
         actor: { agentId: this.actor.agentId, role: this.actor.role },
         type,
         payload,
+        ...(options.cost === undefined ? {} : { cost: options.cost }),
       } as StoredEvent;
       try {
         await this.store.append([event]);

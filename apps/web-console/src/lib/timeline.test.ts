@@ -2,6 +2,7 @@ import { describe, expect, it } from 'vitest';
 
 import { sampleRun } from '@/test-support/sample-run';
 
+import type { ConsoleEvent } from './console-event';
 import { buildTimeline } from './timeline';
 
 describe('buildTimeline', () => {
@@ -34,6 +35,35 @@ describe('buildTimeline', () => {
       label: 'Fin · error (1/2 sessions completed; failed: 1)',
       tone: 'error',
     });
+  });
+
+  it('labels persona thoughts and how a session ended (F1.4)', () => {
+    const base = events[1];
+    if (base === undefined) throw new Error('sample run is empty');
+    const persona = { agentId: 'carmen-retired-0', role: 'navigator' };
+    const extra = [
+      {
+        ...base,
+        seq: 20,
+        actor: persona,
+        type: 'agent.thought',
+        payload: { stepIndex: 0, text: 'No veo el botón.' },
+      },
+      {
+        ...base,
+        seq: 21,
+        actor: persona,
+        type: 'session.ended',
+        payload: { outcome: 'patience_exhausted', steps: 40, durationMs: 9000 },
+      },
+    ] as ConsoleEvent[];
+
+    const items = buildTimeline(extra).lanes.flatMap((lane) => lane.items);
+
+    expect(items.map(({ label, tone }) => [label, tone])).toEqual([
+      ['Pensamiento: «No veo el botón.»', 'neutral'],
+      ['Sesión: se le acaba la paciencia', 'warning'],
+    ]);
   });
 
   it('lists every type present and filters by type', () => {

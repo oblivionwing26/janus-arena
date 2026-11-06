@@ -32,3 +32,7 @@ Every port has a contract test suite that both the real adapter and an in-memory
 - **Positive:** domain and use cases run in milliseconds with no network; LLM, browser and sandbox can be replaced by recorded or fake adapters; the architecture is visible and checkable.
 - **Negative:** more files and indirection than a simple layered app; each new capability needs a port, a fake and a contract suite.
 - **Follow-ups:** F0.4 adds the dependency-cruiser boundary rules and proves they fail on a deliberate violation. Contract suites start in F0.5.
+
+## Amendment (F1.4): pure workspace packages in application/
+
+`application/` may also import `@janus/observation-builder`. Like `shared-kernel`, it is pure (no I/O, no SDKs; its own `observation-builder-pure` rule enforces it), so using it from a use case keeps use cases testable without network or containers. The navigator loop needs it to turn each page capture into what the model reads. Any other package joins this list only if it has the same kind of purity rule; `friction-engine` (F1.5) is the expected next one.

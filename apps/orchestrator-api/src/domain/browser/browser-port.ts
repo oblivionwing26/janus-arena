@@ -31,6 +31,8 @@ export interface PageSnapshot {
 export interface BrowserSessionOptions {
   /** The variant under test. Requests to any other origin are blocked. */
   readonly baseUrl: string;
+  /** `mobile` gets a phone-sized touch viewport. Defaults to desktop. */
+  readonly device?: 'desktop' | 'mobile';
 }
 
 /**
@@ -50,6 +52,11 @@ export interface BrowserPort {
   scroll(sessionId: string, direction: 'up' | 'down'): Promise<void>;
   /** Goes back one entry in the session history. */
   back(sessionId: string): Promise<void>;
+  /**
+   * Waits, for a short bounded time, until the page has finished loading after an action.
+   * Never fails because the page is slow: the agent then sees it as it is.
+   */
+  settle(sessionId: string): Promise<void>;
   /** Waits until the page URL matches, e.g. after a click that navigates. */
   waitForUrl(sessionId: string, pattern: RegExp): Promise<void>;
   snapshot(sessionId: string): Promise<PageSnapshot>;

@@ -98,4 +98,14 @@ export const validEvents: Record<JanusEventType, Record<string, unknown>> = {
     maxTokens: 200_000,
     maxEur: 2,
   }),
+  'agent.thought': envelope(
+    'agent.thought',
+    { stepIndex: 3, text: 'Busco el botón de pagar.' },
+    { actor: { agentId: 'persona-ana-1', role: 'navigator' } },
+  ),
+  'session.ended': envelope(
+    'session.ended',
+    { outcome: 'abandon', reason: 'No encuentro el envío', steps: 12, durationMs: 41_000 },
+    { actor: { agentId: 'persona-ana-1', role: 'navigator' } },
+  ),
 };

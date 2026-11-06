@@ -19,6 +19,7 @@
     "observation:capture-fixtures": "pnpm run build && node dist/interface/cli/capture-observation-fixtures.js"
   },
   "dependencies": {
+    "@janus/observation-builder": "workspace:*",
     "@anthropic-ai/sdk": "^1.5.0",
     "@janus/shared-kernel": "workspace:*",
     "@nestjs/common": "^12.3.3",
@@ -36,7 +37,6 @@
     "zod": "^4.6.7"
   },
   "devDependencies": {
-    "@janus/observation-builder": "workspace:*",
     "@types/pg": "^8.23.1",
     "prisma": "^7.10.1"
   }

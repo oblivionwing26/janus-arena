@@ -4,6 +4,8 @@ export interface RunPlan {
   readonly variantId: string;
   readonly baseUrl: string;
   readonly sessions: number;
+  /** Persona ids played in turn by the sessions (F1.4); none means the scripted agent. */
+  readonly personas?: readonly string[];
 }
 
 export interface SessionJob {
@@ -13,6 +15,8 @@ export interface SessionJob {
   readonly sessionIndex: number;
   /** 1 on the first try, then 2, 3... after infrastructure failures. */
   readonly attempt: number;
+  /** Persona id to play; absent for the scripted agent. */
+  readonly persona?: string;
 }
 
 /**

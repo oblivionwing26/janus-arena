@@ -229,16 +229,18 @@ Nota F1.3: `Persona` y `PatienceBudget` son dominio puro con sus invariantes (sl
 
 Sub-entrega A: bucle básico
 
-- [ ] Caso de uso `RunAgentSession`: observar → decidir (tool use con salida estructurada) → actuar → emitir eventos
-- [ ] Condiciones de parada: `done`, paciencia agotada (= abandono), presupuesto de sesión agotado, error de infraestructura
+- [x] Caso de uso `RunAgentSession`: observar → decidir (tool use con salida estructurada) → actuar → emitir eventos
+- [x] Condiciones de parada: `done`, paciencia agotada (= abandono), presupuesto de sesión agotado, error de infraestructura
 
 Sub-entrega B: memoria y anotaciones
 
-- [ ] Memoria de trabajo: últimas 5 acciones literales + resumen breve cada 8 pasos (resumen con el rol `navigator`)
-- [ ] Campo opcional `thought` corto en cada decisión, guardado como anotación (nunca usado para calcular fricción)
-- [ ] Grabar todas las llamadas con `RecordedLLMAdapter` en modo `record`
+- [x] Memoria de trabajo: últimas 5 acciones literales + resumen breve cada 8 pasos (resumen con el rol `navigator`)
+- [x] Campo opcional `thought` corto en cada decisión, guardado como anotación (nunca usado para calcular fricción)
+- [x] Grabar todas las llamadas con `RecordedLLMAdapter` en modo `record`
 
 Hecho cuando: una persona completa una compra en ShopLab y la misma sesión se reproduce desde la grabación sin llamar a la API.
+
+Nota F1.4: el bucle es `NavigatorSession` (application); `RunAgentSession` sigue siendo la entrada de la cola y elige entre el agente programado y una persona (`POST /runs` acepta `personas`, la sesión i juega la persona i mod n; una persona inexistente da 400). Cada paso es una petición nueva: prefijo estable cacheado + un mensaje con memoria (últimas 5 acciones literales + resumen cada 8 pasos, también con el rol de la persona), resultado anterior y la observación completa; el diff de F1.1 no se usa porque el modelo no ve la página anterior. Eventos nuevos: `agent.thought` (anotación, nunca evidencia) y `session.ended` (`success`, `abandon`, `patience_exhausted`, `budget_exhausted`). El adaptador de Playwright enmascara las contraseñas, da viewport de móvil a las personas `mobile` y añade `settle()`. `application/` puede importar `observation-builder` (enmienda al ADR 0001). Verificado: (1) la primera grabación real terminó en `patience_exhausted` por culpa del prompt: no decía si la persona tenía cuenta y Carmen intentó entrar en una que no existía; ahora la tarea lo dice (`hasAccount`). (2) `carmen-retired` con Haiku compró en ShopLab en 15 pasos (0,0026 €, 31.892 tokens leídos de caché) y la sesión quedó en `recordings/fixtures/sessions/carmen-retired/` (respuestas del LLM + cinta de llamadas al navegador); el test de replay la reproduce en `pnpm test` sin red ni clave con las mismas 15 acciones. Se graba a propósito: `JANUS_RECORD_SESSION=1 pnpm test:sandbox`. (3) Un run desde `POST /runs` con Carmen terminó en `success` y la consola muestra 17 llamadas, 50.148 tokens y 0,0029 € en el HUD, con los pensamientos y el fin de sesión en la línea temporal. Para F1.5: tras un envío de formulario `settle()` puede volver antes de la navegación y la persona ve el botón deshabilitado y usa `wait`; esas esperas no deben contar como fricción. Para F1.9: con el prompt ambiguo Carmen repitió la misma acción 34 veces sin probar otra cosa.
 
 ### F1.5 · Friction engine — L (10–14 h)
 

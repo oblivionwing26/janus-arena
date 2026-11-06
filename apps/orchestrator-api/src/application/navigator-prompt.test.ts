@@ -23,6 +23,7 @@ const PERSONAS = fileURLToPath(new URL('../../../../personas/', import.meta.url)
 const GOLDEN = fileURLToPath(new URL('./navigator-prompt.golden.txt', import.meta.url));
 
 const task: NavigatorTask = {
+  hasAccount: false,
   details: {
     name: 'Cliente Sintético',
     email: 'cliente-01jc0f13@shoplab.test',

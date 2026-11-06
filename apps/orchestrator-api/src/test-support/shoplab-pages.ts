@@ -8,7 +8,7 @@ export const SHOPLAB_PAGES: Record<string, ScriptedPage> = {
     elements: [
       { target: { label: 'Nombre' } },
       { target: { label: 'Email' } },
-      { target: { label: 'Contraseña (mínimo 8 caracteres)' } },
+      { target: { label: 'Contraseña (mínimo 8 caracteres)' }, secret: true },
       { target: { label: 'Dirección de envío' } },
       { target: { role: 'button', name: 'Crear cuenta' }, navigatesTo: '/' },
     ],
@@ -17,7 +17,7 @@ export const SHOPLAB_PAGES: Record<string, ScriptedPage> = {
     title: 'ShopLab',
     elements: [
       { target: { label: 'Email' } },
-      { target: { label: 'Contraseña' } },
+      { target: { label: 'Contraseña' }, secret: true },
       { target: { role: 'link', name: 'Crea una' }, navigatesTo: '/register' },
     ],
   },
