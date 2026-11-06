@@ -34,6 +34,8 @@ technicalError:
   ignoreUrls:
     - '/favicon\.ico(\?.*)?$'
     - '\.(png|jpe?g|gif|svg|webp|ico|css|woff2?)(\?.*)?$'
+  # The server rejected the input (validation, auth, conflict): a form error, not a fault.
+  ignoreStatuses: [400, 401, 403, 409, 422]
 
 performance:
   # web.dev Core Web Vitals: above `medium` is "needs improvement", above `high` is "poor".

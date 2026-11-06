@@ -129,9 +129,19 @@ export class ActionExecutor {
     };
 
     switch (action.type) {
-      case 'click':
-        await this.browser.click(session, await located(action.ref));
+      case 'click': {
+        const target = await located(action.ref);
+        const before = await this.browser.pageActivity(session);
+        await this.browser.click(session, target);
+        // DOM changes caused by the click (F1.6): 0 on the same page is a dead click. After a
+        // navigation the counters belong to another document, so nothing is recorded.
+        await this.browser.settle(session);
+        const after = await this.browser.pageActivity(session);
+        if (after.documentId === before.documentId) {
+          event.domMutations = Math.max(0, after.mutations - before.mutations);
+        }
         break;
+      }
       case 'type':
         await this.browser.type(session, await located(action.ref), action.text);
         break;

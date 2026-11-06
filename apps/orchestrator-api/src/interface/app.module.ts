@@ -20,7 +20,16 @@ import { FINISH_RUN, RUN_AGENT_SESSION, RUN_CONTROL, START_RUN, STOP_RUN } from 
 @Module({})
 export class AppModule {
   static register(adapters: AppAdapters): DynamicModule {
-    const { eventStore: store, sandbox, browser, queue, gateway, personas } = adapters;
+    const {
+      eventStore: store,
+      sandbox,
+      browser,
+      queue,
+      gateway,
+      personas,
+      artifacts,
+      friction,
+    } = adapters;
     const navigator =
       gateway === undefined || personas === undefined ? undefined : { gateway, personas };
     const control = new RunControl();
@@ -51,10 +60,20 @@ export class AppModule {
             store,
             browser,
             control,
-            ...(navigator === undefined ? {} : { navigator }),
+            ...(navigator === undefined
+              ? {}
+              : { navigator, ...(artifacts === undefined ? {} : { artifacts }) }),
           }),
         },
-        { provide: FINISH_RUN, useValue: new FinishRun({ store, sandbox, control }) },
+        {
+          provide: FINISH_RUN,
+          useValue: new FinishRun({
+            store,
+            sandbox,
+            control,
+            ...(friction === undefined ? {} : { friction }),
+          }),
+        },
         RunWorker,
       ],
     };

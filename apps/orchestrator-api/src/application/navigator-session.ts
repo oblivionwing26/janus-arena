@@ -1,6 +1,8 @@
+import { detectFriction } from '@janus/friction-engine';
 import { ObservationBuilder, type ElementLocator } from '@janus/observation-builder';
-import { agentActionSchema, fromToolCall, type SessionEndedEvent } from '@janus/shared-kernel';
+import { agentActionSchema, type SessionEndedEvent } from '@janus/shared-kernel';
 
+import type { ArtifactStorePort } from '../domain/artifacts/artifact-store-port.js';
 import type { BrowserPort } from '../domain/browser/browser-port.js';
 import type { EventStorePort } from '../domain/event-store/event-store-port.js';
 import { BudgetExhaustedError } from '../domain/llm/budget-exhausted-error.js';
@@ -8,14 +10,19 @@ import type { Budget } from '../domain/llm/budget.js';
 import type { LLMGatewayPort } from '../domain/llm/llm-gateway-port.js';
 import type { Persona } from '../domain/persona/persona.js';
 import { ActionExecutor, type ActionResult } from './action-executor.js';
-import { NavigatorPrompt, type NavigatorTask } from './navigator-prompt.js';
+import type { Decider } from './decider.js';
+import { LlmDecider } from './llm-decider.js';
+import type { NavigatorTask } from './navigator-prompt.js';
 import { RunEventRecorder } from './run-event-recorder.js';
-import { formatEntry, WorkingMemory } from './working-memory.js';
+import { WorkingMemory } from './working-memory.js';
 
 export interface NavigatorSessionDeps {
   readonly browser: BrowserPort;
-  readonly gateway: LLMGatewayPort;
   readonly store: EventStorePort;
+  /** Needed when the session is decided by the LLM (no `decider` in the input). */
+  readonly gateway?: LLMGatewayPort;
+  /** Where screenshots go when a friction signal fires (F1.6). Without it, none are taken. */
+  readonly artifacts?: ArtifactStorePort;
   readonly now?: () => number;
   readonly sleep?: (ms: number) => Promise<void>;
 }
@@ -26,10 +33,13 @@ export interface NavigatorSessionInput {
   readonly baseUrl: string;
   /** Where the persona lands first. Defaults to the home page. */
   readonly startPath?: string;
+  /** Its patience and device apply to every session; the rest only to the LLM. */
   readonly persona: Persona;
-  readonly task: NavigatorTask;
+  /** Who decides. Defaults to the navigator LLM playing `persona` with `task` and `budget`. */
+  readonly decider?: Decider;
+  readonly task?: NavigatorTask;
   /** The run's shared budget; every LLM call is charged to it. */
-  readonly budget: Budget;
+  readonly budget?: Budget;
   readonly signal?: AbortSignal;
 }
 
@@ -40,9 +50,6 @@ export interface NavigatorSessionResult {
   readonly reason?: string;
   readonly steps: number;
 }
-
-const SUMMARY_RULES = `You keep the notes of a shopper in a usability study. Given the notes so far and the latest actions, write the updated notes: at most two short sentences, in the first person, about what was done, what worked and what did not. Do not give advice and do not mention refs.`;
-const SUMMARY_MAX_CHARS = 400;
 
 function describeAction(action: unknown, locators: ReadonlyMap<string, ElementLocator>): string {
   const parsed = agentActionSchema.safeParse(action);
@@ -78,9 +85,10 @@ function resultOf(result: ActionResult): string {
 }
 
 /**
- * One persona navigating the target with an LLM (F1.4): observe → decide (one tool call) →
- * act → record, until the persona is done, its patience runs out or the run budget does.
- * Infrastructure failures are thrown to the caller, which decides about retries.
+ * One agent session over the target (F1.4, instrumented in F1.6): observe → decide → act →
+ * record, until the decider is done, the persona's patience runs out or the run budget does.
+ * Each step also records the page's alerts, technical errors and web vitals, and saves a
+ * screenshot when a new friction signal appears. Infrastructure failures are thrown.
  */
 export class NavigatorSession {
   private readonly now: () => number;
@@ -90,21 +98,21 @@ export class NavigatorSession {
   }
 
   async run(input: NavigatorSessionInput): Promise<NavigatorSessionResult> {
-    const { browser, gateway, store } = this.deps;
-    const { persona, budget } = input;
+    const { browser, store } = this.deps;
+    const { persona } = input;
+    const decider = input.decider ?? this.llmDecider(input);
     const baseUrl = input.baseUrl.replace(/\/$/, '');
     const recorder = new RunEventRecorder(store, input.runId, {
       agentId: input.agentId,
-      role: persona.modelRole,
+      role: decider.role,
     });
     const executor = new ActionExecutor(browser, recorder, {
       now: this.now,
       ...(this.deps.sleep === undefined ? {} : { sleep: this.deps.sleep }),
     });
-    const prompt = NavigatorPrompt.forSession(persona, input.task);
     const builder = new ObservationBuilder();
     const memory = new WorkingMemory();
-    const context = { runId: input.runId, agentId: input.agentId };
+    const seenSignals = new Set<string>();
     const started = this.now();
 
     const end = async (outcome: Outcome, steps: number, reason?: string) => {
@@ -131,25 +139,12 @@ export class NavigatorSession {
         const snapshot = await browser.snapshot(session);
         const observation = builder.observe(snapshot);
 
-        if (memory.summaryDue()) {
-          memory.setSummary(await this.summarize(memory, persona, budget, context));
-        }
-
-        const response = await gateway.complete({
-          ...prompt.request({
-            stepIndex: steps,
-            observation: observation.full,
-            lastResult,
-            memory: memory.render(),
-          }),
-          budget,
-          context,
+        const { action, thought } = await decider.decide({
+          stepIndex: steps,
+          observation,
+          lastResult,
+          memory,
         });
-        const call = response.content.find((block) => block.type === 'tool_use');
-        const { action, thought } =
-          call === undefined
-            ? { action: { type: 'no-tool-call' } }
-            : fromToolCall(call.name, call.input);
         if (thought !== undefined) {
           await recorder.record('agent.thought', { stepIndex: steps, text: thought });
         }
@@ -164,7 +159,10 @@ export class NavigatorSession {
           stepIndex: steps,
           url: snapshot.url,
           durationMs: Math.max(0, this.now() - stepStarted),
+          ...(observation.alerts.length === 0 ? {} : { alerts: [...observation.alerts] }),
         });
+        await this.recordTelemetry(session, recorder, steps);
+        await this.screenshotNewSignals(session, input, recorder, steps, snapshot.url, seenSignals);
         steps += 1;
         if (result.status === 'done') return await end(result.outcome, steps, result.reason);
         lastResult = result;
@@ -177,36 +175,79 @@ export class NavigatorSession {
     }
   }
 
-  private async summarize(
-    memory: WorkingMemory,
-    persona: Persona,
-    budget: Budget,
-    context: { runId: string; agentId: string },
-  ): Promise<string> {
-    const { previous, entries } = memory.toSummarize();
-    const response = await this.deps.gateway.complete({
-      role: persona.modelRole,
-      system: { stable: SUMMARY_RULES },
-      messages: [
-        {
-          role: 'user',
-          content: [
-            `Goal: ${persona.goal}`,
-            `Notes so far: ${previous ?? '(none)'}`,
-            'Latest actions:',
-            ...entries.map(formatEntry),
-          ].join('\n'),
-        },
-      ],
-      maxTokens: 300,
-      budget,
-      context,
+  private llmDecider(input: NavigatorSessionInput): Decider {
+    const { gateway } = this.deps;
+    if (gateway === undefined || input.task === undefined || input.budget === undefined) {
+      throw new Error('An LLM session needs a gateway, a task and a budget');
+    }
+    return new LlmDecider({
+      gateway,
+      persona: input.persona,
+      task: input.task,
+      budget: input.budget,
+      context: { runId: input.runId, agentId: input.agentId },
     });
-    const text = response.content
-      .flatMap((block) => (block.type === 'text' ? [block.text] : []))
-      .join(' ')
-      .replace(/\s+/g, ' ')
-      .trim();
-    return text === '' ? (previous ?? '') : text.slice(0, SUMMARY_MAX_CHARS);
+  }
+
+  /** page.error for each technical error since the last step, page.vitals when measured. */
+  private async recordTelemetry(
+    session: string,
+    recorder: RunEventRecorder,
+    stepIndex: number,
+  ): Promise<void> {
+    const telemetry = await this.deps.browser.drainTelemetry(session);
+    for (const error of telemetry.errors) {
+      await recorder.record('page.error', {
+        stepIndex,
+        kind: error.kind,
+        url: error.url,
+        message: error.message,
+        ...(error.status === undefined ? {} : { status: error.status }),
+      });
+    }
+    const { vitals } = telemetry;
+    if (vitals === null) return;
+    await recorder.record('page.vitals', {
+      stepIndex,
+      url: vitals.url,
+      ...(vitals.lcpMs === undefined ? {} : { lcpMs: vitals.lcpMs }),
+      ...(vitals.cls === undefined ? {} : { cls: vitals.cls }),
+      ...(vitals.inpMs === undefined ? {} : { inpMs: vitals.inpMs }),
+    });
+  }
+
+  /**
+   * Runs the friction engine over this session so far; when a signal appears for the first
+   * time, saves one screenshot of the page and records page.screenshot (F1.6).
+   */
+  private async screenshotNewSignals(
+    session: string,
+    input: NavigatorSessionInput,
+    recorder: RunEventRecorder,
+    stepIndex: number,
+    url: string,
+    seen: Set<string>,
+  ): Promise<void> {
+    const { artifacts, store, browser } = this.deps;
+    if (artifacts === undefined) return;
+    const own = (await store.readRun(input.runId)).filter(
+      (event) => event.actor.agentId === input.agentId,
+    );
+    const fresh = detectFriction(own).filter((signal) => {
+      const key = `${signal.detector}:${signal.evidenceEventIds.join(',')}`;
+      if (seen.has(key)) return false;
+      seen.add(key);
+      return true;
+    });
+    const first = fresh[0];
+    if (first === undefined) return;
+    const artifact = `${input.agentId}/step-${String(stepIndex)}.png`;
+    await artifacts.put(input.runId, artifact, await browser.screenshot(session));
+    await recorder.record('page.screenshot', {
+      stepIndex,
+      url,
+      artifact,
+      detector: first.detector,
+    });
   }
 }

@@ -15,6 +15,8 @@ export interface Observation {
   readonly tokens: number;
   /** Every ref in this observation and how to find its element again. */
   readonly locators: ReadonlyMap<string, ElementLocator>;
+  /** Texts of the page's `alert` notices, such as form validation errors. */
+  readonly alerts: readonly string[];
 }
 
 function pathOf(url: string): string {
@@ -38,7 +40,7 @@ export class ObservationBuilder {
 
   observe(input: unknown): Observation {
     const capture = parseCapture(input);
-    const { lines, locators } = prune(capture, this.registry);
+    const { lines, locators, alerts } = prune(capture, this.registry);
     const path = pathOf(capture.url);
     const header = `page ${path} · ${JSON.stringify(capture.title)}`;
     const full = [header, ...lines.map((line) => line.text)].join('\n');
@@ -60,6 +62,7 @@ export class ObservationBuilder {
       full,
       tokens: estimateTokens(text),
       locators,
+      alerts,
     };
   }
 }

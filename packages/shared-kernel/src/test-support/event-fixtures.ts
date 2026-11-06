@@ -124,4 +124,14 @@ export const validEvents: Record<JanusEventType, Record<string, unknown>> = {
     { stepIndex: 2, url: 'http://shoplab.test/cart', lcpMs: 1800, cls: 0.02, inpMs: 120 },
     { actor: { agentId: 'persona-ana-1', role: 'navigator' } },
   ),
+  'page.screenshot': envelope(
+    'page.screenshot',
+    {
+      stepIndex: 2,
+      url: 'http://shoplab.test/cart',
+      artifact: 'persona-ana-1/step-2.png',
+      detector: 'dead-click',
+    },
+    { actor: { agentId: 'persona-ana-1', role: 'navigator' } },
+  ),
 };

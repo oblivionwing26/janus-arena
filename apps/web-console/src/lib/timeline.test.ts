@@ -88,13 +88,28 @@ describe('buildTimeline', () => {
         type: 'page.vitals',
         payload: { stepIndex: 1, url: 'http://x.test/', lcpMs: 2600.4, cls: 0.031 },
       },
+      {
+        ...base,
+        seq: 32,
+        type: 'page.screenshot',
+        payload: {
+          stepIndex: 1,
+          url: 'http://x.test/',
+          artifact: 'ana-0/step-1.png',
+          detector: 'dead-click',
+        },
+      },
     ] as ConsoleEvent[];
 
     const labels = buildTimeline(extra)
       .lanes.flatMap((lane) => lane.items)
       .map((item) => item.label);
 
-    expect(labels).toEqual(['Error técnico (HTTP 500): Fallo', 'Vitals: LCP 2600 ms · CLS 0.03']);
+    expect(labels).toEqual([
+      'Error técnico (HTTP 500): Fallo',
+      'Vitals: LCP 2600 ms · CLS 0.03',
+      'Captura por dead-click: ana-0/step-1.png',
+    ]);
   });
 
   it('lists every type present and filters by type', () => {

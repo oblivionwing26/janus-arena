@@ -1,5 +1,6 @@
 import { newUlid } from '@janus/shared-kernel';
 
+import type { ArtifactStorePort } from '../domain/artifacts/artifact-store-port.js';
 import type { BrowserPort } from '../domain/browser/browser-port.js';
 import { DomainError } from '../domain/errors/domain-error.js';
 import type { EventStorePort } from '../domain/event-store/event-store-port.js';
@@ -19,6 +20,8 @@ export interface RunAgentSessionDeps {
   readonly control: RunControl;
   /** Needed only for sessions that play a persona (F1.4). */
   readonly navigator?: { readonly gateway: LLMGatewayPort; readonly personas: PersonaCatalogPort };
+  /** Screenshots when friction appears (F1.6). */
+  readonly artifacts?: ArtifactStorePort;
 }
 
 /**
@@ -95,6 +98,7 @@ export class RunAgentSession {
       browser: this.deps.browser,
       gateway: navigator.gateway,
       store: this.deps.store,
+      ...(this.deps.artifacts === undefined ? {} : { artifacts: this.deps.artifacts }),
     });
     const result = await session.run({
       runId: job.runId,

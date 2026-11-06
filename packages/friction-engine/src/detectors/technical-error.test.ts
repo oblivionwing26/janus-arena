@@ -35,6 +35,16 @@ describe('technical-error', () => {
     expect(technical(run)).toEqual([]);
   });
 
+  it('typical false positive: a validation 400 is the form rejecting input, not a fault', () => {
+    const run = new RunBuilder();
+    const ana = run.session('ana-0');
+    ana.click('/register', 'e10', 'Crear cuenta');
+    ana.error('http', '/api/register', 'Bad Request', 400);
+    ana.error('http', '/api/login', 'Unauthorized', 401);
+
+    expect(technical(run)).toEqual([]);
+  });
+
   it('does not fire on redirects or when nothing failed', () => {
     const run = new RunBuilder();
     const ana = run.session('ana-0');

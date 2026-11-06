@@ -146,6 +146,41 @@ export function describeBrowserContract(name: string, harness: BrowserContractHa
       }
     });
 
+    it('counts DOM activity per document and drains telemetry once', async () => {
+      const browser = harness.browser();
+      const session = await browser.newSession({ baseUrl: harness.baseUrl() });
+      try {
+        await browser.goto(session, `${harness.baseUrl()}${harness.page}`);
+        await browser.settle(session);
+        const before = await browser.pageActivity(session);
+        expect(Number.isInteger(before.mutations) && before.mutations >= 0).toBe(true);
+
+        // A full page load is a new document. (A client-side navigation, as in Next.js, keeps
+        // the document: dead-click detection compares URLs for that reason.)
+        await browser.goto(session, `${harness.baseUrl()}${harness.page}`);
+        await browser.settle(session);
+        expect((await browser.pageActivity(session)).documentId).not.toBe(before.documentId);
+
+        const first = await browser.drainTelemetry(session);
+        expect(Array.isArray(first.errors)).toBe(true);
+        expect((await browser.drainTelemetry(session)).errors).toEqual([]);
+      } finally {
+        await browser.close(session);
+      }
+    });
+
+    it('takes a PNG screenshot of the page', async () => {
+      const browser = harness.browser();
+      const session = await browser.newSession({ baseUrl: harness.baseUrl() });
+      try {
+        await browser.goto(session, `${harness.baseUrl()}${harness.page}`);
+        const png = await browser.screenshot(session);
+        expect([...png.slice(0, 4)]).toEqual([0x89, 0x50, 0x4e, 0x47]);
+      } finally {
+        await browser.close(session);
+      }
+    });
+
     it('gives mobile sessions a phone-sized viewport', async () => {
       const browser = harness.browser();
       const session = await browser.newSession({ baseUrl: harness.baseUrl(), device: 'mobile' });

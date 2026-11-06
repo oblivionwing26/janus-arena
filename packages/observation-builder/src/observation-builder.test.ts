@@ -99,6 +99,22 @@ describe('ObservationBuilder: pruned snapshot', () => {
     );
 
     expect(lines(result.text)).toEqual(['# Carrito', '! status "Añadido al carrito"']);
+    expect(result.alerts).toEqual([]);
+  });
+
+  it('lists the texts of alert notices, not statuses', () => {
+    const result = new ObservationBuilder().observe(
+      page([
+        node('alert', { text: 'Revisa los campos del formulario.' }),
+        node('status', { text: 'Guardado.' }),
+        node('alert', {
+          text: 'Email o contraseña incorrectos.',
+          box: { x: 0, y: 5000, width: 10, height: 10 },
+        }),
+      ]),
+    );
+
+    expect(result.alerts).toEqual(['Revisa los campos del formulario.']);
   });
 
   it('writes a table row as one line and keeps the elements inside it', () => {

@@ -8,6 +8,8 @@ export type ObservationLine =
 export interface PrunedPage {
   readonly lines: readonly ObservationLine[];
   readonly locators: ReadonlyMap<string, ElementLocator>;
+  /** Texts of the visible `alert` notices (validation errors), route announcers left out. */
+  readonly alerts: readonly string[];
 }
 
 const INTERACTIVE = new Set([
@@ -98,8 +100,8 @@ export function prune(capture: RawCapture, registry: RefRegistry): PrunedPage {
   const locators = new Map<string, ElementLocator>();
   const seen = new Map<string, number>();
   const headings = new Set<string>();
-  /** Line index → text of each notice, to drop route announcers at the end. */
-  const notices = new Map<number, string>();
+  /** Line index → each notice, to drop route announcers at the end. */
+  const notices = new Map<number, { role: string; value: string }>();
   const { height } = capture.viewport;
 
   const inWindow = (box: RawBox) =>
@@ -145,7 +147,7 @@ export function prune(capture: RawCapture, registry: RefRegistry): PrunedPage {
     }
     if (NOTICE_ROLES.has(node.role)) {
       const value = flatten(node);
-      if (value !== '' && context.visible) notices.set(lines.length, value);
+      if (value !== '' && context.visible) notices.set(lines.length, { role: node.role, value });
       text('notice', value === '' ? '' : `! ${node.role} ${JSON.stringify(value)}`, context);
       return;
     }
@@ -184,9 +186,12 @@ export function prune(capture: RawCapture, registry: RefRegistry): PrunedPage {
   // A route announcer (e.g. Next.js) is an alert that only repeats the title or a heading.
   headings.add(capture.title);
   const announcers = new Set(
-    [...notices].filter(([, value]) => headings.has(value)).map(([index]) => index),
+    [...notices].filter(([, { value }]) => headings.has(value)).map(([index]) => index),
   );
-  return { lines: lines.filter((_, index) => !announcers.has(index)), locators };
+  const alerts = [...notices]
+    .filter(([index, { role }]) => role === 'alert' && !announcers.has(index))
+    .map(([, { value }]) => value);
+  return { lines: lines.filter((_, index) => !announcers.has(index)), locators, alerts };
 }
 
 function describe(node: RawNode): string {

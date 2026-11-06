@@ -10,6 +10,9 @@ import type {
   ElementTarget,
   PageSnapshot,
 } from '../domain/browser/browser-port.js';
+import type { PageActivity, PageTelemetry } from '../domain/browser/page-telemetry.js';
+
+const EMPTY_PNG = new Uint8Array([0x89, 0x50, 0x4e, 0x47, 0x0d, 0x0a, 0x1a, 0x0a]);
 
 export interface TapeEntry {
   readonly method: keyof BrowserPort;
@@ -58,6 +61,19 @@ export class RecordingBrowser implements BrowserPort {
   }
   settle(sessionId: string): Promise<void> {
     return this.call('settle', () => this.inner.settle(sessionId));
+  }
+  pageActivity(sessionId: string): Promise<PageActivity> {
+    return this.call('pageActivity', () => this.inner.pageActivity(sessionId));
+  }
+  drainTelemetry(sessionId: string): Promise<PageTelemetry> {
+    return this.call('drainTelemetry', () => this.inner.drainTelemetry(sessionId));
+  }
+  screenshot(sessionId: string): Promise<Uint8Array> {
+    // The image itself is not kept on the tape; a replay gets an empty PNG.
+    return this.call('screenshot', async () => {
+      await this.inner.screenshot(sessionId);
+      return undefined;
+    }).then(() => EMPTY_PNG);
   }
   waitForUrl(sessionId: string, pattern: RegExp): Promise<void> {
     return this.call('waitForUrl', () => this.inner.waitForUrl(sessionId, pattern));
@@ -118,7 +134,17 @@ export class ReplayingBrowser implements BrowserPort {
     return this.replay('back');
   }
   settle(): Promise<void> {
-    return this.replay('settle');
+    // Settling returns nothing and changes no decision; newer code settles more often.
+    return this.optional('settle', undefined);
+  }
+  pageActivity(): Promise<PageActivity> {
+    return this.optional('pageActivity', { documentId: 'replay', mutations: 0 });
+  }
+  drainTelemetry(): Promise<PageTelemetry> {
+    return this.optional('drainTelemetry', { errors: [], vitals: null });
+  }
+  screenshot(): Promise<Uint8Array> {
+    return this.optional('screenshot', undefined).then(() => EMPTY_PNG);
   }
   waitForUrl(): Promise<void> {
     return this.replay('waitForUrl');
@@ -128,6 +154,17 @@ export class ReplayingBrowser implements BrowserPort {
   }
   close(): Promise<void> {
     return this.replay('close');
+  }
+
+  /**
+   * Telemetry (and settling) never changes what the agent decides, and tapes recorded before
+   * F1.6 lack some of those calls:
+   * replay it when it is on the tape, otherwise answer with a neutral value.
+   */
+  private optional<T>(method: keyof BrowserPort, fallback: T): Promise<T> {
+    return this.tape[this.next]?.method === method
+      ? this.replay<T>(method)
+      : Promise.resolve(fallback);
   }
 
   private replay<T>(method: keyof BrowserPort): Promise<T> {

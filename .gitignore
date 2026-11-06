@@ -19,6 +19,7 @@ coverage/
 
 # Janus runtime data
 .workspaces/
+.artifacts/
 recordings/*
 !recordings/fixtures/
 

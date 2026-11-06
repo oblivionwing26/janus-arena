@@ -99,6 +99,11 @@ function describe(event: JanusEvent): { label: string; tone: Tone } {
       ].filter(Boolean);
       return { label: `Vitals: ${parts.join(' · ') || 'sin medidas'}`, tone: 'neutral' };
     }
+    case 'page.screenshot':
+      return {
+        label: `Captura por ${event.payload.detector}: ${event.payload.artifact}`,
+        tone: 'warning',
+      };
     case 'agent.thought':
       return { label: `Pensamiento: «${event.payload.text}»`, tone: 'neutral' };
     case 'session.ended': {
