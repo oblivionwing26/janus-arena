@@ -6,7 +6,8 @@ import type {
   SessionQueueHandlers,
   SessionResult,
 } from '../../domain/run/session-queue-port.js';
-import { personaFor } from '../../domain/run/persona-for.js';
+import { jobFor } from '../../domain/run/job-for.js';
+import type { SessionSpec } from '../../domain/run/session-spec.js';
 import type { SessionQueueRuntime } from './session-queue-runtime.js';
 
 export const AGENT_SESSIONS_QUEUE = 'agent-sessions';
@@ -23,7 +24,10 @@ export interface BullMqSessionQueueOptions {
   readonly prefix?: string;
 }
 
-type SessionData = RunPlan & { readonly sessionIndex: number };
+interface SessionData {
+  readonly plan: RunPlan;
+  readonly spec: SessionSpec;
+}
 
 function redisOptions(url: string): RedisOptions {
   const parsed = new URL(url);
@@ -73,12 +77,12 @@ export class BullMqSessionQueue implements SessionQueueRuntime {
       queueName: AGENT_SESSIONS_QUEUE,
       data: plan,
       opts: { jobId: `finish-${plan.runId}`, ...RETENTION },
-      children: Array.from({ length: plan.sessions }, (_, sessionIndex) => ({
+      children: plan.sessions.map((spec) => ({
         name: 'session',
         queueName: AGENT_SESSIONS_QUEUE,
-        data: { ...plan, sessionIndex } satisfies SessionData,
+        data: { plan, spec } satisfies SessionData,
         opts: {
-          jobId: `session-${plan.runId}-${String(sessionIndex)}`,
+          jobId: `session-${plan.runId}-${String(spec.sessionIndex)}`,
           attempts: this.options.maxAttempts ?? 3,
           backoff: { type: 'exponential', delay: this.options.backoffMs ?? 1000 },
           ignoreDependencyOnFailure: true,
@@ -95,18 +99,9 @@ export class BullMqSessionQueue implements SessionQueueRuntime {
 
   private async process(job: Job, handlers: SessionQueueHandlers): Promise<unknown> {
     if (job.name === 'session') {
-      const data = job.data as SessionData;
-      const { runId, variantId, baseUrl, sessionIndex } = data;
-      const persona = personaFor(data, sessionIndex);
+      const { plan, spec } = job.data as SessionData;
       try {
-        return await handlers.runSession({
-          runId,
-          variantId,
-          baseUrl,
-          sessionIndex,
-          attempt: job.attemptsMade + 1,
-          ...(persona === undefined ? {} : { persona }),
-        });
+        return await handlers.runSession(jobFor(plan, spec, job.attemptsMade + 1));
       } catch (error) {
         if (error instanceof InfrastructureError) throw error;
         throw new UnrecoverableError(error instanceof Error ? error.message : String(error));

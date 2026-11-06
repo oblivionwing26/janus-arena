@@ -4,7 +4,8 @@ import type {
   SessionQueueHandlers,
   SessionResult,
 } from '../../domain/run/session-queue-port.js';
-import { personaFor } from '../../domain/run/persona-for.js';
+import { jobFor } from '../../domain/run/job-for.js';
+import type { SessionSpec } from '../../domain/run/session-spec.js';
 import type { SessionQueueRuntime } from './session-queue-runtime.js';
 
 export interface InMemorySessionQueueOptions {
@@ -58,11 +59,11 @@ export class InMemorySessionQueue implements SessionQueueRuntime {
   private async process(plan: RunPlan): Promise<void> {
     const handlers = this.handlers;
     if (handlers === undefined) throw new Error('InMemorySessionQueue.start() was not called');
-    const indexes = Array.from({ length: plan.sessions }, (_, index) => index);
+    const specs = [...plan.sessions];
     const results: SessionResult[] = [];
-    const workers = Array.from({ length: Math.min(this.concurrency, indexes.length) }, async () => {
-      for (let index = indexes.shift(); index !== undefined; index = indexes.shift()) {
-        results.push(await this.runWithRetries(handlers, plan, index));
+    const workers = Array.from({ length: Math.min(this.concurrency, specs.length) }, async () => {
+      for (let spec = specs.shift(); spec !== undefined; spec = specs.shift()) {
+        results.push(await this.runWithRetries(handlers, plan, spec));
       }
     });
     await Promise.all(workers);
@@ -75,20 +76,12 @@ export class InMemorySessionQueue implements SessionQueueRuntime {
   private async runWithRetries(
     handlers: SessionQueueHandlers,
     plan: RunPlan,
-    sessionIndex: number,
+    spec: SessionSpec,
   ): Promise<SessionResult> {
-    const { runId, variantId, baseUrl } = plan;
-    const persona = personaFor(plan, sessionIndex);
+    const { sessionIndex } = spec;
     for (let attempt = 1; ; attempt++) {
       try {
-        return await handlers.runSession({
-          runId,
-          variantId,
-          baseUrl,
-          sessionIndex,
-          attempt,
-          ...(persona === undefined ? {} : { persona }),
-        });
+        return await handlers.runSession(jobFor(plan, spec, attempt));
       } catch (error) {
         const detail = error instanceof Error ? error.message : String(error);
         if (!(error instanceof InfrastructureError) || attempt >= this.maxAttempts) {

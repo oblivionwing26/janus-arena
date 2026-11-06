@@ -1,22 +1,29 @@
-/** What a run hands to the queue once its variant is up. */
-export interface RunPlan {
-  readonly runId: string;
+import type { SessionSpec } from './session-spec.js';
+
+/** A variant of the run once it is up in the sandbox. */
+export interface PlannedVariant {
+  /** Key in the run config, e.g. `a`. */
+  readonly key: string;
   readonly variantId: string;
   readonly baseUrl: string;
-  readonly sessions: number;
-  /** Persona ids played in turn by the sessions (F1.4); none means the scripted agent. */
-  readonly personas?: readonly string[];
+}
+
+/** What a run hands to the queue once its variants are up (F1.7: several, paired). */
+export interface RunPlan {
+  readonly runId: string;
+  readonly variants: readonly PlannedVariant[];
+  readonly sessions: readonly SessionSpec[];
+  /** Caps every persona's patience in steps. */
+  readonly maxSteps?: number;
 }
 
 export interface SessionJob {
   readonly runId: string;
-  readonly variantId: string;
-  readonly baseUrl: string;
-  readonly sessionIndex: number;
+  readonly spec: SessionSpec;
+  readonly variant: PlannedVariant;
   /** 1 on the first try, then 2, 3... after infrastructure failures. */
   readonly attempt: number;
-  /** Persona id to play; absent for the scripted agent. */
-  readonly persona?: string;
+  readonly maxSteps?: number;
 }
 
 /**

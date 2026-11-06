@@ -134,4 +134,9 @@ export const validEvents: Record<JanusEventType, Record<string, unknown>> = {
     },
     { actor: { agentId: 'persona-ana-1', role: 'navigator' } },
   ),
+  'session.started': envelope(
+    'session.started',
+    { variant: 'b', kind: 'persona', persona: 'carmen-retired', seed: 1, attempt: 1 },
+    { actor: { agentId: 'carmen-retired-b-s1-a1', role: 'navigator' } },
+  ),
 };

@@ -14,7 +14,7 @@ export interface StopRunDeps {
 }
 
 /**
- * Stops a run: aborts its sessions, tears its variant down and records run.completed with
+ * Stops a run: aborts its sessions, tears its variants down and records run.completed with
  * reason "stopped by user". Stopping a completed run does nothing.
  */
 export class StopRun {
@@ -26,8 +26,9 @@ export class StopRun {
     if (events.length === 0) throw new RunNotFoundError(runId);
     if (events.some(isRunCompleted)) return;
 
+    const variantKeys = control.variantKeys(runId);
     control.stop(runId);
-    await sandbox.down(variantIdFor(runId));
+    await Promise.all(variantKeys.map((key) => sandbox.down(variantIdFor(runId, key))));
     await new RunEventRecorder(store, runId, ORCHESTRATOR_ACTOR).record('run.completed', {
       outcome: 'error',
       reason: 'stopped by user',

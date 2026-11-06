@@ -53,6 +53,10 @@ export { runCompletedEventSchema, type RunCompletedEvent } from './events/v1/run
 export { runStartedEventSchema, type RunStartedEvent } from './events/v1/run-started.js';
 export { sessionEndedEventSchema, type SessionEndedEvent } from './events/v1/session-ended.js';
 export {
+  sessionStartedEventSchema,
+  type SessionStartedEvent,
+} from './events/v1/session-started.js';
+export {
   verificationResultEventSchema,
   type VerificationResultEvent,
 } from './events/v1/verification-result.js';

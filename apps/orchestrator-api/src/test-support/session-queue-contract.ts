@@ -20,12 +20,22 @@ interface Finished {
   readonly results: readonly SessionResult[];
 }
 
+// Two variants, sessions alternating between them as an A/B pair would.
 function plan(sessions: number): RunPlan {
   return {
     runId: testUlid(),
-    variantId: 'r-contract',
-    baseUrl: 'http://janus-x-app:3100',
-    sessions,
+    variants: [
+      { key: 'a', variantId: 'r-contract', baseUrl: 'http://janus-x-app:3100' },
+      { key: 'b', variantId: 'r-contract-b', baseUrl: 'http://janus-x-b-app:3100' },
+    ],
+    sessions: Array.from({ length: sessions }, (_, sessionIndex) => ({
+      sessionIndex,
+      variant: sessionIndex % 2 === 0 ? 'a' : 'b',
+      kind: 'persona' as const,
+      persona: 'carmen-retired',
+      seed: Math.floor(sessionIndex / 2),
+    })),
+    maxSteps: 25,
   };
 }
 
@@ -64,12 +74,26 @@ export function describeSessionQueueContract(
 
     it('runs every session, then finishes the run once with every result', async () => {
       const finished = await run(3, (job) =>
-        Promise.resolve({ sessionIndex: job.sessionIndex, status: 'completed' }),
+        Promise.resolve({ sessionIndex: job.spec.sessionIndex, status: 'completed' }),
       );
 
       expect(finished).toHaveLength(1);
       expect(finished[0]?.results.map((result) => result.sessionIndex)).toEqual([0, 1, 2]);
       expect(finished[0]?.results.every((result) => result.status === 'completed')).toBe(true);
+    }, 30_000);
+
+    it('hands each session its spec, its own variant and the run step limit', async () => {
+      const jobs: SessionJob[] = [];
+      await run(2, (job) => {
+        jobs.push(job);
+        return Promise.resolve({ sessionIndex: job.spec.sessionIndex, status: 'completed' });
+      });
+
+      const sorted = jobs.sort((a, b) => a.spec.sessionIndex - b.spec.sessionIndex);
+      expect(sorted.map((job) => [job.spec.variant, job.variant.baseUrl, job.maxSteps])).toEqual([
+        ['a', 'http://janus-x-app:3100', 25],
+        ['b', 'http://janus-x-b-app:3100', 25],
+      ]);
     }, 30_000);
 
     it('retries infrastructure failures with increasing attempt numbers', async () => {
@@ -78,7 +102,7 @@ export function describeSessionQueueContract(
         attempts.push(job.attempt);
         return job.attempt < 2
           ? Promise.reject(new InfrastructureError('browser-relay refused'))
-          : Promise.resolve({ sessionIndex: job.sessionIndex, status: 'completed' });
+          : Promise.resolve({ sessionIndex: job.spec.sessionIndex, status: 'completed' });
       });
 
       expect(attempts).toEqual([1, 2]);
@@ -106,7 +130,7 @@ export function describeSessionQueueContract(
         peak = Math.max(peak, active);
         await sleep(100);
         active -= 1;
-        return { sessionIndex: job.sessionIndex, status: 'completed' };
+        return { sessionIndex: job.spec.sessionIndex, status: 'completed' };
       });
 
       expect(peak).toBe(2);

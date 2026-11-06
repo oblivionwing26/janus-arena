@@ -46,6 +46,14 @@ describe('Persona', () => {
     expect(() => Persona.create({ ...valid, ...patch })).toThrow(InvalidPersonaError);
   });
 
+  it('caps its patience at a run step limit, never raising it', () => {
+    const persona = Persona.create(valid);
+
+    expect(persona.withMaxSteps(10).patience.maxSteps).toBe(10);
+    expect(persona.withMaxSteps(10).patience.maxSeconds).toBe(600);
+    expect(persona.withMaxSteps(100)).toBe(persona);
+  });
+
   it('accepts the competent baseline: no biases, full literacy, its own model role', () => {
     const baseline = Persona.create({
       ...valid,

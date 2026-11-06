@@ -16,9 +16,9 @@ import { SHOPLAB_PAGES } from '../test-support/shoplab-pages.js';
 import { FinishRun } from './finish-run.js';
 import { RunAgentSession } from './run-agent-session.js';
 import { RunControl } from './run-control.js';
-import { StartRun } from './start-run.js';
+import { runInputFromSessions, StartRun } from './start-run.js';
 
-const input = {
+const base = {
   target: 'shoplab',
   ref: 'main',
   sessions: 1,
@@ -62,13 +62,13 @@ describe('runs with personas', () => {
   it('plays the persona with the navigator and completes the run', async () => {
     const { store, queue, startRun } = setup();
 
-    const { runId, launched } = await startRun.execute(input);
+    const { runId, launched } = await startRun.execute(runInputFromSessions(base));
     await launched;
     await queue.drain();
 
     const events = (await store.readRun(runId)).filter(isKnownEvent);
     const ended = events.find((event) => event.type === 'session.ended');
-    expect(ended?.actor).toEqual({ agentId: 'ana-careful-0', role: 'navigator' });
+    expect(ended?.actor).toEqual({ agentId: 'ana-careful-a-s0-a1', role: 'navigator' });
     expect(ended?.payload).toMatchObject({ outcome: 'success', steps: 5 });
     expect(events.at(-1)).toMatchObject({ type: 'run.completed', payload: { outcome: 'success' } });
   });
@@ -76,7 +76,7 @@ describe('runs with personas', () => {
   it('records the friction signals of the run before closing it (F1.6)', async () => {
     const { store, queue, startRun } = setup('abandon');
 
-    const { runId, launched } = await startRun.execute(input);
+    const { runId, launched } = await startRun.execute(runInputFromSessions(base));
     await launched;
     await queue.drain();
 
@@ -88,7 +88,7 @@ describe('runs with personas', () => {
         signal.payload.detector,
         signal.payload.agentId,
       ]),
-    ).toEqual([['orchestrator', 'abandonment', 'ana-careful-0']]);
+    ).toEqual([['orchestrator', 'abandonment', 'ana-careful-a-s0-a1']]);
     const ended = events.find((event) => event.type === 'session.ended');
     expect(signals[0]?.payload.evidenceEventIds).toEqual([ended?.id]);
     expect(events.at(-1)?.type).toBe('run.completed');
@@ -97,9 +97,9 @@ describe('runs with personas', () => {
   it('rejects an unknown persona before the run exists', async () => {
     const { store, startRun } = setup();
 
-    await expect(startRun.execute({ ...input, personas: ['nobody'] })).rejects.toBeInstanceOf(
-      PersonaNotFoundError,
-    );
+    await expect(
+      startRun.execute(runInputFromSessions({ ...base, personas: ['nobody'] })),
+    ).rejects.toBeInstanceOf(PersonaNotFoundError);
     expect(await store.listRuns()).toEqual([]);
   });
 });

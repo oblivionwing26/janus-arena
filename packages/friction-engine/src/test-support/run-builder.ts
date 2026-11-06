@@ -118,6 +118,17 @@ export class SessionBuilder {
     }).id;
   }
 
+  /** session.started for this session (F1.7). */
+  started(variant: string, seed = 1): string {
+    return this.run.emit(this.agentId, this.role, 'session.started', {
+      variant,
+      kind: this.role === 'competent-baseline' ? 'baseline' : 'persona',
+      persona: this.agentId.replace(/-.*$/, ''),
+      seed,
+      attempt: 1,
+    }).id;
+  }
+
   end(
     outcome: 'success' | 'abandon' | 'patience_exhausted' | 'budget_exhausted',
     reason?: string,

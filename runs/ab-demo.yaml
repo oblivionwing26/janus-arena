@@ -1,0 +1,18 @@
+# F1.7 "Done when": 4 personas x 1 seed x 2 variants, plus the competent baseline on each
+# variant = 10 sessions. Both variants are ShopLab main (an A/A run): this checks the
+# orchestration; the hand-made variant B arrives in F1.11.
+#   pnpm run:start runs/ab-demo.yaml
+
+target: shoplab
+variants:
+  - { id: a, ref: main }
+  - { id: b, ref: main }
+personas: [carmen-retired, diego-commuter, lucia-private, javier-budget]
+seeds: [1]
+# Caps every persona's patience: nobody takes more than 30 steps.
+maxSteps: 30
+budget:
+  maxTokens: 1500000
+  maxEur: 0.5
+# Sessions of this run playing at once.
+concurrency: 4

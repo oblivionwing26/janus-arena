@@ -112,6 +112,44 @@ describe('buildTimeline', () => {
     ]);
   });
 
+  it('labels session slots and the session counter of a finished run (F1.7)', () => {
+    const base = events[1];
+    if (base === undefined) throw new Error('sample run is empty');
+    const extra = [
+      {
+        ...base,
+        seq: 40,
+        type: 'session.started',
+        payload: { variant: 'b', kind: 'persona', persona: 'carmen-retired', seed: 1, attempt: 2 },
+      },
+      {
+        ...base,
+        seq: 41,
+        type: 'run.completed',
+        payload: {
+          outcome: 'error',
+          sessions: {
+            total: 10,
+            completed: 9,
+            failed: 0,
+            budgetExhausted: 0,
+            cancelled: 0,
+            excluded: 1,
+          },
+        },
+      },
+    ] as ConsoleEvent[];
+
+    const labels = buildTimeline(extra)
+      .lanes.flatMap((lane) => lane.items)
+      .map((item) => item.label);
+
+    expect(labels).toEqual([
+      'Sesión carmen-retired · variante B · semilla 1 · intento 2',
+      'Fin · error · sesiones 9/10 completas · 1 excluida (infraestructura)',
+    ]);
+  });
+
   it('lists every type present and filters by type', () => {
     const all = buildTimeline(events);
     expect(all.types).toEqual([

@@ -16,7 +16,11 @@ import {
 import { Observable } from 'rxjs';
 import { z } from 'zod';
 
-import type { StartRun } from '../../application/start-run.js';
+import {
+  runInputFromConfig,
+  runInputFromSessions,
+  type StartRun,
+} from '../../application/start-run.js';
 import type { StopRun } from '../../application/stop-run.js';
 import {
   EVENT_STORE_PORT,
@@ -27,7 +31,8 @@ import { isRunCompleted } from '../../domain/event-store/run-summary.js';
 import type { StoredEvent } from '../../domain/event-store/stored-event.js';
 import { RunNotFoundError } from '../../domain/run/run-errors.js';
 import { START_RUN, STOP_RUN } from '../tokens.js';
-import { startRunBodySchema } from './start-run-body.js';
+import { runConfigFromBody, startRunBodySchema } from './start-run-body.js';
+import { InvalidRunConfigError } from '../../domain/run/invalid-run-config-error.js';
 import { PersonaNotFoundError } from '../../domain/persona/persona-not-found-error.js';
 
 const runIdSchema = z.ulid();
@@ -53,9 +58,15 @@ export class RunsController {
     if (!parsed.success) throw new BadRequestException(z.prettifyError(parsed.error));
     let started: Awaited<ReturnType<StartRun['execute']>>;
     try {
-      started = await this.startRun.execute(parsed.data);
+      const input =
+        'variants' in parsed.data
+          ? runInputFromConfig(runConfigFromBody(parsed.data))
+          : runInputFromSessions(parsed.data);
+      started = await this.startRun.execute(input);
     } catch (error) {
-      if (error instanceof PersonaNotFoundError) throw new BadRequestException(error.message);
+      if (error instanceof PersonaNotFoundError || error instanceof InvalidRunConfigError) {
+        throw new BadRequestException(error.message);
+      }
       throw error;
     }
     const { runId, launched } = started;

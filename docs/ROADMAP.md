@@ -267,12 +267,14 @@ Nota F1.6: un script inyectado con `addInitScript` cuenta mutaciones del DOM por
 
 ### F1.7 · Orquestación del enjambre — M (5–7 h)
 
-- [ ] Fichero de configuración de run: variantes, personas, semillas, pasos máximos, presupuesto, concurrencia
-- [ ] Diseño pareado: misma persona y semilla en A y en B
-- [ ] Baseline competente siempre incluido en cada variante
-- [ ] Sesiones con error de infraestructura se repiten y se excluyen de la estadística, con contador visible
+- [x] Fichero de configuración de run: variantes, personas, semillas, pasos máximos, presupuesto, concurrencia
+- [x] Diseño pareado: misma persona y semilla en A y en B
+- [x] Baseline competente siempre incluido en cada variante
+- [x] Sesiones con error de infraestructura se repiten y se excluyen de la estadística, con contador visible
 
 Hecho cuando: un run 4 personas × 1 semilla × 2 variantes termina con eventos completos y coste dentro del presupuesto.
+
+Nota F1.7: un run se declara en `runs/*.yaml` (variantes `id`+`ref`, personas, semillas, `maxSteps`, presupuesto, concurrencia) y se lanza con `pnpm run:start <fichero>`, que lo valida y lo manda a `POST /runs` (el cuerpo antiguo sigue valiendo para el agente programado). `sessionMatrix` empareja: cada persona y semilla juega cada variante, y cada variante recibe el baseline competente por semilla. La semilla fija los datos sintéticos de la sesión, así que un par A/B juega con datos idénticos (el LLM no admite semilla). Evento nuevo `session.started` (variante, tipo, persona, semilla, intento); cada intento tras un error de infraestructura es una sesión con su propio `agentId` (`…-s1-a2`), y solo cuentan las que tienen `session.ended`. `run.completed` lleva el recuento de sesiones (completas, fallidas, sin presupuesto, canceladas, excluidas por infraestructura) y la consola lo muestra. La concurrencia por run es un semáforo en `RunControl`; parar o cerrar un run baja todas sus variantes. `extra-steps` compara con el baseline de la misma variante. Verificado con `runs/ab-demo.yaml` (A/A sobre ShopLab `main`): 10 sesiones, las 10 con `session.started` y `session.ended`, 588 eventos; 123 llamadas, 344.639 tokens, 0,0806 € (Haiku 0,016 €, Sonnet 0,065 €) con presupuesto de 0,50 € y sin avisos; 8/10 compran (también los dos baselines, en 12 pasos), Lucía abandona en A y en B porque para añadir al carrito hay que iniciar sesión (su sesgo de no crear cuenta): `abandonment` y `backtrack` en ambas variantes, coherentes entre el par. `pnpm run:start` no recompila: recompilar reiniciaría la API de `pnpm dev` que va a recibir el run.
 
 ### F1.8 · Módulo estadístico — M (4–6 h)
 

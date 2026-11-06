@@ -14,7 +14,7 @@ More context: `docs/VISION.md` (product), `docs/adr/` (decisions), `docs/ROADMAP
 
 ## Current step
 
-**F1.7 — Swarm orchestration.** Read this step in `docs/ROADMAP.md` before starting. Do not build features from later steps.
+**F1.8 — Statistics module.** Read this step in `docs/ROADMAP.md` before starting. Do not build features from later steps.
 
 (Update this line every time a step is closed.)
 
@@ -34,6 +34,7 @@ pnpm test:sandbox             # local only: Docker + socket proxy + ShopLab clon
 pnpm check:arch               # dependency-cruiser architecture rules
 pnpm db:migrate
 pnpm run:replay <runId|file>  # replay a run from DB or exported JSON, never calls an LLM
+pnpm run:start <runs/x.yaml>  # start a run from a run file (needs pnpm dev running)
 ```
 
 ## Repository map
