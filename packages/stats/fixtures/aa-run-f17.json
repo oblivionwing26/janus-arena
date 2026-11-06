@@ -1,0 +1,420 @@
+{
+  "format": "janus-run",
+  "version": 1,
+  "runId": "01M6R35S97ZSQVWRAVHKNC1602",
+  "exportedAt": "2026-11-06T09:44:08.490Z",
+  "events": [
+    {
+      "id": "01M6R35S9E5CG2MR450AK0TRZ1",
+      "runId": "01M6R35S97ZSQVWRAVHKNC1602",
+      "seq": 0,
+      "ts": "2026-11-06T09:31:27.918Z",
+      "schemaVersion": 1,
+      "actor": {
+        "agentId": "orchestrator",
+        "role": "orchestrator"
+      },
+      "type": "run.started",
+      "payload": {
+        "budget": {
+          "maxTokens": 1500000,
+          "maxEur": 0.5
+        }
+      }
+    },
+    {
+      "id": "01M6R36FRKXBHM6RMRFX0KGCBM",
+      "runId": "01M6R35S97ZSQVWRAVHKNC1602",
+      "seq": 1,
+      "ts": "2026-11-06T09:31:50.931Z",
+      "schemaVersion": 1,
+      "actor": {
+        "agentId": "carmen-retired-a-s1-a1",
+        "role": "navigator"
+      },
+      "type": "session.started",
+      "payload": {
+        "variant": "a",
+        "kind": "persona",
+        "persona": "carmen-retired",
+        "seed": 1,
+        "attempt": 1
+      }
+    },
+    {
+      "id": "01M6R36FRKTE9CAPAE9GWW1VT3",
+      "runId": "01M6R35S97ZSQVWRAVHKNC1602",
+      "seq": 2,
+      "ts": "2026-11-06T09:31:50.931Z",
+      "schemaVersion": 1,
+      "actor": {
+        "agentId": "carmen-retired-b-s1-a1",
+        "role": "navigator"
+      },
+      "type": "session.started",
+      "payload": {
+        "variant": "b",
+        "kind": "persona",
+        "persona": "carmen-retired",
+        "seed": 1,
+        "attempt": 1
+      }
+    },
+    {
+      "id": "01M6R37DDAFV3M78MM22K915RZ",
+      "runId": "01M6R35S97ZSQVWRAVHKNC1602",
+      "seq": 120,
+      "ts": "2026-11-06T09:32:21.290Z",
+      "schemaVersion": 1,
+      "actor": {
+        "agentId": "carmen-retired-a-s1-a1",
+        "role": "navigator"
+      },
+      "type": "session.ended",
+      "payload": {
+        "outcome": "success",
+        "reason": "El pedido #6 se ha realizado correctamente: una Taza de cerámica por 12,90 €, con envío a Calle Sintética 1, 28001 Madrid, y total de 17,89 € con gastos de envío incluidos.",
+        "steps": 12,
+        "durationMs": 30341.3704
+      }
+    },
+    {
+      "id": "01M6R37DEM939ZB2W9SAV26060",
+      "runId": "01M6R35S97ZSQVWRAVHKNC1602",
+      "seq": 126,
+      "ts": "2026-11-06T09:32:21.332Z",
+      "schemaVersion": 1,
+      "actor": {
+        "agentId": "carmen-retired-b-s1-a1",
+        "role": "navigator"
+      },
+      "type": "session.ended",
+      "payload": {
+        "outcome": "success",
+        "reason": "Mi pedido #6 está confirmado: una Taza de cerámica por 12,90 €, con envío a Calle Sintética 1, 28001 Madrid, total 17,89 €. La página dice que el pedido se ha realizado correctamente.",
+        "steps": 12,
+        "durationMs": 30363.762799999997
+      }
+    },
+    {
+      "id": "01M6R37DGB9D9JXSNP21EHJEVJ",
+      "runId": "01M6R35S97ZSQVWRAVHKNC1602",
+      "seq": 127,
+      "ts": "2026-11-06T09:32:21.387Z",
+      "schemaVersion": 1,
+      "actor": {
+        "agentId": "diego-commuter-a-s1-a1",
+        "role": "navigator"
+      },
+      "type": "session.started",
+      "payload": {
+        "variant": "a",
+        "kind": "persona",
+        "persona": "diego-commuter",
+        "seed": 1,
+        "attempt": 1
+      }
+    },
+    {
+      "id": "01M6R37DGDF46JNG2SQ6MANG3B",
+      "runId": "01M6R35S97ZSQVWRAVHKNC1602",
+      "seq": 128,
+      "ts": "2026-11-06T09:32:21.389Z",
+      "schemaVersion": 1,
+      "actor": {
+        "agentId": "diego-commuter-b-s1-a1",
+        "role": "navigator"
+      },
+      "type": "session.started",
+      "payload": {
+        "variant": "b",
+        "kind": "persona",
+        "persona": "diego-commuter",
+        "seed": 1,
+        "attempt": 1
+      }
+    },
+    {
+      "id": "01M6R385Z2E82KVHD6VVZMC00M",
+      "runId": "01M6R35S97ZSQVWRAVHKNC1602",
+      "seq": 246,
+      "ts": "2026-11-06T09:32:46.434Z",
+      "schemaVersion": 1,
+      "actor": {
+        "agentId": "diego-commuter-b-s1-a1",
+        "role": "navigator"
+      },
+      "type": "session.ended",
+      "payload": {
+        "outcome": "success",
+        "reason": "Pedido #7 realizado: Auriculares con cable, 1 unidad, total 20,89 €, enviado a Calle Sintética 1, 28001 Madrid. Llego al tren a tiempo.",
+        "steps": 12,
+        "durationMs": 25024.57179999999
+      }
+    },
+    {
+      "id": "01M6R3860N5R3DGAGGA2SD2P5H",
+      "runId": "01M6R35S97ZSQVWRAVHKNC1602",
+      "seq": 247,
+      "ts": "2026-11-06T09:32:46.485Z",
+      "schemaVersion": 1,
+      "actor": {
+        "agentId": "lucia-private-a-s1-a1",
+        "role": "navigator"
+      },
+      "type": "session.started",
+      "payload": {
+        "variant": "a",
+        "kind": "persona",
+        "persona": "lucia-private",
+        "seed": 1,
+        "attempt": 1
+      }
+    },
+    {
+      "id": "01M6R38641753W89NBSAAH2XWR",
+      "runId": "01M6R35S97ZSQVWRAVHKNC1602",
+      "seq": 253,
+      "ts": "2026-11-06T09:32:46.593Z",
+      "schemaVersion": 1,
+      "actor": {
+        "agentId": "diego-commuter-a-s1-a1",
+        "role": "navigator"
+      },
+      "type": "session.ended",
+      "payload": {
+        "outcome": "success",
+        "reason": "Pedido #7 realizado: Auriculares con cable, 15,90 €, total 20,89 €, enviado a Calle Sintética 1, 28001 Madrid. Ya puedo irme al tren.",
+        "steps": 12,
+        "durationMs": 25194.028999999995
+      }
+    },
+    {
+      "id": "01M6R38665AXZY48YSFZJJRK27",
+      "runId": "01M6R35S97ZSQVWRAVHKNC1602",
+      "seq": 254,
+      "ts": "2026-11-06T09:32:46.661Z",
+      "schemaVersion": 1,
+      "actor": {
+        "agentId": "lucia-private-b-s1-a1",
+        "role": "navigator"
+      },
+      "type": "session.started",
+      "payload": {
+        "variant": "b",
+        "kind": "persona",
+        "persona": "lucia-private",
+        "seed": 1,
+        "attempt": 1
+      }
+    },
+    {
+      "id": "01M6R38NVNT8TYGG1PR6VHVHFV",
+      "runId": "01M6R35S97ZSQVWRAVHKNC1602",
+      "seq": 319,
+      "ts": "2026-11-06T09:33:02.709Z",
+      "schemaVersion": 1,
+      "actor": {
+        "agentId": "lucia-private-a-s1-a1",
+        "role": "navigator"
+      },
+      "type": "session.ended",
+      "payload": {
+        "outcome": "abandon",
+        "reason": "Para añadir el Cuaderno A5 punteado al carrito me piden iniciar sesión, y no veo ninguna opción para comprar sin cuenta; no quiero crear una cuenta solo para esta compra ni dar más datos personales de los necesarios, así que lo dejo.",
+        "steps": 6,
+        "durationMs": 16212.990900000004
+      }
+    },
+    {
+      "id": "01M6R38NXM69EMSJ7FMGB5Q8MY",
+      "runId": "01M6R35S97ZSQVWRAVHKNC1602",
+      "seq": 320,
+      "ts": "2026-11-06T09:33:02.772Z",
+      "schemaVersion": 1,
+      "actor": {
+        "agentId": "javier-budget-a-s1-a1",
+        "role": "navigator"
+      },
+      "type": "session.started",
+      "payload": {
+        "variant": "a",
+        "kind": "persona",
+        "persona": "javier-budget",
+        "seed": 1,
+        "attempt": 1
+      }
+    },
+    {
+      "id": "01M6R38X4VP9YENCN0YZFEY7NR",
+      "runId": "01M6R35S97ZSQVWRAVHKNC1602",
+      "seq": 352,
+      "ts": "2026-11-06T09:33:10.171Z",
+      "schemaVersion": 1,
+      "actor": {
+        "agentId": "lucia-private-b-s1-a1",
+        "role": "navigator"
+      },
+      "type": "session.ended",
+      "payload": {
+        "outcome": "abandon",
+        "reason": "Para añadir el cuaderno al carrito hay que iniciar sesión, y no quiero crear una cuenta solo para comprar un cuaderno de 9,90 €; no he encontrado ninguna opción de compra sin cuenta, así que abandono.",
+        "steps": 9,
+        "durationMs": 23495.001900000003
+      }
+    },
+    {
+      "id": "01M6R38X7RYVYR61FVXEZP2KKN",
+      "runId": "01M6R35S97ZSQVWRAVHKNC1602",
+      "seq": 353,
+      "ts": "2026-11-06T09:33:10.264Z",
+      "schemaVersion": 1,
+      "actor": {
+        "agentId": "javier-budget-b-s1-a1",
+        "role": "navigator"
+      },
+      "type": "session.started",
+      "payload": {
+        "variant": "b",
+        "kind": "persona",
+        "persona": "javier-budget",
+        "seed": 1,
+        "attempt": 1
+      }
+    },
+    {
+      "id": "01M6R39M7R4MWXYWPMRCFRWGC0",
+      "runId": "01M6R35S97ZSQVWRAVHKNC1602",
+      "seq": 458,
+      "ts": "2026-11-06T09:33:33.816Z",
+      "schemaVersion": 1,
+      "actor": {
+        "agentId": "javier-budget-a-s1-a1",
+        "role": "navigator"
+      },
+      "type": "session.ended",
+      "payload": {
+        "outcome": "success",
+        "reason": "El pedido #8 está hecho: una Botella de acero 750 ml por 19,90 €, envío 4,99 € y total 24,89 €. Pero no vi el coste de envío ni el total antes de confirmar; los descubrí en la página del pedido, y eso no me gusta nada.",
+        "steps": 13,
+        "durationMs": 31031.041599999997
+      }
+    },
+    {
+      "id": "01M6R39MAQA5CXHNMVSWXKCRKH",
+      "runId": "01M6R35S97ZSQVWRAVHKNC1602",
+      "seq": 459,
+      "ts": "2026-11-06T09:33:33.911Z",
+      "schemaVersion": 1,
+      "actor": {
+        "agentId": "competent-baseline-a-s1-a1",
+        "role": "competent-baseline"
+      },
+      "type": "session.started",
+      "payload": {
+        "variant": "a",
+        "kind": "baseline",
+        "persona": "competent-baseline",
+        "seed": 1,
+        "attempt": 1
+      }
+    },
+    {
+      "id": "01M6R39WWN1H2413EC53PTE1QK",
+      "runId": "01M6R35S97ZSQVWRAVHKNC1602",
+      "seq": 486,
+      "ts": "2026-11-06T09:33:42.677Z",
+      "schemaVersion": 1,
+      "actor": {
+        "agentId": "javier-budget-b-s1-a1",
+        "role": "navigator"
+      },
+      "type": "session.ended",
+      "payload": {
+        "outcome": "success",
+        "reason": "He pedido una Botella de acero 750 ml (pedido #8) y el total es 24,89 €, con 19,90 € del producto y 4,99 € de envío, pero el envío solo lo he visto después de confirmar, así que no lo sabía antes de pagar, y eso me molesta.",
+        "steps": 14,
+        "durationMs": 32400.76210000002
+      }
+    },
+    {
+      "id": "01M6R39WZKED2VGEMJHJE8C19W",
+      "runId": "01M6R35S97ZSQVWRAVHKNC1602",
+      "seq": 487,
+      "ts": "2026-11-06T09:33:42.771Z",
+      "schemaVersion": 1,
+      "actor": {
+        "agentId": "competent-baseline-b-s1-a1",
+        "role": "competent-baseline"
+      },
+      "type": "session.started",
+      "payload": {
+        "variant": "b",
+        "kind": "baseline",
+        "persona": "competent-baseline",
+        "seed": 1,
+        "attempt": 1
+      }
+    },
+    {
+      "id": "01M6R3APAQFZYQ1E3GTP3006RE",
+      "runId": "01M6R35S97ZSQVWRAVHKNC1602",
+      "seq": 563,
+      "ts": "2026-11-06T09:34:08.727Z",
+      "schemaVersion": 1,
+      "actor": {
+        "agentId": "competent-baseline-a-s1-a1",
+        "role": "competent-baseline"
+      },
+      "type": "session.ended",
+      "payload": {
+        "outcome": "success",
+        "reason": "Pedido #9 realizado: una Taza de cerámica, enviada a Calle Sintética 1, 28001 Madrid, con un total de 17,89 €.",
+        "steps": 12,
+        "durationMs": 34803.85089999999
+      }
+    },
+    {
+      "id": "01M6R3AYEX375KMRHETD3J3END",
+      "runId": "01M6R35S97ZSQVWRAVHKNC1602",
+      "seq": 580,
+      "ts": "2026-11-06T09:34:17.053Z",
+      "schemaVersion": 1,
+      "actor": {
+        "agentId": "competent-baseline-b-s1-a1",
+        "role": "competent-baseline"
+      },
+      "type": "session.ended",
+      "payload": {
+        "outcome": "success",
+        "reason": "El pedido #9 de una Taza de cerámica se realizó correctamente y se enviará a Calle Sintética 1, 28001 Madrid.",
+        "steps": 12,
+        "durationMs": 34263.1188
+      }
+    },
+    {
+      "id": "01M6R3AYK5TR1ARCM1B1W88ENN",
+      "runId": "01M6R35S97ZSQVWRAVHKNC1602",
+      "seq": 587,
+      "ts": "2026-11-06T09:34:17.189Z",
+      "schemaVersion": 1,
+      "actor": {
+        "agentId": "orchestrator",
+        "role": "orchestrator"
+      },
+      "type": "run.completed",
+      "payload": {
+        "outcome": "error",
+        "reason": "8/10 sessions completed; failed: 2",
+        "sessions": {
+          "total": 10,
+          "completed": 8,
+          "failed": 2,
+          "budgetExhausted": 0,
+          "cancelled": 0,
+          "excluded": 0
+        }
+      }
+    }
+  ]
+}

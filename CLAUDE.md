@@ -14,7 +14,7 @@ More context: `docs/VISION.md` (product), `docs/adr/` (decisions), `docs/ROADMAP
 
 ## Current step
 
-**F1.8 — Statistics module.** Read this step in `docs/ROADMAP.md` before starting. Do not build features from later steps.
+**F1.9 — Validate the competent baseline.** Read this step in `docs/ROADMAP.md` before starting. Do not build features from later steps.
 
 (Update this line every time a step is closed.)
 
@@ -51,6 +51,7 @@ packages/
   shared-kernel/         event envelope + zod schemas, shared types
   observation-builder/   page -> pruned accessibility tree + diff for the agent
   friction-engine/       pure functions: events -> friction signals (no Playwright, no LLM)
+  stats/                 pure, seeded statistics: Wilson, paired bootstrap, A/B summary
   mcp-sandbox-server/    MCP tools for Red/Blue agents and for development
 config/
   models.yaml            model role -> model id, editable price table

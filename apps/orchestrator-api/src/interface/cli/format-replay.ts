@@ -1,3 +1,4 @@
+import { abSummary, type AbSummary } from '@janus/stats';
 import { isKnownEvent, type RunCompletedEvent } from '@janus/shared-kernel';
 
 import type { ReplayRun } from './replay-input.js';
@@ -59,6 +60,7 @@ export function formatReplay(run: ReplayRun): string {
     `Outcome: ${outcome} · duration ${duration} s · agents: ${agents.join(', ')}`,
     `LLM: ${plural(llmCalls, 'call')} · ${String(tokens)} tokens (${String(cacheRead)} cache read) · ${eur.toFixed(4)} EUR`,
     ...(unknown.length === 0 ? [] : [`Unknown event types (kept as is): ${unknown.join(', ')}`]),
+    ...abLines(abSummary(events)),
     '',
     [
       'seq'.padStart(4),
@@ -69,4 +71,39 @@ export function formatReplay(run: ReplayRun): string {
     ].join('  '),
     ...rows,
   ].join('\n');
+}
+
+const pct = (value: number) => `${(value * 100).toFixed(1)} %`;
+const pp = (value: number) => `${value >= 0 ? '+' : ''}${(value * 100).toFixed(1)}`;
+const VERDICTS = {
+  'no-detectable-difference': 'no detectable difference',
+  'b-higher': 'B higher than A',
+  'b-lower': 'B lower than A',
+} as const;
+
+/** The F1.8 statistics of a run with sessions, in words: never a conversion claim. */
+function abLines(summary: AbSummary): string[] {
+  if (summary.variants.length === 0) return [];
+  const lines = ['Synthetic task success (95 % intervals):'];
+  for (const { variant, personas, baseline } of summary.variants) {
+    const rate =
+      personas === null
+        ? 'no personas'
+        : `${String(personas.successes)}/${String(personas.n)} personas = ${pct(personas.rate)} [${pct(personas.low)}, ${pct(personas.high)}]`;
+    lines.push(
+      `  ${variant.toUpperCase()}: ${rate} · baseline ${String(baseline.successes)}/${String(baseline.n)}`,
+    );
+  }
+  const { comparison } = summary;
+  if (comparison !== null) {
+    const { a, b, pairs, difference, verdict } = comparison;
+    lines.push(
+      difference === null || verdict === null
+        ? `  ${b.toUpperCase()} − ${a.toUpperCase()}: no complete pairs`
+        : `  ${b.toUpperCase()} − ${a.toUpperCase()} over ${String(pairs)} pairs: ${pp(difference.mean)} pp [${pp(difference.low)}, ${pp(difference.high)}] (bootstrap ${String(difference.resamples)}, seed ${String(difference.seed)}) → ${VERDICTS[verdict]}`,
+    );
+  }
+  for (const { agentId, reason } of summary.excluded)
+    lines.push(`  excluded ${agentId}: ${reason}`);
+  return lines;
 }

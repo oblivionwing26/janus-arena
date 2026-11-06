@@ -19,6 +19,7 @@
     "observation:capture-fixtures": "pnpm run build && node dist/interface/cli/capture-observation-fixtures.js"
   },
   "dependencies": {
+    "@janus/stats": "workspace:*",
     "@anthropic-ai/sdk": "^1.5.0",
     "@janus/friction-engine": "workspace:*",
     "@janus/observation-builder": "workspace:*",
