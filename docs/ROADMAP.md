@@ -332,9 +332,11 @@ Nota F1.12: dependencia nueva `pixi.js` 8.22.0 (MIT, fijada exacta, solo en la c
 ### F1.13 · Puerta G1 — S (3–4 h)
 
 - [ ] Vídeo de 2 minutos del A/B en replay
-- [ ] ADRs nuevos: observation builder propio, baseline competente, diseño pareado
-- [ ] Borrador del artículo "Qué miden y qué no los usuarios sintéticos"
+- [x] ADRs nuevos: observation builder propio, baseline competente, diseño pareado
+- [x] Borrador del artículo "Qué miden y qué no los usuarios sintéticos"
 - [ ] Etiqueta `v0.2.0` y `Current step` a F2.1
+
+Nota F1.13: ADRs 0007 (observation builder propio sobre el snapshot ARIA), 0008 (baseline competente como referencia, con la puerta del 80 % según el oráculo) y 0009 (diseño pareado, Wilson, bootstrap con semilla y regla de salida). Borrador del artículo en `docs/articles/que-miden-usuarios-sinteticos.md`, solo con cifras medidas en F1. `Current step` pasa a F2.1 en este PR. El vídeo (replay sin backend de `recordings/fixtures/runs/ab-f111.json` a 4× con el enjambre, y después el informe del run con heatmap, zonas por variante y veredicto) va como adjunto del release `v0.2.0`, no en el repo; la etiqueta se crea tras el merge.
 
 ## F2 · Variante B y auditoría estática (50–70 h)
 
