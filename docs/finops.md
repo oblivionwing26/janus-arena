@@ -25,6 +25,8 @@ history). The measure is ~2,850, at the low end: the observation builder keeps p
 | F1.7 A/A, personas (Haiku)                      |        8 |            11.3 |        0.0020 |
 | F1.7 A/A, baseline (Sonnet)                     |        2 |            12.0 |         0.032 |
 | F1.9 validation, baseline (Sonnet) over 5 tasks |       10 |            27.0 |         0.083 |
+| F1.10 coupon task, personas (Haiku)             |       10 |            20.5 |        0.0037 |
+| F1.10 coupon task, baseline (Sonnet)            |        1 |            67.0 |         0.181 |
 
 Steps per session dominate the bill. In F1.9 three sessions took 53–60 steps because the
 baseline bounced between cart and checkout (see the F1.9 note in the ROADMAP); without them the

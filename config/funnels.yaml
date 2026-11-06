@@ -1,0 +1,17 @@
+# What the SynthLab report (F1.10) needs to know about each target: route patterns, so that
+# visits to different products or orders add up, and the purchase funnel, step by step.
+# The report reads the run's events only; this file only names the pages.
+
+targets:
+  shoplab:
+    routes:
+      - /products/:slug
+      - /orders/:id
+    funnel:
+      - { name: Inicio, route: / }
+      - { name: Producto, route: /products/:slug }
+      - { name: Carrito, route: /cart }
+      - { name: Pago, route: /checkout }
+      - { name: Pedido confirmado, route: /orders/:id }
+    # Zones the report keeps, most intense first.
+    topZones: 10

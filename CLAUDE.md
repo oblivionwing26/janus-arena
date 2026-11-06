@@ -14,7 +14,7 @@ More context: `docs/VISION.md` (product), `docs/adr/` (decisions), `docs/ROADMAP
 
 ## Current step
 
-**F1.10 — Heatmap and report.** Read this step in `docs/ROADMAP.md` before starting. Do not build features from later steps.
+**F1.11 — Manual variant B and first A/B.** Read this step in `docs/ROADMAP.md` before starting. Do not build features from later steps.
 
 (Update this line every time a step is closed.)
 
@@ -35,6 +35,7 @@ pnpm check:arch               # dependency-cruiser architecture rules
 pnpm db:migrate
 pnpm run:replay <runId|file>  # replay a run from DB or exported JSON, never calls an LLM
 pnpm run:start <runs/x.yaml>  # start a run from a run file (needs pnpm dev running)
+pnpm run:report <runId|file>  # SynthLab report (heatmap zones, funnel, success, cost) from recorded events
 ```
 
 ## Repository map
@@ -52,9 +53,12 @@ packages/
   observation-builder/   page -> pruned accessibility tree + diff for the agent
   friction-engine/       pure functions: events -> friction signals (no Playwright, no LLM)
   stats/                 pure, seeded statistics: Wilson, paired bootstrap, A/B summary
+  synthlab-report/       pure: run events -> SynthLab report (friction zones, funnel, cost)
   mcp-sandbox-server/    MCP tools for Red/Blue agents and for development
 config/
   models.yaml            model role -> model id, editable price table
+  friction.yaml          friction detector thresholds
+  funnels.yaml           report routes and purchase funnel per target
 personas/                persona YAML files
 docker/sandboxes/        sandbox definitions
 docs/                    VISION.md, ROADMAP.md, adr/

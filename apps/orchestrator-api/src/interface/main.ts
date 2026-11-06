@@ -15,6 +15,10 @@ import {
   loadFrictionConfig,
   repoFrictionConfigPath,
 } from '../infrastructure/friction/friction-config.js';
+import {
+  loadFunnelsConfig,
+  repoFunnelsConfigPath,
+} from '../infrastructure/report/funnels-config.js';
 import { BullMqSessionQueue } from '../infrastructure/queue/bullmq-session-queue.js';
 import { DockerCli } from '../infrastructure/sandbox/docker-cli.js';
 import { DockerSandbox } from '../infrastructure/sandbox/docker-sandbox.js';
@@ -67,6 +71,7 @@ const app = await createApp({
   personas: new YamlPersonaCatalog(),
   artifacts: new FileArtifactStore(),
   friction: await loadFrictionConfig(repoFrictionConfigPath()),
+  reports: await loadFunnelsConfig(repoFunnelsConfigPath()),
   ...(gateway === undefined ? {} : { gateway }),
 });
 app.enableShutdownHooks();

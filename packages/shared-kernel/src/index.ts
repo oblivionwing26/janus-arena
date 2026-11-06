@@ -61,3 +61,9 @@ export {
   verificationResultEventSchema,
   type VerificationResultEvent,
 } from './events/v1/verification-result.js';
+export {
+  frictionZoneSchema,
+  synthlabReportSchema,
+  type FrictionZone,
+  type SynthlabReport,
+} from './report/synthlab-report.js';
