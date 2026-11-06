@@ -1,6 +1,8 @@
 // Public entry point of @janus/shared-kernel.
 
+export { actionToolDefinitions, type ActionToolDefinition } from './actions/action-tools.js';
 export {
+  agentActionInputs,
   agentActionSchema,
   parseAgentAction,
   type AgentAction,
