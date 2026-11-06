@@ -1,3 +1,5 @@
+import type { PageActivity, PageTelemetry } from './page-telemetry.js';
+
 /**
  * An element chosen the way a person (or the accessibility tree) sees it, never by CSS:
  * by ARIA role and accessible name, or by the text of its form label. Matching is exact.
@@ -57,6 +59,12 @@ export interface BrowserPort {
    * Never fails because the page is slow: the agent then sees it as it is.
    */
   settle(sessionId: string): Promise<void>;
+  /** Mutations counted so far in the current document (F1.6). */
+  pageActivity(sessionId: string): Promise<PageActivity>;
+  /** Errors since the last call, and the latest vitals of the current document. */
+  drainTelemetry(sessionId: string): Promise<PageTelemetry>;
+  /** PNG of the visible viewport, after secrets were masked in the page. */
+  screenshot(sessionId: string): Promise<Uint8Array>;
   /** Waits until the page URL matches, e.g. after a click that navigates. */
   waitForUrl(sessionId: string, pattern: RegExp): Promise<void>;
   snapshot(sessionId: string): Promise<PageSnapshot>;

@@ -13,6 +13,11 @@ import type {
   ElementTarget,
   PageSnapshot,
 } from '../../domain/browser/browser-port.js';
+import type {
+  PageActivity,
+  PageErrorRecord,
+  PageTelemetry,
+} from '../../domain/browser/page-telemetry.js';
 import { MASK } from './mask-secrets.js';
 
 export interface ScriptedElement {
@@ -26,11 +31,19 @@ export interface ScriptedElement {
   readonly obscured?: boolean;
   /** A password field: snapshots show its value masked, as the Playwright adapter does. */
   readonly secret?: boolean;
+  /** Clicking it does nothing at all: no navigation, no DOM change (a dead click). */
+  readonly inert?: boolean;
 }
 
 export interface ScriptedPage {
   readonly title: string;
   readonly elements: readonly ScriptedElement[];
+  /** Technical errors the page reports every time it is shown. */
+  readonly errors?: readonly PageErrorRecord[];
+  /** Web vitals the page reports once shown. */
+  readonly vitals?: { readonly lcpMs?: number; readonly cls?: number; readonly inpMs?: number };
+  /** Texts of `alert` notices shown on the page, such as validation errors. */
+  readonly alerts?: readonly string[];
 }
 
 interface Session {
@@ -39,6 +52,9 @@ interface Session {
   readonly history: string[];
   scrollY: number;
   readonly viewport: { readonly width: number; readonly height: number };
+  document: number;
+  mutations: number;
+  readonly errors: PageErrorRecord[];
   readonly typed: Map<string, string>;
   readonly selected: Map<string, string>;
 }
@@ -94,6 +110,9 @@ export class ScriptedBrowser implements BrowserPort {
       baseUrl: options.baseUrl.replace(/\/$/, ''),
       path: '/',
       history: [],
+      document: 0,
+      mutations: 0,
+      errors: [],
       scrollY: 0,
       viewport: options.device === 'mobile' ? MOBILE_VIEWPORT : VIEWPORT,
       typed,
@@ -114,7 +133,9 @@ export class ScriptedBrowser implements BrowserPort {
       const { element } = this.find(session, target);
       this.ensureUsable(session, element, target);
       if (element.obscured === true) throw new ElementObscuredError(target, this.url(session));
+      if (element.inert === true) return;
       if (element.navigatesTo !== undefined) this.navigate(session, element.navigatesTo);
+      else session.mutations += 1;
     });
   }
 
@@ -124,6 +145,7 @@ export class ScriptedBrowser implements BrowserPort {
       const { element } = this.find(session, target);
       this.ensureUsable(session, element, target);
       session.typed.set(nameOf(target), text);
+      session.mutations += 1;
     });
   }
 
@@ -136,6 +158,7 @@ export class ScriptedBrowser implements BrowserPort {
         throw new OptionNotFoundError(target, option, this.url(session));
       }
       session.selected.set(nameOf(target), option);
+      session.mutations += 1;
     });
   }
 
@@ -167,6 +190,8 @@ export class ScriptedBrowser implements BrowserPort {
       if (previous !== undefined) {
         session.path = previous;
         session.scrollY = 0;
+        session.document += 1;
+        session.mutations = 0;
       }
     });
   }
@@ -208,7 +233,39 @@ export class ScriptedBrowser implements BrowserPort {
               }),
         };
       });
-      return { url: this.url(session), title: page.title, aria, tree, viewport: session.viewport };
+      const alerts = (page.alerts ?? []).map((text) => ({ role: 'alert', text }));
+      return {
+        url: this.url(session),
+        title: page.title,
+        aria,
+        tree: [...tree, ...alerts],
+        viewport: session.viewport,
+      };
+    });
+  }
+
+  pageActivity(sessionId: string): Promise<PageActivity> {
+    return this.act(() => {
+      const session = this.session(sessionId);
+      return { documentId: `doc-${String(session.document)}`, mutations: session.mutations };
+    });
+  }
+
+  drainTelemetry(sessionId: string): Promise<PageTelemetry> {
+    return this.act(() => {
+      const session = this.session(sessionId);
+      const vitals = this.page(session).vitals;
+      return {
+        errors: session.errors.splice(0),
+        vitals: vitals === undefined ? null : { url: this.url(session), ...vitals },
+      };
+    });
+  }
+
+  screenshot(sessionId: string): Promise<Uint8Array> {
+    return this.act(() => {
+      this.session(sessionId);
+      return new Uint8Array([0x89, 0x50, 0x4e, 0x47, 0x0d, 0x0a, 0x1a, 0x0a]);
     });
   }
 
@@ -228,6 +285,9 @@ export class ScriptedBrowser implements BrowserPort {
   private navigate(session: Session, path: string): void {
     session.history.push(session.path);
     session.path = path;
+    session.document += 1;
+    session.mutations = 0;
+    session.errors.push(...(this.page(session).errors ?? []));
     session.scrollY = 0;
   }
 

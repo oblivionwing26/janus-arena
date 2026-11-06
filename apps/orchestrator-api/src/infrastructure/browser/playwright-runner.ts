@@ -22,7 +22,19 @@ import type {
   ElementTarget,
   PageSnapshot,
 } from '../../domain/browser/browser-port.js';
+import type {
+  PageActivity,
+  PageErrorRecord,
+  PageTelemetry,
+} from '../../domain/browser/page-telemetry.js';
 import { actionFailureOf } from './action-failure.js';
+import {
+  instrumentationScript,
+  parseInstrumentation,
+  READ_INSTRUMENTATION,
+} from './page-instrumentation.js';
+import { NetworkQuiet } from './network-quiet.js';
+import { watchPageErrors } from './watch-page-errors.js';
 import { maskSecrets } from './mask-secrets.js';
 
 type AriaRole = Parameters<Page['getByRole']>[0];
@@ -38,11 +50,17 @@ const MOBILE_CONTEXT = {
 };
 // How long settle() waits for the page to load, then for the network to go quiet.
 const SETTLE_LOAD_MS = 5_000;
-const SETTLE_IDLE_MS = 1_500;
+// The network must stay quiet this long, waiting at most SETTLE_MAX_MS in total.
+const SETTLE_QUIET_MS = 500;
+const SETTLE_MAX_MS = 5_000;
+const SETTLE_POLL_MS = 50;
 
 interface Session {
   readonly context: BrowserContext;
   readonly page: Page;
+  /** Technical errors seen since the last drainTelemetry(). */
+  readonly errors: PageErrorRecord[];
+  readonly network: NetworkQuiet;
 }
 
 export interface PlaywrightRunnerOptions {
@@ -60,6 +78,7 @@ export class PlaywrightRunner implements BrowserPort {
   private browser: Browser | undefined;
   private readonly sessions = new Map<string, Session>();
   private nextId = 1;
+  private script: string | undefined;
   private readonly wsEndpoint: string;
   private readonly actionTimeoutMs: number;
 
@@ -80,10 +99,13 @@ export class PlaywrightRunner implements BrowserPort {
         ? route.continue()
         : route.abort('blockedbyclient'),
     );
+    await context.addInitScript({ content: (this.script ??= instrumentationScript()) });
     const page = await context.newPage();
     page.setDefaultTimeout(this.actionTimeoutMs);
+    const errors = watchPageErrors(page);
+    const network = new NetworkQuiet(page);
     const id = `pw-${String(this.nextId++)}`;
-    this.sessions.set(id, { context, page });
+    this.sessions.set(id, { context, page, errors, network });
     return id;
   }
 
@@ -165,17 +187,40 @@ export class PlaywrightRunner implements BrowserPort {
   }
 
   async settle(sessionId: string): Promise<void> {
-    const { page } = this.session(sessionId);
-    for (const [state, timeout] of [
-      ['load', SETTLE_LOAD_MS],
-      ['networkidle', SETTLE_IDLE_MS],
-    ] as const) {
-      try {
-        await page.waitForLoadState(state, { timeout });
-      } catch (error) {
-        if (!(error instanceof errors.TimeoutError)) throw error;
-      }
+    const { page, network } = this.session(sessionId);
+    const deadline = performance.now() + SETTLE_MAX_MS;
+    // Requests a click starts (a form submission, a redirect) begin a moment after it returns.
+    await page.waitForTimeout(SETTLE_POLL_MS);
+    while (!network.isQuiet(SETTLE_QUIET_MS) && performance.now() < deadline) {
+      await page.waitForTimeout(SETTLE_POLL_MS);
     }
+    try {
+      await page.waitForLoadState('load', {
+        timeout: Math.max(1, Math.min(SETTLE_LOAD_MS, deadline - performance.now())),
+      });
+    } catch (error) {
+      if (!(error instanceof errors.TimeoutError)) throw error;
+    }
+  }
+
+  async pageActivity(sessionId: string): Promise<PageActivity> {
+    const state = await this.instrumentation(sessionId);
+    return state === null
+      ? { documentId: 'uninstrumented', mutations: 0 }
+      : { documentId: state.doc, mutations: state.mutations };
+  }
+
+  async drainTelemetry(sessionId: string): Promise<PageTelemetry> {
+    const { page, errors } = this.session(sessionId);
+    const drained = errors.splice(0);
+    const vitals = (await this.instrumentation(sessionId))?.vitals ?? {};
+    const measured = Object.values(vitals).some((value) => value !== undefined);
+    return { errors: drained, vitals: measured ? { url: page.url(), ...vitals } : null };
+  }
+
+  async screenshot(sessionId: string): Promise<Uint8Array> {
+    // Password fields render as dots in the page itself, so nothing secret is captured.
+    return new Uint8Array(await this.session(sessionId).page.screenshot({ type: 'png' }));
   }
 
   async close(sessionId: string): Promise<void> {
@@ -190,6 +235,16 @@ export class PlaywrightRunner implements BrowserPort {
     await Promise.all([...this.sessions.keys()].map((id) => this.close(id)));
     await this.browser?.close();
     this.browser = undefined;
+  }
+
+  private async instrumentation(sessionId: string) {
+    const { page } = this.session(sessionId);
+    try {
+      return parseInstrumentation(await page.evaluate(READ_INSTRUMENTATION));
+    } catch {
+      // The page was navigating; the next step reads it again.
+      return null;
+    }
   }
 
   private session(sessionId: string): Session {

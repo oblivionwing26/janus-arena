@@ -21,6 +21,8 @@ const PAGES: Record<string, ScriptedPage> = {
       { target: { role: 'combobox', name: 'Cantidad' }, options: ['1', '2'] },
       { target: { role: 'button', name: 'Pagar' }, disabled: true },
       { target: { role: 'button', name: 'Aceptar' }, obscured: true },
+      { target: { role: 'link', name: 'Otras opciones' }, inert: true },
+      { target: { role: 'button', name: 'Mostrar cupón' } },
     ],
   },
   '/cart': { title: 'Carrito', elements: [] },
@@ -35,6 +37,8 @@ const REFS: RefMap = new Map([
   ['e5', { role: 'button', name: 'Pagar', nth: 0 }],
   ['e6', { role: 'button', name: 'Aceptar', nth: 0 }],
   ['e7', { role: 'button', name: 'Desaparecido', nth: 0 }],
+  ['e8', { role: 'link', name: 'Otras opciones', nth: 0 }],
+  ['e9', { role: 'button', name: 'Mostrar cupón', nth: 0 }],
 ]);
 
 async function setup() {
@@ -83,6 +87,16 @@ describe('ActionExecutor', () => {
         ok: true,
       },
     ]);
+  });
+
+  it('records how many DOM changes a click caused on the same page (F1.6)', async () => {
+    const { session, executor, actions } = await setup();
+
+    await executor.execute(session, { type: 'click', ref: 'e8' }, REFS, 0);
+    await executor.execute(session, { type: 'click', ref: 'e9' }, REFS, 1);
+    await executor.execute(session, { type: 'click', ref: 'e1' }, REFS, 2);
+
+    expect((await actions()).map((action) => action.domMutations)).toEqual([0, 1, undefined]);
   });
 
   it('types into and selects from the referenced fields', async () => {

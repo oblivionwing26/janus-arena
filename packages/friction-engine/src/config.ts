@@ -35,6 +35,8 @@ export const frictionConfigSchema = z.strictObject({
   technicalError: z.strictObject({
     /** Resource URLs (regular expressions) whose errors are noise, e.g. a missing favicon. */
     ignoreUrls: z.array(z.string().min(1)),
+    /** HTTP statuses that mean the server rejected the input (validation, auth): not a fault. */
+    ignoreStatuses: z.array(z.int().min(400).max(499)),
   }),
   performance: z.strictObject({ lcpMs: levels, cls: levels, inpMs: levels }),
 });
@@ -50,6 +52,7 @@ export const defaultFrictionConfig: FrictionConfig = {
   extraSteps: { low: 1.5, medium: 2, high: 3 },
   technicalError: {
     ignoreUrls: ['/favicon\\.ico(\\?.*)?$', '\\.(png|jpe?g|gif|svg|webp|ico|css|woff2?)(\\?.*)?$'],
+    ignoreStatuses: [400, 401, 403, 409, 422],
   },
   performance: {
     // web.dev: "needs improvement" above the first value, "poor" above the second.

@@ -13,16 +13,19 @@ function severityOf(error: PageErrorEvent): FrictionSeverity {
 
 /**
  * The page broke while the agent used it: a server error, a failed request, a timeout or a
- * console error (page.error, F1.6). Noise such as a missing favicon is ignored.
+ * console error (page.error, F1.6). Noise such as a missing favicon is ignored, and so are
+ * responses where the server simply rejected the input (a validation 400 is a form error).
  */
 export function detectTechnicalErrors(
   session: AgentSession,
   config: FrictionConfig,
 ): FrictionSignalDraft[] {
   const ignored = config.technicalError.ignoreUrls.map((pattern) => new RegExp(pattern));
+  const ignoredStatuses = new Set(config.technicalError.ignoreStatuses);
   return session.errors.flatMap((error) => {
     const { kind, status, url, stepIndex } = error.payload;
     if (kind === 'http' && status !== undefined && status < 400) return [];
+    if (kind === 'http' && status !== undefined && ignoredStatuses.has(status)) return [];
     if (kind !== 'console' && ignored.some((pattern) => pattern.test(url))) return [];
     return [
       {

@@ -26,20 +26,24 @@ const input = {
   personas: ['ana-careful'],
 };
 
-function setup() {
+function setup(script: 'buy' | 'abandon' = 'buy') {
   const store = new InMemoryEventStore();
   const sandbox = new InMemorySandbox();
   const queue = new InMemorySessionQueue({ autoRun: true });
   const control = new RunControl();
   const personas = new InMemoryPersonaCatalog([samplePersona('ana-careful')]);
   // Refs of the fake pages from the home page on: the mug, quantity, add, pay, confirm.
-  const gateway = new ScriptedGateway([
-    { tool: 'click', input: { ref: 'e1' } },
-    { tool: 'click', input: { ref: 'e3' } },
-    { tool: 'click', input: { ref: 'e4' } },
-    { tool: 'click', input: { ref: 'e5' } },
-    { tool: 'done', input: { outcome: 'success', reason: 'Ya está.' } },
-  ]);
+  const gateway = new ScriptedGateway(
+    script === 'abandon'
+      ? [{ tool: 'done', input: { outcome: 'abandon', reason: 'No me fío.' } }]
+      : [
+          { tool: 'click', input: { ref: 'e1' } },
+          { tool: 'click', input: { ref: 'e3' } },
+          { tool: 'click', input: { ref: 'e4' } },
+          { tool: 'click', input: { ref: 'e5' } },
+          { tool: 'done', input: { outcome: 'success', reason: 'Ya está.' } },
+        ],
+  );
   const runSession = new RunAgentSession({
     store,
     browser: new ScriptedBrowser(SHOPLAB_PAGES),
@@ -67,6 +71,27 @@ describe('runs with personas', () => {
     expect(ended?.actor).toEqual({ agentId: 'ana-careful-0', role: 'navigator' });
     expect(ended?.payload).toMatchObject({ outcome: 'success', steps: 5 });
     expect(events.at(-1)).toMatchObject({ type: 'run.completed', payload: { outcome: 'success' } });
+  });
+
+  it('records the friction signals of the run before closing it (F1.6)', async () => {
+    const { store, queue, startRun } = setup('abandon');
+
+    const { runId, launched } = await startRun.execute(input);
+    await launched;
+    await queue.drain();
+
+    const events = (await store.readRun(runId)).filter(isKnownEvent);
+    const signals = events.flatMap((event) => (event.type === 'friction.signal' ? [event] : []));
+    expect(
+      signals.map((signal) => [
+        signal.actor.agentId,
+        signal.payload.detector,
+        signal.payload.agentId,
+      ]),
+    ).toEqual([['orchestrator', 'abandonment', 'ana-careful-0']]);
+    const ended = events.find((event) => event.type === 'session.ended');
+    expect(signals[0]?.payload.evidenceEventIds).toEqual([ended?.id]);
+    expect(events.at(-1)?.type).toBe('run.completed');
   });
 
   it('rejects an unknown persona before the run exists', async () => {

@@ -9,6 +9,11 @@ import { SdkAnthropicTransport } from '../infrastructure/llm/anthropic-transport
 import { loadModelsConfig, repoModelsConfigPath } from '../infrastructure/llm/models-config.js';
 import { RecordedLLMAdapter } from '../infrastructure/llm/recorded-llm-adapter.js';
 import { YamlPersonaCatalog } from '../infrastructure/personas/yaml-persona-catalog.js';
+import { FileArtifactStore } from '../infrastructure/artifacts/file-artifact-store.js';
+import {
+  loadFrictionConfig,
+  repoFrictionConfigPath,
+} from '../infrastructure/friction/friction-config.js';
 import { BullMqSessionQueue } from '../infrastructure/queue/bullmq-session-queue.js';
 import { DockerCli } from '../infrastructure/sandbox/docker-cli.js';
 import { DockerSandbox } from '../infrastructure/sandbox/docker-sandbox.js';
@@ -57,6 +62,8 @@ const app = await createApp({
     concurrency: Number(process.env.SESSION_CONCURRENCY ?? 2),
   }),
   personas: new YamlPersonaCatalog(),
+  artifacts: new FileArtifactStore(),
+  friction: await loadFrictionConfig(repoFrictionConfigPath()),
   ...(gateway === undefined ? {} : { gateway }),
 });
 app.enableShutdownHooks();

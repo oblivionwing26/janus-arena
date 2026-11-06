@@ -43,6 +43,10 @@ export {
 } from './events/v1/friction-signal.js';
 export { llmCallEventSchema, type LlmCallEvent } from './events/v1/llm-call.js';
 export { pageErrorEventSchema, type PageErrorEvent } from './events/v1/page-error.js';
+export {
+  pageScreenshotEventSchema,
+  type PageScreenshotEvent,
+} from './events/v1/page-screenshot.js';
 export { pageVitalsEventSchema, type PageVitalsEvent } from './events/v1/page-vitals.js';
 export { patchProposedEventSchema, type PatchProposedEvent } from './events/v1/patch-proposed.js';
 export { runCompletedEventSchema, type RunCompletedEvent } from './events/v1/run-completed.js';

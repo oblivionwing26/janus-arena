@@ -256,12 +256,14 @@ Nota F1.5: `detectFriction(events, config)` es puro (regla `friction-engine-pure
 
 ### F1.6 · Instrumentación del runner — M (4–6 h)
 
-- [ ] Script inyectado que cuenta mutaciones del DOM tras cada acción (necesario para dead clicks)
-- [ ] Captura de consola, respuestas 4xx/5xx y timeouts
-- [ ] `web-vitals` inyectado: LCP, CLS e INP por paso
-- [ ] Captura de pantalla solo cuando salta una señal de fricción (para el heatmap y el informe)
+- [x] Script inyectado que cuenta mutaciones del DOM tras cada acción (necesario para dead clicks)
+- [x] Captura de consola, respuestas 4xx/5xx y timeouts
+- [x] `web-vitals` inyectado: LCP, CLS e INP por paso
+- [x] Captura de pantalla solo cuando salta una señal de fricción (para el heatmap y el informe)
 
 Hecho cuando: los fallos sembrados de `UX_FLAWS.md` producen al menos una señal cada uno con el agente programado.
+
+Nota F1.6: un script inyectado con `addInitScript` cuenta mutaciones del DOM por documento y lleva `web-vitals` 5.3 (leído de `node_modules`, porque el navegador no tiene internet); el adaptador recoge errores de consola, excepciones, respuestas 4xx/5xx y peticiones fallidas, sin contar lo que bloquea nuestro filtro de origen ni el eco "Failed to load resource". El ejecutor mide `domMutations` en cada clic; el bucle registra `agent.step.alerts`, `page.error` y `page.vitals`, y tras cada paso pasa el motor de fricción por la sesión: si aparece una señal nueva guarda una captura (`ArtifactStorePort`, ficheros en `.artifacts/<runId>/`) y registra `page.screenshot`. `FinishRun` registra los `friction.signal` del run antes de `run.completed`, con los umbrales de `config/friction.yaml`. El bucle recibe ahora un `Decider`: el LLM (F1.4) o un guion (`ScriptedDecider`, por rol y nombre, nunca por ref). `settle()` ahora espera a que la red quede en silencio 500 ms (máx. 5 s): `networkidle` de Playwright se alcanza una vez por documento y no esperaba a los envíos de formulario (el problema que Carmen sorteaba con `wait`). Verificado en `pnpm test:sandbox` sin gasto de API: UX-1 da `backtrack` (y `abandonment`), UX-2 da `extra-steps` contra un baseline programado (y `backtrack`), UX-3 da `form-error` (y `abandonment`); el baseline no da ninguna. La primera pasada destapó un falso positivo: el 400 de validación del registro salía como `technical-error`; ahora 400/401/403/409/422 se ignoran (configurable) porque son el formulario rechazando datos. Notas: una navegación de cliente de Next.js no cambia de documento, así que el contador sigue (dead-click compara URLs); UX-3 no da `form-error` alto porque el aviso no desaparece entre intentos. Para F1.7: los probes demuestran instrumentación + motor; que las personas LLM encuentren los fallos se mide en F1.9 y F1.11.
 
 ### F1.7 · Orquestación del enjambre — M (5–7 h)
 
