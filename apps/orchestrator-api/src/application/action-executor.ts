@@ -6,18 +6,12 @@ import {
 } from '@janus/shared-kernel';
 
 import {
-  ElementDisabledError,
-  ElementNotFoundError,
-  ElementObscuredError,
-  NavigationTimeoutError,
-  OptionNotFoundError,
-} from '../domain/browser/browser-errors.js';
-import {
   describeTarget,
   type BrowserPort,
   type ElementTarget,
 } from '../domain/browser/browser-port.js';
 import type { RefMap } from '../domain/browser/ref-map.js';
+import { DomainError } from '../domain/errors/domain-error.js';
 import type { RunEventRecorder } from './run-event-recorder.js';
 
 export type ActionResult =
@@ -35,13 +29,14 @@ export interface ActionExecutorOptions {
 }
 
 /** Browser errors an agent can cause and learn from; anything else is infrastructure. */
-const AGENT_FACING = [
-  ElementNotFoundError,
-  ElementObscuredError,
-  ElementDisabledError,
-  OptionNotFoundError,
-  NavigationTimeoutError,
-];
+// By code, not class, so an error replayed from a recorded session counts the same.
+const AGENT_FACING: ReadonlySet<string> = new Set([
+  'browser.element-not-found',
+  'browser.element-obscured',
+  'browser.element-disabled',
+  'browser.option-not-found',
+  'browser.navigation-timeout',
+]);
 
 /** The agent.action payload, filled in while the action runs. */
 type ActionPayload = {
@@ -163,8 +158,8 @@ export class ActionExecutor {
       return { code: 'action.invalid', message: error.message };
     }
     if (error instanceof ActionFailure) return { code: error.code, message: error.message };
-    for (const type of AGENT_FACING) {
-      if (error instanceof type) return { code: error.code, message: error.message };
+    if (error instanceof DomainError && AGENT_FACING.has(error.code)) {
+      return { code: error.code, message: error.message };
     }
     return undefined;
   }

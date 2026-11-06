@@ -19,6 +19,8 @@ export interface BrowserContractHarness {
   readonly link: ElementTarget;
   /** Where clicking `link` leads. */
   readonly linkTarget: RegExp;
+  /** A password field on `page`. */
+  readonly secret: ElementTarget;
   /** A page with a select (`target`) that has an option labelled `option`. */
   readonly choice: {
     /** Whatever the page needs first, e.g. signing in. */
@@ -123,6 +125,35 @@ export function describeBrowserContract(name: string, harness: BrowserContractHa
         await browser.scroll(session, 'down');
         await browser.scroll(session, 'up');
         expect(new URL((await browser.snapshot(session)).url).pathname).toBe(harness.page);
+      } finally {
+        await browser.close(session);
+      }
+    });
+
+    it('never shows what was typed into a password field', async () => {
+      const browser = harness.browser();
+      const session = await browser.newSession({ baseUrl: harness.baseUrl() });
+      try {
+        await browser.goto(session, `${harness.baseUrl()}${harness.page}`);
+        await browser.type(session, harness.secret, 'contract-secret-9f2c');
+        await browser.settle(session);
+        const snapshot = await browser.snapshot(session);
+
+        expect(JSON.stringify(snapshot.tree)).not.toContain('contract-secret-9f2c');
+        expect(snapshot.aria).not.toContain('contract-secret-9f2c');
+      } finally {
+        await browser.close(session);
+      }
+    });
+
+    it('gives mobile sessions a phone-sized viewport', async () => {
+      const browser = harness.browser();
+      const session = await browser.newSession({ baseUrl: harness.baseUrl(), device: 'mobile' });
+      try {
+        await browser.goto(session, `${harness.baseUrl()}${harness.page}`);
+        const { viewport } = await browser.snapshot(session);
+        expect(viewport.width).toBeLessThan(500);
+        expect(viewport.height).toBeGreaterThan(viewport.width);
       } finally {
         await browser.close(session);
       }

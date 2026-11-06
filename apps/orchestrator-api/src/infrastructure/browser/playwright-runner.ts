@@ -23,11 +23,22 @@ import type {
   PageSnapshot,
 } from '../../domain/browser/browser-port.js';
 import { actionFailureOf } from './action-failure.js';
+import { maskSecrets } from './mask-secrets.js';
 
 type AriaRole = Parameters<Page['getByRole']>[0];
 
 // Playwright's own default when a context sets no viewport.
 const DEFAULT_VIEWPORT = { width: 1280, height: 720 };
+// A mid-size phone. Chromium only; no user agent spoofing.
+const MOBILE_CONTEXT = {
+  viewport: { width: 390, height: 844 },
+  isMobile: true,
+  hasTouch: true,
+  deviceScaleFactor: 3,
+};
+// How long settle() waits for the page to load, then for the network to go quiet.
+const SETTLE_LOAD_MS = 5_000;
+const SETTLE_IDLE_MS = 1_500;
 
 interface Session {
   readonly context: BrowserContext;
@@ -60,7 +71,10 @@ export class PlaywrightRunner implements BrowserPort {
   async newSession(options: BrowserSessionOptions): Promise<string> {
     const origin = new URL(options.baseUrl).origin;
     this.browser ??= await chromium.connect(this.wsEndpoint);
-    const context = await this.browser.newContext({ locale: 'es-ES' });
+    const context = await this.browser.newContext({
+      locale: 'es-ES',
+      ...(options.device === 'mobile' ? MOBILE_CONTEXT : {}),
+    });
     await context.route('**/*', (route) =>
       new URL(route.request().url()).origin === origin
         ? route.continue()
@@ -131,13 +145,37 @@ export class PlaywrightRunner implements BrowserPort {
   async snapshot(sessionId: string): Promise<PageSnapshot> {
     const { page } = this.session(sessionId);
     const body = page.locator('body');
-    return {
-      url: page.url(),
-      title: await page.title(),
-      aria: await body.ariaSnapshot(),
-      tree: await body.ariaSnapshotJSON({ mode: 'ai', boxes: true }),
-      viewport: page.viewportSize() ?? DEFAULT_VIEWPORT,
-    };
+    const passwords = page.locator('input[type="password"]');
+    const secrets = await Promise.all(
+      Array.from({ length: await passwords.count() }, (_, index) =>
+        passwords.nth(index).inputValue(),
+      ),
+    );
+    const tree: unknown = await body.ariaSnapshotJSON({ mode: 'ai', boxes: true });
+    return maskSecrets<PageSnapshot>(
+      {
+        url: page.url(),
+        title: await page.title(),
+        aria: await body.ariaSnapshot(),
+        tree,
+        viewport: page.viewportSize() ?? DEFAULT_VIEWPORT,
+      },
+      secrets,
+    );
+  }
+
+  async settle(sessionId: string): Promise<void> {
+    const { page } = this.session(sessionId);
+    for (const [state, timeout] of [
+      ['load', SETTLE_LOAD_MS],
+      ['networkidle', SETTLE_IDLE_MS],
+    ] as const) {
+      try {
+        await page.waitForLoadState(state, { timeout });
+      } catch (error) {
+        if (!(error instanceof errors.TimeoutError)) throw error;
+      }
+    }
   }
 
   async close(sessionId: string): Promise<void> {

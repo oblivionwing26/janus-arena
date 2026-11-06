@@ -13,6 +13,7 @@ import type {
   ElementTarget,
   PageSnapshot,
 } from '../../domain/browser/browser-port.js';
+import { MASK } from './mask-secrets.js';
 
 export interface ScriptedElement {
   readonly target: ElementTarget;
@@ -23,6 +24,8 @@ export interface ScriptedElement {
   readonly disabled?: boolean;
   /** Another element covers it: clicks fail with ElementObscuredError. */
   readonly obscured?: boolean;
+  /** A password field: snapshots show its value masked, as the Playwright adapter does. */
+  readonly secret?: boolean;
 }
 
 export interface ScriptedPage {
@@ -35,11 +38,13 @@ interface Session {
   path: string;
   readonly history: string[];
   scrollY: number;
+  readonly viewport: { readonly width: number; readonly height: number };
   readonly typed: Map<string, string>;
   readonly selected: Map<string, string>;
 }
 
 const VIEWPORT = { width: 1280, height: 720 };
+const MOBILE_VIEWPORT = { width: 390, height: 844 };
 const ROW_HEIGHT = 40;
 
 function roleOf(target: ElementTarget): string {
@@ -90,6 +95,7 @@ export class ScriptedBrowser implements BrowserPort {
       path: '/',
       history: [],
       scrollY: 0,
+      viewport: options.device === 'mobile' ? MOBILE_VIEWPORT : VIEWPORT,
       typed,
       selected,
     });
@@ -143,8 +149,14 @@ export class ScriptedBrowser implements BrowserPort {
   scroll(sessionId: string, direction: 'up' | 'down'): Promise<void> {
     return this.act(() => {
       const session = this.session(sessionId);
-      const step = VIEWPORT.height * 0.8;
+      const step = session.viewport.height * 0.8;
       session.scrollY = Math.max(0, session.scrollY + (direction === 'down' ? step : -step));
+    });
+  }
+
+  settle(sessionId: string): Promise<void> {
+    return this.act(() => {
+      this.session(sessionId);
     });
   }
 
@@ -183,7 +195,7 @@ export class ScriptedBrowser implements BrowserPort {
           name,
           ref: `e${String(index + 1)}`,
           box: this.boxAt(session, index),
-          ...(typed === undefined ? {} : { text: typed }),
+          ...(typed === undefined ? {} : { text: element.secret === true ? MASK : typed }),
           ...(element.disabled === true ? { disabled: true } : {}),
           ...(element.options === undefined
             ? {}
@@ -196,7 +208,7 @@ export class ScriptedBrowser implements BrowserPort {
               }),
         };
       });
-      return { url: this.url(session), title: page.title, aria, tree, viewport: VIEWPORT };
+      return { url: this.url(session), title: page.title, aria, tree, viewport: session.viewport };
     });
   }
 

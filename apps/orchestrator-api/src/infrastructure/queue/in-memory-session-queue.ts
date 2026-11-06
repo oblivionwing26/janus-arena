@@ -4,6 +4,7 @@ import type {
   SessionQueueHandlers,
   SessionResult,
 } from '../../domain/run/session-queue-port.js';
+import { personaFor } from '../../domain/run/persona-for.js';
 import type { SessionQueueRuntime } from './session-queue-runtime.js';
 
 export interface InMemorySessionQueueOptions {
@@ -77,9 +78,17 @@ export class InMemorySessionQueue implements SessionQueueRuntime {
     sessionIndex: number,
   ): Promise<SessionResult> {
     const { runId, variantId, baseUrl } = plan;
+    const persona = personaFor(plan, sessionIndex);
     for (let attempt = 1; ; attempt++) {
       try {
-        return await handlers.runSession({ runId, variantId, baseUrl, sessionIndex, attempt });
+        return await handlers.runSession({
+          runId,
+          variantId,
+          baseUrl,
+          sessionIndex,
+          attempt,
+          ...(persona === undefined ? {} : { persona }),
+        });
       } catch (error) {
         const detail = error instanceof Error ? error.message : String(error);
         if (!(error instanceof InfrastructureError) || attempt >= this.maxAttempts) {

@@ -33,6 +33,11 @@ const invalidEvents: Record<JanusEventType, [string, Record<string, unknown>]> =
   ],
   'patch.proposed': ['a branch outside janus/*', withPayload('patch.proposed', { branch: 'main' })],
   'budget.threshold': ['an unknown level', withPayload('budget.threshold', { level: 'panic' })],
+  'agent.thought': [
+    'a thought over 200 characters',
+    withPayload('agent.thought', { text: 'x'.repeat(201) }),
+  ],
+  'session.ended': ['an unknown outcome', withPayload('session.ended', { outcome: 'crashed' })],
   'verification.result': [
     'a missing passed flag',
     withPayload('verification.result', { passed: undefined }),
@@ -55,6 +60,8 @@ describe('v1 event schemas', () => {
         'run.started',
         'verification.result',
         'budget.threshold',
+        'agent.thought',
+        'session.ended',
       ].sort(),
     );
   });

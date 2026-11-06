@@ -9,6 +9,8 @@
 
 const ORCHESTRATOR = '^apps/orchestrator-api/src';
 const SHARED_KERNEL = '^packages/shared-kernel/';
+// Pure, I/O-free packages that application/ may use like shared-kernel (ADR 0001, F1.4).
+const OBSERVATION_BUILDER = '^packages/observation-builder/';
 const TEST_FILE = '[.](?:test|spec)[.]ts$';
 
 module.exports = {
@@ -24,10 +26,16 @@ module.exports = {
     {
       name: 'application-only-domain-and-shared-kernel',
       severity: 'error',
-      comment: 'ADR 0001: application/ imports only domain/ and shared-kernel.',
+      comment:
+        'ADR 0001: application/ imports only domain/, shared-kernel and the pure observation-builder.',
       from: { path: `${ORCHESTRATOR}/application/`, pathNot: TEST_FILE },
       to: {
-        pathNot: [`${ORCHESTRATOR}/application/`, `${ORCHESTRATOR}/domain/`, SHARED_KERNEL],
+        pathNot: [
+          `${ORCHESTRATOR}/application/`,
+          `${ORCHESTRATOR}/domain/`,
+          SHARED_KERNEL,
+          OBSERVATION_BUILDER,
+        ],
       },
     },
     {
