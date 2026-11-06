@@ -80,6 +80,10 @@ describe('buildSynthlabReport', () => {
       ['b', 1, 1],
     ]);
     expect(report.success.comparison).toMatchObject({ a: 'a', b: 'b', pairs: 1 });
+    expect(report.zonesByVariant?.map((entry) => [entry.variant, entry.zones.length])).toEqual([
+      ['a', 1],
+      ['b', 0],
+    ]);
   });
 
   it('gives the same report for the same events, whatever their order', () => {

@@ -1,0 +1,28 @@
+# F1.11 "Done when": the first real A/B. Variant a is ShopLab main; variant b is the hand-made
+# janus-shoplab branch variant/manual-b, which shows shipping on the cart (UX-1) and the coupon
+# field in sight (UX-2). Personas play their own goals, as the roadmap asks; none of them wants
+# a coupon, so a "no detectable difference" verdict is expected and acceptable.
+# 8 personas x 2 seeds x 2 variants + the baseline per variant and seed = 36 sessions.
+#   pnpm run:start runs/ab-manual-b.yaml
+#   pnpm run:report <runId>
+
+target: shoplab
+variants:
+  - { id: a, ref: main }
+  - { id: b, ref: variant/manual-b }
+personas:
+  [
+    carmen-retired,
+    diego-commuter,
+    javier-budget,
+    lucia-private,
+    marta-first-phone,
+    pablo-student,
+    rosa-meticulous,
+    tomas-hurried,
+  ]
+seeds: [1, 2]
+budget:
+  maxTokens: 6000000
+  maxEur: 1
+concurrency: 4

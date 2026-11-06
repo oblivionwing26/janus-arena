@@ -20,6 +20,19 @@ export function formatReport(report: SynthlabReport): string {
     );
   }
 
+  const byVariant = report.zonesByVariant ?? [];
+  if (byVariant.length > 1) {
+    for (const { variant, zones } of byVariant) {
+      lines.push('', `Top zones on variant ${variant}:`);
+      if (zones.length === 0) lines.push('  none');
+      for (const zone of zones.slice(0, 5)) {
+        lines.push(
+          `  ${String(zone.rank).padStart(2)}. ${zone.route} ${zone.element ?? '(page)'}: intensity ${String(zone.intensity)}, ${String(zone.sessions)} sessions`,
+        );
+      }
+    }
+  }
+
   lines.push('', 'Funnel (persona sessions that reached each step in order):');
   for (const row of report.funnel) {
     const steps = row.steps

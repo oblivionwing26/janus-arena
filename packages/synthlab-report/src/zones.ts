@@ -81,10 +81,19 @@ function locate(
  */
 export function frictionZones(
   events: readonly (JanusEvent | UnknownEvent)[],
-  options: { readonly routes?: readonly string[]; readonly top?: number } = {},
+  options: {
+    readonly routes?: readonly string[];
+    readonly top?: number;
+    /** Only the signals of sessions on this variant (session.started), F1.11. */
+    readonly variant?: string;
+  } = {},
 ): FrictionZone[] {
   const patterns = options.routes ?? [];
   const known = events.filter(isKnownEvent).sort((a, b) => a.seq - b.seq);
+  const variantOf = new Map<string, string>();
+  for (const event of known) {
+    if (event.type === 'session.started') variantOf.set(event.actor.agentId, event.payload.variant);
+  }
   const byId = new Map(known.map((event) => [event.id, event]));
   const stepUrls = new Map<string, string>();
   const screenshots: PageScreenshotEvent[] = [];
@@ -101,6 +110,9 @@ export function frictionZones(
     if (event.type !== 'friction.signal') continue;
     const located = locate(event, byId, stepUrls, dwell, patterns);
     if (located === undefined) continue;
+    if (options.variant !== undefined && variantOf.get(located.agentId) !== options.variant) {
+      continue;
+    }
     const key = `${located.route}\u0000${located.element ?? ''}`;
     groups.set(key, [...(groups.get(key) ?? []), located]);
   }

@@ -131,6 +131,39 @@ export default function RunReportPage() {
           </p>
           <HeatmapView report={report} />
 
+          {(report.zonesByVariant?.length ?? 0) > 1 && (
+            <>
+              <h2>Zonas por variante</h2>
+              <div className="zones-by-variant">
+                {report.zonesByVariant?.map(({ variant, zones }) => (
+                  <table key={variant}>
+                    <caption>Variante {variant}</caption>
+                    <thead>
+                      <tr>
+                        <th scope="col">#</th>
+                        <th scope="col">Zona</th>
+                        <th scope="col">Intensidad</th>
+                        <th scope="col">Sesiones</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {zones.slice(0, 5).map((zone) => (
+                        <tr key={zone.rank}>
+                          <td>{zone.rank}</td>
+                          <td>
+                            {zone.route} <code>{zone.element ?? '(página)'}</code>
+                          </td>
+                          <td>{zone.intensity}</td>
+                          <td>{zone.sessions}</td>
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
+                ))}
+              </div>
+            </>
+          )}
+
           <h2>Embudo por variante</h2>
           <FunnelView funnel={report.funnel} />
 
