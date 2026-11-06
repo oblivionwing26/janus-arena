@@ -42,6 +42,7 @@ const invalidEvents: Record<JanusEventType, [string, Record<string, unknown>]> =
     'a path outside the run',
     withPayload('page.screenshot', { artifact: '../etc/x.png' }),
   ],
+  'task.verified': ['an unknown status', withPayload('task.verified', { status: 'maybe' })],
   'session.started': [
     'a variant name too long',
     withPayload('session.started', { variant: 'variant-b' }),
@@ -76,6 +77,7 @@ describe('v1 event schemas', () => {
         'page.vitals',
         'page.screenshot',
         'session.started',
+        'task.verified',
       ].sort(),
     );
   });

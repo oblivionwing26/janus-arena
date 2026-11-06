@@ -1,4 +1,5 @@
 import type { ArtifactStorePort } from '../domain/artifacts/artifact-store-port.js';
+import type { OrderReaderPort } from '../domain/task/order-reader-port.js';
 import type { BrowserPort } from '../domain/browser/browser-port.js';
 import { DomainError } from '../domain/errors/domain-error.js';
 import type { EventStorePort } from '../domain/event-store/event-store-port.js';
@@ -20,6 +21,8 @@ export interface RunAgentSessionDeps {
   readonly navigator?: { readonly gateway: LLMGatewayPort; readonly personas: PersonaCatalogPort };
   /** Screenshots when friction appears (F1.6). */
   readonly artifacts?: ArtifactStorePort;
+  /** Reads the target after a task (F1.9 oracle). Without it, tasks are not verified. */
+  readonly orders?: OrderReaderPort;
 }
 
 /**
@@ -68,7 +71,9 @@ export class RunAgentSession {
    */
   private identity(job: SessionJob, who: string) {
     const { spec, attempt, runId } = job;
-    const slot = `s${String(spec.seed)}-a${String(attempt)}`;
+    // Different tasks of the same seed are different shoppers: their own id and account.
+    const task = job.taskNumber === undefined ? '' : `t${String(job.taskNumber)}-`;
+    const slot = `${task}s${String(spec.seed)}-a${String(attempt)}`;
     const run = runId.slice(-8).toLowerCase();
     return {
       agentId: `${who}-${spec.variant}-${slot}`,
@@ -85,6 +90,7 @@ export class RunAgentSession {
       seed: spec.seed,
       attempt,
       ...(spec.persona === undefined ? {} : { persona: spec.persona }),
+      ...(spec.task === undefined ? {} : { task: spec.task }),
     });
   }
 
@@ -139,8 +145,12 @@ export class RunAgentSession {
       persona,
       budget,
       signal,
+      ...(job.task === undefined || this.deps.orders === undefined
+        ? {}
+        : { verify: { task: job.task, orders: this.deps.orders } }),
       task: {
         hasAccount: false,
+        ...(job.task === undefined ? {} : { goal: job.task.goal }),
         details: {
           name: `${persona.name} Sintética`,
           email,

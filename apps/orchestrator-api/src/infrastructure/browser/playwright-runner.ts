@@ -223,6 +223,17 @@ export class PlaywrightRunner implements BrowserPort {
     return new Uint8Array(await this.session(sessionId).page.screenshot({ type: 'png' }));
   }
 
+  async fetchText(sessionId: string, path: string): Promise<{ status: number; body: string }> {
+    if (!path.startsWith('/') || path.startsWith('//')) {
+      throw new Error(`fetchText only takes a path on the variant, not ${path}`);
+    }
+    const { context, page } = this.session(sessionId);
+    const response = await context.request.get(new URL(path, page.url()).toString(), {
+      maxRedirects: 0,
+    });
+    return { status: response.status(), body: await response.text() };
+  }
+
   async close(sessionId: string): Promise<void> {
     const session = this.sessions.get(sessionId);
     if (session === undefined) return;

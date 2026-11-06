@@ -62,6 +62,9 @@ export class RecordingBrowser implements BrowserPort {
   settle(sessionId: string): Promise<void> {
     return this.call('settle', () => this.inner.settle(sessionId));
   }
+  fetchText(sessionId: string, path: string): Promise<{ status: number; body: string }> {
+    return this.call('fetchText', () => this.inner.fetchText(sessionId, path));
+  }
   pageActivity(sessionId: string): Promise<PageActivity> {
     return this.call('pageActivity', () => this.inner.pageActivity(sessionId));
   }
@@ -136,6 +139,9 @@ export class ReplayingBrowser implements BrowserPort {
   settle(): Promise<void> {
     // Settling returns nothing and changes no decision; newer code settles more often.
     return this.optional('settle', undefined);
+  }
+  fetchText(): Promise<{ status: number; body: string }> {
+    return this.replay('fetchText');
   }
   pageActivity(): Promise<PageActivity> {
     return this.optional('pageActivity', { documentId: 'replay', mutations: 0 });

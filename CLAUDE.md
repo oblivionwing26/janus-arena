@@ -14,7 +14,7 @@ More context: `docs/VISION.md` (product), `docs/adr/` (decisions), `docs/ROADMAP
 
 ## Current step
 
-**F1.9 — Validate the competent baseline.** Read this step in `docs/ROADMAP.md` before starting. Do not build features from later steps.
+**F1.10 — Heatmap and report.** Read this step in `docs/ROADMAP.md` before starting. Do not build features from later steps.
 
 (Update this line every time a step is closed.)
 

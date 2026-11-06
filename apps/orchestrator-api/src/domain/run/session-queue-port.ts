@@ -1,3 +1,4 @@
+import type { TaskSpec } from '../task/task-spec.js';
 import type { SessionSpec } from './session-spec.js';
 
 /** A variant of the run once it is up in the sandbox. */
@@ -15,6 +16,8 @@ export interface RunPlan {
   readonly sessions: readonly SessionSpec[];
   /** Caps every persona's patience in steps. */
   readonly maxSteps?: number;
+  /** The tasks the slots refer to by id (F1.9). */
+  readonly tasks?: readonly TaskSpec[];
 }
 
 export interface SessionJob {
@@ -24,6 +27,10 @@ export interface SessionJob {
   /** 1 on the first try, then 2, 3... after infrastructure failures. */
   readonly attempt: number;
   readonly maxSteps?: number;
+  /** The task this slot plays, with what the oracle checks (F1.9). */
+  readonly task?: TaskSpec;
+  /** 1-based position of that task in the run: part of the session's identity. */
+  readonly taskNumber?: number;
 }
 
 /**

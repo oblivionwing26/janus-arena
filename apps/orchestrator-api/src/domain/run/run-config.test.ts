@@ -36,7 +36,20 @@ describe('run config', () => {
       },
     ],
     ['a variant key that is not short', { variants: [{ key: 'variant-b', ref: 'main' }] }],
-    ['no personas', { personas: [] }],
+    ['a task without items', { tasks: [{ id: 't', goal: 'Buy', expect: { items: [] } }] }],
+    [
+      'repeated task ids',
+      {
+        tasks: [
+          { id: 't', goal: 'Buy', expect: { items: [{ product: 'Taza', quantity: 1 }] } },
+          { id: 't', goal: 'Buy', expect: { items: [{ product: 'Taza', quantity: 1 }] } },
+        ],
+      },
+    ],
+    [
+      'a task quantity of 0',
+      { tasks: [{ id: 't', goal: 'Buy', expect: { items: [{ product: 'Taza', quantity: 0 }] } }] },
+    ],
     ['the baseline listed as a persona', { personas: ['competent-baseline'] }],
     ['repeated personas', { personas: ['carmen-retired', 'carmen-retired'] }],
     ['no seeds', { seeds: [] }],
@@ -58,6 +71,35 @@ describe('run config', () => {
 });
 
 describe('sessionMatrix', () => {
+  it('runs only baselines over every task for a baseline-only config (F1.9)', () => {
+    const tasks = ['buy-mug', 'buy-two'].map((id) => ({
+      id,
+      goal: 'Buy something.',
+      expect: { items: [{ product: 'Taza de cerámica', quantity: 1 }] },
+    }));
+    const baselineOnly = {
+      ...config,
+      variants: [{ key: 'a', ref: 'main' }],
+      personas: [],
+      seeds: [1, 2],
+      tasks,
+    };
+
+    expect(() => {
+      assertValidRunConfig(baselineOnly);
+    }).not.toThrow();
+    expect(
+      sessionMatrix(baselineOnly).map(
+        (slot) => `${slot.kind}:${slot.task ?? '-'}:${String(slot.seed)}`,
+      ),
+    ).toEqual([
+      'baseline:buy-mug:1',
+      'baseline:buy-two:1',
+      'baseline:buy-mug:2',
+      'baseline:buy-two:2',
+    ]);
+  });
+
   it('pairs every persona and seed across variants, and adds a baseline per variant and seed', () => {
     const slots = sessionMatrix(config).map(
       ({ sessionIndex, variant, kind, persona, seed }) =>

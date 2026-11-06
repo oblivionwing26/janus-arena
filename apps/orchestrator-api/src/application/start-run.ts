@@ -8,6 +8,7 @@ import { assertValidRunConfig, type RunConfig } from '../domain/run/run-config.j
 import { sessionMatrix } from '../domain/run/session-matrix.js';
 import type { PlannedVariant, SessionQueuePort } from '../domain/run/session-queue-port.js';
 import type { SessionSpec } from '../domain/run/session-spec.js';
+import type { TaskSpec } from '../domain/task/task-spec.js';
 import { variantIdFor } from '../domain/run/variant-id-for.js';
 import type { SandboxPort } from '../domain/sandbox/sandbox-port.js';
 import { assertValidVariant, type VariantSpec } from '../domain/sandbox/variant-spec.js';
@@ -21,6 +22,8 @@ export interface StartRunInput {
   readonly budget: BudgetLimits;
   readonly maxSteps?: number | undefined;
   readonly concurrency?: number | undefined;
+  /** Tasks the sessions refer to by id (F1.9). */
+  readonly tasks?: readonly TaskSpec[] | undefined;
 }
 
 /** A run from a run file (F1.7): validated, paired, a baseline per variant and seed. */
@@ -33,6 +36,7 @@ export function runInputFromConfig(config: RunConfig): StartRunInput {
     budget: config.budget,
     maxSteps: config.maxSteps,
     concurrency: config.concurrency,
+    tasks: config.tasks,
   };
 }
 
@@ -153,6 +157,7 @@ export class StartRun {
         variants: planned,
         sessions: input.sessions,
         ...(input.maxSteps === undefined ? {} : { maxSteps: input.maxSteps }),
+        ...(input.tasks === undefined || input.tasks.length === 0 ? {} : { tasks: input.tasks }),
       });
     } catch (error) {
       await downAll();

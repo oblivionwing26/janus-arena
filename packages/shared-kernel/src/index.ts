@@ -56,6 +56,7 @@ export {
   sessionStartedEventSchema,
   type SessionStartedEvent,
 } from './events/v1/session-started.js';
+export { taskVerifiedEventSchema, type TaskVerifiedEvent } from './events/v1/task-verified.js';
 export {
   verificationResultEventSchema,
   type VerificationResultEvent,

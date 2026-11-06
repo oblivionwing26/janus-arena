@@ -19,6 +19,8 @@ export interface BrowserContractHarness {
   readonly link: ElementTarget;
   /** Where clicking `link` leads. */
   readonly linkTarget: RegExp;
+  /** A path on the variant that answers 200 to GET, e.g. its health endpoint. */
+  readonly fetchable: string;
   /** A password field on `page`. */
   readonly secret: ElementTarget;
   /** A page with a select (`target`) that has an option labelled `option`. */
@@ -164,6 +166,19 @@ export function describeBrowserContract(name: string, harness: BrowserContractHa
         const first = await browser.drainTelemetry(session);
         expect(Array.isArray(first.errors)).toBe(true);
         expect((await browser.drainTelemetry(session)).errors).toEqual([]);
+      } finally {
+        await browser.close(session);
+      }
+    });
+
+    it('fetches a path on the variant as the session, and refuses other origins', async () => {
+      const browser = harness.browser();
+      const session = await browser.newSession({ baseUrl: harness.baseUrl() });
+      try {
+        await browser.goto(session, `${harness.baseUrl()}${harness.page}`);
+        expect((await browser.fetchText(session, harness.fetchable)).status).toBe(200);
+        expect((await browser.fetchText(session, '/no-such-page-7f3a')).status).toBe(404);
+        await expect(browser.fetchText(session, 'https://example.com/')).rejects.toThrow(/path/);
       } finally {
         await browser.close(session);
       }

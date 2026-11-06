@@ -11,4 +11,6 @@ export interface SessionSpec {
   readonly persona?: string;
   /** Fixes the session's synthetic data, so a pair plays with identical details. */
   readonly seed: number;
+  /** Task id the slot plays (F1.9); absent when it plays the persona's goal. */
+  readonly task?: string;
 }

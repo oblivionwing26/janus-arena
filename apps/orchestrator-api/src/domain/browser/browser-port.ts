@@ -65,6 +65,11 @@ export interface BrowserPort {
   drainTelemetry(sessionId: string): Promise<PageTelemetry>;
   /** PNG of the visible viewport, after secrets were masked in the page. */
   screenshot(sessionId: string): Promise<Uint8Array>;
+  /**
+   * GET of a path on the variant (F1.9 oracle), with the session's cookies: what the signed-in
+   * shopper would get. Read-only and same-origin; absolute URLs are refused.
+   */
+  fetchText(sessionId: string, path: string): Promise<{ status: number; body: string }>;
   /** Waits until the page URL matches, e.g. after a click that navigates. */
   waitForUrl(sessionId: string, pattern: RegExp): Promise<void>;
   snapshot(sessionId: string): Promise<PageSnapshot>;

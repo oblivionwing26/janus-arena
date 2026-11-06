@@ -139,4 +139,14 @@ export const validEvents: Record<JanusEventType, Record<string, unknown>> = {
     { variant: 'b', kind: 'persona', persona: 'carmen-retired', seed: 1, attempt: 1 },
     { actor: { agentId: 'carmen-retired-b-s1-a1', role: 'navigator' } },
   ),
+  'task.verified': envelope(
+    'task.verified',
+    {
+      taskId: 'buy-two-notebooks',
+      status: 'failed',
+      checks: [{ check: 'quantity of Cuaderno A5 punteado = 2', passed: false, detail: 'found 1' }],
+      orderId: 6,
+    },
+    { actor: { agentId: 'competent-baseline-a-s1-a1', role: 'competent-baseline' } },
+  ),
 };

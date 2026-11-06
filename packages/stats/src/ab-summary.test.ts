@@ -30,15 +30,36 @@ class Run {
     variant: string,
     seed: number,
     outcome: 'success' | 'abandon' | 'patience_exhausted' | 'budget_exhausted' | null,
-    options: { kind?: 'persona' | 'baseline'; attempt?: number } = {},
+    options: {
+      kind?: 'persona' | 'baseline';
+      attempt?: number;
+      task?: string;
+      verified?: 'passed' | 'failed' | 'unverifiable';
+    } = {},
   ): this {
     const kind = options.kind ?? 'persona';
     const attempt = options.attempt ?? 1;
-    const agentId = `${persona}-${variant}-s${String(seed)}-a${String(attempt)}`;
+    const task = options.task === undefined ? '' : `${options.task}-`;
+    const agentId = `${persona}-${variant}-${task}s${String(seed)}-a${String(attempt)}`;
     const role = kind === 'baseline' ? 'competent-baseline' : 'navigator';
-    this.emit(agentId, role, 'session.started', { variant, kind, persona, seed, attempt });
+    const playing = options.task === undefined ? {} : { task: options.task };
+    this.emit(agentId, role, 'session.started', {
+      variant,
+      kind,
+      persona,
+      seed,
+      attempt,
+      ...playing,
+    });
     if (outcome !== null) {
       this.emit(agentId, role, 'session.ended', { outcome, steps: 10, durationMs: 1000 });
+    }
+    if (options.verified !== undefined) {
+      this.emit(agentId, role, 'task.verified', {
+        taskId: options.task ?? 'task',
+        status: options.verified,
+        checks: [],
+      });
     }
     return this;
   }
@@ -105,6 +126,44 @@ describe('abSummary', () => {
       { variant: 'a', personas: null, baseline: { successes: 1, n: 1 } },
     ]);
     expect(summary.comparison).toBeNull();
+  });
+
+  it('counts the oracle, not the agent, when a task was verified (F1.9)', () => {
+    const run = new Run()
+      // Claimed success, but the order was wrong.
+      .session('competent-baseline', 'a', 1, 'success', {
+        kind: 'baseline',
+        task: 'buy-two',
+        verified: 'failed',
+      })
+      .session('competent-baseline', 'a', 2, 'success', {
+        kind: 'baseline',
+        task: 'buy-two',
+        verified: 'passed',
+      })
+      .session('competent-baseline', 'a', 3, 'success', {
+        kind: 'baseline',
+        task: 'buy-two',
+        verified: 'unverifiable',
+      });
+
+    const summary = abSummary(run.events);
+
+    expect(summary.variants[0]?.baseline).toEqual({ successes: 1, n: 2 });
+    expect(summary.excluded).toEqual([
+      { agentId: 'competent-baseline-a-buy-two-s3-a1', reason: 'task could not be verified' },
+    ]);
+  });
+
+  it('pairs by persona, task and seed', () => {
+    const run = new Run()
+      .session('ana', 'a', 1, 'success', { task: 'buy-mug', verified: 'passed' })
+      .session('ana', 'b', 1, 'success', { task: 'buy-mug', verified: 'failed' })
+      .session('ana', 'a', 1, 'success', { task: 'buy-two', verified: 'passed' })
+      .session('ana', 'b', 1, 'success', { task: 'buy-two', verified: 'passed' });
+
+    expect(abSummary(run.events).comparison).toMatchObject({ pairs: 2 });
+    expect(abSummary(run.events).comparison?.difference?.mean).toBe(-0.5);
   });
 
   it('ignores runs from before session.started (no slots, nothing to compare)', () => {
