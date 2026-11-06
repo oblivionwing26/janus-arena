@@ -102,6 +102,15 @@ describe('v1 event schemas', () => {
     ).toBe(true);
   });
 
+  it('agent.action carries an optional errorCode for failed actions (F1.2)', () => {
+    const failed = { ok: false, errorCode: 'browser.element-obscured' };
+    expect(janusEventSchema.safeParse(withPayload('agent.action', failed)).success).toBe(true);
+    expect(
+      janusEventSchema.safeParse(withPayload('agent.action', { ok: false, errorCode: 'Oops!' }))
+        .success,
+    ).toBe(false);
+  });
+
   it('patch.proposed accepts janus/variant-<ULID> branches', () => {
     const branch = `janus/variant-${OTHER_ID}`;
     expect(janusEventSchema.safeParse(withPayload('patch.proposed', { branch })).success).toBe(

@@ -6,6 +6,7 @@ import { describe, expect, it } from 'vitest';
 import {
   BrowserSessionNotFoundError,
   ElementNotFoundError,
+  OptionNotFoundError,
 } from '../domain/browser/browser-errors.js';
 import type { BrowserPort, ElementTarget } from '../domain/browser/browser-port.js';
 
@@ -18,6 +19,14 @@ export interface BrowserContractHarness {
   readonly link: ElementTarget;
   /** Where clicking `link` leads. */
   readonly linkTarget: RegExp;
+  /** A page with a select (`target`) that has an option labelled `option`. */
+  readonly choice: {
+    /** Whatever the page needs first, e.g. signing in. */
+    readonly prepare?: (browser: BrowserPort, session: string) => Promise<void>;
+    readonly page: string;
+    readonly target: ElementTarget;
+    readonly option: string;
+  };
 }
 
 export function describeBrowserContract(name: string, harness: BrowserContractHarness): void {
@@ -61,6 +70,59 @@ export function describeBrowserContract(name: string, harness: BrowserContractHa
         await expect(
           browser.click(session, { role: 'button', name: 'No such button 7f3a' }),
         ).rejects.toBeInstanceOf(ElementNotFoundError);
+      } finally {
+        await browser.close(session);
+      }
+    });
+
+    it('locates a visible element and counts nth among equals', async () => {
+      const browser = harness.browser();
+      const session = await browser.newSession({ baseUrl: harness.baseUrl() });
+      try {
+        await browser.goto(session, `${harness.baseUrl()}${harness.page}`);
+        const box = await browser.locate(session, harness.field);
+        expect(box.width).toBeGreaterThan(0);
+        expect(box.height).toBeGreaterThan(0);
+
+        if ('label' in harness.link) throw new Error('the contract link must be a role target');
+        await expect(browser.locate(session, { ...harness.link, nth: 0 })).resolves.toBeDefined();
+        await expect(browser.locate(session, { ...harness.link, nth: 9 })).rejects.toBeInstanceOf(
+          ElementNotFoundError,
+        );
+      } finally {
+        await browser.close(session);
+      }
+    });
+
+    it('selects an option by its label and rejects a missing one', async () => {
+      const browser = harness.browser();
+      const session = await browser.newSession({ baseUrl: harness.baseUrl() });
+      const { prepare, page, target, option } = harness.choice;
+      try {
+        await prepare?.(browser, session);
+        await browser.goto(session, `${harness.baseUrl()}${page}`);
+        await browser.select(session, target, option);
+        await expect(browser.select(session, target, 'No such option 7f3a')).rejects.toBeInstanceOf(
+          OptionNotFoundError,
+        );
+      } finally {
+        await browser.close(session);
+      }
+    });
+
+    it('goes back in history and scrolls without leaving the page', async () => {
+      const browser = harness.browser();
+      const session = await browser.newSession({ baseUrl: harness.baseUrl() });
+      try {
+        await browser.goto(session, `${harness.baseUrl()}${harness.page}`);
+        await browser.click(session, harness.link);
+        await browser.waitForUrl(session, harness.linkTarget);
+        await browser.back(session);
+        await browser.waitForUrl(session, new RegExp(`${harness.page}$`));
+
+        await browser.scroll(session, 'down');
+        await browser.scroll(session, 'up');
+        expect(new URL((await browser.snapshot(session)).url).pathname).toBe(harness.page);
       } finally {
         await browser.close(session);
       }

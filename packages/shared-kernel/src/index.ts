@@ -1,5 +1,12 @@
 // Public entry point of @janus/shared-kernel.
 
+export {
+  agentActionSchema,
+  parseAgentAction,
+  type AgentAction,
+  type AgentActionType,
+} from './actions/agent-action.js';
+export { InvalidAgentActionError } from './actions/invalid-agent-action-error.js';
 export { actorRoleSchema, type ActorRole } from './events/actor-role.js';
 export { agentIdSchema, type AgentId } from './events/agent-id.js';
 export { eventCostSchema, type EventCost } from './events/event-cost.js';

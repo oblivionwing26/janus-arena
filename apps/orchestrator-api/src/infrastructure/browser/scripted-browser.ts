@@ -1,11 +1,15 @@
 import {
   BrowserSessionNotFoundError,
+  ElementDisabledError,
   ElementNotFoundError,
+  ElementObscuredError,
   NavigationTimeoutError,
+  OptionNotFoundError,
 } from '../../domain/browser/browser-errors.js';
 import type {
   BrowserPort,
   BrowserSessionOptions,
+  ElementBox,
   ElementTarget,
   PageSnapshot,
 } from '../../domain/browser/browser-port.js';
@@ -14,6 +18,11 @@ export interface ScriptedElement {
   readonly target: ElementTarget;
   /** Path (relative to the base URL) the page moves to when this element is clicked. */
   readonly navigatesTo?: string;
+  /** Option labels, for a select. */
+  readonly options?: readonly string[];
+  readonly disabled?: boolean;
+  /** Another element covers it: clicks fail with ElementObscuredError. */
+  readonly obscured?: boolean;
 }
 
 export interface ScriptedPage {
@@ -24,12 +33,27 @@ export interface ScriptedPage {
 interface Session {
   readonly baseUrl: string;
   path: string;
+  readonly history: string[];
+  scrollY: number;
   readonly typed: Map<string, string>;
+  readonly selected: Map<string, string>;
 }
 
-function sameTarget(a: ElementTarget, b: ElementTarget): boolean {
-  if ('label' in a || 'label' in b) return 'label' in a && 'label' in b && a.label === b.label;
-  return a.role === b.role && a.name === b.name;
+const VIEWPORT = { width: 1280, height: 720 };
+const ROW_HEIGHT = 40;
+
+function roleOf(target: ElementTarget): string {
+  return 'label' in target ? 'textbox' : target.role;
+}
+
+function nameOf(target: ElementTarget): string {
+  return 'label' in target ? target.label : target.name;
+}
+
+/** A labelled field matches its label, or role textbox with that name (as Playwright does). */
+function matches(element: ElementTarget, target: ElementTarget): boolean {
+  if ('label' in target) return 'label' in element && element.label === target.label;
+  return roleOf(element) === target.role && nameOf(element) === target.name;
 }
 
 /**
@@ -43,47 +67,102 @@ export class ScriptedBrowser implements BrowserPort {
   constructor(private readonly pages: Readonly<Record<string, ScriptedPage>>) {}
 
   private readonly typedBySession = new Map<string, Map<string, string>>();
+  private readonly selectedBySession = new Map<string, Map<string, string>>();
 
   /** What was typed into each field of a session, kept after it closes, for assertions. */
   typedValues(sessionId: string): ReadonlyMap<string, string> {
     return this.typedBySession.get(sessionId) ?? new Map();
   }
 
+  /** The option picked in each select of a session, kept after it closes. */
+  selectedValues(sessionId: string): ReadonlyMap<string, string> {
+    return this.selectedBySession.get(sessionId) ?? new Map();
+  }
+
   newSession(options: BrowserSessionOptions): Promise<string> {
     const id = `scripted-${String(this.nextId++)}`;
     const typed = new Map<string, string>();
+    const selected = new Map<string, string>();
     this.typedBySession.set(id, typed);
-    this.sessions.set(id, { baseUrl: options.baseUrl.replace(/\/$/, ''), path: '/', typed });
+    this.selectedBySession.set(id, selected);
+    this.sessions.set(id, {
+      baseUrl: options.baseUrl.replace(/\/$/, ''),
+      path: '/',
+      history: [],
+      scrollY: 0,
+      typed,
+      selected,
+    });
     return Promise.resolve(id);
   }
 
   goto(sessionId: string, url: string): Promise<void> {
     return this.act(() => {
-      const session = this.session(sessionId);
-      session.path = new URL(url).pathname;
+      this.navigate(this.session(sessionId), new URL(url).pathname);
     });
   }
 
   click(sessionId: string, target: ElementTarget): Promise<void> {
     return this.act(() => {
       const session = this.session(sessionId);
-      const element = this.find(session, target);
-      if (element.navigatesTo !== undefined) session.path = element.navigatesTo;
+      const { element } = this.find(session, target);
+      this.ensureUsable(session, element, target);
+      if (element.obscured === true) throw new ElementObscuredError(target, this.url(session));
+      if (element.navigatesTo !== undefined) this.navigate(session, element.navigatesTo);
     });
   }
 
   type(sessionId: string, target: ElementTarget, text: string): Promise<void> {
     return this.act(() => {
       const session = this.session(sessionId);
-      this.find(session, target);
-      session.typed.set('label' in target ? target.label : target.name, text);
+      const { element } = this.find(session, target);
+      this.ensureUsable(session, element, target);
+      session.typed.set(nameOf(target), text);
+    });
+  }
+
+  select(sessionId: string, target: ElementTarget, option: string): Promise<void> {
+    return this.act(() => {
+      const session = this.session(sessionId);
+      const { element } = this.find(session, target);
+      this.ensureUsable(session, element, target);
+      if (!(element.options ?? []).includes(option)) {
+        throw new OptionNotFoundError(target, option, this.url(session));
+      }
+      session.selected.set(nameOf(target), option);
+    });
+  }
+
+  locate(sessionId: string, target: ElementTarget): Promise<ElementBox> {
+    return this.act(() => {
+      const session = this.session(sessionId);
+      return this.boxAt(session, this.find(session, target).index);
+    });
+  }
+
+  scroll(sessionId: string, direction: 'up' | 'down'): Promise<void> {
+    return this.act(() => {
+      const session = this.session(sessionId);
+      const step = VIEWPORT.height * 0.8;
+      session.scrollY = Math.max(0, session.scrollY + (direction === 'down' ? step : -step));
+    });
+  }
+
+  back(sessionId: string): Promise<void> {
+    return this.act(() => {
+      const session = this.session(sessionId);
+      const previous = session.history.pop();
+      if (previous !== undefined) {
+        session.path = previous;
+        session.scrollY = 0;
+      }
     });
   }
 
   waitForUrl(sessionId: string, pattern: RegExp): Promise<void> {
     return this.act(() => {
       const session = this.session(sessionId);
-      const url = session.baseUrl + session.path;
+      const url = this.url(session);
       if (!pattern.test(url)) throw new NavigationTimeoutError(pattern.source, url);
     });
   }
@@ -93,23 +172,31 @@ export class ScriptedBrowser implements BrowserPort {
       const session = this.session(sessionId);
       const page = this.page(session);
       const aria = page.elements
-        .map(({ target }) =>
-          'label' in target ? `- textbox "${target.label}"` : `- ${target.role} "${target.name}"`,
-        )
+        .map(({ target }) => `- ${roleOf(target)} "${nameOf(target)}"`)
         .join('\n');
-      const tree = page.elements.map(({ target }, index) => ({
-        role: 'label' in target ? 'textbox' : target.role,
-        name: 'label' in target ? target.label : target.name,
-        ref: `e${String(index + 1)}`,
-        box: { x: 0, y: index * 40, width: 200, height: 32 },
-      }));
-      return {
-        url: session.baseUrl + session.path,
-        title: page.title,
-        aria,
-        tree,
-        viewport: { width: 1280, height: 720 },
-      };
+      const tree = page.elements.map((element, index) => {
+        const name = nameOf(element.target);
+        const typed = session.typed.get(name);
+        const picked = session.selected.get(name) ?? element.options?.[0];
+        return {
+          role: roleOf(element.target),
+          name,
+          ref: `e${String(index + 1)}`,
+          box: this.boxAt(session, index),
+          ...(typed === undefined ? {} : { text: typed }),
+          ...(element.disabled === true ? { disabled: true } : {}),
+          ...(element.options === undefined
+            ? {}
+            : {
+                children: element.options.map((option) => ({
+                  role: 'option',
+                  name: option,
+                  ...(option === picked ? { selected: true } : {}),
+                })),
+              }),
+        };
+      });
+      return { url: this.url(session), title: page.title, aria, tree, viewport: VIEWPORT };
     });
   }
 
@@ -124,6 +211,20 @@ export class ScriptedBrowser implements BrowserPort {
     } catch (error) {
       return Promise.reject(error instanceof Error ? error : new Error(String(error)));
     }
+  }
+
+  private navigate(session: Session, path: string): void {
+    session.history.push(session.path);
+    session.path = path;
+    session.scrollY = 0;
+  }
+
+  private url(session: Session): string {
+    return session.baseUrl + session.path;
+  }
+
+  private boxAt(session: Session, index: number): ElementBox {
+    return { x: 0, y: index * ROW_HEIGHT - session.scrollY, width: 200, height: 32 };
   }
 
   private session(sessionId: string): Session {
@@ -146,12 +247,19 @@ export class ScriptedBrowser implements BrowserPort {
     );
   }
 
-  private find(session: Session, target: ElementTarget): ScriptedElement {
-    const element = this.page(session).elements.find((candidate) =>
-      sameTarget(candidate.target, target),
-    );
-    if (element === undefined)
-      throw new ElementNotFoundError(target, session.baseUrl + session.path);
-    return element;
+  private find(
+    session: Session,
+    target: ElementTarget,
+  ): { element: ScriptedElement; index: number } {
+    const nth = 'label' in target ? 0 : (target.nth ?? 0);
+    const found = this.page(session)
+      .elements.map((element, index) => ({ element, index }))
+      .filter(({ element }) => matches(element.target, target))[nth];
+    if (found === undefined) throw new ElementNotFoundError(target, this.url(session));
+    return found;
+  }
+
+  private ensureUsable(session: Session, element: ScriptedElement, target: ElementTarget): void {
+    if (element.disabled === true) throw new ElementDisabledError(target, this.url(session));
   }
 }

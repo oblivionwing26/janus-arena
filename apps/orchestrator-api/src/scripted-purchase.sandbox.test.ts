@@ -41,6 +41,29 @@ describeBrowserContract('PlaywrightRunner (ShopLab)', {
   field: { label: 'Email' },
   link: { role: 'link', name: 'Crea una' },
   linkTarget: /\/register$/,
+  choice: {
+    // ShopLab shows the quantity select to signed-in users only.
+    prepare: async (runner, session) => {
+      await runner.goto(session, `${baseUrl}/register`);
+      await runner.type(session, { label: 'Nombre' }, 'Contrato Select');
+      await runner.type(
+        session,
+        { label: 'Email' },
+        `contract-${newUlid().toLowerCase()}@shoplab.test`,
+      );
+      await runner.type(
+        session,
+        { label: 'Contraseña (mínimo 8 caracteres)' },
+        'contract-password-1',
+      );
+      await runner.type(session, { label: 'Dirección de envío' }, 'Calle Contrato 1, 28001 Madrid');
+      await runner.click(session, { role: 'button', name: 'Crear cuenta' });
+      await runner.waitForUrl(session, /\/$/);
+    },
+    page: '/products/taza-ceramica',
+    target: { role: 'combobox', name: 'Cantidad' },
+    option: '2',
+  },
 });
 
 describe('F0.9 done when', () => {

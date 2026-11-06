@@ -1,9 +1,19 @@
 /**
  * An element chosen the way a person (or the accessibility tree) sees it, never by CSS:
  * by ARIA role and accessible name, or by the text of its form label. Matching is exact.
+ * `nth` picks among elements with the same role and name (0 = the first, the default).
  */
 export type ElementTarget =
-  { readonly role: string; readonly name: string } | { readonly label: string };
+  | { readonly role: string; readonly name: string; readonly nth?: number }
+  | { readonly label: string };
+
+/** Viewport-relative position and size in CSS pixels. */
+export interface ElementBox {
+  readonly x: number;
+  readonly y: number;
+  readonly width: number;
+  readonly height: number;
+}
 
 export interface PageSnapshot {
   readonly url: string;
@@ -32,6 +42,14 @@ export interface BrowserPort {
   goto(sessionId: string, url: string): Promise<void>;
   click(sessionId: string, target: ElementTarget): Promise<void>;
   type(sessionId: string, target: ElementTarget, text: string): Promise<void>;
+  /** Picks the option whose label is `option`; OptionNotFoundError if there is none. */
+  select(sessionId: string, target: ElementTarget, option: string): Promise<void>;
+  /** Waits until the element is visible and returns where it is. */
+  locate(sessionId: string, target: ElementTarget): Promise<ElementBox>;
+  /** Scrolls the page by most of one viewport. */
+  scroll(sessionId: string, direction: 'up' | 'down'): Promise<void>;
+  /** Goes back one entry in the session history. */
+  back(sessionId: string): Promise<void>;
   /** Waits until the page URL matches, e.g. after a click that navigates. */
   waitForUrl(sessionId: string, pattern: RegExp): Promise<void>;
   snapshot(sessionId: string): Promise<PageSnapshot>;
@@ -42,7 +60,7 @@ export interface BrowserPort {
 export const BROWSER_PORT = Symbol('BrowserPort');
 
 export function describeTarget(target: ElementTarget): string {
-  return 'label' in target
-    ? `label=${JSON.stringify(target.label)}`
-    : `role=${target.role}[name=${JSON.stringify(target.name)}]`;
+  if ('label' in target) return `label=${JSON.stringify(target.label)}`;
+  const nth = target.nth === undefined || target.nth === 0 ? '' : ` nth=${String(target.nth)}`;
+  return `role=${target.role}[name=${JSON.stringify(target.name)}]${nth}`;
 }

@@ -32,7 +32,10 @@ export const SHOPLAB_PAGES: Record<string, ScriptedPage> = {
   },
   '/products/taza-ceramica': {
     title: 'ShopLab',
-    elements: [{ target: { role: 'button', name: 'Añadir al carrito' }, navigatesTo: '/cart' }],
+    elements: [
+      { target: { role: 'combobox', name: 'Cantidad' }, options: ['1', '2', '3'] },
+      { target: { role: 'button', name: 'Añadir al carrito' }, navigatesTo: '/cart' },
+    ],
   },
   '/cart': {
     title: 'ShopLab',

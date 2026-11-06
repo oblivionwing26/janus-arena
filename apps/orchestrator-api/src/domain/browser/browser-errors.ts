@@ -30,3 +30,38 @@ export class NavigationTimeoutError extends DomainError {
     super(`URL did not match ${pattern}; still on ${url}`);
   }
 }
+
+/** Another element (an overlay, a banner) receives the click instead. */
+export class ElementObscuredError extends DomainError {
+  readonly code = 'browser.element-obscured';
+
+  constructor(
+    readonly target: ElementTarget,
+    readonly url: string,
+  ) {
+    super(`Element ${describeTarget(target)} on ${url} is covered by another element`);
+  }
+}
+
+export class ElementDisabledError extends DomainError {
+  readonly code = 'browser.element-disabled';
+
+  constructor(
+    readonly target: ElementTarget,
+    readonly url: string,
+  ) {
+    super(`Element ${describeTarget(target)} on ${url} is disabled`);
+  }
+}
+
+export class OptionNotFoundError extends DomainError {
+  readonly code = 'browser.option-not-found';
+
+  constructor(
+    readonly target: ElementTarget,
+    readonly option: string,
+    readonly url: string,
+  ) {
+    super(`Element ${describeTarget(target)} on ${url} has no option ${JSON.stringify(option)}`);
+  }
+}

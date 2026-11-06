@@ -9,4 +9,9 @@ describeBrowserContract('ScriptedBrowser', {
   field: { label: 'Email' },
   link: { role: 'link', name: 'Crea una' },
   linkTarget: /\/register$/,
+  choice: {
+    page: '/products/taza-ceramica',
+    target: { role: 'combobox', name: 'Cantidad' },
+    option: '2',
+  },
 });
