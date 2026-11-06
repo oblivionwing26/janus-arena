@@ -14,7 +14,7 @@ More context: `docs/VISION.md` (product), `docs/adr/` (decisions), `docs/ROADMAP
 
 ## Current step
 
-**F1.1 — Observation builder.** Read this step in `docs/ROADMAP.md` before starting. Do not build features from later steps.
+**F1.2 — Action space.** Read this step in `docs/ROADMAP.md` before starting. Do not build features from later steps.
 
 (Update this line every time a step is closed.)
 

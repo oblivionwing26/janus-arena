@@ -1,0 +1,10 @@
+page /register · "ShopLab" · changes since the last step:
+~ [e6] textbox "Nombre" = "Comprador Fixture"
+~ [e7] textbox "Email" = "no-es-un-email"
+~ [e8] textbox "Contraseña (mínimo 8 caracteres)" = "corta" [focused]
+---
+page /register · "ShopLab" · changes since the last step:
+~ [e6] textbox "Nombre"
+~ [e7] textbox "Email"
+~ [e8] textbox "Contraseña (mínimo 8 caracteres)"
++ ! alert "Revisa los campos del formulario."

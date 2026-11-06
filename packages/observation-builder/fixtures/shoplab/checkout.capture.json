@@ -1,0 +1,490 @@
+{
+  "url": "http://janus-obsfix-app:3100/checkout",
+  "title": "ShopLab",
+  "viewport": {
+    "width": 1280,
+    "height": 720
+  },
+  "tree": [
+    {
+      "role": "generic",
+      "active": true,
+      "ref": "f1e1",
+      "box": {
+        "x": 0,
+        "y": 0,
+        "width": 1280,
+        "height": 770
+      },
+      "children": [
+        {
+          "role": "banner",
+          "ref": "f1e2",
+          "box": {
+            "x": 0,
+            "y": 0,
+            "width": 1280,
+            "height": 65
+          },
+          "children": [
+            {
+              "role": "link",
+              "name": "ShopLab",
+              "ref": "f1e3",
+              "cursor": "pointer",
+              "box": {
+                "x": 16,
+                "y": 17,
+                "width": 76,
+                "height": 30
+              },
+              "url": "/"
+            },
+            {
+              "role": "navigation",
+              "name": "Principal",
+              "ref": "f1e4",
+              "box": {
+                "x": 451,
+                "y": 20,
+                "width": 210,
+                "height": 24
+              },
+              "children": [
+                {
+                  "role": "list",
+                  "ref": "f1e5",
+                  "box": {
+                    "x": 451,
+                    "y": 20,
+                    "width": 210,
+                    "height": 24
+                  },
+                  "children": [
+                    {
+                      "role": "listitem",
+                      "ref": "f1e6",
+                      "box": {
+                        "x": 451,
+                        "y": 20,
+                        "width": 46,
+                        "height": 24
+                      },
+                      "children": [
+                        {
+                          "role": "link",
+                          "name": "Tienda",
+                          "ref": "f1e7",
+                          "cursor": "pointer",
+                          "box": {
+                            "x": 451,
+                            "y": 22,
+                            "width": 46,
+                            "height": 20
+                          },
+                          "url": "/"
+                        }
+                      ]
+                    },
+                    {
+                      "role": "listitem",
+                      "ref": "f1e8",
+                      "box": {
+                        "x": 514,
+                        "y": 20,
+                        "width": 46,
+                        "height": 24
+                      },
+                      "children": [
+                        {
+                          "role": "link",
+                          "name": "Carrito",
+                          "ref": "f1e9",
+                          "cursor": "pointer",
+                          "box": {
+                            "x": 514,
+                            "y": 22,
+                            "width": 46,
+                            "height": 20
+                          },
+                          "url": "/cart"
+                        }
+                      ]
+                    },
+                    {
+                      "role": "listitem",
+                      "ref": "f1e10",
+                      "box": {
+                        "x": 576,
+                        "y": 20,
+                        "width": 85,
+                        "height": 24
+                      },
+                      "children": [
+                        {
+                          "role": "link",
+                          "name": "Mis pedidos",
+                          "ref": "f1e11",
+                          "cursor": "pointer",
+                          "box": {
+                            "x": 576,
+                            "y": 22,
+                            "width": 85,
+                            "height": 20
+                          },
+                          "url": "/orders"
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "role": "generic",
+              "ref": "f1e12",
+              "box": {
+                "x": 1020,
+                "y": 12,
+                "width": 244,
+                "height": 40
+              },
+              "children": [
+                {
+                  "role": "generic",
+                  "ref": "f1e13",
+                  "box": {
+                    "x": 1020,
+                    "y": 20,
+                    "width": 168,
+                    "height": 24
+                  },
+                  "text": "Hola, Comprador Fixture"
+                },
+                {
+                  "role": "button",
+                  "name": "Salir",
+                  "ref": "f1e15",
+                  "cursor": "pointer",
+                  "box": {
+                    "x": 1201,
+                    "y": 12,
+                    "width": 63,
+                    "height": 40
+                  }
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "role": "main",
+          "ref": "f1e16",
+          "box": {
+            "x": 160,
+            "y": 65,
+            "width": 960,
+            "height": 652
+          },
+          "children": [
+            {
+              "role": "heading",
+              "name": "Pago",
+              "level": 1,
+              "ref": "f1e138",
+              "box": {
+                "x": 176,
+                "y": 110,
+                "width": 928,
+                "height": 48
+              }
+            },
+            {
+              "role": "table",
+              "name": "Totales",
+              "ref": "f1e139",
+              "box": {
+                "x": 176,
+                "y": 180,
+                "width": 928,
+                "height": 123
+              },
+              "children": [
+                {
+                  "role": "rowgroup",
+                  "ref": "f1e140",
+                  "box": {
+                    "x": 176,
+                    "y": 180,
+                    "width": 928,
+                    "height": 123
+                  },
+                  "children": [
+                    {
+                      "role": "row",
+                      "ref": "f1e141",
+                      "box": {
+                        "x": 176,
+                        "y": 180,
+                        "width": 928,
+                        "height": 41
+                      },
+                      "children": [
+                        {
+                          "role": "rowheader",
+                          "name": "Subtotal",
+                          "ref": "f1e142",
+                          "box": {
+                            "x": 176,
+                            "y": 180,
+                            "width": 447,
+                            "height": 41
+                          }
+                        },
+                        {
+                          "role": "cell",
+                          "name": "12,90 €",
+                          "ref": "f1e143",
+                          "box": {
+                            "x": 623,
+                            "y": 180,
+                            "width": 481,
+                            "height": 41
+                          }
+                        }
+                      ]
+                    },
+                    {
+                      "role": "row",
+                      "ref": "f1e144",
+                      "box": {
+                        "x": 176,
+                        "y": 220,
+                        "width": 928,
+                        "height": 41
+                      },
+                      "children": [
+                        {
+                          "role": "rowheader",
+                          "name": "Envío",
+                          "ref": "f1e145",
+                          "box": {
+                            "x": 176,
+                            "y": 220,
+                            "width": 447,
+                            "height": 41
+                          }
+                        },
+                        {
+                          "role": "cell",
+                          "name": "4,99 €",
+                          "ref": "f1e146",
+                          "box": {
+                            "x": 623,
+                            "y": 220,
+                            "width": 481,
+                            "height": 41
+                          }
+                        }
+                      ]
+                    },
+                    {
+                      "role": "row",
+                      "ref": "f1e147",
+                      "box": {
+                        "x": 176,
+                        "y": 261,
+                        "width": 928,
+                        "height": 41
+                      },
+                      "children": [
+                        {
+                          "role": "rowheader",
+                          "name": "Total",
+                          "ref": "f1e148",
+                          "box": {
+                            "x": 176,
+                            "y": 261,
+                            "width": 447,
+                            "height": 41
+                          }
+                        },
+                        {
+                          "role": "cell",
+                          "ref": "f1e149",
+                          "box": {
+                            "x": 623,
+                            "y": 261,
+                            "width": 481,
+                            "height": 41
+                          },
+                          "children": [
+                            {
+                              "role": "strong",
+                              "ref": "f1e150",
+                              "box": {
+                                "x": 631,
+                                "y": 272,
+                                "width": 64,
+                                "height": 20
+                              },
+                              "text": "17,89 €"
+                            }
+                          ]
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "role": "generic",
+              "ref": "f1e151",
+              "box": {
+                "x": 176,
+                "y": 303,
+                "width": 480,
+                "height": 367
+              },
+              "children": [
+                {
+                  "role": "generic",
+                  "ref": "f1e152",
+                  "box": {
+                    "x": 176,
+                    "y": 303,
+                    "width": 480,
+                    "height": 118
+                  },
+                  "children": [
+                    "Dirección de envío",
+                    {
+                      "role": "textbox",
+                      "name": "Dirección de envío",
+                      "ref": "f1e153",
+                      "box": {
+                        "x": 176,
+                        "y": 331,
+                        "width": 480,
+                        "height": 90
+                      },
+                      "text": "Calle Fixture 1, 28001 Madrid"
+                    }
+                  ]
+                },
+                {
+                  "role": "group",
+                  "name": "Método de pago",
+                  "ref": "f1e154",
+                  "box": {
+                    "x": 178,
+                    "y": 433,
+                    "width": 476,
+                    "height": 185
+                  },
+                  "children": [
+                    {
+                      "role": "paragraph",
+                      "ref": "f1e156",
+                      "box": {
+                        "x": 191,
+                        "y": 478,
+                        "width": 450,
+                        "height": 24
+                      },
+                      "text": "Pago simulado: no se cobra nada ni se piden datos bancarios."
+                    },
+                    {
+                      "role": "generic",
+                      "ref": "f1e157",
+                      "box": {
+                        "x": 191,
+                        "y": 518,
+                        "width": 450,
+                        "height": 44
+                      },
+                      "children": [
+                        {
+                          "role": "radio",
+                          "name": "Tarjeta de prueba (simulada)",
+                          "checked": true,
+                          "ref": "f1e158",
+                          "box": {
+                            "x": 196,
+                            "y": 521,
+                            "width": 442,
+                            "height": 13
+                          }
+                        },
+                        "Tarjeta de prueba (simulada)"
+                      ]
+                    },
+                    {
+                      "role": "generic",
+                      "ref": "f1e159",
+                      "box": {
+                        "x": 191,
+                        "y": 562,
+                        "width": 450,
+                        "height": 44
+                      },
+                      "children": [
+                        {
+                          "role": "radio",
+                          "name": "Transferencia de prueba (simulada)",
+                          "ref": "f1e160",
+                          "box": {
+                            "x": 196,
+                            "y": 565,
+                            "width": 442,
+                            "height": 13
+                          }
+                        },
+                        "Transferencia de prueba (simulada)"
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "role": "button",
+                  "name": "Confirmar pedido",
+                  "ref": "f1e161",
+                  "cursor": "pointer",
+                  "box": {
+                    "x": 176,
+                    "y": 629,
+                    "width": 151,
+                    "height": 40
+                  }
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "role": "contentinfo",
+          "ref": "f1e79",
+          "box": {
+            "x": 0,
+            "y": 717,
+            "width": 1280,
+            "height": 53
+          },
+          "text": "Tienda de demostración. Los productos, usuarios y pagos son ficticios."
+        },
+        {
+          "role": "alert",
+          "ref": "f1e80",
+          "box": {
+            "x": -1,
+            "y": 769,
+            "width": 1,
+            "height": 1
+          },
+          "text": "ShopLab"
+        }
+      ]
+    }
+  ]
+}

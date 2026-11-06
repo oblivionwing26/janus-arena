@@ -1,0 +1,13 @@
+page /orders · "ShopLab"
+[e1] link "ShopLab" → /
+[e2] link "Tienda" → /
+[e3] link "Carrito" → /cart
+[e4] link "Mis pedidos" → /orders
+[e5] button "Salir"
+# Mis pedidos
+Pedidos:
+Pedido | Fecha | Artículos | Total
+[e6] link "#6" → /orders/6
+6 nov 2026, 0:00
+1
+17,89 €

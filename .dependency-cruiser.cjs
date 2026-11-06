@@ -38,6 +38,19 @@ module.exports = {
       to: { path: `${ORCHESTRATOR}/interface/` },
     },
     {
+      name: 'observation-builder-pure',
+      severity: 'error',
+      comment:
+        'F1.1: observation-builder turns captures into text and nothing else. No Playwright, no LLM SDK, no I/O; zod only.',
+      from: {
+        path: '^packages/observation-builder/src/',
+        pathNot: [TEST_FILE, '/src/test-support/'],
+      },
+      to: {
+        pathNot: ['^packages/observation-builder/src/', '(^|/)node_modules/zod/'],
+      },
+    },
+    {
       name: 'no-circular',
       severity: 'error',
       comment: 'Circular dependencies make layering impossible to reason about.',

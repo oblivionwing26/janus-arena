@@ -21,6 +21,9 @@ import type {
 
 type AriaRole = Parameters<Page['getByRole']>[0];
 
+// Playwright's own default when a context sets no viewport.
+const DEFAULT_VIEWPORT = { width: 1280, height: 720 };
+
 interface Session {
   readonly context: BrowserContext;
   readonly page: Page;
@@ -93,10 +96,13 @@ export class PlaywrightRunner implements BrowserPort {
 
   async snapshot(sessionId: string): Promise<PageSnapshot> {
     const { page } = this.session(sessionId);
+    const body = page.locator('body');
     return {
       url: page.url(),
       title: await page.title(),
-      aria: await page.locator('body').ariaSnapshot(),
+      aria: await body.ariaSnapshot(),
+      tree: await body.ariaSnapshotJSON({ mode: 'ai', boxes: true }),
+      viewport: page.viewportSize() ?? DEFAULT_VIEWPORT,
     };
   }
 

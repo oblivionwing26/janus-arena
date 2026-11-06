@@ -10,6 +10,12 @@ export interface PageSnapshot {
   readonly title: string;
   /** Accessibility tree of the page as YAML (Playwright aria snapshot format). */
   readonly aria: string;
+  /**
+   * The same tree as JSON nodes with roles, names, states and viewport-relative boxes
+   * (Playwright `ariaSnapshotJSON`, AI mode). Raw data: @janus/observation-builder validates it.
+   */
+  readonly tree: unknown;
+  readonly viewport: { readonly width: number; readonly height: number };
 }
 
 export interface BrowserSessionOptions {

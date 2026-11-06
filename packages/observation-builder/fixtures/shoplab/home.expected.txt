@@ -1,0 +1,43 @@
+page / · "ShopLab"
+[e1] link "ShopLab" → /
+[e2] link "Tienda" → /
+[e3] link "Carrito" → /cart
+[e4] link "Mis pedidos" → /orders
+[e5] button "Salir"
+# Catálogo
+[e6] link "Agenda semanal 2027" → /products/agenda-2027
+13,90 €
+50 en stock
+[e7] link "Alfombrilla de ratón XL" → /products/alfombrilla-raton
+14,90 €
+35 en stock
+[e8] link "Auriculares con cable" → /products/auriculares-cable
+15,90 €
+25 en stock
+[e9] link "Bolígrafo de gel (pack 3)" → /products/boligrafo-gel
+4,50 €
+100 en stock
+[e10] link "Botella de acero 750 ml" → /products/botella-acero
+19,90 €
+30 en stock
+[e11] link "Cuaderno A5 punteado" → /products/cuaderno-a5
+9,90 €
+60 en stock
+[e12] link "Lámpara de escritorio LED" → /products/lampara-escritorio
+34,90 €
+12 en stock
+[e13] link "Mochila urbana 20 L" → /products/mochila-urbana
+49,90 €
+15 en stock
+[e14] link "Planta artificial pequeña" → /products/planta-artificial
+8,90 €
+Agotado
+[e15] link "Set de acuarelas (12 colores)" → /products/set-acuarelas
+22,90 €
+20 en stock
+[e16] link "Soporte para portátil" → /products/soporte-portatil
+27,90 €
+18 en stock
+[e17] link "Taza de cerámica" → /products/taza-ceramica
+12,90 €
+40 en stock
