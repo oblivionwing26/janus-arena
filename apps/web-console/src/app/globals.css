@@ -368,3 +368,15 @@ input {
 .muted {
   color: var(--muted);
 }
+
+.zones-by-variant {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 320px), 1fr));
+  gap: 16px;
+}
+
+.zones-by-variant caption {
+  text-align: left;
+  font-weight: 600;
+  padding: 4px 0;
+}

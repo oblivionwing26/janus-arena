@@ -74,6 +74,10 @@ export const synthlabReportSchema = z.object({
     }),
   ),
   zones: z.array(frictionZoneSchema),
+  /** The same ranking within each variant (F1.11), to see what a variant fixed or broke. */
+  zonesByVariant: z
+    .array(z.object({ variant: z.string().min(1), zones: z.array(frictionZoneSchema) }))
+    .optional(),
   detectors: z.array(z.object({ detector: detectorSchema, signals: count, sessions: count })),
   success: z.object({
     variants: z.array(

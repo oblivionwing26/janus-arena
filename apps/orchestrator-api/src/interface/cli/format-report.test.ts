@@ -78,5 +78,22 @@ describe('formatReport', () => {
     expect(text).toContain('a (2): Inicio 2 (100 %) → Carrito 1 (50 %)');
     expect(text).toContain('a: personas 1/2 = 50 % [9 %, 91 %]; baseline 1/1');
     expect(text).toContain('Cost: 0.0123 € in 3 LLM calls');
+    expect(text).not.toContain('Top zones on variant');
+  });
+
+  it('lists the top zones of each variant when there are two', () => {
+    const [first, second] = report.zones;
+    const text = formatReport({
+      ...report,
+      zonesByVariant: [
+        { variant: 'a', zones: first === undefined ? [] : [first] },
+        { variant: 'b', zones: second === undefined ? [] : [{ ...second, rank: 1 }] },
+      ],
+    });
+
+    expect(text).toContain('Top zones on variant a:\n   1. /register');
+    expect(text).toContain(
+      'Top zones on variant b:\n   1. /checkout (page): intensity 1, 1 sessions',
+    );
   });
 });

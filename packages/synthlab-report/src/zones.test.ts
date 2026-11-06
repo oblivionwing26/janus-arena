@@ -176,6 +176,24 @@ describe('frictionZones', () => {
     ]);
   });
 
+  it('keeps only the sessions of one variant when asked, so B does not inherit A', () => {
+    const run = new ReportRun();
+    for (const variant of ['a', 'b']) {
+      const session = run.session(`carmen-${variant}-s1-a1`, { variant });
+      const visit = session.step(variant === 'a' ? '/checkout' : '/register');
+      run.signal(`carmen-${variant}-s1-a1`, 'technical-error', 'low', [visit.step]);
+    }
+
+    const route = (variant?: string) =>
+      frictionZones(run.events(), variant === undefined ? {} : { variant }).map(
+        (zone) => zone.route,
+      );
+
+    expect(route('a')).toEqual(['/checkout']);
+    expect(route('b')).toEqual(['/register']);
+    expect(route()).toEqual(['/checkout', '/register']);
+  });
+
   it('is empty for a run without friction', () => {
     const run = new ReportRun();
     run.session('carmen-a-s1-a1').step('/');

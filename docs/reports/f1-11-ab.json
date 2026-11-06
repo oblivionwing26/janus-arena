@@ -1,0 +1,585 @@
+{
+  "format": "janus-synthlab-report",
+  "version": 1,
+  "runId": "01M6RPNWNHP9NRPXQCDE4E28PS",
+  "source": {
+    "events": 2639,
+    "lastSeq": 2638
+  },
+  "sessions": {
+    "persona": 33,
+    "baseline": 4,
+    "excluded": [
+      {
+        "agentId": "rosa-meticulous-b-s2-a1",
+        "reason": "never ended (infrastructure)"
+      }
+    ]
+  },
+  "funnel": [
+    {
+      "variant": "a",
+      "sessions": 16,
+      "steps": [
+        {
+          "name": "Inicio",
+          "route": "/",
+          "reached": 16,
+          "rate": 1
+        },
+        {
+          "name": "Producto",
+          "route": "/products/:slug",
+          "reached": 16,
+          "rate": 1
+        },
+        {
+          "name": "Carrito",
+          "route": "/cart",
+          "reached": 16,
+          "rate": 1
+        },
+        {
+          "name": "Pago",
+          "route": "/checkout",
+          "reached": 13,
+          "rate": 0.8125
+        },
+        {
+          "name": "Pedido confirmado",
+          "route": "/orders/:id",
+          "reached": 11,
+          "rate": 0.6875
+        }
+      ]
+    },
+    {
+      "variant": "b",
+      "sessions": 16,
+      "steps": [
+        {
+          "name": "Inicio",
+          "route": "/",
+          "reached": 16,
+          "rate": 1
+        },
+        {
+          "name": "Producto",
+          "route": "/products/:slug",
+          "reached": 16,
+          "rate": 1
+        },
+        {
+          "name": "Carrito",
+          "route": "/cart",
+          "reached": 16,
+          "rate": 1
+        },
+        {
+          "name": "Pago",
+          "route": "/checkout",
+          "reached": 13,
+          "rate": 0.8125
+        },
+        {
+          "name": "Pedido confirmado",
+          "route": "/orders/:id",
+          "reached": 10,
+          "rate": 0.625
+        }
+      ]
+    }
+  ],
+  "zones": [
+    {
+      "rank": 1,
+      "route": "/products/:slug",
+      "element": null,
+      "intensity": 19,
+      "signals": 9,
+      "sessions": 7,
+      "detectors": [
+        {
+          "detector": "abandonment",
+          "signals": 6
+        },
+        {
+          "detector": "backtrack",
+          "signals": 3
+        }
+      ],
+      "boxes": [],
+      "screenshot": {
+        "agentId": "pablo-student-b-s2-a1",
+        "stepIndex": 4,
+        "artifact": "pablo-student-b-s2-a1/step-4.png"
+      },
+      "evidenceEventIds": [
+        "01M6RPSRS7MBYPTH28CDE0JB15",
+        "01M6RPT5Z0X8V2FK6YPS1MWQT8",
+        "01M6RPVJ111J5ZTE6PW5XX3V5V",
+        "01M6RPVM6EFB0R9EG1SNZFJ57F",
+        "01M6RPVS742QHGRMZZK931A0JR",
+        "01M6RPVSMFZ6684829EG6ET0GR",
+        "01M6RPVY05YR8WRW575TRMTQWE",
+        "01M6RQ148FW11R0H42AGCQV908",
+        "01M6RQ337N7C0E3ZNH8YXY7N7V",
+        "01M6RQ3NKWAVM5A3CR7J6JKV0E",
+        "01M6RQ3QCNGTKCYTEDGHC05CY7",
+        "01M6RQ516EC0TSREWFNHFVSY3P"
+      ]
+    },
+    {
+      "rank": 2,
+      "route": "/checkout",
+      "element": null,
+      "intensity": 15,
+      "signals": 5,
+      "sessions": 5,
+      "detectors": [
+        {
+          "detector": "abandonment",
+          "signals": 5
+        }
+      ],
+      "boxes": [],
+      "screenshot": null,
+      "evidenceEventIds": [
+        "01M6RPWPQWP18YFM88ZJC8PCMV",
+        "01M6RPXKK64TN7P7YGXKXD6S85",
+        "01M6RPYED3E6CDGY0K76T7FCCZ",
+        "01M6RQ5ZNTTGSFCDBMPJ99VZ3R",
+        "01M6RQ6JZEEBDT1XEJJ596PPZY"
+      ]
+    },
+    {
+      "rank": 3,
+      "route": "/login",
+      "element": null,
+      "intensity": 8,
+      "signals": 11,
+      "sessions": 8,
+      "detectors": [
+        {
+          "detector": "backtrack",
+          "signals": 11
+        }
+      ],
+      "boxes": [],
+      "screenshot": {
+        "agentId": "pablo-student-b-s1-a1",
+        "stepIndex": 5,
+        "artifact": "pablo-student-b-s1-a1/step-5.png"
+      },
+      "evidenceEventIds": [
+        "01M6RPSG7PSYYDVW97W9TJKCEK",
+        "01M6RPSN4MBTVVGQW8C1DAZBWD",
+        "01M6RPTXFB1W16SWNKGNG0PCN6",
+        "01M6RPVCB4YFRJ2AWQ12EBVNQ2",
+        "01M6RPVFF7KSRZVAPH3NSGY4QP",
+        "01M6RPVPFGT2KKFHC968Y2W24K",
+        "01M6RQ0S6PMHM8RM9Q31JJMNB2",
+        "01M6RQ2VB2GBJTQ1E4K4HS16JQ",
+        "01M6RQ3C1BJ6J8Z6XP5HD60RG0",
+        "01M6RQ3J5FDP27FCRKN4J0CNNH",
+        "01M6RQ3QCF1W78709PW5NKA9ZS"
+      ]
+    },
+    {
+      "rank": 4,
+      "route": "/cart",
+      "element": null,
+      "intensity": 4,
+      "signals": 5,
+      "sessions": 4,
+      "detectors": [
+        {
+          "detector": "backtrack",
+          "signals": 5
+        }
+      ],
+      "boxes": [],
+      "screenshot": {
+        "agentId": "lucia-private-b-s2-a1",
+        "stepIndex": 19,
+        "artifact": "lucia-private-b-s2-a1/step-19.png"
+      },
+      "evidenceEventIds": [
+        "01M6RPSNH792KQ5FA26763CQCY",
+        "01M6RPSSP9XMT7TSX55M3XQ6DB",
+        "01M6RPV35F15M8SCFAPGZ7QTZ8",
+        "01M6RQ1CAYGHRDPY9H54PEGBB8",
+        "01M6RQ1MQ7Y59BXW6ZV5GA6A77"
+      ]
+    },
+    {
+      "rank": 5,
+      "route": "/orders/:id",
+      "element": null,
+      "intensity": 3,
+      "signals": 1,
+      "sessions": 1,
+      "detectors": [
+        {
+          "detector": "abandonment",
+          "signals": 1
+        }
+      ],
+      "boxes": [],
+      "screenshot": null,
+      "evidenceEventIds": ["01M6RPSDAP8V92BHJPRMAN7RPV"]
+    },
+    {
+      "rank": 6,
+      "route": "/",
+      "element": null,
+      "intensity": 1,
+      "signals": 1,
+      "sessions": 1,
+      "detectors": [
+        {
+          "detector": "backtrack",
+          "signals": 1
+        }
+      ],
+      "boxes": [],
+      "screenshot": {
+        "agentId": "pablo-student-a-s1-a1",
+        "stepIndex": 11,
+        "artifact": "pablo-student-a-s1-a1/step-11.png"
+      },
+      "evidenceEventIds": ["01M6RPVHB7R0ECR76MFHYPVMZ6", "01M6RPVMJ64F23K5NZ5YHW331F"]
+    }
+  ],
+  "zonesByVariant": [
+    {
+      "variant": "a",
+      "zones": [
+        {
+          "rank": 1,
+          "route": "/products/:slug",
+          "element": null,
+          "intensity": 9,
+          "signals": 4,
+          "sessions": 3,
+          "detectors": [
+            {
+              "detector": "abandonment",
+              "signals": 3
+            },
+            {
+              "detector": "backtrack",
+              "signals": 1
+            }
+          ],
+          "boxes": [],
+          "screenshot": {
+            "agentId": "lucia-private-a-s1-a1",
+            "stepIndex": 2,
+            "artifact": "lucia-private-a-s1-a1/step-2.png"
+          },
+          "evidenceEventIds": [
+            "01M6RPSRS7MBYPTH28CDE0JB15",
+            "01M6RPVJ111J5ZTE6PW5XX3V5V",
+            "01M6RPVM6EFB0R9EG1SNZFJ57F",
+            "01M6RPVS742QHGRMZZK931A0JR",
+            "01M6RQ148FW11R0H42AGCQV908"
+          ]
+        },
+        {
+          "rank": 2,
+          "route": "/checkout",
+          "element": null,
+          "intensity": 6,
+          "signals": 2,
+          "sessions": 2,
+          "detectors": [
+            {
+              "detector": "abandonment",
+              "signals": 2
+            }
+          ],
+          "boxes": [],
+          "screenshot": null,
+          "evidenceEventIds": ["01M6RPXKK64TN7P7YGXKXD6S85", "01M6RQ5ZNTTGSFCDBMPJ99VZ3R"]
+        },
+        {
+          "rank": 3,
+          "route": "/login",
+          "element": null,
+          "intensity": 4,
+          "signals": 5,
+          "sessions": 4,
+          "detectors": [
+            {
+              "detector": "backtrack",
+              "signals": 5
+            }
+          ],
+          "boxes": [],
+          "screenshot": {
+            "agentId": "pablo-student-b-s1-a1",
+            "stepIndex": 5,
+            "artifact": "pablo-student-b-s1-a1/step-5.png"
+          },
+          "evidenceEventIds": [
+            "01M6RPSG7PSYYDVW97W9TJKCEK",
+            "01M6RPTXFB1W16SWNKGNG0PCN6",
+            "01M6RPVFF7KSRZVAPH3NSGY4QP",
+            "01M6RQ0S6PMHM8RM9Q31JJMNB2",
+            "01M6RQ3C1BJ6J8Z6XP5HD60RG0"
+          ]
+        },
+        {
+          "rank": 4,
+          "route": "/cart",
+          "element": null,
+          "intensity": 2,
+          "signals": 2,
+          "sessions": 2,
+          "detectors": [
+            {
+              "detector": "backtrack",
+              "signals": 2
+            }
+          ],
+          "boxes": [],
+          "screenshot": {
+            "agentId": "lucia-private-b-s2-a1",
+            "stepIndex": 19,
+            "artifact": "lucia-private-b-s2-a1/step-19.png"
+          },
+          "evidenceEventIds": ["01M6RPSNH792KQ5FA26763CQCY", "01M6RPV35F15M8SCFAPGZ7QTZ8"]
+        }
+      ]
+    },
+    {
+      "variant": "b",
+      "zones": [
+        {
+          "rank": 1,
+          "route": "/products/:slug",
+          "element": null,
+          "intensity": 10,
+          "signals": 5,
+          "sessions": 4,
+          "detectors": [
+            {
+              "detector": "abandonment",
+              "signals": 3
+            },
+            {
+              "detector": "backtrack",
+              "signals": 2
+            }
+          ],
+          "boxes": [],
+          "screenshot": {
+            "agentId": "pablo-student-b-s2-a1",
+            "stepIndex": 4,
+            "artifact": "pablo-student-b-s2-a1/step-4.png"
+          },
+          "evidenceEventIds": [
+            "01M6RPT5Z0X8V2FK6YPS1MWQT8",
+            "01M6RPVSMFZ6684829EG6ET0GR",
+            "01M6RPVY05YR8WRW575TRMTQWE",
+            "01M6RQ337N7C0E3ZNH8YXY7N7V",
+            "01M6RQ3NKWAVM5A3CR7J6JKV0E",
+            "01M6RQ3QCNGTKCYTEDGHC05CY7",
+            "01M6RQ516EC0TSREWFNHFVSY3P"
+          ]
+        },
+        {
+          "rank": 2,
+          "route": "/checkout",
+          "element": null,
+          "intensity": 9,
+          "signals": 3,
+          "sessions": 3,
+          "detectors": [
+            {
+              "detector": "abandonment",
+              "signals": 3
+            }
+          ],
+          "boxes": [],
+          "screenshot": null,
+          "evidenceEventIds": [
+            "01M6RPWPQWP18YFM88ZJC8PCMV",
+            "01M6RPYED3E6CDGY0K76T7FCCZ",
+            "01M6RQ6JZEEBDT1XEJJ596PPZY"
+          ]
+        },
+        {
+          "rank": 3,
+          "route": "/login",
+          "element": null,
+          "intensity": 4,
+          "signals": 6,
+          "sessions": 4,
+          "detectors": [
+            {
+              "detector": "backtrack",
+              "signals": 6
+            }
+          ],
+          "boxes": [],
+          "screenshot": {
+            "agentId": "pablo-student-b-s1-a1",
+            "stepIndex": 5,
+            "artifact": "pablo-student-b-s1-a1/step-5.png"
+          },
+          "evidenceEventIds": [
+            "01M6RPSN4MBTVVGQW8C1DAZBWD",
+            "01M6RPVCB4YFRJ2AWQ12EBVNQ2",
+            "01M6RPVPFGT2KKFHC968Y2W24K",
+            "01M6RQ2VB2GBJTQ1E4K4HS16JQ",
+            "01M6RQ3J5FDP27FCRKN4J0CNNH",
+            "01M6RQ3QCF1W78709PW5NKA9ZS"
+          ]
+        },
+        {
+          "rank": 4,
+          "route": "/orders/:id",
+          "element": null,
+          "intensity": 3,
+          "signals": 1,
+          "sessions": 1,
+          "detectors": [
+            {
+              "detector": "abandonment",
+              "signals": 1
+            }
+          ],
+          "boxes": [],
+          "screenshot": null,
+          "evidenceEventIds": ["01M6RPSDAP8V92BHJPRMAN7RPV"]
+        },
+        {
+          "rank": 5,
+          "route": "/cart",
+          "element": null,
+          "intensity": 2,
+          "signals": 3,
+          "sessions": 2,
+          "detectors": [
+            {
+              "detector": "backtrack",
+              "signals": 3
+            }
+          ],
+          "boxes": [],
+          "screenshot": {
+            "agentId": "lucia-private-b-s2-a1",
+            "stepIndex": 19,
+            "artifact": "lucia-private-b-s2-a1/step-19.png"
+          },
+          "evidenceEventIds": [
+            "01M6RPSSP9XMT7TSX55M3XQ6DB",
+            "01M6RQ1CAYGHRDPY9H54PEGBB8",
+            "01M6RQ1MQ7Y59BXW6ZV5GA6A77"
+          ]
+        },
+        {
+          "rank": 6,
+          "route": "/",
+          "element": null,
+          "intensity": 1,
+          "signals": 1,
+          "sessions": 1,
+          "detectors": [
+            {
+              "detector": "backtrack",
+              "signals": 1
+            }
+          ],
+          "boxes": [],
+          "screenshot": {
+            "agentId": "pablo-student-a-s1-a1",
+            "stepIndex": 11,
+            "artifact": "pablo-student-a-s1-a1/step-11.png"
+          },
+          "evidenceEventIds": ["01M6RPVHB7R0ECR76MFHYPVMZ6", "01M6RPVMJ64F23K5NZ5YHW331F"]
+        }
+      ]
+    }
+  ],
+  "detectors": [
+    {
+      "detector": "backtrack",
+      "signals": 20,
+      "sessions": 8
+    },
+    {
+      "detector": "abandonment",
+      "signals": 12,
+      "sessions": 12
+    }
+  ],
+  "success": {
+    "variants": [
+      {
+        "variant": "a",
+        "personas": {
+          "rate": 0.6875,
+          "low": 0.44404355834740666,
+          "high": 0.8583535614521796,
+          "successes": 11,
+          "n": 16
+        },
+        "baseline": {
+          "successes": 2,
+          "n": 2
+        }
+      },
+      {
+        "variant": "b",
+        "personas": {
+          "rate": 0.5625,
+          "low": 0.33178556398811904,
+          "high": 0.7690134759450764,
+          "successes": 9,
+          "n": 16
+        },
+        "baseline": {
+          "successes": 2,
+          "n": 2
+        }
+      }
+    ],
+    "comparison": {
+      "a": "a",
+      "b": "b",
+      "pairs": 16,
+      "difference": {
+        "mean": -0.125,
+        "low": -0.3125,
+        "high": 0,
+        "level": 0.95,
+        "resamples": 10000,
+        "seed": 20261106
+      },
+      "verdict": "no-detectable-difference"
+    }
+  },
+  "cost": {
+    "calls": 543,
+    "inputTokens": 280424,
+    "outputTokens": 105547,
+    "cacheReadInputTokens": 1102458,
+    "cacheCreationInputTokens": 45559,
+    "estimatedEur": 0.20725704590000005,
+    "byRole": [
+      {
+        "role": "competent-baseline",
+        "calls": 52,
+        "estimatedEur": 0.12987014800000005
+      },
+      {
+        "role": "navigator",
+        "calls": 491,
+        "estimatedEur": 0.07738689789999999
+      }
+    ]
+  }
+}

@@ -310,11 +310,13 @@ Nota F1.10: el informe lo calcula código a partir de los eventos del run, en el
 
 ### F1.11 · Variante B manual y primer A/B — S a M (3–5 h)
 
-- [ ] En ShopLab, rama `variant/manual-b` que corrige a mano los gastos de envío ocultos y el campo de cupón
-- [ ] Run A/B pareado 8 personas × 2 semillas
-- [ ] Revisar si el informe lo detecta, y si dice "sin diferencia detectable", aceptarlo y documentar por qué
+- [x] En ShopLab, rama `variant/manual-b` que corrige a mano los gastos de envío ocultos y el campo de cupón
+- [x] Run A/B pareado 8 personas × 2 semillas
+- [x] Revisar si el informe lo detecta, y si dice "sin diferencia detectable", aceptarlo y documentar por qué
 
 Hecho cuando: hay un informe A/B guardado y exportado a JSON.
+
+Nota F1.11: la variante B es la rama `variant/manual-b` de janus-shoplab (subida a GitHub, no se mergea). Solo cambia el carrito: muestra la fila de envío y el total real (UX-1) y el formulario de cupón bajo "¿Tienes un cupón?" (UX-2); UX-3 queda igual como control. Antes de gastar, una sonda guionizada en sandbox (`variant-b.sandbox.test.ts`, sin gasto) confirma que el carrito de B enseña "Envío" y el cupón sin "Otras opciones", y que el oráculo ve el pedido con descuento. El informe gana `zonesByVariant` (campo opcional del esquema v1) en la CLI y la consola. Run `runs/ab-manual-b.yaml` (8 personas × 2 semillas × 2 variantes + baseline = 36 sesiones, 0,21 €; un primer intento cayó entero por infraestructura y sin gasto porque recompilé mientras corría, lo que reinició el API de `pnpm dev`). Resultado: personas a 11/16 = 69 % [44 %, 86 %], b 9/16 = 56 % [33 %, 77 %]; b − a en 16 pares = −0,13 [−0,31, 0,00] → **sin diferencia detectable**. Baseline 2/2 en ambas. Embudo idéntico hasta el pago (13/16) y 11 frente a 10 pedidos. Por qué, y lo acepto: (1) ningún objetivo de persona usa cupón, así que el arreglo de UX-2 no entra en juego; (2) los dos pares que empeoran en B no tocan lo que cambia B: Javier (semilla 1) ve en el carrito de B "el total: 24,89 € con envío de 4,99 €", compra y en su cierre dice que el envío estaba oculto y abandona (sin tareas, el éxito es la palabra del agente, y aquí es incoherente); Pablo (semilla 2) se pierde entre login y registro y agota la paciencia; (3) 16 pares dan intervalos anchos. Lo demás es de las personas, no de las variantes: Lucía abandona siempre ante el muro de login (su sesgo), Tomás agota sus 12 pasos siempre. Informe en `docs/reports/f1-11-ab.json` y run exportado en `recordings/fixtures/runs/ab-f111.json` (1,5 MB; `pnpm run:report` sobre la exportación da el mismo informe). Pendiente, sin bloquear: un A/B con tareas y oráculo (y el 307 → "sin pedido" del oráculo) mediría UX-1/UX-2 en serio; algunas personas cierran en inglés.
 
 ### F1.12 · Lienzo del enjambre (PixiJS) — L (8–12 h)
 

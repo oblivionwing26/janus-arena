@@ -53,6 +53,10 @@ export function buildSynthlabReport(
     },
     funnel: funnelOf(events, config, excluded),
     zones: frictionZones(events, { routes: config.routes, top: config.topZones }),
+    zonesByVariant: summary.variants.map(({ variant }) => ({
+      variant,
+      zones: frictionZones(events, { routes: config.routes, top: config.topZones, variant }),
+    })),
     detectors: [...detectors]
       .map(([detector, entry]) => ({
         detector,
