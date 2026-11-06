@@ -71,6 +71,14 @@ module.exports = {
       },
     },
     {
+      name: 'stats-pure',
+      severity: 'error',
+      comment:
+        'F1.8: statistics are pure, seeded functions over numbers and events. No I/O, no LLM; shared-kernel only.',
+      from: { path: '^packages/stats/src/', pathNot: [TEST_FILE, '/src/test-support/'] },
+      to: { pathNot: ['^packages/stats/src/', SHARED_KERNEL] },
+    },
+    {
       name: 'no-circular',
       severity: 'error',
       comment: 'Circular dependencies make layering impossible to reason about.',

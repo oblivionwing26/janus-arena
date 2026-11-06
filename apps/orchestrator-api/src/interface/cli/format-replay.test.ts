@@ -1,4 +1,7 @@
-import { parseEvent } from '@janus/shared-kernel';
+import { readFileSync } from 'node:fs';
+import { fileURLToPath } from 'node:url';
+
+import { parseEvent, parseRunExport } from '@janus/shared-kernel';
 import { describe, expect, it } from 'vitest';
 
 import { formatReplay } from './format-replay.js';
@@ -69,5 +72,22 @@ describe('formatReplay', () => {
     const open = formatReplay({ runId: RUN_ID, source: 'database', events: events.slice(0, 2) });
 
     expect(open.split('\n')[1]).toMatch(/^Outcome: not completed/);
+  });
+});
+
+describe('formatReplay with A/B sessions (F1.8)', () => {
+  it('adds the synthetic task success of each variant and the paired verdict', () => {
+    const file = fileURLToPath(
+      new URL('../../../../../packages/stats/fixtures/aa-run-f17.json', import.meta.url),
+    );
+    const { runId, events } = parseRunExport(readFileSync(file, 'utf8'));
+    const lines = formatReplay({ runId, source: 'file', events }).split('\n');
+
+    expect(lines.slice(3, 7)).toEqual([
+      'Synthetic task success (95 % intervals):',
+      '  A: 3/4 personas = 75.0 % [30.1 %, 95.4 %] · baseline 1/1',
+      '  B: 3/4 personas = 75.0 % [30.1 %, 95.4 %] · baseline 1/1',
+      '  B − A over 4 pairs: +0.0 pp [+0.0, +0.0] (bootstrap 10000, seed 20261106) → no detectable difference',
+    ]);
   });
 });

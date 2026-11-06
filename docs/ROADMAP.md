@@ -278,12 +278,14 @@ Nota F1.7: un run se declara en `runs/*.yaml` (variantes `id`+`ref`, personas, s
 
 ### F1.8 · Módulo estadístico — M (4–6 h)
 
-- [ ] Tasa de éxito con intervalo de Wilson
-- [ ] Diferencia A/B pareada con bootstrap (10.000 remuestreos, semilla fija)
-- [ ] Regla de salida: si el intervalo de la diferencia cruza 0 → "sin diferencia detectable"
-- [ ] Tests contra valores calculados a mano o con otra herramienta
+- [x] Tasa de éxito con intervalo de Wilson
+- [x] Diferencia A/B pareada con bootstrap (10.000 remuestreos, semilla fija)
+- [x] Regla de salida: si el intervalo de la diferencia cruza 0 → "sin diferencia detectable"
+- [x] Tests contra valores calculados a mano o con otra herramienta
 
 Hecho cuando: los tests reproducen los valores de referencia con 3 decimales.
+
+Nota F1.8: paquete puro `packages/stats` (regla `stats-pure`: solo `shared-kernel`). `wilsonInterval` usa z = 1,959964 (cuantil exacto); `pairedBootstrap` remuestrea pares con un generador propio con semilla (mulberry32, semilla por defecto 20261106) e intervalo de percentiles con interpolación lineal; `decide` aplica la regla de salida (si el intervalo de B − A contiene el 0, "sin diferencia detectable"). `abSummary(events)` saca de los eventos de un run el éxito sintético de las personas por variante (baseline aparte, como referencia) y la diferencia pareada por persona y semilla; quedan fuera las sesiones sin `session.ended` (infraestructura) o sin presupuesto, y sus pares. `pnpm run:replay` muestra la sección cuando el run tiene sesiones. Referencias: Wilson a mano y con `packages/stats/reference/reference.py`, una implementación independiente en Python solo con la biblioteca estándar del generador, Wilson y el mismo bootstrap; los tests fijan sus números a 3 decimales (y las primeras salidas del generador exactas), y el bootstrap se contrasta además con la distribución exacta de un caso pequeño. Con los eventos reales del run A/A de F1.7 (fixture con sus 22 eventos de sesión y de run): A y B 3/4 = 75,0 % [30,1 %, 95,4 %], baselines 1/1, B − A sobre 4 pares +0,0 pp [+0,0, +0,0] → sin diferencia detectable, también con `pnpm run:replay` contra Postgres. El script de Python no corre en CI (CI no tiene Python).
 
 ### F1.9 · Validar el baseline competente — S a M (3–6 h, variable)
 

@@ -56,6 +56,9 @@ importers:
       '@janus/shared-kernel':
         specifier: workspace:*
         version: link:../../packages/shared-kernel
+      '@janus/stats':
+        specifier: workspace:*
+        version: link:../../packages/stats
       '@nestjs/common':
         specifier: ^12.3.3
         version: 12.3.3(reflect-metadata@0.2.2)(rxjs@7.8.2)
@@ -154,6 +157,12 @@ importers:
       zod:
         specifier: ^4.6.7
         version: 4.6.7
+
+  packages/stats:
+    dependencies:
+      '@janus/shared-kernel':
+        specifier: workspace:*
+        version: link:../shared-kernel
 
 packages:
 
