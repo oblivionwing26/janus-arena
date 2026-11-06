@@ -14,6 +14,7 @@ import { patchProposedEventSchema } from './v1/patch-proposed.js';
 import { runCompletedEventSchema } from './v1/run-completed.js';
 import { runStartedEventSchema } from './v1/run-started.js';
 import { sessionEndedEventSchema } from './v1/session-ended.js';
+import { sessionStartedEventSchema } from './v1/session-started.js';
 import { verificationResultEventSchema } from './v1/verification-result.js';
 
 const knownEventSchemas = [
@@ -32,6 +33,7 @@ const knownEventSchemas = [
   pageErrorEventSchema,
   pageVitalsEventSchema,
   pageScreenshotEventSchema,
+  sessionStartedEventSchema,
 ] as const;
 
 export const janusEventSchema = z.discriminatedUnion('type', knownEventSchemas);

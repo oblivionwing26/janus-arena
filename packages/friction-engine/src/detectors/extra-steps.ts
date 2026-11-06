@@ -8,9 +8,21 @@ function succeeded(session: AgentSession): boolean {
 
 /**
  * A persona that reached the goal with many more steps than the competent baseline of the same
- * run. Waits are not counted. No successful baseline, no comparison.
+ * variant (F1.7; the whole run when sessions carry no variant). Waits are not counted. No
+ * successful baseline, no comparison.
  */
 export function detectExtraSteps(
+  sessions: readonly AgentSession[],
+  config: FrictionConfig,
+): FrictionSignalDraft[] {
+  const variants = new Map<string | undefined, AgentSession[]>();
+  for (const session of sessions) {
+    variants.set(session.variant, [...(variants.get(session.variant) ?? []), session]);
+  }
+  return [...variants.values()].flatMap((group) => withinVariant(group, config));
+}
+
+function withinVariant(
   sessions: readonly AgentSession[],
   config: FrictionConfig,
 ): FrictionSignalDraft[] {

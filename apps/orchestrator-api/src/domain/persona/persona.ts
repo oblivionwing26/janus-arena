@@ -62,6 +62,25 @@ export class Persona {
     this.rationale = props.rationale;
   }
 
+  /** The same persona with at most `maxSteps` of patience (a run's step limit, F1.7). */
+  withMaxSteps(maxSteps: number): Persona {
+    if (maxSteps >= this.patience.maxSteps) return this;
+    return Persona.create({
+      id: this.id,
+      name: this.name,
+      profile: this.profile,
+      goal: this.goal,
+      digitalLiteracy: this.digitalLiteracy,
+      patience: { maxSteps, maxSeconds: this.patience.maxSeconds },
+      device: this.device,
+      locale: this.locale,
+      trustSensitivity: this.trustSensitivity,
+      biases: this.biases,
+      modelRole: this.modelRole,
+      rationale: this.rationale,
+    });
+  }
+
   static create(props: PersonaProps): Persona {
     const fail = (reason: string) => new InvalidPersonaError(props.id, reason);
     if (!SLUG.test(props.id)) throw fail('id must be a lowercase slug of up to 48 characters');

@@ -51,10 +51,26 @@ function describe(event: JanusEvent): { label: string; tone: Tone } {
       };
     }
     case 'run.completed': {
-      const { outcome, reason } = event.payload;
+      const { outcome, reason, sessions } = event.payload;
+      const counts =
+        sessions === undefined
+          ? ''
+          : ` · sesiones ${String(sessions.completed)}/${String(sessions.total)} completas` +
+            (sessions.excluded === 0
+              ? ''
+              : ` · ${String(sessions.excluded)} excluida${sessions.excluded === 1 ? '' : 's'} (infraestructura)`);
       return {
-        label: `Fin · ${outcome}${reason === undefined ? '' : ` (${reason})`}`,
+        label: `Fin · ${outcome}${reason === undefined ? '' : ` (${reason})`}${counts}`,
         tone: outcome === 'success' ? 'ok' : 'error',
+      };
+    }
+    case 'session.started': {
+      const { variant, kind, persona, seed, attempt } = event.payload;
+      const who = kind === 'scripted' ? 'agente programado' : (persona ?? kind);
+      const retry = attempt > 1 ? ` · intento ${String(attempt)}` : '';
+      return {
+        label: `Sesión ${kind === 'baseline' ? 'baseline ' : ''}${who} · variante ${variant.toUpperCase()} · semilla ${String(seed)}${retry}`,
+        tone: 'neutral',
       };
     }
     case 'agent.step':

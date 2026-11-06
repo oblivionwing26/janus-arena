@@ -76,6 +76,31 @@ describe('extra-steps', () => {
     expect(extra(run)).toEqual([]);
   });
 
+  it('compares each persona with the baseline of its own variant (F1.7)', () => {
+    const run = new RunBuilder();
+    const baselineA = run.session('competent-baseline-a', 'competent-baseline');
+    baselineA.started('a');
+    walk(baselineA, 10);
+    baselineA.end('success');
+    const baselineB = run.session('competent-baseline-b', 'competent-baseline');
+    baselineB.started('b');
+    walk(baselineB, 20);
+    baselineB.end('success');
+    const personaA = run.session('carmen-a');
+    personaA.started('a');
+    walk(personaA, 20);
+    personaA.end('success');
+    const personaB = run.session('carmen-b');
+    personaB.started('b');
+    walk(personaB, 20);
+    personaB.end('success');
+
+    // 20 steps is twice the baseline in A, but the same as the baseline in B.
+    expect(extra(run).map((signal) => [signal.agentId, signal.severity])).toEqual([
+      ['carmen-a', 'medium'],
+    ]);
+  });
+
   it('only compares successful personas', () => {
     const run = new RunBuilder();
     const baseline = run.session('competent-baseline-0', 'competent-baseline');

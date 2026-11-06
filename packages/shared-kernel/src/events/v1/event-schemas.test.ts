@@ -42,6 +42,10 @@ const invalidEvents: Record<JanusEventType, [string, Record<string, unknown>]> =
     'a path outside the run',
     withPayload('page.screenshot', { artifact: '../etc/x.png' }),
   ],
+  'session.started': [
+    'a variant name too long',
+    withPayload('session.started', { variant: 'variant-b' }),
+  ],
   'page.vitals': ['a negative CLS', withPayload('page.vitals', { cls: -0.1 })],
   'session.ended': ['an unknown outcome', withPayload('session.ended', { outcome: 'crashed' })],
   'verification.result': [
@@ -71,6 +75,7 @@ describe('v1 event schemas', () => {
         'page.error',
         'page.vitals',
         'page.screenshot',
+        'session.started',
       ].sort(),
     );
   });
@@ -124,6 +129,25 @@ describe('v1 event schemas', () => {
     expect(
       janusEventSchema.safeParse(withPayload('agent.action', { ok: false, errorCode: 'Oops!' }))
         .success,
+    ).toBe(false);
+  });
+
+  it('run.completed may count its sessions (F1.7)', () => {
+    const sessions = {
+      total: 10,
+      completed: 8,
+      failed: 1,
+      budgetExhausted: 0,
+      cancelled: 0,
+      excluded: 1,
+    };
+    expect(janusEventSchema.safeParse(withPayload('run.completed', { sessions })).success).toBe(
+      true,
+    );
+    expect(
+      janusEventSchema.safeParse(
+        withPayload('run.completed', { sessions: { ...sessions, excluded: -1 } }),
+      ).success,
     ).toBe(false);
   });
 

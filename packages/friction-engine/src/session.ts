@@ -13,6 +13,8 @@ import {
 export interface AgentSession {
   readonly agentId: string;
   readonly role: string;
+  /** From session.started (F1.7); undefined for runs that predate variants. */
+  readonly variant: string | undefined;
   readonly actions: readonly AgentActionEvent[];
   readonly steps: readonly AgentStepEvent[];
   readonly errors: readonly PageErrorEvent[];
@@ -23,6 +25,7 @@ export interface AgentSession {
 interface MutableSession {
   agentId: string;
   role: string;
+  variant: string | undefined;
   actions: AgentActionEvent[];
   steps: AgentStepEvent[];
   errors: PageErrorEvent[];
@@ -41,6 +44,7 @@ export function sessionsOf(events: readonly (JanusEvent | UnknownEvent)[]): Agen
       session = {
         agentId: event.actor.agentId,
         role: event.actor.role,
+        variant: undefined,
         actions: [],
         steps: [],
         errors: [],
@@ -64,6 +68,9 @@ export function sessionsOf(events: readonly (JanusEvent | UnknownEvent)[]): Agen
         break;
       case 'session.ended':
         session.ended = event;
+        break;
+      case 'session.started':
+        session.variant = event.payload.variant;
         break;
       default:
         break;

@@ -15,15 +15,17 @@ import { SHOPLAB_PAGES } from '../test-support/shoplab-pages.js';
 import { FinishRun } from './finish-run.js';
 import { RunAgentSession } from './run-agent-session.js';
 import { RunControl } from './run-control.js';
-import { StartRun, type StartRunInput } from './start-run.js';
+import { runInputFromSessions, StartRun } from './start-run.js';
 import { StopRun } from './stop-run.js';
 
-const input: StartRunInput = {
+const base = {
   target: 'shoplab',
   ref: 'main',
   sessions: 2,
   budget: { maxTokens: 100_000, maxEur: 1 },
 };
+const input = runInputFromSessions(base);
+const oneSession = runInputFromSessions({ ...base, sessions: 1 });
 
 class FailingSandbox extends InMemorySandbox {
   override up(): Promise<RunningVariant> {
@@ -73,8 +75,19 @@ async function knownEvents(store: InMemoryEventStore, runId: string): Promise<Ja
   return events.filter(isKnownEvent);
 }
 
+/** run.completed payloads, without the session counter (checked on its own). */
 function completions(events: JanusEvent[]) {
-  return events.flatMap((event) => (event.type === 'run.completed' ? [event.payload] : []));
+  return events.flatMap((event) => {
+    if (event.type !== 'run.completed') return [];
+    const { sessions: _sessions, ...rest } = event.payload;
+    return [rest];
+  });
+}
+
+function sessionCounts(events: JanusEvent[]) {
+  return events.flatMap((event) =>
+    event.type === 'run.completed' ? [event.payload.sessions] : [],
+  );
 }
 
 describe('run lifecycle', () => {
@@ -97,7 +110,7 @@ describe('run lifecycle', () => {
     const agents = new Set(
       events.filter((e) => e.type === 'agent.step').map((e) => e.actor.agentId),
     );
-    expect(agents).toEqual(new Set(['scripted-buyer-0', 'scripted-buyer-1']));
+    expect(agents).toEqual(new Set(['scripted-buyer-a-s0-a1', 'scripted-buyer-a-s1-a1']));
     expect(events.map((event) => event.seq)).toEqual(events.map((_, index) => index));
     await expect(sandbox.logs(variantIdFor(runId))).rejects.toBeInstanceOf(SandboxNotFoundError);
   });
@@ -118,7 +131,7 @@ describe('run lifecycle', () => {
     const browser = new ScriptedBrowser(pages);
     const { store, queue, startRun } = setup({ browser });
 
-    const { runId, launched } = await startRun.execute({ ...input, sessions: 1 });
+    const { runId, launched } = await startRun.execute(oneSession);
     await launched;
     await queue.drain();
 
@@ -135,17 +148,27 @@ describe('run lifecycle', () => {
   it('retries infrastructure failures and recovers', async () => {
     const { store, queue, startRun } = setup({ browser: new FlakyBrowser(SHOPLAB_PAGES, 1) });
 
-    const { runId, launched } = await startRun.execute({ ...input, sessions: 1 });
+    const { runId, launched } = await startRun.execute(oneSession);
     await launched;
     await queue.drain();
 
-    expect(completions(await knownEvents(store, runId))).toEqual([{ outcome: 'success' }]);
+    const events = await knownEvents(store, runId);
+    expect(completions(events)).toEqual([{ outcome: 'success' }]);
+    // Each attempt is a session of its own: the failed one never ends, so it counts nowhere.
+    const started = events.filter((e) => e.type === 'session.started');
+    expect(started.map((e) => [e.actor.agentId, e.payload.attempt])).toEqual([
+      ['scripted-buyer-a-s0-a1', 1],
+      ['scripted-buyer-a-s0-a2', 2],
+    ]);
+    expect(sessionCounts(events)).toEqual([
+      { total: 1, completed: 1, failed: 0, budgetExhausted: 0, cancelled: 0, excluded: 0 },
+    ]);
   });
 
   it('reports persistent infrastructure failures as infra_error, not friction', async () => {
     const { store, queue, startRun } = setup({ browser: new FlakyBrowser(SHOPLAB_PAGES, 99) });
 
-    const { runId, launched } = await startRun.execute({ ...input, sessions: 1 });
+    const { runId, launched } = await startRun.execute(oneSession);
     await launched;
     await queue.drain();
 
@@ -154,6 +177,9 @@ describe('run lifecycle', () => {
       { outcome: 'error', reason: '0/1 sessions completed; infra_error: 1' },
     ]);
     expect(events.filter((e) => e.type.startsWith('agent.'))).toEqual([]);
+    expect(sessionCounts(events)).toEqual([
+      { total: 1, completed: 0, failed: 0, budgetExhausted: 0, cancelled: 0, excluded: 1 },
+    ]);
   });
 
   it('completes with budget_exhausted when the shared budget runs out', async () => {
