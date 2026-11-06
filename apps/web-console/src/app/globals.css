@@ -284,3 +284,87 @@ input {
 .empty {
   color: var(--muted);
 }
+
+/* SynthLab report (F1.10) */
+.heatmap {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(min(100%, 340px), 1fr));
+  gap: 24px;
+}
+
+.heatmap-route {
+  margin: 0;
+  padding: 12px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+}
+
+.heatmap-route figcaption {
+  margin-bottom: 8px;
+}
+
+.heatmap-shot {
+  position: relative;
+  margin: 6px;
+}
+
+.heatmap-shot img {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+.heatmap-shot svg {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+}
+
+.heatmap-legend {
+  margin: 12px 0 0;
+  padding: 0;
+  list-style: none;
+  font-size: 0.9rem;
+}
+
+.heatmap-legend li {
+  margin: 4px 0;
+  overflow-wrap: anywhere;
+}
+
+.swatch {
+  display: inline-block;
+  width: 12px;
+  height: 12px;
+  margin-right: 6px;
+  border-radius: 2px;
+  vertical-align: middle;
+}
+
+.funnel-bar {
+  position: relative;
+  min-width: 120px;
+  height: 22px;
+  background: var(--bg);
+  border: 1px solid var(--border);
+}
+
+.funnel-bar span {
+  display: block;
+  height: 100%;
+  background: var(--accent);
+  opacity: 0.35;
+}
+
+.funnel-bar em {
+  position: absolute;
+  inset: 0 6px;
+  font-style: normal;
+  line-height: 22px;
+}
+
+.muted {
+  color: var(--muted);
+}

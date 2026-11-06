@@ -79,6 +79,22 @@ module.exports = {
       to: { pathNot: ['^packages/stats/src/', SHARED_KERNEL] },
     },
     {
+      name: 'synthlab-report-pure',
+      severity: 'error',
+      comment:
+        'F1.10: the SynthLab report is computed by code from events. No I/O, no LLM; shared-kernel, stats and zod only.',
+      from: { path: '^packages/synthlab-report/src/', pathNot: [TEST_FILE, '/src/test-support/'] },
+      to: {
+        pathNot: [
+          '^packages/synthlab-report/src/',
+          SHARED_KERNEL,
+          '^packages/stats/',
+          '(^|/)node_modules/@janus/stats/',
+          '(^|/)node_modules/zod/',
+        ],
+      },
+    },
+    {
       name: 'no-circular',
       severity: 'error',
       comment: 'Circular dependencies make layering impossible to reason about.',

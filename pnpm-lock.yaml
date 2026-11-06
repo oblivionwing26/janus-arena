@@ -59,6 +59,9 @@ importers:
       '@janus/stats':
         specifier: workspace:*
         version: link:../../packages/stats
+      '@janus/synthlab-report':
+        specifier: workspace:*
+        version: link:../../packages/synthlab-report
       '@nestjs/common':
         specifier: ^12.3.3
         version: 12.3.3(reflect-metadata@0.2.2)(rxjs@7.8.2)
@@ -163,6 +166,18 @@ importers:
       '@janus/shared-kernel':
         specifier: workspace:*
         version: link:../shared-kernel
+
+  packages/synthlab-report:
+    dependencies:
+      '@janus/shared-kernel':
+        specifier: workspace:*
+        version: link:../shared-kernel
+      '@janus/stats':
+        specifier: workspace:*
+        version: link:../stats
+      zod:
+        specifier: ^4.6.7
+        version: 4.6.7
 
 packages:
 

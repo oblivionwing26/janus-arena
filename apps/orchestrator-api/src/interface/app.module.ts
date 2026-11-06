@@ -11,6 +11,7 @@ import { SESSION_QUEUE_PORT } from '../domain/run/session-queue-port.js';
 import { SANDBOX_PORT } from '../domain/sandbox/sandbox-port.js';
 import { APP_ADAPTERS, type AppAdapters } from './app-adapters.js';
 import { HealthController } from './http/health.controller.js';
+import { RunReportController } from './http/run-report.controller.js';
 import { RunsController } from './http/runs.controller.js';
 import { RunWorker } from './run-worker.js';
 import { FINISH_RUN, RUN_AGENT_SESSION, RUN_CONTROL, START_RUN, STOP_RUN } from './tokens.js';
@@ -36,7 +37,7 @@ export class AppModule {
     const control = new RunControl();
     return {
       module: AppModule,
-      controllers: [HealthController, RunsController],
+      controllers: [HealthController, RunsController, RunReportController],
       providers: [
         { provide: APP_ADAPTERS, useValue: adapters },
         { provide: EVENT_STORE_PORT, useValue: store },

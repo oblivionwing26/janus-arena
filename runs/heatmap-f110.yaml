@@ -1,0 +1,32 @@
+# F1.10 "Done when": ShopLab's three seeded flaws appear among the 5 friction zones with most
+# intensity in the heatmap. Every persona plays the coupon task, the one path that crosses all
+# three: sign up (UX-3), find the coupon field on the cart (UX-2) and see the shipping cost
+# appear at checkout (UX-1). 8 personas + the baseline on variant a = 9 sessions.
+#   pnpm run:start runs/heatmap-f110.yaml
+#   pnpm run:report <runId>
+
+target: shoplab
+variants:
+  - { id: a, ref: main }
+personas:
+  [
+    carmen-retired,
+    diego-commuter,
+    javier-budget,
+    lucia-private,
+    marta-first-phone,
+    pablo-student,
+    rosa-meticulous,
+    tomas-hurried,
+  ]
+seeds: [1]
+tasks:
+  - id: use-coupon
+    goal: Buy one "Set de acuarelas (12 colores)" using your discount coupon BIENVENIDA10.
+    expect:
+      items: [{ product: Set de acuarelas (12 colores), quantity: 1 }]
+      discounted: true
+budget:
+  maxTokens: 3000000
+  maxEur: 0.5
+concurrency: 3

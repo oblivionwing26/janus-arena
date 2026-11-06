@@ -1,5 +1,6 @@
 'use client';
 
+import Link from 'next/link';
 import { useParams } from 'next/navigation';
 import { useMemo } from 'react';
 
@@ -14,6 +15,9 @@ export default function RunPage() {
   return (
     <>
       <h1>Run {id}</h1>
+      <p>
+        <Link href={`/runs/${id}/report`}>Informe SynthLab: heatmap y embudo →</Link>
+      </p>
       <RunViewer
         key={id}
         source={source}

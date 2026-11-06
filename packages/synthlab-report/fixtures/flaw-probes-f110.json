@@ -1,0 +1,3465 @@
+{
+  "format": "janus-run",
+  "version": 1,
+  "runId": "01JC0F16FXF0000000000000AA",
+  "exportedAt": "2026-11-06T14:05:28.754Z",
+  "events": [
+    {
+      "id": "01M6RJTTZ0RY5XFAAARJYMRBZ5",
+      "runId": "01JC0F16FXF0000000000000AA",
+      "seq": 0,
+      "ts": "2026-11-06T14:05:06.400Z",
+      "schemaVersion": 1,
+      "actor": {
+        "agentId": "probe-ux1-0",
+        "role": "scripted"
+      },
+      "type": "agent.action",
+      "payload": {
+        "stepIndex": 0,
+        "action": "click",
+        "durationMs": 686.6311999999998,
+        "ok": true,
+        "ref": "e5",
+        "selector": "role=link[name=\"Crear cuenta\"]",
+        "boundingBox": {
+          "x": 1174.546875,
+          "y": 15,
+          "width": 89.453125,
+          "height": 24
+        },
+        "domMutations": 15
+      }
+    },
+    {
+      "id": "01M6RJTTZ1HW7Q5BZ9VVN3PETJ",
+      "runId": "01JC0F16FXF0000000000000AA",
+      "seq": 1,
+      "ts": "2026-11-06T14:05:06.401Z",
+      "schemaVersion": 1,
+      "actor": {
+        "agentId": "probe-ux1-0",
+        "role": "scripted"
+      },
+      "type": "agent.step",
+      "payload": {
+        "stepIndex": 0,
+        "url": "http://janus-f16-app:3100/",
+        "durationMs": 1564.0771999999997
+      }
+    },
+    {
+      "id": "01M6RJTTZ3A2YSB2EVBT1JN12K",
+      "runId": "01JC0F16FXF0000000000000AA",
+      "seq": 2,
+      "ts": "2026-11-06T14:05:06.403Z",
+      "schemaVersion": 1,
+      "actor": {
+        "agentId": "probe-ux1-0",
+        "role": "scripted"
+      },
+      "type": "page.vitals",
+      "payload": {
+        "stepIndex": 0,
+        "url": "http://janus-f16-app:3100/register",
+        "lcpMs": 248,
+        "cls": 0,
+        "inpMs": 16
+      }
+    },
+    {
+      "id": "01M6RJTV5M2KDS710B1VGE6D90",
+      "runId": "01JC0F16FXF0000000000000AA",
+      "seq": 3,
+      "ts": "2026-11-06T14:05:06.612Z",
+      "schemaVersion": 1,
+      "actor": {
+        "agentId": "probe-ux1-0",
+        "role": "scripted"
+      },
+      "type": "agent.action",
+      "payload": {
+        "stepIndex": 1,
+        "action": "type",
+        "durationMs": 137.90480000000025,
+        "ok": true,
+        "ref": "e18",
+        "selector": "role=textbox[name=\"Nombre\"]",
+        "boundingBox": {
+          "x": 176,
+          "y": 197.875,
+          "width": 480,
+          "height": 42
+        }
+      }
+    },
+    {
+      "id": "01M6RJTV5M6HP5BCWR5EEKZV83",
+      "runId": "01JC0F16FXF0000000000000AA",
+      "seq": 4,
+      "ts": "2026-11-06T14:05:06.612Z",
+      "schemaVersion": 1,
+      "actor": {
+        "agentId": "probe-ux1-0",
+        "role": "scripted"
+      },
+      "type": "agent.step",
+      "payload": {
+        "stepIndex": 1,
+        "url": "http://janus-f16-app:3100/register",
+        "durationMs": 208.41749999999956
+      }
+    },
+    {
+      "id": "01M6RJTV5P69D8ZFPCK327P33F",
+      "runId": "01JC0F16FXF0000000000000AA",
+      "seq": 5,
+      "ts": "2026-11-06T14:05:06.614Z",
+      "schemaVersion": 1,
+      "actor": {
+        "agentId": "probe-ux1-0",
+        "role": "scripted"
+      },
+      "type": "page.vitals",
+      "payload": {
+        "stepIndex": 1,
+        "url": "http://janus-f16-app:3100/register",
+        "lcpMs": 248,
+        "cls": 0,
+        "inpMs": 16
+      }
+    },
+    {
+      "id": "01M6RJTVB0BHYZ6RXA1ENPWA8Q",
+      "runId": "01JC0F16FXF0000000000000AA",
+      "seq": 6,
+      "ts": "2026-11-06T14:05:06.784Z",
+      "schemaVersion": 1,
+      "actor": {
+        "agentId": "probe-ux1-0",
+        "role": "scripted"
+      },
+      "type": "agent.action",
+      "payload": {
+        "stepIndex": 2,
+        "action": "type",
+        "durationMs": 102.66879999999946,
+        "ok": true,
+        "ref": "e19",
+        "selector": "role=textbox[name=\"Email\"]",
+        "boundingBox": {
+          "x": 176,
+          "y": 279.875,
+          "width": 480,
+          "height": 42
+        }
+      }
+    },
+    {
+      "id": "01M6RJTVB06PXCQT5XW3B7QGTM",
+      "runId": "01JC0F16FXF0000000000000AA",
+      "seq": 7,
+      "ts": "2026-11-06T14:05:06.784Z",
+      "schemaVersion": 1,
+      "actor": {
+        "agentId": "probe-ux1-0",
+        "role": "scripted"
+      },
+      "type": "agent.step",
+      "payload": {
+        "stepIndex": 2,
+        "url": "http://janus-f16-app:3100/register",
+        "durationMs": 169.95010000000184
+      }
+    },
+    {
+      "id": "01M6RJTVB2MH4W7BR5JV9307RN",
+      "runId": "01JC0F16FXF0000000000000AA",
+      "seq": 8,
+      "ts": "2026-11-06T14:05:06.786Z",
+      "schemaVersion": 1,
+      "actor": {
+        "agentId": "probe-ux1-0",
+        "role": "scripted"
+      },
+      "type": "page.vitals",
+      "payload": {
+        "stepIndex": 2,
+        "url": "http://janus-f16-app:3100/register",
+        "lcpMs": 248,
+        "cls": 0,
+        "inpMs": 16
+      }
+    },
+    {
+      "id": "01M6RJTVGD0ZYHCQGT31ZR6MBJ",
+      "runId": "01JC0F16FXF0000000000000AA",
+      "seq": 9,
+      "ts": "2026-11-06T14:05:06.957Z",
+      "schemaVersion": 1,
+      "actor": {
+        "agentId": "probe-ux1-0",
+        "role": "scripted"
+      },
+      "type": "agent.action",
+      "payload": {
+        "stepIndex": 3,
+        "action": "type",
+        "durationMs": 103.9565999999977,
+        "ok": true,
+        "ref": "e20",
+        "selector": "role=textbox[name=\"Contraseña (mínimo 8 caracteres)\"]",
+        "boundingBox": {
+          "x": 176,
+          "y": 361.875,
+          "width": 480,
+          "height": 42
+        }
+      }
+    },
+    {
+      "id": "01M6RJTVGDNBSX1AHCSK3PGB13",
+      "runId": "01JC0F16FXF0000000000000AA",
+      "seq": 10,
+      "ts": "2026-11-06T14:05:06.957Z",
+      "schemaVersion": 1,
+      "actor": {
+        "agentId": "probe-ux1-0",
+        "role": "scripted"
+      },
+      "type": "agent.step",
+      "payload": {
+        "stepIndex": 3,
+        "url": "http://janus-f16-app:3100/register",
+        "durationMs": 171.12159999999858
+      }
+    },
+    {
+      "id": "01M6RJTVGF501ZEZN0NNDWF2DF",
+      "runId": "01JC0F16FXF0000000000000AA",
+      "seq": 11,
+      "ts": "2026-11-06T14:05:06.959Z",
+      "schemaVersion": 1,
+      "actor": {
+        "agentId": "probe-ux1-0",
+        "role": "scripted"
+      },
+      "type": "page.vitals",
+      "payload": {
+        "stepIndex": 3,
+        "url": "http://janus-f16-app:3100/register",
+        "lcpMs": 248,
+        "cls": 0,
+        "inpMs": 16
+      }
+    },
+    {
+      "id": "01M6RJTVNRZCARW3HFN4E074MW",
+      "runId": "01JC0F16FXF0000000000000AA",
+      "seq": 12,
+      "ts": "2026-11-06T14:05:07.128Z",
+      "schemaVersion": 1,
+      "actor": {
+        "agentId": "probe-ux1-0",
+        "role": "scripted"
+      },
+      "type": "agent.action",
+      "payload": {
+        "stepIndex": 4,
+        "action": "type",
+        "durationMs": 103.17079999999987,
+        "ok": true,
+        "ref": "e21",
+        "selector": "role=textbox[name=\"Dirección de envío\"]",
+        "boundingBox": {
+          "x": 176,
+          "y": 443.875,
+          "width": 480,
+          "height": 90
+        }
+      }
+    },
+    {
+      "id": "01M6RJTVNRD4W7XGJQGCZ8537B",
+      "runId": "01JC0F16FXF0000000000000AA",
+      "seq": 13,
+      "ts": "2026-11-06T14:05:07.128Z",
+      "schemaVersion": 1,
+      "actor": {
+        "agentId": "probe-ux1-0",
+        "role": "scripted"
+      },
+      "type": "agent.step",
+      "payload": {
+        "stepIndex": 4,
+        "url": "http://janus-f16-app:3100/register",
+        "durationMs": 168.59890000000087
+      }
+    },
+    {
+      "id": "01M6RJTVNTGJNZYNNMR73PBHMD",
+      "runId": "01JC0F16FXF0000000000000AA",
+      "seq": 14,
+      "ts": "2026-11-06T14:05:07.130Z",
+      "schemaVersion": 1,
+      "actor": {
+        "agentId": "probe-ux1-0",
+        "role": "scripted"
+      },
+      "type": "page.vitals",
+      "payload": {
+        "stepIndex": 4,
+        "url": "http://janus-f16-app:3100/register",
+        "lcpMs": 248,
+        "cls": 0,
+        "inpMs": 16
+      }
+    },
+    {
+      "id": "01M6RJTWM823B5M0GME67AST8X",
+      "runId": "01JC0F16FXF0000000000000AA",
+      "seq": 15,
+      "ts": "2026-11-06T14:05:08.104Z",
+      "schemaVersion": 1,
+      "actor": {
+        "agentId": "probe-ux1-0",
+        "role": "scripted"
+      },
+      "type": "agent.action",
+      "payload": {
+        "stepIndex": 5,
+        "action": "click",
+        "durationMs": 907.4497999999985,
+        "ok": true,
+        "ref": "e22",
+        "selector": "role=button[name=\"Crear cuenta\"]",
+        "boundingBox": {
+          "x": 176,
+          "y": 545.875,
+          "width": 121.453125,
+          "height": 40
+        },
+        "domMutations": 22
+      }
+    },
+    {
+      "id": "01M6RJTWM8BFZ9YGSR326ZC3X9",
+      "runId": "01JC0F16FXF0000000000000AA",
+      "seq": 16,
+      "ts": "2026-11-06T14:05:08.104Z",
+      "schemaVersion": 1,
+      "actor": {
+        "agentId": "probe-ux1-0",
+        "role": "scripted"
+      },
+      "type": "agent.step",
+      "payload": {
+        "stepIndex": 5,
+        "url": "http://janus-f16-app:3100/register",
+        "durationMs": 974.4737000000023
+      }
+    },
+    {
+      "id": "01M6RJTWMA9W82NKDG85BWVMS4",
+      "runId": "01JC0F16FXF0000000000000AA",
+      "seq": 17,
+      "ts": "2026-11-06T14:05:08.106Z",
+      "schemaVersion": 1,
+      "actor": {
+        "agentId": "probe-ux1-0",
+        "role": "scripted"
+      },
+      "type": "page.vitals",
+      "payload": {
+        "stepIndex": 5,
+        "url": "http://janus-f16-app:3100/",
+        "lcpMs": 248,
+        "cls": 0,
+        "inpMs": 16
+      }
+    },
+    {
+      "id": "01M6RJTXBGFWV8ARHJ14XVFB45",
+      "runId": "01JC0F16FXF0000000000000AA",
+      "seq": 18,
+      "ts": "2026-11-06T14:05:08.848Z",
+      "schemaVersion": 1,
+      "actor": {
+        "agentId": "probe-ux1-0",
+        "role": "scripted"
+      },
+      "type": "agent.action",
+      "payload": {
+        "stepIndex": 6,
+        "action": "click",
+        "durationMs": 672.4167000000016,
+        "ok": true,
+        "ref": "e17",
+        "selector": "role=link[name=\"Taza de cerámica\"]",
+        "boundingBox": {
+          "x": 901,
+          "y": 703.40625,
+          "width": 183.125,
+          "height": 30
+        },
+        "domMutations": 13
+      }
+    },
+    {
+      "id": "01M6RJTXBG85F5WMGW7FMZEB2H",
+      "runId": "01JC0F16FXF0000000000000AA",
+      "seq": 19,
+      "ts": "2026-11-06T14:05:08.848Z",
+      "schemaVersion": 1,
+      "actor": {
+        "agentId": "probe-ux1-0",
+        "role": "scripted"
+      },
+      "type": "agent.step",
+      "payload": {
+        "stepIndex": 6,
+        "url": "http://janus-f16-app:3100/",
+        "durationMs": 741.8388000000014
+      }
+    },
+    {
+      "id": "01M6RJTXBJTHFCGXDRSQMY42G3",
+      "runId": "01JC0F16FXF0000000000000AA",
+      "seq": 20,
+      "ts": "2026-11-06T14:05:08.850Z",
+      "schemaVersion": 1,
+      "actor": {
+        "agentId": "probe-ux1-0",
+        "role": "scripted"
+      },
+      "type": "page.vitals",
+      "payload": {
+        "stepIndex": 6,
+        "url": "http://janus-f16-app:3100/products/taza-ceramica",
+        "lcpMs": 248,
+        "cls": 0,
+        "inpMs": 16
+      }
+    },
+    {
+      "id": "01M6RJTY6MG2NX16WWPTCX0SGW",
+      "runId": "01JC0F16FXF0000000000000AA",
+      "seq": 21,
+      "ts": "2026-11-06T14:05:09.716Z",
+      "schemaVersion": 1,
+      "actor": {
+        "agentId": "probe-ux1-0",
+        "role": "scripted"
+      },
+      "type": "agent.action",
+      "payload": {
+        "stepIndex": 7,
+        "action": "click",
+        "durationMs": 798.4617000000035,
+        "ok": true,
+        "ref": "e27",
+        "selector": "role=button[name=\"Añadir al carrito\"]",
+        "boundingBox": {
+          "x": 176,
+          "y": 326.875,
+          "width": 141.890625,
+          "height": 40
+        },
+        "domMutations": 20
+      }
+    },
+    {
+      "id": "01M6RJTY6MRP9KKCYECY7JZ48M",
+      "runId": "01JC0F16FXF0000000000000AA",
+      "seq": 22,
+      "ts": "2026-11-06T14:05:09.716Z",
+      "schemaVersion": 1,
+      "actor": {
+        "agentId": "probe-ux1-0",
+        "role": "scripted"
+      },
+      "type": "agent.step",
+      "payload": {
+        "stepIndex": 7,
+        "url": "http://janus-f16-app:3100/products/taza-ceramica",
+        "durationMs": 865.3790999999983
+      }
+    },
+    {
+      "id": "01M6RJTY6PFEJ5KZ730M6BTKVS",
+      "runId": "01JC0F16FXF0000000000000AA",
+      "seq": 23,
+      "ts": "2026-11-06T14:05:09.718Z",
+      "schemaVersion": 1,
+      "actor": {
+        "agentId": "probe-ux1-0",
+        "role": "scripted"
+      },
+      "type": "page.vitals",
+      "payload": {
+        "stepIndex": 7,
+        "url": "http://janus-f16-app:3100/cart",
+        "lcpMs": 248,
+        "cls": 0,
+        "inpMs": 16
+      }
+    },
+    {
+      "id": "01M6RJTYY2MJSNZKN4C509RF3P",
+      "runId": "01JC0F16FXF0000000000000AA",
+      "seq": 24,
+      "ts": "2026-11-06T14:05:10.466Z",
+      "schemaVersion": 1,
+      "actor": {
+        "agentId": "probe-ux1-0",
+        "role": "scripted"
+      },
+      "type": "agent.action",
+      "payload": {
+        "stepIndex": 8,
+        "action": "click",
+        "durationMs": 680.8343999999997,
+        "ok": true,
+        "ref": "e35",
+        "selector": "role=link[name=\"Ir a pagar\"]",
+        "boundingBox": {
+          "x": 176,
+          "y": 401.875,
+          "width": 66.46875,
+          "height": 20
+        },
+        "domMutations": 18
+      }
+    },
+    {
+      "id": "01M6RJTYY23168JWN1171H771P",
+      "runId": "01JC0F16FXF0000000000000AA",
+      "seq": 25,
+      "ts": "2026-11-06T14:05:10.466Z",
+      "schemaVersion": 1,
+      "actor": {
+        "agentId": "probe-ux1-0",
+        "role": "scripted"
+      },
+      "type": "agent.step",
+      "payload": {
+        "stepIndex": 8,
+        "url": "http://janus-f16-app:3100/cart",
+        "durationMs": 748.231200000002
+      }
+    },
+    {
+      "id": "01M6RJTYY4AK21DPZTSG7GB351",
+      "runId": "01JC0F16FXF0000000000000AA",
+      "seq": 26,
+      "ts": "2026-11-06T14:05:10.468Z",
+      "schemaVersion": 1,
+      "actor": {
+        "agentId": "probe-ux1-0",
+        "role": "scripted"
+      },
+      "type": "page.vitals",
+      "payload": {
+        "stepIndex": 8,
+        "url": "http://janus-f16-app:3100/checkout",
+        "lcpMs": 248,
+        "cls": 0,
+        "inpMs": 16
+      }
+    },
+    {
+      "id": "01M6RJTZ1JDJ2H3W3FSFKG83C4",
+      "runId": "01JC0F16FXF0000000000000AA",
+      "seq": 27,
+      "ts": "2026-11-06T14:05:10.578Z",
+      "schemaVersion": 1,
+      "actor": {
+        "agentId": "probe-ux1-0",
+        "role": "scripted"
+      },
+      "type": "agent.action",
+      "payload": {
+        "stepIndex": 9,
+        "action": "back",
+        "durationMs": 45.45499999999811,
+        "ok": true
+      }
+    },
+    {
+      "id": "01M6RJTZ1KMPEQJVFK5TN8EPQ2",
+      "runId": "01JC0F16FXF0000000000000AA",
+      "seq": 28,
+      "ts": "2026-11-06T14:05:10.579Z",
+      "schemaVersion": 1,
+      "actor": {
+        "agentId": "probe-ux1-0",
+        "role": "scripted"
+      },
+      "type": "agent.step",
+      "payload": {
+        "stepIndex": 9,
+        "url": "http://janus-f16-app:3100/checkout",
+        "durationMs": 110.36809999999969
+      }
+    },
+    {
+      "id": "01M6RJTZ1N1BNQW692RZMW8FQ5",
+      "runId": "01JC0F16FXF0000000000000AA",
+      "seq": 29,
+      "ts": "2026-11-06T14:05:10.581Z",
+      "schemaVersion": 1,
+      "actor": {
+        "agentId": "probe-ux1-0",
+        "role": "scripted"
+      },
+      "type": "page.vitals",
+      "payload": {
+        "stepIndex": 9,
+        "url": "http://janus-f16-app:3100/cart",
+        "lcpMs": 248,
+        "cls": 0,
+        "inpMs": 16
+      }
+    },
+    {
+      "id": "01M6RJTZ2J58PGS4S37P448VAG",
+      "runId": "01JC0F16FXF0000000000000AA",
+      "seq": 30,
+      "ts": "2026-11-06T14:05:10.610Z",
+      "schemaVersion": 1,
+      "actor": {
+        "agentId": "probe-ux1-0",
+        "role": "scripted"
+      },
+      "type": "page.screenshot",
+      "payload": {
+        "stepIndex": 9,
+        "url": "http://janus-f16-app:3100/checkout",
+        "artifact": "probe-ux1-0/step-9.png",
+        "detector": "backtrack"
+      }
+    },
+    {
+      "id": "01M6RJTZ4NFRDBDZNBHVHPA2P9",
+      "runId": "01JC0F16FXF0000000000000AA",
+      "seq": 31,
+      "ts": "2026-11-06T14:05:10.677Z",
+      "schemaVersion": 1,
+      "actor": {
+        "agentId": "probe-ux1-0",
+        "role": "scripted"
+      },
+      "type": "agent.action",
+      "payload": {
+        "stepIndex": 10,
+        "action": "done",
+        "durationMs": 0.30489999999917927,
+        "ok": true
+      }
+    },
+    {
+      "id": "01M6RJTZ4N0CJ9JQY2KTD7RPCV",
+      "runId": "01JC0F16FXF0000000000000AA",
+      "seq": 32,
+      "ts": "2026-11-06T14:05:10.677Z",
+      "schemaVersion": 1,
+      "actor": {
+        "agentId": "probe-ux1-0",
+        "role": "scripted"
+      },
+      "type": "agent.step",
+      "payload": {
+        "stepIndex": 10,
+        "url": "http://janus-f16-app:3100/cart",
+        "durationMs": 66.79249999999956
+      }
+    },
+    {
+      "id": "01M6RJTZ4QEWB76DJA45VMR28Z",
+      "runId": "01JC0F16FXF0000000000000AA",
+      "seq": 33,
+      "ts": "2026-11-06T14:05:10.679Z",
+      "schemaVersion": 1,
+      "actor": {
+        "agentId": "probe-ux1-0",
+        "role": "scripted"
+      },
+      "type": "page.vitals",
+      "payload": {
+        "stepIndex": 10,
+        "url": "http://janus-f16-app:3100/cart",
+        "lcpMs": 248,
+        "cls": 0,
+        "inpMs": 16
+      }
+    },
+    {
+      "id": "01M6RJTZ4Q2D8VESXH4J1T3KYB",
+      "runId": "01JC0F16FXF0000000000000AA",
+      "seq": 34,
+      "ts": "2026-11-06T14:05:10.679Z",
+      "schemaVersion": 1,
+      "actor": {
+        "agentId": "probe-ux1-0",
+        "role": "scripted"
+      },
+      "type": "session.ended",
+      "payload": {
+        "outcome": "abandon",
+        "steps": 11,
+        "reason": "El envío solo aparece al pagar.",
+        "durationMs": 6305.560699999998
+      }
+    },
+    {
+      "id": "01M6RJV0X58VX9MN41J25NHYCN",
+      "runId": "01JC0F16FXF0000000000000AA",
+      "seq": 35,
+      "ts": "2026-11-06T14:05:12.485Z",
+      "schemaVersion": 1,
+      "actor": {
+        "agentId": "baseline-ux2-1",
+        "role": "competent-baseline"
+      },
+      "type": "agent.action",
+      "payload": {
+        "stepIndex": 0,
+        "action": "click",
+        "durationMs": 713.6242999999995,
+        "ok": true,
+        "ref": "e5",
+        "selector": "role=link[name=\"Crear cuenta\"]",
+        "boundingBox": {
+          "x": 1174.546875,
+          "y": 15,
+          "width": 89.453125,
+          "height": 24
+        },
+        "domMutations": 15
+      }
+    },
+    {
+      "id": "01M6RJV0X5S3Z1773E4D02MMPC",
+      "runId": "01JC0F16FXF0000000000000AA",
+      "seq": 36,
+      "ts": "2026-11-06T14:05:12.485Z",
+      "schemaVersion": 1,
+      "actor": {
+        "agentId": "baseline-ux2-1",
+        "role": "competent-baseline"
+      },
+      "type": "agent.step",
+      "payload": {
+        "stepIndex": 0,
+        "url": "http://janus-f16-app:3100/",
+        "durationMs": 1498.3618999999999
+      }
+    },
+    {
+      "id": "01M6RJV0X7KYN3DNPGRNVR47ZY",
+      "runId": "01JC0F16FXF0000000000000AA",
+      "seq": 37,
+      "ts": "2026-11-06T14:05:12.487Z",
+      "schemaVersion": 1,
+      "actor": {
+        "agentId": "baseline-ux2-1",
+        "role": "competent-baseline"
+      },
+      "type": "page.vitals",
+      "payload": {
+        "stepIndex": 0,
+        "url": "http://janus-f16-app:3100/register",
+        "lcpMs": 88,
+        "cls": 0,
+        "inpMs": 16
+      }
+    },
+    {
+      "id": "01M6RJV12KA04HK9C2ZK88KKT3",
+      "runId": "01JC0F16FXF0000000000000AA",
+      "seq": 38,
+      "ts": "2026-11-06T14:05:12.660Z",
+      "schemaVersion": 1,
+      "actor": {
+        "agentId": "baseline-ux2-1",
+        "role": "competent-baseline"
+      },
+      "type": "agent.action",
+      "payload": {
+        "stepIndex": 1,
+        "action": "type",
+        "durationMs": 104.19440000000031,
+        "ok": true,
+        "ref": "e18",
+        "selector": "role=textbox[name=\"Nombre\"]",
+        "boundingBox": {
+          "x": 176,
+          "y": 197.875,
+          "width": 480,
+          "height": 42
+        }
+      }
+    },
+    {
+      "id": "01M6RJV12MAX7W1X4AWR1RMZ8F",
+      "runId": "01JC0F16FXF0000000000000AA",
+      "seq": 39,
+      "ts": "2026-11-06T14:05:12.660Z",
+      "schemaVersion": 1,
+      "actor": {
+        "agentId": "baseline-ux2-1",
+        "role": "competent-baseline"
+      },
+      "type": "agent.step",
+      "payload": {
+        "stepIndex": 1,
+        "url": "http://janus-f16-app:3100/register",
+        "durationMs": 172.34700000000157
+      }
+    },
+    {
+      "id": "01M6RJV12NPDC304GHS45ES0TC",
+      "runId": "01JC0F16FXF0000000000000AA",
+      "seq": 40,
+      "ts": "2026-11-06T14:05:12.661Z",
+      "schemaVersion": 1,
+      "actor": {
+        "agentId": "baseline-ux2-1",
+        "role": "competent-baseline"
+      },
+      "type": "page.vitals",
+      "payload": {
+        "stepIndex": 1,
+        "url": "http://janus-f16-app:3100/register",
+        "lcpMs": 88,
+        "cls": 0,
+        "inpMs": 16
+      }
+    },
+    {
+      "id": "01M6RJV17ZXH81YZVTZTH97DQN",
+      "runId": "01JC0F16FXF0000000000000AA",
+      "seq": 41,
+      "ts": "2026-11-06T14:05:12.831Z",
+      "schemaVersion": 1,
+      "actor": {
+        "agentId": "baseline-ux2-1",
+        "role": "competent-baseline"
+      },
+      "type": "agent.action",
+      "payload": {
+        "stepIndex": 2,
+        "action": "type",
+        "durationMs": 102.89190000000235,
+        "ok": true,
+        "ref": "e19",
+        "selector": "role=textbox[name=\"Email\"]",
+        "boundingBox": {
+          "x": 176,
+          "y": 279.875,
+          "width": 480,
+          "height": 42
+        }
+      }
+    },
+    {
+      "id": "01M6RJV17ZTNPB41R1KFGR9GP9",
+      "runId": "01JC0F16FXF0000000000000AA",
+      "seq": 42,
+      "ts": "2026-11-06T14:05:12.831Z",
+      "schemaVersion": 1,
+      "actor": {
+        "agentId": "baseline-ux2-1",
+        "role": "competent-baseline"
+      },
+      "type": "agent.step",
+      "payload": {
+        "stepIndex": 2,
+        "url": "http://janus-f16-app:3100/register",
+        "durationMs": 169.3905999999988
+      }
+    },
+    {
+      "id": "01M6RJV181544257VPN6JK31QZ",
+      "runId": "01JC0F16FXF0000000000000AA",
+      "seq": 43,
+      "ts": "2026-11-06T14:05:12.833Z",
+      "schemaVersion": 1,
+      "actor": {
+        "agentId": "baseline-ux2-1",
+        "role": "competent-baseline"
+      },
+      "type": "page.vitals",
+      "payload": {
+        "stepIndex": 2,
+        "url": "http://janus-f16-app:3100/register",
+        "lcpMs": 88,
+        "cls": 0,
+        "inpMs": 16
+      }
+    },
+    {
+      "id": "01M6RJV1DB5E8SA43B04GDGZRZ",
+      "runId": "01JC0F16FXF0000000000000AA",
+      "seq": 44,
+      "ts": "2026-11-06T14:05:13.003Z",
+      "schemaVersion": 1,
+      "actor": {
+        "agentId": "baseline-ux2-1",
+        "role": "competent-baseline"
+      },
+      "type": "agent.action",
+      "payload": {
+        "stepIndex": 3,
+        "action": "type",
+        "durationMs": 103.59080000000176,
+        "ok": true,
+        "ref": "e20",
+        "selector": "role=textbox[name=\"Contraseña (mínimo 8 caracteres)\"]",
+        "boundingBox": {
+          "x": 176,
+          "y": 361.875,
+          "width": 480,
+          "height": 42
+        }
+      }
+    },
+    {
+      "id": "01M6RJV1DB0CSDKG760AJVEY5Z",
+      "runId": "01JC0F16FXF0000000000000AA",
+      "seq": 45,
+      "ts": "2026-11-06T14:05:13.003Z",
+      "schemaVersion": 1,
+      "actor": {
+        "agentId": "baseline-ux2-1",
+        "role": "competent-baseline"
+      },
+      "type": "agent.step",
+      "payload": {
+        "stepIndex": 3,
+        "url": "http://janus-f16-app:3100/register",
+        "durationMs": 170.3037000000004
+      }
+    },
+    {
+      "id": "01M6RJV1DD40D2V6QQ4R7SWRXW",
+      "runId": "01JC0F16FXF0000000000000AA",
+      "seq": 46,
+      "ts": "2026-11-06T14:05:13.005Z",
+      "schemaVersion": 1,
+      "actor": {
+        "agentId": "baseline-ux2-1",
+        "role": "competent-baseline"
+      },
+      "type": "page.vitals",
+      "payload": {
+        "stepIndex": 3,
+        "url": "http://janus-f16-app:3100/register",
+        "lcpMs": 88,
+        "cls": 0,
+        "inpMs": 16
+      }
+    },
+    {
+      "id": "01M6RJV1JPVH9GHZFT033A07BT",
+      "runId": "01JC0F16FXF0000000000000AA",
+      "seq": 47,
+      "ts": "2026-11-06T14:05:13.174Z",
+      "schemaVersion": 1,
+      "actor": {
+        "agentId": "baseline-ux2-1",
+        "role": "competent-baseline"
+      },
+      "type": "agent.action",
+      "payload": {
+        "stepIndex": 4,
+        "action": "type",
+        "durationMs": 102.1313999999984,
+        "ok": true,
+        "ref": "e21",
+        "selector": "role=textbox[name=\"Dirección de envío\"]",
+        "boundingBox": {
+          "x": 176,
+          "y": 443.875,
+          "width": 480,
+          "height": 90
+        }
+      }
+    },
+    {
+      "id": "01M6RJV1JQAZFS0HTQMPPB1C69",
+      "runId": "01JC0F16FXF0000000000000AA",
+      "seq": 48,
+      "ts": "2026-11-06T14:05:13.175Z",
+      "schemaVersion": 1,
+      "actor": {
+        "agentId": "baseline-ux2-1",
+        "role": "competent-baseline"
+      },
+      "type": "agent.step",
+      "payload": {
+        "stepIndex": 4,
+        "url": "http://janus-f16-app:3100/register",
+        "durationMs": 168.97090000000026
+      }
+    },
+    {
+      "id": "01M6RJV1JRXJ0N972PC5HKWNSM",
+      "runId": "01JC0F16FXF0000000000000AA",
+      "seq": 49,
+      "ts": "2026-11-06T14:05:13.176Z",
+      "schemaVersion": 1,
+      "actor": {
+        "agentId": "baseline-ux2-1",
+        "role": "competent-baseline"
+      },
+      "type": "page.vitals",
+      "payload": {
+        "stepIndex": 4,
+        "url": "http://janus-f16-app:3100/register",
+        "lcpMs": 88,
+        "cls": 0,
+        "inpMs": 16
+      }
+    },
+    {
+      "id": "01M6RJV2EA1QMZ0QFQ2C7R1Q0Q",
+      "runId": "01JC0F16FXF0000000000000AA",
+      "seq": 50,
+      "ts": "2026-11-06T14:05:14.058Z",
+      "schemaVersion": 1,
+      "actor": {
+        "agentId": "baseline-ux2-1",
+        "role": "competent-baseline"
+      },
+      "type": "agent.action",
+      "payload": {
+        "stepIndex": 5,
+        "action": "click",
+        "durationMs": 815.6793999999973,
+        "ok": true,
+        "ref": "e22",
+        "selector": "role=button[name=\"Crear cuenta\"]",
+        "boundingBox": {
+          "x": 176,
+          "y": 545.875,
+          "width": 121.453125,
+          "height": 40
+        },
+        "domMutations": 22
+      }
+    },
+    {
+      "id": "01M6RJV2EA76ZDKA4MXS8S1D0R",
+      "runId": "01JC0F16FXF0000000000000AA",
+      "seq": 51,
+      "ts": "2026-11-06T14:05:14.058Z",
+      "schemaVersion": 1,
+      "actor": {
+        "agentId": "baseline-ux2-1",
+        "role": "competent-baseline"
+      },
+      "type": "agent.step",
+      "payload": {
+        "stepIndex": 5,
+        "url": "http://janus-f16-app:3100/register",
+        "durationMs": 881.1640000000007
+      }
+    },
+    {
+      "id": "01M6RJV2EB61M9X5B2BZA68KR5",
+      "runId": "01JC0F16FXF0000000000000AA",
+      "seq": 52,
+      "ts": "2026-11-06T14:05:14.059Z",
+      "schemaVersion": 1,
+      "actor": {
+        "agentId": "baseline-ux2-1",
+        "role": "competent-baseline"
+      },
+      "type": "page.vitals",
+      "payload": {
+        "stepIndex": 5,
+        "url": "http://janus-f16-app:3100/",
+        "lcpMs": 88,
+        "cls": 0,
+        "inpMs": 16
+      }
+    },
+    {
+      "id": "01M6RJV34D993R8M7TFW987DNZ",
+      "runId": "01JC0F16FXF0000000000000AA",
+      "seq": 53,
+      "ts": "2026-11-06T14:05:14.765Z",
+      "schemaVersion": 1,
+      "actor": {
+        "agentId": "baseline-ux2-1",
+        "role": "competent-baseline"
+      },
+      "type": "agent.action",
+      "payload": {
+        "stepIndex": 6,
+        "action": "click",
+        "durationMs": 637.0570999999982,
+        "ok": true,
+        "ref": "e17",
+        "selector": "role=link[name=\"Taza de cerámica\"]",
+        "boundingBox": {
+          "x": 901,
+          "y": 703.40625,
+          "width": 183.125,
+          "height": 30
+        },
+        "domMutations": 13
+      }
+    },
+    {
+      "id": "01M6RJV34DEYEP0RANW1HSS7JZ",
+      "runId": "01JC0F16FXF0000000000000AA",
+      "seq": 54,
+      "ts": "2026-11-06T14:05:14.765Z",
+      "schemaVersion": 1,
+      "actor": {
+        "agentId": "baseline-ux2-1",
+        "role": "competent-baseline"
+      },
+      "type": "agent.step",
+      "payload": {
+        "stepIndex": 6,
+        "url": "http://janus-f16-app:3100/",
+        "durationMs": 705.3217000000004
+      }
+    },
+    {
+      "id": "01M6RJV34F6TAKYR8FTC7KTX9P",
+      "runId": "01JC0F16FXF0000000000000AA",
+      "seq": 55,
+      "ts": "2026-11-06T14:05:14.767Z",
+      "schemaVersion": 1,
+      "actor": {
+        "agentId": "baseline-ux2-1",
+        "role": "competent-baseline"
+      },
+      "type": "page.vitals",
+      "payload": {
+        "stepIndex": 6,
+        "url": "http://janus-f16-app:3100/products/taza-ceramica",
+        "lcpMs": 88,
+        "cls": 0,
+        "inpMs": 16
+      }
+    },
+    {
+      "id": "01M6RJV3X1CY3EZXYB1ZBHZ9NX",
+      "runId": "01JC0F16FXF0000000000000AA",
+      "seq": 56,
+      "ts": "2026-11-06T14:05:15.553Z",
+      "schemaVersion": 1,
+      "actor": {
+        "agentId": "baseline-ux2-1",
+        "role": "competent-baseline"
+      },
+      "type": "agent.action",
+      "payload": {
+        "stepIndex": 7,
+        "action": "click",
+        "durationMs": 719.0120999999999,
+        "ok": true,
+        "ref": "e27",
+        "selector": "role=button[name=\"Añadir al carrito\"]",
+        "boundingBox": {
+          "x": 176,
+          "y": 326.875,
+          "width": 141.890625,
+          "height": 40
+        },
+        "domMutations": 20
+      }
+    },
+    {
+      "id": "01M6RJV3X14E9XBYHHB8VVNFVA",
+      "runId": "01JC0F16FXF0000000000000AA",
+      "seq": 57,
+      "ts": "2026-11-06T14:05:15.553Z",
+      "schemaVersion": 1,
+      "actor": {
+        "agentId": "baseline-ux2-1",
+        "role": "competent-baseline"
+      },
+      "type": "agent.step",
+      "payload": {
+        "stepIndex": 7,
+        "url": "http://janus-f16-app:3100/products/taza-ceramica",
+        "durationMs": 786.2551999999996
+      }
+    },
+    {
+      "id": "01M6RJV3X3M2AEFH1A6STV1B1Q",
+      "runId": "01JC0F16FXF0000000000000AA",
+      "seq": 58,
+      "ts": "2026-11-06T14:05:15.555Z",
+      "schemaVersion": 1,
+      "actor": {
+        "agentId": "baseline-ux2-1",
+        "role": "competent-baseline"
+      },
+      "type": "page.vitals",
+      "payload": {
+        "stepIndex": 7,
+        "url": "http://janus-f16-app:3100/cart",
+        "lcpMs": 88,
+        "cls": 0,
+        "inpMs": 16
+      }
+    },
+    {
+      "id": "01M6RJV44E52T1WVGB40PJWZ14",
+      "runId": "01JC0F16FXF0000000000000AA",
+      "seq": 59,
+      "ts": "2026-11-06T14:05:15.790Z",
+      "schemaVersion": 1,
+      "actor": {
+        "agentId": "baseline-ux2-1",
+        "role": "competent-baseline"
+      },
+      "type": "agent.action",
+      "payload": {
+        "stepIndex": 8,
+        "action": "click",
+        "durationMs": 165.12569999999687,
+        "ok": true,
+        "ref": "e34",
+        "selector": "role=link[name=\"Otras opciones\"]",
+        "boundingBox": {
+          "x": 176,
+          "y": 279.875,
+          "width": 105.4375,
+          "height": 20
+        },
+        "domMutations": 1
+      }
+    },
+    {
+      "id": "01M6RJV44ECJMN3YKWYG0GAYA8",
+      "runId": "01JC0F16FXF0000000000000AA",
+      "seq": 60,
+      "ts": "2026-11-06T14:05:15.790Z",
+      "schemaVersion": 1,
+      "actor": {
+        "agentId": "baseline-ux2-1",
+        "role": "competent-baseline"
+      },
+      "type": "agent.step",
+      "payload": {
+        "stepIndex": 8,
+        "url": "http://janus-f16-app:3100/cart",
+        "durationMs": 234.3080000000009
+      }
+    },
+    {
+      "id": "01M6RJV44FRBAHMWFWC126QH8D",
+      "runId": "01JC0F16FXF0000000000000AA",
+      "seq": 61,
+      "ts": "2026-11-06T14:05:15.791Z",
+      "schemaVersion": 1,
+      "actor": {
+        "agentId": "baseline-ux2-1",
+        "role": "competent-baseline"
+      },
+      "type": "page.vitals",
+      "payload": {
+        "stepIndex": 8,
+        "url": "http://janus-f16-app:3100/cart",
+        "lcpMs": 88,
+        "cls": 0,
+        "inpMs": 16
+      }
+    },
+    {
+      "id": "01M6RJV49PD6A94D02JNJRMEYP",
+      "runId": "01JC0F16FXF0000000000000AA",
+      "seq": 62,
+      "ts": "2026-11-06T14:05:15.958Z",
+      "schemaVersion": 1,
+      "actor": {
+        "agentId": "baseline-ux2-1",
+        "role": "competent-baseline"
+      },
+      "type": "agent.action",
+      "payload": {
+        "stepIndex": 9,
+        "action": "type",
+        "durationMs": 99.12799999999697,
+        "ok": true,
+        "ref": "e36",
+        "selector": "role=textbox[name=\"Código del cupón\"]",
+        "boundingBox": {
+          "x": 176,
+          "y": 329.875,
+          "width": 170,
+          "height": 42
+        }
+      }
+    },
+    {
+      "id": "01M6RJV49PP71BQ95A3ABZCNMR",
+      "runId": "01JC0F16FXF0000000000000AA",
+      "seq": 63,
+      "ts": "2026-11-06T14:05:15.958Z",
+      "schemaVersion": 1,
+      "actor": {
+        "agentId": "baseline-ux2-1",
+        "role": "competent-baseline"
+      },
+      "type": "agent.step",
+      "payload": {
+        "stepIndex": 9,
+        "url": "http://janus-f16-app:3100/cart",
+        "durationMs": 165.97340000000258
+      }
+    },
+    {
+      "id": "01M6RJV49QAHNTWRS71QCM1VYA",
+      "runId": "01JC0F16FXF0000000000000AA",
+      "seq": 64,
+      "ts": "2026-11-06T14:05:15.959Z",
+      "schemaVersion": 1,
+      "actor": {
+        "agentId": "baseline-ux2-1",
+        "role": "competent-baseline"
+      },
+      "type": "page.vitals",
+      "payload": {
+        "stepIndex": 9,
+        "url": "http://janus-f16-app:3100/cart",
+        "lcpMs": 88,
+        "cls": 0,
+        "inpMs": 16
+      }
+    },
+    {
+      "id": "01M6RJV51MNKRV4DQEPC1Z5X4H",
+      "runId": "01JC0F16FXF0000000000000AA",
+      "seq": 65,
+      "ts": "2026-11-06T14:05:16.724Z",
+      "schemaVersion": 1,
+      "actor": {
+        "agentId": "baseline-ux2-1",
+        "role": "competent-baseline"
+      },
+      "type": "agent.action",
+      "payload": {
+        "stepIndex": 10,
+        "action": "click",
+        "durationMs": 699.0839000000051,
+        "ok": true,
+        "ref": "e37",
+        "selector": "role=button[name=\"Aplicar cupón\"]",
+        "boundingBox": {
+          "x": 354,
+          "y": 331.875,
+          "width": 125.609375,
+          "height": 40
+        },
+        "domMutations": 16
+      }
+    },
+    {
+      "id": "01M6RJV51MKRH4074FD6SH233A",
+      "runId": "01JC0F16FXF0000000000000AA",
+      "seq": 66,
+      "ts": "2026-11-06T14:05:16.724Z",
+      "schemaVersion": 1,
+      "actor": {
+        "agentId": "baseline-ux2-1",
+        "role": "competent-baseline"
+      },
+      "type": "agent.step",
+      "payload": {
+        "stepIndex": 10,
+        "url": "http://janus-f16-app:3100/cart",
+        "durationMs": 764.7684000000008
+      }
+    },
+    {
+      "id": "01M6RJV51PP1D9X3W5MMD3PTYA",
+      "runId": "01JC0F16FXF0000000000000AA",
+      "seq": 67,
+      "ts": "2026-11-06T14:05:16.726Z",
+      "schemaVersion": 1,
+      "actor": {
+        "agentId": "baseline-ux2-1",
+        "role": "competent-baseline"
+      },
+      "type": "page.vitals",
+      "payload": {
+        "stepIndex": 10,
+        "url": "http://janus-f16-app:3100/cart",
+        "lcpMs": 88,
+        "cls": 0,
+        "inpMs": 16
+      }
+    },
+    {
+      "id": "01M6RJV53TVSQNBCCA8SKT81D6",
+      "runId": "01JC0F16FXF0000000000000AA",
+      "seq": 68,
+      "ts": "2026-11-06T14:05:16.794Z",
+      "schemaVersion": 1,
+      "actor": {
+        "agentId": "baseline-ux2-1",
+        "role": "competent-baseline"
+      },
+      "type": "agent.action",
+      "payload": {
+        "stepIndex": 11,
+        "action": "done",
+        "durationMs": 0.027000000001862645,
+        "ok": true
+      }
+    },
+    {
+      "id": "01M6RJV53TQZC2YHF2MM7VCR1V",
+      "runId": "01JC0F16FXF0000000000000AA",
+      "seq": 69,
+      "ts": "2026-11-06T14:05:16.794Z",
+      "schemaVersion": 1,
+      "actor": {
+        "agentId": "baseline-ux2-1",
+        "role": "competent-baseline"
+      },
+      "type": "agent.step",
+      "payload": {
+        "stepIndex": 11,
+        "url": "http://janus-f16-app:3100/cart",
+        "durationMs": 67.09790000000066
+      }
+    },
+    {
+      "id": "01M6RJV53WKDZSTSF64WZ6VRNC",
+      "runId": "01JC0F16FXF0000000000000AA",
+      "seq": 70,
+      "ts": "2026-11-06T14:05:16.796Z",
+      "schemaVersion": 1,
+      "actor": {
+        "agentId": "baseline-ux2-1",
+        "role": "competent-baseline"
+      },
+      "type": "page.vitals",
+      "payload": {
+        "stepIndex": 11,
+        "url": "http://janus-f16-app:3100/cart",
+        "lcpMs": 88,
+        "cls": 0,
+        "inpMs": 16
+      }
+    },
+    {
+      "id": "01M6RJV53WAGENNS5G718EFFRC",
+      "runId": "01JC0F16FXF0000000000000AA",
+      "seq": 71,
+      "ts": "2026-11-06T14:05:16.796Z",
+      "schemaVersion": 1,
+      "actor": {
+        "agentId": "baseline-ux2-1",
+        "role": "competent-baseline"
+      },
+      "type": "session.ended",
+      "payload": {
+        "outcome": "success",
+        "steps": 12,
+        "reason": "Cupón aplicado.",
+        "durationMs": 6029.5302999999985
+      }
+    },
+    {
+      "id": "01M6RJV6SFFX9D83573BT29CQ2",
+      "runId": "01JC0F16FXF0000000000000AA",
+      "seq": 72,
+      "ts": "2026-11-06T14:05:18.511Z",
+      "schemaVersion": 1,
+      "actor": {
+        "agentId": "probe-ux2-2",
+        "role": "scripted"
+      },
+      "type": "agent.action",
+      "payload": {
+        "stepIndex": 0,
+        "action": "click",
+        "durationMs": 674.8960999999981,
+        "ok": true,
+        "ref": "e5",
+        "selector": "role=link[name=\"Crear cuenta\"]",
+        "boundingBox": {
+          "x": 1174.546875,
+          "y": 15,
+          "width": 89.453125,
+          "height": 24
+        },
+        "domMutations": 15
+      }
+    },
+    {
+      "id": "01M6RJV6SF7EF3VNGHNXNY86VB",
+      "runId": "01JC0F16FXF0000000000000AA",
+      "seq": 73,
+      "ts": "2026-11-06T14:05:18.511Z",
+      "schemaVersion": 1,
+      "actor": {
+        "agentId": "probe-ux2-2",
+        "role": "scripted"
+      },
+      "type": "agent.step",
+      "payload": {
+        "stepIndex": 0,
+        "url": "http://janus-f16-app:3100/",
+        "durationMs": 1396.3890000000029
+      }
+    },
+    {
+      "id": "01M6RJV6SH3K319D9FG8S97ZDR",
+      "runId": "01JC0F16FXF0000000000000AA",
+      "seq": 74,
+      "ts": "2026-11-06T14:05:18.513Z",
+      "schemaVersion": 1,
+      "actor": {
+        "agentId": "probe-ux2-2",
+        "role": "scripted"
+      },
+      "type": "page.vitals",
+      "payload": {
+        "stepIndex": 0,
+        "url": "http://janus-f16-app:3100/register",
+        "lcpMs": 80,
+        "cls": 0,
+        "inpMs": 16
+      }
+    },
+    {
+      "id": "01M6RJV6YVJYPQWJ2G234GH1T2",
+      "runId": "01JC0F16FXF0000000000000AA",
+      "seq": 75,
+      "ts": "2026-11-06T14:05:18.683Z",
+      "schemaVersion": 1,
+      "actor": {
+        "agentId": "probe-ux2-2",
+        "role": "scripted"
+      },
+      "type": "agent.action",
+      "payload": {
+        "stepIndex": 1,
+        "action": "type",
+        "durationMs": 101.24920000000566,
+        "ok": true,
+        "ref": "e18",
+        "selector": "role=textbox[name=\"Nombre\"]",
+        "boundingBox": {
+          "x": 176,
+          "y": 197.875,
+          "width": 480,
+          "height": 42
+        }
+      }
+    },
+    {
+      "id": "01M6RJV6YVNAE30CAEQTKA1TSZ",
+      "runId": "01JC0F16FXF0000000000000AA",
+      "seq": 76,
+      "ts": "2026-11-06T14:05:18.683Z",
+      "schemaVersion": 1,
+      "actor": {
+        "agentId": "probe-ux2-2",
+        "role": "scripted"
+      },
+      "type": "agent.step",
+      "payload": {
+        "stepIndex": 1,
+        "url": "http://janus-f16-app:3100/register",
+        "durationMs": 169.60329999999522
+      }
+    },
+    {
+      "id": "01M6RJV6YXQ4R0YX7PFP2TNG5R",
+      "runId": "01JC0F16FXF0000000000000AA",
+      "seq": 77,
+      "ts": "2026-11-06T14:05:18.685Z",
+      "schemaVersion": 1,
+      "actor": {
+        "agentId": "probe-ux2-2",
+        "role": "scripted"
+      },
+      "type": "page.vitals",
+      "payload": {
+        "stepIndex": 1,
+        "url": "http://janus-f16-app:3100/register",
+        "lcpMs": 80,
+        "cls": 0,
+        "inpMs": 16
+      }
+    },
+    {
+      "id": "01M6RJV746WMVDTFTCZWB2YA7X",
+      "runId": "01JC0F16FXF0000000000000AA",
+      "seq": 78,
+      "ts": "2026-11-06T14:05:18.854Z",
+      "schemaVersion": 1,
+      "actor": {
+        "agentId": "probe-ux2-2",
+        "role": "scripted"
+      },
+      "type": "agent.action",
+      "payload": {
+        "stepIndex": 2,
+        "action": "type",
+        "durationMs": 101.3530000000028,
+        "ok": true,
+        "ref": "e19",
+        "selector": "role=textbox[name=\"Email\"]",
+        "boundingBox": {
+          "x": 176,
+          "y": 279.875,
+          "width": 480,
+          "height": 42
+        }
+      }
+    },
+    {
+      "id": "01M6RJV746DZGFF5PARTYPB1GG",
+      "runId": "01JC0F16FXF0000000000000AA",
+      "seq": 79,
+      "ts": "2026-11-06T14:05:18.854Z",
+      "schemaVersion": 1,
+      "actor": {
+        "agentId": "probe-ux2-2",
+        "role": "scripted"
+      },
+      "type": "agent.step",
+      "payload": {
+        "stepIndex": 2,
+        "url": "http://janus-f16-app:3100/register",
+        "durationMs": 168.6530999999959
+      }
+    },
+    {
+      "id": "01M6RJV748TKQNB80JFRB74015",
+      "runId": "01JC0F16FXF0000000000000AA",
+      "seq": 80,
+      "ts": "2026-11-06T14:05:18.856Z",
+      "schemaVersion": 1,
+      "actor": {
+        "agentId": "probe-ux2-2",
+        "role": "scripted"
+      },
+      "type": "page.vitals",
+      "payload": {
+        "stepIndex": 2,
+        "url": "http://janus-f16-app:3100/register",
+        "lcpMs": 80,
+        "cls": 0,
+        "inpMs": 16
+      }
+    },
+    {
+      "id": "01M6RJV79KFTSW5XPRWE5NR26E",
+      "runId": "01JC0F16FXF0000000000000AA",
+      "seq": 81,
+      "ts": "2026-11-06T14:05:19.027Z",
+      "schemaVersion": 1,
+      "actor": {
+        "agentId": "probe-ux2-2",
+        "role": "scripted"
+      },
+      "type": "agent.action",
+      "payload": {
+        "stepIndex": 3,
+        "action": "type",
+        "durationMs": 103.55659999999625,
+        "ok": true,
+        "ref": "e20",
+        "selector": "role=textbox[name=\"Contraseña (mínimo 8 caracteres)\"]",
+        "boundingBox": {
+          "x": 176,
+          "y": 361.875,
+          "width": 480,
+          "height": 42
+        }
+      }
+    },
+    {
+      "id": "01M6RJV79K1Q7HVZSHWWGKGPY0",
+      "runId": "01JC0F16FXF0000000000000AA",
+      "seq": 82,
+      "ts": "2026-11-06T14:05:19.027Z",
+      "schemaVersion": 1,
+      "actor": {
+        "agentId": "probe-ux2-2",
+        "role": "scripted"
+      },
+      "type": "agent.step",
+      "payload": {
+        "stepIndex": 3,
+        "url": "http://janus-f16-app:3100/register",
+        "durationMs": 170.25740000000224
+      }
+    },
+    {
+      "id": "01M6RJV79MMT39QWNZKS80SVF3",
+      "runId": "01JC0F16FXF0000000000000AA",
+      "seq": 83,
+      "ts": "2026-11-06T14:05:19.028Z",
+      "schemaVersion": 1,
+      "actor": {
+        "agentId": "probe-ux2-2",
+        "role": "scripted"
+      },
+      "type": "page.vitals",
+      "payload": {
+        "stepIndex": 3,
+        "url": "http://janus-f16-app:3100/register",
+        "lcpMs": 80,
+        "cls": 0,
+        "inpMs": 16
+      }
+    },
+    {
+      "id": "01M6RJV7EVPG658AQBW8E8CCJZ",
+      "runId": "01JC0F16FXF0000000000000AA",
+      "seq": 84,
+      "ts": "2026-11-06T14:05:19.195Z",
+      "schemaVersion": 1,
+      "actor": {
+        "agentId": "probe-ux2-2",
+        "role": "scripted"
+      },
+      "type": "agent.action",
+      "payload": {
+        "stepIndex": 4,
+        "action": "type",
+        "durationMs": 101.2207999999955,
+        "ok": true,
+        "ref": "e21",
+        "selector": "role=textbox[name=\"Dirección de envío\"]",
+        "boundingBox": {
+          "x": 176,
+          "y": 443.875,
+          "width": 480,
+          "height": 90
+        }
+      }
+    },
+    {
+      "id": "01M6RJV7EVDTDEAWBC9E3FFE2E",
+      "runId": "01JC0F16FXF0000000000000AA",
+      "seq": 85,
+      "ts": "2026-11-06T14:05:19.195Z",
+      "schemaVersion": 1,
+      "actor": {
+        "agentId": "probe-ux2-2",
+        "role": "scripted"
+      },
+      "type": "agent.step",
+      "payload": {
+        "stepIndex": 4,
+        "url": "http://janus-f16-app:3100/register",
+        "durationMs": 165.93570000000182
+      }
+    },
+    {
+      "id": "01M6RJV7EX49XY2E367WF5NXB6",
+      "runId": "01JC0F16FXF0000000000000AA",
+      "seq": 86,
+      "ts": "2026-11-06T14:05:19.197Z",
+      "schemaVersion": 1,
+      "actor": {
+        "agentId": "probe-ux2-2",
+        "role": "scripted"
+      },
+      "type": "page.vitals",
+      "payload": {
+        "stepIndex": 4,
+        "url": "http://janus-f16-app:3100/register",
+        "lcpMs": 80,
+        "cls": 0,
+        "inpMs": 16
+      }
+    },
+    {
+      "id": "01M6RJV89FHV5ADXQBPBFCKJHS",
+      "runId": "01JC0F16FXF0000000000000AA",
+      "seq": 87,
+      "ts": "2026-11-06T14:05:20.047Z",
+      "schemaVersion": 1,
+      "actor": {
+        "agentId": "probe-ux2-2",
+        "role": "scripted"
+      },
+      "type": "agent.action",
+      "payload": {
+        "stepIndex": 5,
+        "action": "click",
+        "durationMs": 784.0952999999936,
+        "ok": true,
+        "ref": "e22",
+        "selector": "role=button[name=\"Crear cuenta\"]",
+        "boundingBox": {
+          "x": 176,
+          "y": 545.875,
+          "width": 121.453125,
+          "height": 40
+        },
+        "domMutations": 22
+      }
+    },
+    {
+      "id": "01M6RJV89FT74RVG4G412ENGFG",
+      "runId": "01JC0F16FXF0000000000000AA",
+      "seq": 88,
+      "ts": "2026-11-06T14:05:20.047Z",
+      "schemaVersion": 1,
+      "actor": {
+        "agentId": "probe-ux2-2",
+        "role": "scripted"
+      },
+      "type": "agent.step",
+      "payload": {
+        "stepIndex": 5,
+        "url": "http://janus-f16-app:3100/register",
+        "durationMs": 850.4315999999963
+      }
+    },
+    {
+      "id": "01M6RJV89HV24NBT8P1PP7SJ7F",
+      "runId": "01JC0F16FXF0000000000000AA",
+      "seq": 89,
+      "ts": "2026-11-06T14:05:20.049Z",
+      "schemaVersion": 1,
+      "actor": {
+        "agentId": "probe-ux2-2",
+        "role": "scripted"
+      },
+      "type": "page.vitals",
+      "payload": {
+        "stepIndex": 5,
+        "url": "http://janus-f16-app:3100/",
+        "lcpMs": 80,
+        "cls": 0,
+        "inpMs": 16
+      }
+    },
+    {
+      "id": "01M6RJV90ZN84GD4R19S32JDDF",
+      "runId": "01JC0F16FXF0000000000000AA",
+      "seq": 90,
+      "ts": "2026-11-06T14:05:20.799Z",
+      "schemaVersion": 1,
+      "actor": {
+        "agentId": "probe-ux2-2",
+        "role": "scripted"
+      },
+      "type": "agent.action",
+      "payload": {
+        "stepIndex": 6,
+        "action": "click",
+        "durationMs": 680.3987000000052,
+        "ok": true,
+        "ref": "e17",
+        "selector": "role=link[name=\"Taza de cerámica\"]",
+        "boundingBox": {
+          "x": 901,
+          "y": 703.40625,
+          "width": 183.125,
+          "height": 30
+        },
+        "domMutations": 13
+      }
+    },
+    {
+      "id": "01M6RJV90ZKHD5REGMJV467KHM",
+      "runId": "01JC0F16FXF0000000000000AA",
+      "seq": 91,
+      "ts": "2026-11-06T14:05:20.799Z",
+      "schemaVersion": 1,
+      "actor": {
+        "agentId": "probe-ux2-2",
+        "role": "scripted"
+      },
+      "type": "agent.step",
+      "payload": {
+        "stepIndex": 6,
+        "url": "http://janus-f16-app:3100/",
+        "durationMs": 749.313599999994
+      }
+    },
+    {
+      "id": "01M6RJV911B9N8944JANGYJTN5",
+      "runId": "01JC0F16FXF0000000000000AA",
+      "seq": 92,
+      "ts": "2026-11-06T14:05:20.801Z",
+      "schemaVersion": 1,
+      "actor": {
+        "agentId": "probe-ux2-2",
+        "role": "scripted"
+      },
+      "type": "page.vitals",
+      "payload": {
+        "stepIndex": 6,
+        "url": "http://janus-f16-app:3100/products/taza-ceramica",
+        "lcpMs": 80,
+        "cls": 0,
+        "inpMs": 16
+      }
+    },
+    {
+      "id": "01M6RJV9SJF5G6GE2HSCVGKDC3",
+      "runId": "01JC0F16FXF0000000000000AA",
+      "seq": 93,
+      "ts": "2026-11-06T14:05:21.586Z",
+      "schemaVersion": 1,
+      "actor": {
+        "agentId": "probe-ux2-2",
+        "role": "scripted"
+      },
+      "type": "agent.action",
+      "payload": {
+        "stepIndex": 7,
+        "action": "click",
+        "durationMs": 717.3116000000009,
+        "ok": true,
+        "ref": "e27",
+        "selector": "role=button[name=\"Añadir al carrito\"]",
+        "boundingBox": {
+          "x": 176,
+          "y": 326.875,
+          "width": 141.890625,
+          "height": 40
+        },
+        "domMutations": 20
+      }
+    },
+    {
+      "id": "01M6RJV9SJ07XHYB1JJWPMBT1Y",
+      "runId": "01JC0F16FXF0000000000000AA",
+      "seq": 94,
+      "ts": "2026-11-06T14:05:21.586Z",
+      "schemaVersion": 1,
+      "actor": {
+        "agentId": "probe-ux2-2",
+        "role": "scripted"
+      },
+      "type": "agent.step",
+      "payload": {
+        "stepIndex": 7,
+        "url": "http://janus-f16-app:3100/products/taza-ceramica",
+        "durationMs": 784.7459000000017
+      }
+    },
+    {
+      "id": "01M6RJV9SMVQ4KFV2WJBVY7PE8",
+      "runId": "01JC0F16FXF0000000000000AA",
+      "seq": 95,
+      "ts": "2026-11-06T14:05:21.588Z",
+      "schemaVersion": 1,
+      "actor": {
+        "agentId": "probe-ux2-2",
+        "role": "scripted"
+      },
+      "type": "page.vitals",
+      "payload": {
+        "stepIndex": 7,
+        "url": "http://janus-f16-app:3100/cart",
+        "lcpMs": 80,
+        "cls": 0,
+        "inpMs": 16
+      }
+    },
+    {
+      "id": "01M6RJV9VTVN0Q4EKWDKYCZM2T",
+      "runId": "01JC0F16FXF0000000000000AA",
+      "seq": 96,
+      "ts": "2026-11-06T14:05:21.658Z",
+      "schemaVersion": 1,
+      "actor": {
+        "agentId": "probe-ux2-2",
+        "role": "scripted"
+      },
+      "type": "agent.action",
+      "payload": {
+        "stepIndex": 8,
+        "action": "scroll",
+        "durationMs": 2.364000000001397,
+        "ok": true
+      }
+    },
+    {
+      "id": "01M6RJV9VT7X2904VJPTWZNQYD",
+      "runId": "01JC0F16FXF0000000000000AA",
+      "seq": 97,
+      "ts": "2026-11-06T14:05:21.658Z",
+      "schemaVersion": 1,
+      "actor": {
+        "agentId": "probe-ux2-2",
+        "role": "scripted"
+      },
+      "type": "agent.step",
+      "payload": {
+        "stepIndex": 8,
+        "url": "http://janus-f16-app:3100/cart",
+        "durationMs": 69.46190000000206
+      }
+    },
+    {
+      "id": "01M6RJV9VVMWTS98TJBBA59GZY",
+      "runId": "01JC0F16FXF0000000000000AA",
+      "seq": 98,
+      "ts": "2026-11-06T14:05:21.659Z",
+      "schemaVersion": 1,
+      "actor": {
+        "agentId": "probe-ux2-2",
+        "role": "scripted"
+      },
+      "type": "page.vitals",
+      "payload": {
+        "stepIndex": 8,
+        "url": "http://janus-f16-app:3100/cart",
+        "lcpMs": 80,
+        "cls": 0,
+        "inpMs": 16
+      }
+    },
+    {
+      "id": "01M6RJV9XZYAH2YE63BXMK0MYY",
+      "runId": "01JC0F16FXF0000000000000AA",
+      "seq": 99,
+      "ts": "2026-11-06T14:05:21.727Z",
+      "schemaVersion": 1,
+      "actor": {
+        "agentId": "probe-ux2-2",
+        "role": "scripted"
+      },
+      "type": "agent.action",
+      "payload": {
+        "stepIndex": 9,
+        "action": "scroll",
+        "durationMs": 1.9893000000010943,
+        "ok": true
+      }
+    },
+    {
+      "id": "01M6RJV9XZT4F9MH8W285GDK8F",
+      "runId": "01JC0F16FXF0000000000000AA",
+      "seq": 100,
+      "ts": "2026-11-06T14:05:21.727Z",
+      "schemaVersion": 1,
+      "actor": {
+        "agentId": "probe-ux2-2",
+        "role": "scripted"
+      },
+      "type": "agent.step",
+      "payload": {
+        "stepIndex": 9,
+        "url": "http://janus-f16-app:3100/cart",
+        "durationMs": 67.17259999999806
+      }
+    },
+    {
+      "id": "01M6RJV9Y1K9CZ537D31QABKF0",
+      "runId": "01JC0F16FXF0000000000000AA",
+      "seq": 101,
+      "ts": "2026-11-06T14:05:21.729Z",
+      "schemaVersion": 1,
+      "actor": {
+        "agentId": "probe-ux2-2",
+        "role": "scripted"
+      },
+      "type": "page.vitals",
+      "payload": {
+        "stepIndex": 9,
+        "url": "http://janus-f16-app:3100/cart",
+        "lcpMs": 80,
+        "cls": 0,
+        "inpMs": 16
+      }
+    },
+    {
+      "id": "01M6RJVAND7N5FA5SXG277TNXQ",
+      "runId": "01JC0F16FXF0000000000000AA",
+      "seq": 102,
+      "ts": "2026-11-06T14:05:22.477Z",
+      "schemaVersion": 1,
+      "actor": {
+        "agentId": "probe-ux2-2",
+        "role": "scripted"
+      },
+      "type": "agent.action",
+      "payload": {
+        "stepIndex": 10,
+        "action": "click",
+        "durationMs": 680.6796000000031,
+        "ok": true,
+        "ref": "e35",
+        "selector": "role=link[name=\"Ir a pagar\"]",
+        "boundingBox": {
+          "x": 176,
+          "y": 401.875,
+          "width": 66.46875,
+          "height": 20
+        },
+        "domMutations": 18
+      }
+    },
+    {
+      "id": "01M6RJVAND1H94C4W4MKFJKPAN",
+      "runId": "01JC0F16FXF0000000000000AA",
+      "seq": 103,
+      "ts": "2026-11-06T14:05:22.477Z",
+      "schemaVersion": 1,
+      "actor": {
+        "agentId": "probe-ux2-2",
+        "role": "scripted"
+      },
+      "type": "agent.step",
+      "payload": {
+        "stepIndex": 10,
+        "url": "http://janus-f16-app:3100/cart",
+        "durationMs": 748.2596000000049
+      }
+    },
+    {
+      "id": "01M6RJVANF5ZF3GQVPEAM8W1ZE",
+      "runId": "01JC0F16FXF0000000000000AA",
+      "seq": 104,
+      "ts": "2026-11-06T14:05:22.479Z",
+      "schemaVersion": 1,
+      "actor": {
+        "agentId": "probe-ux2-2",
+        "role": "scripted"
+      },
+      "type": "page.vitals",
+      "payload": {
+        "stepIndex": 10,
+        "url": "http://janus-f16-app:3100/checkout",
+        "lcpMs": 80,
+        "cls": 0,
+        "inpMs": 16
+      }
+    },
+    {
+      "id": "01M6RJVBD22YM9DX7W4J4QAPC2",
+      "runId": "01JC0F16FXF0000000000000AA",
+      "seq": 105,
+      "ts": "2026-11-06T14:05:23.234Z",
+      "schemaVersion": 1,
+      "actor": {
+        "agentId": "probe-ux2-2",
+        "role": "scripted"
+      },
+      "type": "agent.action",
+      "payload": {
+        "stepIndex": 11,
+        "action": "click",
+        "durationMs": 690.4478999999992,
+        "ok": true,
+        "ref": "e3",
+        "selector": "role=link[name=\"Carrito\"]",
+        "boundingBox": {
+          "x": 540.015625,
+          "y": 22,
+          "width": 46.3125,
+          "height": 20
+        },
+        "domMutations": 18
+      }
+    },
+    {
+      "id": "01M6RJVBD2211AK7P04SAM6CHS",
+      "runId": "01JC0F16FXF0000000000000AA",
+      "seq": 106,
+      "ts": "2026-11-06T14:05:23.234Z",
+      "schemaVersion": 1,
+      "actor": {
+        "agentId": "probe-ux2-2",
+        "role": "scripted"
+      },
+      "type": "agent.step",
+      "payload": {
+        "stepIndex": 11,
+        "url": "http://janus-f16-app:3100/checkout",
+        "durationMs": 754.2422000000006
+      }
+    },
+    {
+      "id": "01M6RJVBD4YX59C1ZEH2DNQJGF",
+      "runId": "01JC0F16FXF0000000000000AA",
+      "seq": 107,
+      "ts": "2026-11-06T14:05:23.236Z",
+      "schemaVersion": 1,
+      "actor": {
+        "agentId": "probe-ux2-2",
+        "role": "scripted"
+      },
+      "type": "page.vitals",
+      "payload": {
+        "stepIndex": 11,
+        "url": "http://janus-f16-app:3100/cart",
+        "lcpMs": 80,
+        "cls": 0,
+        "inpMs": 16
+      }
+    },
+    {
+      "id": "01M6RJVBFAER3GY9QV38ZSRKAD",
+      "runId": "01JC0F16FXF0000000000000AA",
+      "seq": 108,
+      "ts": "2026-11-06T14:05:23.306Z",
+      "schemaVersion": 1,
+      "actor": {
+        "agentId": "probe-ux2-2",
+        "role": "scripted"
+      },
+      "type": "agent.action",
+      "payload": {
+        "stepIndex": 12,
+        "action": "scroll",
+        "durationMs": 1.7654999999940628,
+        "ok": true
+      }
+    },
+    {
+      "id": "01M6RJVBFAZ99ZJDD99N62K9JZ",
+      "runId": "01JC0F16FXF0000000000000AA",
+      "seq": 109,
+      "ts": "2026-11-06T14:05:23.306Z",
+      "schemaVersion": 1,
+      "actor": {
+        "agentId": "probe-ux2-2",
+        "role": "scripted"
+      },
+      "type": "agent.step",
+      "payload": {
+        "stepIndex": 12,
+        "url": "http://janus-f16-app:3100/cart",
+        "durationMs": 69.53250000000116
+      }
+    },
+    {
+      "id": "01M6RJVBFCK1G9WSMW4843H54M",
+      "runId": "01JC0F16FXF0000000000000AA",
+      "seq": 110,
+      "ts": "2026-11-06T14:05:23.308Z",
+      "schemaVersion": 1,
+      "actor": {
+        "agentId": "probe-ux2-2",
+        "role": "scripted"
+      },
+      "type": "page.vitals",
+      "payload": {
+        "stepIndex": 12,
+        "url": "http://janus-f16-app:3100/cart",
+        "lcpMs": 80,
+        "cls": 0,
+        "inpMs": 16
+      }
+    },
+    {
+      "id": "01M6RJVBG7AR46XQ4TQRB6XBZM",
+      "runId": "01JC0F16FXF0000000000000AA",
+      "seq": 111,
+      "ts": "2026-11-06T14:05:23.335Z",
+      "schemaVersion": 1,
+      "actor": {
+        "agentId": "probe-ux2-2",
+        "role": "scripted"
+      },
+      "type": "page.screenshot",
+      "payload": {
+        "stepIndex": 12,
+        "url": "http://janus-f16-app:3100/cart",
+        "artifact": "probe-ux2-2/step-12.png",
+        "detector": "backtrack"
+      }
+    },
+    {
+      "id": "01M6RJVBJC6RWHNNBZGXJP4GE8",
+      "runId": "01JC0F16FXF0000000000000AA",
+      "seq": 112,
+      "ts": "2026-11-06T14:05:23.404Z",
+      "schemaVersion": 1,
+      "actor": {
+        "agentId": "probe-ux2-2",
+        "role": "scripted"
+      },
+      "type": "agent.action",
+      "payload": {
+        "stepIndex": 13,
+        "action": "scroll",
+        "durationMs": 1.6965999999956694,
+        "ok": true
+      }
+    },
+    {
+      "id": "01M6RJVBJC6Y4AA4452RF26DSV",
+      "runId": "01JC0F16FXF0000000000000AA",
+      "seq": 113,
+      "ts": "2026-11-06T14:05:23.404Z",
+      "schemaVersion": 1,
+      "actor": {
+        "agentId": "probe-ux2-2",
+        "role": "scripted"
+      },
+      "type": "agent.step",
+      "payload": {
+        "stepIndex": 13,
+        "url": "http://janus-f16-app:3100/cart",
+        "durationMs": 69.0688999999984
+      }
+    },
+    {
+      "id": "01M6RJVBJEJXD3R1FWDD712CFW",
+      "runId": "01JC0F16FXF0000000000000AA",
+      "seq": 114,
+      "ts": "2026-11-06T14:05:23.406Z",
+      "schemaVersion": 1,
+      "actor": {
+        "agentId": "probe-ux2-2",
+        "role": "scripted"
+      },
+      "type": "page.vitals",
+      "payload": {
+        "stepIndex": 13,
+        "url": "http://janus-f16-app:3100/cart",
+        "lcpMs": 80,
+        "cls": 0,
+        "inpMs": 16
+      }
+    },
+    {
+      "id": "01M6RJVBSQVJKCKG1GQQDYHHKQ",
+      "runId": "01JC0F16FXF0000000000000AA",
+      "seq": 115,
+      "ts": "2026-11-06T14:05:23.640Z",
+      "schemaVersion": 1,
+      "actor": {
+        "agentId": "probe-ux2-2",
+        "role": "scripted"
+      },
+      "type": "agent.action",
+      "payload": {
+        "stepIndex": 14,
+        "action": "click",
+        "durationMs": 166.29079999999522,
+        "ok": true,
+        "ref": "e34",
+        "selector": "role=link[name=\"Otras opciones\"]",
+        "boundingBox": {
+          "x": 176,
+          "y": 279.875,
+          "width": 105.4375,
+          "height": 20
+        },
+        "domMutations": 1
+      }
+    },
+    {
+      "id": "01M6RJVBSRQ7RHGXQXQRAD9B71",
+      "runId": "01JC0F16FXF0000000000000AA",
+      "seq": 116,
+      "ts": "2026-11-06T14:05:23.640Z",
+      "schemaVersion": 1,
+      "actor": {
+        "agentId": "probe-ux2-2",
+        "role": "scripted"
+      },
+      "type": "agent.step",
+      "payload": {
+        "stepIndex": 14,
+        "url": "http://janus-f16-app:3100/cart",
+        "durationMs": 233.13500000000204
+      }
+    },
+    {
+      "id": "01M6RJVBSTG3WDQKC4TGK8HHZE",
+      "runId": "01JC0F16FXF0000000000000AA",
+      "seq": 117,
+      "ts": "2026-11-06T14:05:23.642Z",
+      "schemaVersion": 1,
+      "actor": {
+        "agentId": "probe-ux2-2",
+        "role": "scripted"
+      },
+      "type": "page.vitals",
+      "payload": {
+        "stepIndex": 14,
+        "url": "http://janus-f16-app:3100/cart",
+        "lcpMs": 80,
+        "cls": 0,
+        "inpMs": 16
+      }
+    },
+    {
+      "id": "01M6RJVBZ937XPGGPD8ZFBY7RV",
+      "runId": "01JC0F16FXF0000000000000AA",
+      "seq": 118,
+      "ts": "2026-11-06T14:05:23.817Z",
+      "schemaVersion": 1,
+      "actor": {
+        "agentId": "probe-ux2-2",
+        "role": "scripted"
+      },
+      "type": "agent.action",
+      "payload": {
+        "stepIndex": 15,
+        "action": "type",
+        "durationMs": 106.95999999999913,
+        "ok": true,
+        "ref": "e39",
+        "selector": "role=textbox[name=\"Código del cupón\"]",
+        "boundingBox": {
+          "x": 176,
+          "y": 329.875,
+          "width": 170,
+          "height": 42
+        }
+      }
+    },
+    {
+      "id": "01M6RJVBZ9HB6QS0DGVZFDXC20",
+      "runId": "01JC0F16FXF0000000000000AA",
+      "seq": 119,
+      "ts": "2026-11-06T14:05:23.817Z",
+      "schemaVersion": 1,
+      "actor": {
+        "agentId": "probe-ux2-2",
+        "role": "scripted"
+      },
+      "type": "agent.step",
+      "payload": {
+        "stepIndex": 15,
+        "url": "http://janus-f16-app:3100/cart",
+        "durationMs": 174.5867999999973
+      }
+    },
+    {
+      "id": "01M6RJVBZBDZK6JKG2HRBGEGN8",
+      "runId": "01JC0F16FXF0000000000000AA",
+      "seq": 120,
+      "ts": "2026-11-06T14:05:23.819Z",
+      "schemaVersion": 1,
+      "actor": {
+        "agentId": "probe-ux2-2",
+        "role": "scripted"
+      },
+      "type": "page.vitals",
+      "payload": {
+        "stepIndex": 15,
+        "url": "http://janus-f16-app:3100/cart",
+        "lcpMs": 80,
+        "cls": 0,
+        "inpMs": 16
+      }
+    },
+    {
+      "id": "01M6RJVCRSABHPXEGZW14ZPR2Q",
+      "runId": "01JC0F16FXF0000000000000AA",
+      "seq": 121,
+      "ts": "2026-11-06T14:05:24.633Z",
+      "schemaVersion": 1,
+      "actor": {
+        "agentId": "probe-ux2-2",
+        "role": "scripted"
+      },
+      "type": "agent.action",
+      "payload": {
+        "stepIndex": 16,
+        "action": "click",
+        "durationMs": 745.2200000000012,
+        "ok": true,
+        "ref": "e40",
+        "selector": "role=button[name=\"Aplicar cupón\"]",
+        "boundingBox": {
+          "x": 354,
+          "y": 331.875,
+          "width": 125.609375,
+          "height": 40
+        },
+        "domMutations": 16
+      }
+    },
+    {
+      "id": "01M6RJVCRS77DZ7S5C4WM5M2S3",
+      "runId": "01JC0F16FXF0000000000000AA",
+      "seq": 122,
+      "ts": "2026-11-06T14:05:24.633Z",
+      "schemaVersion": 1,
+      "actor": {
+        "agentId": "probe-ux2-2",
+        "role": "scripted"
+      },
+      "type": "agent.step",
+      "payload": {
+        "stepIndex": 16,
+        "url": "http://janus-f16-app:3100/cart",
+        "durationMs": 813.2324000000008
+      }
+    },
+    {
+      "id": "01M6RJVCRTQVXWGYFNP18SCSTS",
+      "runId": "01JC0F16FXF0000000000000AA",
+      "seq": 123,
+      "ts": "2026-11-06T14:05:24.634Z",
+      "schemaVersion": 1,
+      "actor": {
+        "agentId": "probe-ux2-2",
+        "role": "scripted"
+      },
+      "type": "page.vitals",
+      "payload": {
+        "stepIndex": 16,
+        "url": "http://janus-f16-app:3100/cart",
+        "lcpMs": 80,
+        "cls": 0,
+        "inpMs": 16
+      }
+    },
+    {
+      "id": "01M6RJVCTZ4505W1VM30FJ599M",
+      "runId": "01JC0F16FXF0000000000000AA",
+      "seq": 124,
+      "ts": "2026-11-06T14:05:24.703Z",
+      "schemaVersion": 1,
+      "actor": {
+        "agentId": "probe-ux2-2",
+        "role": "scripted"
+      },
+      "type": "agent.action",
+      "payload": {
+        "stepIndex": 17,
+        "action": "done",
+        "durationMs": 0.05069999999977881,
+        "ok": true
+      }
+    },
+    {
+      "id": "01M6RJVCTZZ62EJADRYYK5GCVA",
+      "runId": "01JC0F16FXF0000000000000AA",
+      "seq": 125,
+      "ts": "2026-11-06T14:05:24.703Z",
+      "schemaVersion": 1,
+      "actor": {
+        "agentId": "probe-ux2-2",
+        "role": "scripted"
+      },
+      "type": "agent.step",
+      "payload": {
+        "stepIndex": 17,
+        "url": "http://janus-f16-app:3100/cart",
+        "durationMs": 67.7531999999992
+      }
+    },
+    {
+      "id": "01M6RJVCV0W2VAHFKKM7EQ35RT",
+      "runId": "01JC0F16FXF0000000000000AA",
+      "seq": 126,
+      "ts": "2026-11-06T14:05:24.704Z",
+      "schemaVersion": 1,
+      "actor": {
+        "agentId": "probe-ux2-2",
+        "role": "scripted"
+      },
+      "type": "page.vitals",
+      "payload": {
+        "stepIndex": 17,
+        "url": "http://janus-f16-app:3100/cart",
+        "lcpMs": 80,
+        "cls": 0,
+        "inpMs": 16
+      }
+    },
+    {
+      "id": "01M6RJVCV16NRBTCBKFQF1PZBP",
+      "runId": "01JC0F16FXF0000000000000AA",
+      "seq": 127,
+      "ts": "2026-11-06T14:05:24.705Z",
+      "schemaVersion": 1,
+      "actor": {
+        "agentId": "probe-ux2-2",
+        "role": "scripted"
+      },
+      "type": "session.ended",
+      "payload": {
+        "outcome": "success",
+        "steps": 18,
+        "reason": "Por fin encontré el cupón.",
+        "durationMs": 7818.398399999998
+      }
+    },
+    {
+      "id": "01M6RJVDW7BMR9312NG5XBGZJH",
+      "runId": "01JC0F16FXF0000000000000AA",
+      "seq": 128,
+      "ts": "2026-11-06T14:05:25.767Z",
+      "schemaVersion": 1,
+      "actor": {
+        "agentId": "probe-ux3-3",
+        "role": "scripted"
+      },
+      "type": "agent.action",
+      "payload": {
+        "stepIndex": 0,
+        "action": "type",
+        "durationMs": 105.33200000000215,
+        "ok": true,
+        "ref": "e6",
+        "selector": "role=textbox[name=\"Nombre\"]",
+        "boundingBox": {
+          "x": 176,
+          "y": 197.875,
+          "width": 480,
+          "height": 42
+        }
+      }
+    },
+    {
+      "id": "01M6RJVDW8W364RKXSNPWV3QR6",
+      "runId": "01JC0F16FXF0000000000000AA",
+      "seq": 129,
+      "ts": "2026-11-06T14:05:25.768Z",
+      "schemaVersion": 1,
+      "actor": {
+        "agentId": "probe-ux3-3",
+        "role": "scripted"
+      },
+      "type": "agent.step",
+      "payload": {
+        "stepIndex": 0,
+        "url": "http://janus-f16-app:3100/register",
+        "durationMs": 779.8067999999985
+      }
+    },
+    {
+      "id": "01M6RJVDW9ZE6EBX2STSMY8SZQ",
+      "runId": "01JC0F16FXF0000000000000AA",
+      "seq": 130,
+      "ts": "2026-11-06T14:05:25.769Z",
+      "schemaVersion": 1,
+      "actor": {
+        "agentId": "probe-ux3-3",
+        "role": "scripted"
+      },
+      "type": "page.vitals",
+      "payload": {
+        "stepIndex": 0,
+        "url": "http://janus-f16-app:3100/register",
+        "lcpMs": 84,
+        "cls": 0
+      }
+    },
+    {
+      "id": "01M6RJVE1KQ74JK6RZV2341A73",
+      "runId": "01JC0F16FXF0000000000000AA",
+      "seq": 131,
+      "ts": "2026-11-06T14:05:25.939Z",
+      "schemaVersion": 1,
+      "actor": {
+        "agentId": "probe-ux3-3",
+        "role": "scripted"
+      },
+      "type": "agent.action",
+      "payload": {
+        "stepIndex": 1,
+        "action": "type",
+        "durationMs": 102.48029999999562,
+        "ok": true,
+        "ref": "e7",
+        "selector": "role=textbox[name=\"Email\"]",
+        "boundingBox": {
+          "x": 176,
+          "y": 279.875,
+          "width": 480,
+          "height": 42
+        }
+      }
+    },
+    {
+      "id": "01M6RJVE1KSY3FJR4PVBPEK9ZB",
+      "runId": "01JC0F16FXF0000000000000AA",
+      "seq": 132,
+      "ts": "2026-11-06T14:05:25.939Z",
+      "schemaVersion": 1,
+      "actor": {
+        "agentId": "probe-ux3-3",
+        "role": "scripted"
+      },
+      "type": "agent.step",
+      "payload": {
+        "stepIndex": 1,
+        "url": "http://janus-f16-app:3100/register",
+        "durationMs": 169.11179999999877
+      }
+    },
+    {
+      "id": "01M6RJVE1NQFVYSN81N1X8RQNA",
+      "runId": "01JC0F16FXF0000000000000AA",
+      "seq": 133,
+      "ts": "2026-11-06T14:05:25.941Z",
+      "schemaVersion": 1,
+      "actor": {
+        "agentId": "probe-ux3-3",
+        "role": "scripted"
+      },
+      "type": "page.vitals",
+      "payload": {
+        "stepIndex": 1,
+        "url": "http://janus-f16-app:3100/register",
+        "lcpMs": 84,
+        "cls": 0
+      }
+    },
+    {
+      "id": "01M6RJVE71VNAJN3JH252NY3XJ",
+      "runId": "01JC0F16FXF0000000000000AA",
+      "seq": 134,
+      "ts": "2026-11-06T14:05:26.113Z",
+      "schemaVersion": 1,
+      "actor": {
+        "agentId": "probe-ux3-3",
+        "role": "scripted"
+      },
+      "type": "agent.action",
+      "payload": {
+        "stepIndex": 2,
+        "action": "type",
+        "durationMs": 105.20870000000286,
+        "ok": true,
+        "ref": "e8",
+        "selector": "role=textbox[name=\"Contraseña (mínimo 8 caracteres)\"]",
+        "boundingBox": {
+          "x": 176,
+          "y": 361.875,
+          "width": 480,
+          "height": 42
+        }
+      }
+    },
+    {
+      "id": "01M6RJVE71WVBMC66S2J0E0S0Y",
+      "runId": "01JC0F16FXF0000000000000AA",
+      "seq": 135,
+      "ts": "2026-11-06T14:05:26.113Z",
+      "schemaVersion": 1,
+      "actor": {
+        "agentId": "probe-ux3-3",
+        "role": "scripted"
+      },
+      "type": "agent.step",
+      "payload": {
+        "stepIndex": 2,
+        "url": "http://janus-f16-app:3100/register",
+        "durationMs": 171.59440000000177
+      }
+    },
+    {
+      "id": "01M6RJVE73FG0GT8A7MZYS7MAB",
+      "runId": "01JC0F16FXF0000000000000AA",
+      "seq": 136,
+      "ts": "2026-11-06T14:05:26.115Z",
+      "schemaVersion": 1,
+      "actor": {
+        "agentId": "probe-ux3-3",
+        "role": "scripted"
+      },
+      "type": "page.vitals",
+      "payload": {
+        "stepIndex": 2,
+        "url": "http://janus-f16-app:3100/register",
+        "lcpMs": 84,
+        "cls": 0
+      }
+    },
+    {
+      "id": "01M6RJVECEE29HH2RXZEN07M93",
+      "runId": "01JC0F16FXF0000000000000AA",
+      "seq": 137,
+      "ts": "2026-11-06T14:05:26.286Z",
+      "schemaVersion": 1,
+      "actor": {
+        "agentId": "probe-ux3-3",
+        "role": "scripted"
+      },
+      "type": "agent.action",
+      "payload": {
+        "stepIndex": 3,
+        "action": "type",
+        "durationMs": 103.33729999999923,
+        "ok": true,
+        "ref": "e9",
+        "selector": "role=textbox[name=\"Dirección de envío\"]",
+        "boundingBox": {
+          "x": 176,
+          "y": 443.875,
+          "width": 480,
+          "height": 90
+        }
+      }
+    },
+    {
+      "id": "01M6RJVECESZB4MBS24Q0YR7Z6",
+      "runId": "01JC0F16FXF0000000000000AA",
+      "seq": 138,
+      "ts": "2026-11-06T14:05:26.286Z",
+      "schemaVersion": 1,
+      "actor": {
+        "agentId": "probe-ux3-3",
+        "role": "scripted"
+      },
+      "type": "agent.step",
+      "payload": {
+        "stepIndex": 3,
+        "url": "http://janus-f16-app:3100/register",
+        "durationMs": 170.4609000000055
+      }
+    },
+    {
+      "id": "01M6RJVECGQ13N9PR8HDB9ZD1D",
+      "runId": "01JC0F16FXF0000000000000AA",
+      "seq": 139,
+      "ts": "2026-11-06T14:05:26.288Z",
+      "schemaVersion": 1,
+      "actor": {
+        "agentId": "probe-ux3-3",
+        "role": "scripted"
+      },
+      "type": "page.vitals",
+      "payload": {
+        "stepIndex": 3,
+        "url": "http://janus-f16-app:3100/register",
+        "lcpMs": 84,
+        "cls": 0
+      }
+    },
+    {
+      "id": "01M6RJVF5936DTTXCVK0GRK29S",
+      "runId": "01JC0F16FXF0000000000000AA",
+      "seq": 140,
+      "ts": "2026-11-06T14:05:27.081Z",
+      "schemaVersion": 1,
+      "actor": {
+        "agentId": "probe-ux3-3",
+        "role": "scripted"
+      },
+      "type": "agent.action",
+      "payload": {
+        "stepIndex": 4,
+        "action": "click",
+        "durationMs": 726.7168999999994,
+        "ok": true,
+        "ref": "e10",
+        "selector": "role=button[name=\"Crear cuenta\"]",
+        "boundingBox": {
+          "x": 176,
+          "y": 545.875,
+          "width": 121.453125,
+          "height": 40
+        },
+        "domMutations": 3
+      }
+    },
+    {
+      "id": "01M6RJVF59G2W35PKY7QDVA7YQ",
+      "runId": "01JC0F16FXF0000000000000AA",
+      "seq": 141,
+      "ts": "2026-11-06T14:05:27.081Z",
+      "schemaVersion": 1,
+      "actor": {
+        "agentId": "probe-ux3-3",
+        "role": "scripted"
+      },
+      "type": "agent.step",
+      "payload": {
+        "stepIndex": 4,
+        "url": "http://janus-f16-app:3100/register",
+        "durationMs": 793.1002999999982
+      }
+    },
+    {
+      "id": "01M6RJVF5BWVVGJSZ4SFFKACX8",
+      "runId": "01JC0F16FXF0000000000000AA",
+      "seq": 142,
+      "ts": "2026-11-06T14:05:27.083Z",
+      "schemaVersion": 1,
+      "actor": {
+        "agentId": "probe-ux3-3",
+        "role": "scripted"
+      },
+      "type": "page.error",
+      "payload": {
+        "stepIndex": 4,
+        "kind": "http",
+        "url": "http://janus-f16-app:3100/api/auth/register",
+        "message": "Bad Request",
+        "status": 400
+      }
+    },
+    {
+      "id": "01M6RJVF5BJP7A8S5KGHB0308A",
+      "runId": "01JC0F16FXF0000000000000AA",
+      "seq": 143,
+      "ts": "2026-11-06T14:05:27.083Z",
+      "schemaVersion": 1,
+      "actor": {
+        "agentId": "probe-ux3-3",
+        "role": "scripted"
+      },
+      "type": "page.vitals",
+      "payload": {
+        "stepIndex": 4,
+        "url": "http://janus-f16-app:3100/register",
+        "lcpMs": 84,
+        "cls": 0,
+        "inpMs": 16
+      }
+    },
+    {
+      "id": "01M6RJVFANESXDGK450A9NKP5H",
+      "runId": "01JC0F16FXF0000000000000AA",
+      "seq": 144,
+      "ts": "2026-11-06T14:05:27.253Z",
+      "schemaVersion": 1,
+      "actor": {
+        "agentId": "probe-ux3-3",
+        "role": "scripted"
+      },
+      "type": "agent.action",
+      "payload": {
+        "stepIndex": 5,
+        "action": "type",
+        "durationMs": 102.21990000000369,
+        "ok": true,
+        "ref": "e6",
+        "selector": "role=textbox[name=\"Nombre\"]",
+        "boundingBox": {
+          "x": 176,
+          "y": 197.875,
+          "width": 480,
+          "height": 42
+        }
+      }
+    },
+    {
+      "id": "01M6RJVFANRMXABK5GXW3102AM",
+      "runId": "01JC0F16FXF0000000000000AA",
+      "seq": 145,
+      "ts": "2026-11-06T14:05:27.253Z",
+      "schemaVersion": 1,
+      "actor": {
+        "agentId": "probe-ux3-3",
+        "role": "scripted"
+      },
+      "type": "agent.step",
+      "payload": {
+        "stepIndex": 5,
+        "url": "http://janus-f16-app:3100/register",
+        "durationMs": 169.29409999999916,
+        "alerts": ["Revisa los campos del formulario."]
+      }
+    },
+    {
+      "id": "01M6RJVFAQ4ZCGVDNZW41MGQ25",
+      "runId": "01JC0F16FXF0000000000000AA",
+      "seq": 146,
+      "ts": "2026-11-06T14:05:27.255Z",
+      "schemaVersion": 1,
+      "actor": {
+        "agentId": "probe-ux3-3",
+        "role": "scripted"
+      },
+      "type": "page.vitals",
+      "payload": {
+        "stepIndex": 5,
+        "url": "http://janus-f16-app:3100/register",
+        "lcpMs": 84,
+        "cls": 0,
+        "inpMs": 16
+      }
+    },
+    {
+      "id": "01M6RJVFBNKBWTZMSYP8KD25BR",
+      "runId": "01JC0F16FXF0000000000000AA",
+      "seq": 147,
+      "ts": "2026-11-06T14:05:27.285Z",
+      "schemaVersion": 1,
+      "actor": {
+        "agentId": "probe-ux3-3",
+        "role": "scripted"
+      },
+      "type": "page.screenshot",
+      "payload": {
+        "stepIndex": 5,
+        "url": "http://janus-f16-app:3100/register",
+        "artifact": "probe-ux3-3/step-5.png",
+        "detector": "form-error"
+      }
+    },
+    {
+      "id": "01M6RJVFGXN2C4HCPH7E1EFNCQ",
+      "runId": "01JC0F16FXF0000000000000AA",
+      "seq": 148,
+      "ts": "2026-11-06T14:05:27.453Z",
+      "schemaVersion": 1,
+      "actor": {
+        "agentId": "probe-ux3-3",
+        "role": "scripted"
+      },
+      "type": "agent.action",
+      "payload": {
+        "stepIndex": 6,
+        "action": "type",
+        "durationMs": 101.51309999999648,
+        "ok": true,
+        "ref": "e7",
+        "selector": "role=textbox[name=\"Email\"]",
+        "boundingBox": {
+          "x": 176,
+          "y": 279.875,
+          "width": 480,
+          "height": 42
+        }
+      }
+    },
+    {
+      "id": "01M6RJVFGX6GJ4TVCH8500VYDW",
+      "runId": "01JC0F16FXF0000000000000AA",
+      "seq": 149,
+      "ts": "2026-11-06T14:05:27.453Z",
+      "schemaVersion": 1,
+      "actor": {
+        "agentId": "probe-ux3-3",
+        "role": "scripted"
+      },
+      "type": "agent.step",
+      "payload": {
+        "stepIndex": 6,
+        "url": "http://janus-f16-app:3100/register",
+        "durationMs": 168.15320000000065,
+        "alerts": ["Revisa los campos del formulario."]
+      }
+    },
+    {
+      "id": "01M6RJVFGZC6F70FVPYEA2171W",
+      "runId": "01JC0F16FXF0000000000000AA",
+      "seq": 150,
+      "ts": "2026-11-06T14:05:27.455Z",
+      "schemaVersion": 1,
+      "actor": {
+        "agentId": "probe-ux3-3",
+        "role": "scripted"
+      },
+      "type": "page.vitals",
+      "payload": {
+        "stepIndex": 6,
+        "url": "http://janus-f16-app:3100/register",
+        "lcpMs": 84,
+        "cls": 0,
+        "inpMs": 16
+      }
+    },
+    {
+      "id": "01M6RJVFP6GQNN52MESCQZJ5PV",
+      "runId": "01JC0F16FXF0000000000000AA",
+      "seq": 151,
+      "ts": "2026-11-06T14:05:27.622Z",
+      "schemaVersion": 1,
+      "actor": {
+        "agentId": "probe-ux3-3",
+        "role": "scripted"
+      },
+      "type": "agent.action",
+      "payload": {
+        "stepIndex": 7,
+        "action": "type",
+        "durationMs": 99.65929999999935,
+        "ok": true,
+        "ref": "e8",
+        "selector": "role=textbox[name=\"Contraseña (mínimo 8 caracteres)\"]",
+        "boundingBox": {
+          "x": 176,
+          "y": 361.875,
+          "width": 480,
+          "height": 42
+        }
+      }
+    },
+    {
+      "id": "01M6RJVFP60TRKJ8MS1JPP4TNX",
+      "runId": "01JC0F16FXF0000000000000AA",
+      "seq": 152,
+      "ts": "2026-11-06T14:05:27.622Z",
+      "schemaVersion": 1,
+      "actor": {
+        "agentId": "probe-ux3-3",
+        "role": "scripted"
+      },
+      "type": "agent.step",
+      "payload": {
+        "stepIndex": 7,
+        "url": "http://janus-f16-app:3100/register",
+        "durationMs": 166.07710000000225,
+        "alerts": ["Revisa los campos del formulario."]
+      }
+    },
+    {
+      "id": "01M6RJVFP89PDNWXM5KKBMCW5P",
+      "runId": "01JC0F16FXF0000000000000AA",
+      "seq": 153,
+      "ts": "2026-11-06T14:05:27.624Z",
+      "schemaVersion": 1,
+      "actor": {
+        "agentId": "probe-ux3-3",
+        "role": "scripted"
+      },
+      "type": "page.vitals",
+      "payload": {
+        "stepIndex": 7,
+        "url": "http://janus-f16-app:3100/register",
+        "lcpMs": 84,
+        "cls": 0,
+        "inpMs": 16
+      }
+    },
+    {
+      "id": "01M6RJVFVEZDB4KSHZP7TR87KH",
+      "runId": "01JC0F16FXF0000000000000AA",
+      "seq": 154,
+      "ts": "2026-11-06T14:05:27.790Z",
+      "schemaVersion": 1,
+      "actor": {
+        "agentId": "probe-ux3-3",
+        "role": "scripted"
+      },
+      "type": "agent.action",
+      "payload": {
+        "stepIndex": 8,
+        "action": "type",
+        "durationMs": 100.34180000000197,
+        "ok": true,
+        "ref": "e9",
+        "selector": "role=textbox[name=\"Dirección de envío\"]",
+        "boundingBox": {
+          "x": 176,
+          "y": 443.875,
+          "width": 480,
+          "height": 90
+        }
+      }
+    },
+    {
+      "id": "01M6RJVFVEETYGPCJRYHWSYM1R",
+      "runId": "01JC0F16FXF0000000000000AA",
+      "seq": 155,
+      "ts": "2026-11-06T14:05:27.790Z",
+      "schemaVersion": 1,
+      "actor": {
+        "agentId": "probe-ux3-3",
+        "role": "scripted"
+      },
+      "type": "agent.step",
+      "payload": {
+        "stepIndex": 8,
+        "url": "http://janus-f16-app:3100/register",
+        "durationMs": 165.32250000000204,
+        "alerts": ["Revisa los campos del formulario."]
+      }
+    },
+    {
+      "id": "01M6RJVFVF6FYMRRHTS3DJGY6Y",
+      "runId": "01JC0F16FXF0000000000000AA",
+      "seq": 156,
+      "ts": "2026-11-06T14:05:27.791Z",
+      "schemaVersion": 1,
+      "actor": {
+        "agentId": "probe-ux3-3",
+        "role": "scripted"
+      },
+      "type": "page.vitals",
+      "payload": {
+        "stepIndex": 8,
+        "url": "http://janus-f16-app:3100/register",
+        "lcpMs": 84,
+        "cls": 0,
+        "inpMs": 16
+      }
+    },
+    {
+      "id": "01M6RJVGM1P3NE1MC845AAA6VZ",
+      "runId": "01JC0F16FXF0000000000000AA",
+      "seq": 157,
+      "ts": "2026-11-06T14:05:28.577Z",
+      "schemaVersion": 1,
+      "actor": {
+        "agentId": "probe-ux3-3",
+        "role": "scripted"
+      },
+      "type": "agent.action",
+      "payload": {
+        "stepIndex": 9,
+        "action": "click",
+        "durationMs": 719.6565999999948,
+        "ok": true,
+        "ref": "e10",
+        "selector": "role=button[name=\"Crear cuenta\"]",
+        "boundingBox": {
+          "x": 176,
+          "y": 581.875,
+          "width": 121.453125,
+          "height": 40
+        },
+        "domMutations": 4
+      }
+    },
+    {
+      "id": "01M6RJVGM1XW3BZCVKEQRFZ15R",
+      "runId": "01JC0F16FXF0000000000000AA",
+      "seq": 158,
+      "ts": "2026-11-06T14:05:28.577Z",
+      "schemaVersion": 1,
+      "actor": {
+        "agentId": "probe-ux3-3",
+        "role": "scripted"
+      },
+      "type": "agent.step",
+      "payload": {
+        "stepIndex": 9,
+        "url": "http://janus-f16-app:3100/register",
+        "durationMs": 784.7635000000009,
+        "alerts": ["Revisa los campos del formulario."]
+      }
+    },
+    {
+      "id": "01M6RJVGM3KKVGSQKTK82KACGD",
+      "runId": "01JC0F16FXF0000000000000AA",
+      "seq": 159,
+      "ts": "2026-11-06T14:05:28.579Z",
+      "schemaVersion": 1,
+      "actor": {
+        "agentId": "probe-ux3-3",
+        "role": "scripted"
+      },
+      "type": "page.error",
+      "payload": {
+        "stepIndex": 9,
+        "kind": "http",
+        "url": "http://janus-f16-app:3100/api/auth/register",
+        "message": "Bad Request",
+        "status": 400
+      }
+    },
+    {
+      "id": "01M6RJVGM387R8GC8B1W7X7CEY",
+      "runId": "01JC0F16FXF0000000000000AA",
+      "seq": 160,
+      "ts": "2026-11-06T14:05:28.579Z",
+      "schemaVersion": 1,
+      "actor": {
+        "agentId": "probe-ux3-3",
+        "role": "scripted"
+      },
+      "type": "page.vitals",
+      "payload": {
+        "stepIndex": 9,
+        "url": "http://janus-f16-app:3100/register",
+        "lcpMs": 84,
+        "cls": 0,
+        "inpMs": 16
+      }
+    },
+    {
+      "id": "01M6RJVGP5E4WMW88XHRZ6EP6R",
+      "runId": "01JC0F16FXF0000000000000AA",
+      "seq": 161,
+      "ts": "2026-11-06T14:05:28.645Z",
+      "schemaVersion": 1,
+      "actor": {
+        "agentId": "probe-ux3-3",
+        "role": "scripted"
+      },
+      "type": "agent.action",
+      "payload": {
+        "stepIndex": 10,
+        "action": "done",
+        "durationMs": 0.02530000000115251,
+        "ok": true
+      }
+    },
+    {
+      "id": "01M6RJVGP56QZNGQ1EGRRH6ZE5",
+      "runId": "01JC0F16FXF0000000000000AA",
+      "seq": 162,
+      "ts": "2026-11-06T14:05:28.645Z",
+      "schemaVersion": 1,
+      "actor": {
+        "agentId": "probe-ux3-3",
+        "role": "scripted"
+      },
+      "type": "agent.step",
+      "payload": {
+        "stepIndex": 10,
+        "url": "http://janus-f16-app:3100/register",
+        "durationMs": 65.58030000000144,
+        "alerts": ["Revisa los campos del formulario."]
+      }
+    },
+    {
+      "id": "01M6RJVGP787EYZACVMH88KAGD",
+      "runId": "01JC0F16FXF0000000000000AA",
+      "seq": 163,
+      "ts": "2026-11-06T14:05:28.647Z",
+      "schemaVersion": 1,
+      "actor": {
+        "agentId": "probe-ux3-3",
+        "role": "scripted"
+      },
+      "type": "page.vitals",
+      "payload": {
+        "stepIndex": 10,
+        "url": "http://janus-f16-app:3100/register",
+        "lcpMs": 84,
+        "cls": 0,
+        "inpMs": 16
+      }
+    },
+    {
+      "id": "01M6RJVGP7RC7WW48DKN96RNX4",
+      "runId": "01JC0F16FXF0000000000000AA",
+      "seq": 164,
+      "ts": "2026-11-06T14:05:28.647Z",
+      "schemaVersion": 1,
+      "actor": {
+        "agentId": "probe-ux3-3",
+        "role": "scripted"
+      },
+      "type": "session.ended",
+      "payload": {
+        "outcome": "abandon",
+        "steps": 11,
+        "reason": "Se me borra todo cada vez.",
+        "durationMs": 3853.1709000000046
+      }
+    },
+    {
+      "id": "01M6RJVGS81ETAZPKNESG1EA74",
+      "runId": "01JC0F16FXF0000000000000AA",
+      "seq": 165,
+      "ts": "2026-11-06T14:05:28.744Z",
+      "schemaVersion": 1,
+      "actor": {
+        "agentId": "orchestrator",
+        "role": "orchestrator"
+      },
+      "type": "friction.signal",
+      "payload": {
+        "detector": "backtrack",
+        "severity": "low",
+        "evidenceEventIds": ["01M6RJTZ1JDJ2H3W3FSFKG83C4"],
+        "agentId": "probe-ux1-0",
+        "stepIndex": 9,
+        "url": "http://janus-f16-app:3100/checkout"
+      }
+    },
+    {
+      "id": "01M6RJVGS9NYQZV63KM48AYCQ7",
+      "runId": "01JC0F16FXF0000000000000AA",
+      "seq": 166,
+      "ts": "2026-11-06T14:05:28.745Z",
+      "schemaVersion": 1,
+      "actor": {
+        "agentId": "orchestrator",
+        "role": "orchestrator"
+      },
+      "type": "friction.signal",
+      "payload": {
+        "detector": "abandonment",
+        "severity": "high",
+        "evidenceEventIds": ["01M6RJTZ4Q2D8VESXH4J1T3KYB"],
+        "agentId": "probe-ux1-0",
+        "stepIndex": 10,
+        "url": "http://janus-f16-app:3100/cart"
+      }
+    },
+    {
+      "id": "01M6RJVGS9Q76D63R7ERKS6M62",
+      "runId": "01JC0F16FXF0000000000000AA",
+      "seq": 167,
+      "ts": "2026-11-06T14:05:28.745Z",
+      "schemaVersion": 1,
+      "actor": {
+        "agentId": "orchestrator",
+        "role": "orchestrator"
+      },
+      "type": "friction.signal",
+      "payload": {
+        "detector": "extra-steps",
+        "severity": "low",
+        "evidenceEventIds": ["01M6RJVCV16NRBTCBKFQF1PZBP", "01M6RJV53WAGENNS5G718EFFRC"],
+        "agentId": "probe-ux2-2"
+      }
+    },
+    {
+      "id": "01M6RJVGS9J1963PXK4WNKX8BS",
+      "runId": "01JC0F16FXF0000000000000AA",
+      "seq": 168,
+      "ts": "2026-11-06T14:05:28.745Z",
+      "schemaVersion": 1,
+      "actor": {
+        "agentId": "orchestrator",
+        "role": "orchestrator"
+      },
+      "type": "friction.signal",
+      "payload": {
+        "detector": "backtrack",
+        "severity": "low",
+        "evidenceEventIds": ["01M6RJVBD2211AK7P04SAM6CHS", "01M6RJVBFAZ99ZJDD99N62K9JZ"],
+        "agentId": "probe-ux2-2",
+        "stepIndex": 12,
+        "url": "http://janus-f16-app:3100/cart"
+      }
+    },
+    {
+      "id": "01M6RJVGS99XT6X63W1B50HF7B",
+      "runId": "01JC0F16FXF0000000000000AA",
+      "seq": 169,
+      "ts": "2026-11-06T14:05:28.745Z",
+      "schemaVersion": 1,
+      "actor": {
+        "agentId": "orchestrator",
+        "role": "orchestrator"
+      },
+      "type": "friction.signal",
+      "payload": {
+        "detector": "form-error",
+        "severity": "medium",
+        "evidenceEventIds": ["01M6RJVF5936DTTXCVK0GRK29S", "01M6RJVFANRMXABK5GXW3102AM"],
+        "agentId": "probe-ux3-3",
+        "stepIndex": 5,
+        "url": "http://janus-f16-app:3100/register"
+      }
+    },
+    {
+      "id": "01M6RJVGS92Y40H5TDPZX9QF8K",
+      "runId": "01JC0F16FXF0000000000000AA",
+      "seq": 170,
+      "ts": "2026-11-06T14:05:28.745Z",
+      "schemaVersion": 1,
+      "actor": {
+        "agentId": "orchestrator",
+        "role": "orchestrator"
+      },
+      "type": "friction.signal",
+      "payload": {
+        "detector": "abandonment",
+        "severity": "high",
+        "evidenceEventIds": ["01M6RJVGP7RC7WW48DKN96RNX4"],
+        "agentId": "probe-ux3-3",
+        "stepIndex": 10,
+        "url": "http://janus-f16-app:3100/register"
+      }
+    }
+  ]
+}

@@ -1,5 +1,6 @@
 import type { BrowserPort } from '../domain/browser/browser-port.js';
 import type { FrictionConfig } from '@janus/friction-engine';
+import type { ReportConfig } from '@janus/synthlab-report';
 
 import type { ArtifactStorePort } from '../domain/artifacts/artifact-store-port.js';
 import type { EventStorePort } from '../domain/event-store/event-store-port.js';
@@ -24,6 +25,8 @@ export interface AppAdapters {
   readonly artifacts?: ArtifactStorePort;
   /** Friction thresholds (config/friction.yaml); the engine defaults otherwise. */
   readonly friction?: FrictionConfig;
+  /** Report settings per target (config/funnels.yaml, F1.10). Without them, no reports. */
+  readonly reports?: Readonly<Record<string, ReportConfig>>;
 }
 
 export const APP_ADAPTERS = Symbol('AppAdapters');

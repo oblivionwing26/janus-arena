@@ -3,16 +3,22 @@
 // Each probe follows the flaw's "Reproduce" steps and behaves the way a confused shopper would;
 // it runs through the same instrumented loop as the LLM, and the friction engine decides.
 // Needs `docker compose up -d` (proxy, browser, browser-relay).
+// F1.10 "Done when" runs on the same sessions: with the signals recorded, the three flaws are
+// among the heatmap's 5 most intense zones. JANUS_WRITE_FIXTURE=1 saves the run as the
+// regression fixture of packages/synthlab-report.
 
-import { mkdtemp } from 'node:fs/promises';
+import { mkdtemp, writeFile } from 'node:fs/promises';
 import { tmpdir } from 'node:os';
 import { join } from 'node:path';
 
 import { detectFriction, type FrictionSignalDraft } from '@janus/friction-engine';
-import { isKnownEvent } from '@janus/shared-kernel';
+import { buildRunExport, isKnownEvent, type FrictionZone } from '@janus/shared-kernel';
+import { frictionZones } from '@janus/synthlab-report';
 import { afterAll, beforeAll, describe, expect, it } from 'vitest';
 
 import { NavigatorSession } from './application/navigator-session.js';
+import { RunEventRecorder } from './application/run-event-recorder.js';
+import { ORCHESTRATOR_ACTOR } from './application/start-run.js';
 import { ScriptedDecider, type ScriptIntent } from './application/scripted-decider.js';
 import { Persona } from './domain/persona/persona.js';
 import { FileArtifactStore } from './infrastructure/artifacts/file-artifact-store.js';
@@ -31,6 +37,7 @@ const store = new InMemoryEventStore();
 let artifacts: FileArtifactStore;
 let baseUrl = '';
 let signals: FrictionSignalDraft[] = [];
+let zones: FrictionZone[] = [];
 
 const signUp = (who: string): ScriptIntent[] => [
   { do: 'click', role: 'link', name: 'Crear cuenta' },
@@ -139,6 +146,35 @@ beforeAll(async () => {
       )
       .join('\n'),
   );
+
+  // As FinishRun does at the end of a run (F1.6), then the heatmap's zones (F1.10).
+  const recorder = new RunEventRecorder(store, RUN_ID, ORCHESTRATOR_ACTOR);
+  for (const signal of signals) {
+    await recorder.record('friction.signal', {
+      detector: signal.detector,
+      severity: signal.severity,
+      evidenceEventIds: [...signal.evidenceEventIds],
+      agentId: signal.agentId,
+      ...(signal.stepIndex === undefined ? {} : { stepIndex: signal.stepIndex }),
+      ...(signal.url === undefined ? {} : { url: signal.url }),
+    });
+  }
+  const events = await store.readRun(RUN_ID);
+  zones = frictionZones(events, { routes: ['/products/:slug', '/orders/:id'], top: 5 });
+  console.log(
+    zones
+      .map(
+        (zone) =>
+          `${String(zone.rank)}. ${zone.route} ${zone.element ?? '(page)'} ${String(zone.intensity)} ${zone.detectors.map((entry) => entry.detector).join(',')}`,
+      )
+      .join('\n'),
+  );
+  if (process.env.JANUS_WRITE_FIXTURE === '1') {
+    await writeFile(
+      new URL('../../../packages/synthlab-report/fixtures/flaw-probes-f110.json', import.meta.url),
+      `${JSON.stringify(buildRunExport(RUN_ID, events), null, 2)}\n`,
+    );
+  }
 }, 15 * 60_000);
 
 afterAll(async () => {
@@ -189,5 +225,24 @@ describe('F1.6 done when: every seeded ShopLab flaw produces a friction signal',
       const png = await artifacts.get(RUN_ID, shot.artifact);
       expect([...png.slice(0, 4)]).toEqual([0x89, 0x50, 0x4e, 0x47]);
     }
+  });
+});
+
+describe('F1.10 done when: the three seeded flaws are among the 5 hottest zones', () => {
+  const zoneOf = (route: string, detector: string) =>
+    zones.find(
+      (zone) => zone.route === route && zone.detectors.some((entry) => entry.detector === detector),
+    );
+
+  it('UX-1: the checkout page the shopper went back from', () => {
+    expect(zoneOf('/checkout', 'backtrack')).toBeDefined();
+  });
+
+  it('UX-2: the cart, where the coupon search costs extra steps', () => {
+    expect(zoneOf('/cart', 'extra-steps')).toBeDefined();
+  });
+
+  it('UX-3: the sign-up button whose validation error clears the form', () => {
+    expect(zoneOf('/register', 'form-error')?.element).toBe('role=button[name="Crear cuenta"]');
   });
 });

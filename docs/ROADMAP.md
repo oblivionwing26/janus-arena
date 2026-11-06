@@ -299,12 +299,14 @@ Nota F1.9: el éxito ya no es la palabra del agente. Un oráculo determinista le
 
 ### F1.10 · Heatmap e informe — L (8–10 h)
 
-- [ ] Agregación de señales por ruta y por elemento (bounding box)
-- [ ] Esquema JSON del informe SynthLab: embudo por paso, señales top, tasas con intervalos, coste
-- [ ] Vista en consola: captura de la página con cajas superpuestas coloreadas por intensidad
-- [ ] Vista de embudo por variante
+- [x] Agregación de señales por ruta y por elemento (bounding box)
+- [x] Esquema JSON del informe SynthLab: embudo por paso, señales top, tasas con intervalos, coste
+- [x] Vista en consola: captura de la página con cajas superpuestas coloreadas por intensidad
+- [x] Vista de embudo por variante
 
 Hecho cuando: los 3 fallos sembrados aparecen entre las 5 zonas con más fricción del heatmap.
+
+Nota F1.10: el informe lo calcula código a partir de los eventos del run, en el paquete puro `packages/synthlab-report` (regla `synthlab-report-pure`: solo shared-kernel, stats y zod), con esquema `janus-synthlab-report` v1 en shared-kernel. Se calcula al vuelo y no se guarda: `GET /runs/:id/report`, `pnpm run:report <runId|archivo> [--json]` y la página `/runs/<id>/report` de la consola (éxito sintético con intervalos, heatmap, embudo, coste y exportar JSON). Las capturas se sirven por `GET /runs/:id/artifacts/<clave>.png`, que solo acepta PNG con clave válida. Rutas y embudo por target en `config/funnels.yaml`. Una zona es ruta + elemento (`role=button[name="Crear cuenta"]`); la fricción de página entera (backtrack, abandono) va a la ruta sola. La ruta de una señal es la página de su primera evidencia: un backtrack A → B → A apunta a B, la página de la que se huye. Una señal de toda la sesión sin URL (extra-steps) va a la página donde la sesión pasó más pasos. Intensidad = suma, por sesión, de su peor severidad en la zona (1/2/3): en F1.9, 69 backtracks de un bucle pesan 4, no 69. Corregido al leer: `page.screenshot` registra la URL del inicio del paso, pero la imagen es de después de la acción; el informe asigna cada captura a la página del paso siguiente (los eventos no cambian). Limitación: las cajas son posiciones del viewport en el momento de la acción y se dibujan sobre la captura de la zona. **Hecho cuando, verificado con las sondas guionizadas de F1.6** (`pnpm test:sandbox`, sin gasto): top 5 = `/cart` (página: extra-steps de UX-2 + abandono) · `/register` (abandono de UX-3) · `/checkout` (backtrack de UX-1) · botón "Crear cuenta" en `/register` (form-error de UX-3). Queda como test de regresión sobre `fixtures/flaw-probes-f110.json`. Con agentes LLM no se cumple, y lo dejo dicho: el run `runs/heatmap-f110.yaml` (8 personas + baseline con la tarea del cupón, 0,22 €) solo saca UX-2 (zonas 1 y 2: el bucle carrito↔pago buscando el cupón, confirmado por sus pensamientos; nadie probó "Otras opciones"). UX-3 no se dispara porque todos rellenaron bien el registro a la primera, y UX-1 queda mezclado en ese bucle. El heatmap localiza la fricción que ocurre; que los agentes tropiecen con cada fallo es cuestión de personas y tareas (F1.11 y F2). Pendiente, sin bloquear: el oráculo de F1.9 da `unverifiable` cuando `/orders` redirige a `/login` (un comprador sin cuenta, como Lucía o Pablo), y eso debería contar como "sin pedido".
 
 ### F1.11 · Variante B manual y primer A/B — S a M (3–5 h)
 
