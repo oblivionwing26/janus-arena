@@ -1,0 +1,14 @@
+id: marta-first-phone
+name: Marta
+profile: Shop assistant who got her first smartphone last year. Uses it for messages and photos, and only recently started buying online.
+goal: Buy one "Set de acuarelas (12 colores)" for her niece.
+digitalLiteracy: 2
+patience:
+  maxSteps: 25
+  maxSeconds: 480
+device: mobile
+locale: es-ES
+trustSensitivity: medium
+biases: [skims-text, picks-first-option]
+modelRole: navigator
+rationale: Low literacy on a small screen; hidden or crowded controls hurt her most.

@@ -216,12 +216,14 @@ Nota F1.2: las acciones viven en `shared-kernel` (`parseAgentAction`, zod; `doma
 
 ### F1.3 · Personas — M (4–6 h)
 
-- [ ] Entidad `Persona` en dominio: objetivo, alfabetización digital (1–5), `PatienceBudget` (pasos y segundos), dispositivo, idioma, sensibilidad a la confianza, sesgos (enum cerrado)
-- [ ] 8 personas en `personas/*.yaml` con una línea que justifica cada una
-- [ ] Persona `competent-baseline`: sin sesgos, paciencia alta, rol de modelo propio
-- [ ] Constructor de prompt: prefijo estable (reglas + persona + definición de acciones) separado de la parte variable
+- [x] Entidad `Persona` en dominio: objetivo, alfabetización digital (1–5), `PatienceBudget` (pasos y segundos), dispositivo, idioma, sensibilidad a la confianza, sesgos (enum cerrado)
+- [x] 8 personas en `personas/*.yaml` con una línea que justifica cada una
+- [x] Persona `competent-baseline`: sin sesgos, paciencia alta, rol de modelo propio
+- [x] Constructor de prompt: prefijo estable (reglas + persona + definición de acciones) separado de la parte variable
 
 Hecho cuando: el prefijo de cada persona es idéntico byte a byte entre pasos (requisito para que la caché funcione).
+
+Nota F1.3: `Persona` y `PatienceBudget` son dominio puro con sus invariantes (slug, alfabetización 1–5 entera, sesgos de un enum cerrado de 8, la baseline sin sesgos y con alfabetización 5). Las personas se leen por `PersonaCatalogPort` (YAML con zod estricto y fake en memoria, misma suite de contrato); el nombre del fichero debe ser el `id`. `personas/` tiene 8 personas `navigator` y `competent-baseline` (rol propio), sintéticas y genéricas, cada una con su `rationale`; ninguna se diseñó mirando `UX_FLAWS.md`. `NavigatorPrompt.forSession(persona, task)` construye una vez la parte estable (reglas en inglés + persona + tarea con datos sintéticos) y las 7 herramientas, una por acción, generadas desde los mismos esquemas zod de `shared-kernel` (`actionToolDefinitions`, orden fijo); cada paso solo añade un mensaje de usuario con el resultado anterior y la observación, nunca en la parte cacheada. Verificado: para las 9 personas, `system` + `tools` dan el mismo JSON byte a byte en los 7 pasos de una compra con las observaciones reales de F1.1, y al reconstruir el prompt; cambiar el orden de las claves del YAML no cambia el prefijo; cada persona tiene un prefijo distinto. El mínimo cacheable de Haiku 5.5 y Sonnet 5.5 es 512 tokens (por debajo no falla, simplemente no cachea); un test exige que el prefijo quede muy por encima. Golden del prefijo de `carmen-retired` en `navigator-prompt.golden.txt`. Para F1.4: el dispositivo `mobile` aún no cambia el viewport del navegador, y la confirmación real de la caché será `cacheReadInputTokens > 0` en `llm.call`.
 
 ### F1.4 · Bucle del agente navegador — L (8–12 h)
 

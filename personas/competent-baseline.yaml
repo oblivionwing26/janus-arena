@@ -1,0 +1,14 @@
+id: competent-baseline
+name: Baseline
+profile: An experienced online shopper with no particular habits or fears, who reads what is needed and nothing more.
+goal: Buy one "Taza de cerámica" and have it sent to your home address.
+digitalLiteracy: 5
+patience:
+  maxSteps: 60
+  maxSeconds: 1200
+device: desktop
+locale: es-ES
+trustSensitivity: medium
+biases: []
+modelRole: competent-baseline
+rationale: Reference run; extra steps of other personas are measured against it (F1.9).
