@@ -29,6 +29,7 @@ export class AppModule {
       personas,
       artifacts,
       friction,
+      orders,
     } = adapters;
     const navigator =
       gateway === undefined || personas === undefined ? undefined : { gateway, personas };
@@ -62,7 +63,11 @@ export class AppModule {
             control,
             ...(navigator === undefined
               ? {}
-              : { navigator, ...(artifacts === undefined ? {} : { artifacts }) }),
+              : {
+                  navigator,
+                  ...(artifacts === undefined ? {} : { artifacts }),
+                  ...(orders === undefined ? {} : { orders }),
+                }),
           }),
         },
         {

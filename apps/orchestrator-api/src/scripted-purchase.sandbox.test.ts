@@ -38,6 +38,7 @@ describeBrowserContract('PlaywrightRunner (ShopLab)', {
   browser: () => browser,
   baseUrl: () => baseUrl,
   page: '/login',
+  fetchable: '/api/health',
   field: { label: 'Email' },
   secret: { label: 'Contraseña' },
   link: { role: 'link', name: 'Crea una' },

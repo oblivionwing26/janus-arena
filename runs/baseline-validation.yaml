@@ -1,0 +1,39 @@
+# F1.9 "Done when": the competent baseline completes at least 80 % of ShopLab's tasks, as the
+# task oracle sees them (orders read from ShopLab as the shopper, never the agent's own claim).
+# 5 tasks x 2 seeds = 10 baseline sessions, no personas.
+#   pnpm run:start runs/baseline-validation.yaml
+
+target: shoplab
+variants:
+  - { id: a, ref: main }
+personas: []
+seeds: [1, 2]
+tasks:
+  - id: buy-mug
+    goal: Buy one "Taza de cerámica" and have it sent to your home address.
+    expect:
+      items: [{ product: Taza de cerámica, quantity: 1 }]
+  - id: buy-two-notebooks
+    goal: Buy two units of "Cuaderno A5 punteado" in the same order.
+    expect:
+      items: [{ product: Cuaderno A5 punteado, quantity: 2 }]
+  - id: buy-mug-and-pens
+    goal: Buy one "Taza de cerámica" and one "Bolígrafo de gel (pack 3)" in a single order.
+    expect:
+      items:
+        - { product: Taza de cerámica, quantity: 1 }
+        - { product: Bolígrafo de gel (pack 3), quantity: 1 }
+  - id: ship-elsewhere
+    goal: Buy one "Botella de acero 750 ml" and have it sent to Avenida Prueba 7, 41001 Sevilla instead of your home address.
+    expect:
+      items: [{ product: Botella de acero 750 ml, quantity: 1 }]
+      shippingAddress: Avenida Prueba 7, 41001 Sevilla
+  - id: use-coupon
+    goal: Buy one "Set de acuarelas (12 colores)" using your discount coupon BIENVENIDA10.
+    expect:
+      items: [{ product: Set de acuarelas (12 colores), quantity: 1 }]
+      discounted: true
+budget:
+  maxTokens: 3000000
+  maxEur: 1
+concurrency: 3

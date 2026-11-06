@@ -85,7 +85,11 @@ export class ScriptedBrowser implements BrowserPort {
   private readonly sessions = new Map<string, Session>();
   private nextId = 1;
 
-  constructor(private readonly pages: Readonly<Record<string, ScriptedPage>>) {}
+  constructor(
+    private readonly pages: Readonly<Record<string, ScriptedPage>>,
+    /** What fetchText returns per path, e.g. the target's JSON API. */
+    private readonly responses: Readonly<Record<string, { status: number; body: string }>> = {},
+  ) {}
 
   private readonly typedBySession = new Map<string, Map<string, string>>();
   private readonly selectedBySession = new Map<string, Map<string, string>>();
@@ -266,6 +270,16 @@ export class ScriptedBrowser implements BrowserPort {
     return this.act(() => {
       this.session(sessionId);
       return new Uint8Array([0x89, 0x50, 0x4e, 0x47, 0x0d, 0x0a, 0x1a, 0x0a]);
+    });
+  }
+
+  fetchText(sessionId: string, path: string): Promise<{ status: number; body: string }> {
+    return this.act(() => {
+      this.session(sessionId);
+      if (!path.startsWith('/') || path.startsWith('//')) {
+        throw new Error(`fetchText only takes a path on the variant, not ${path}`);
+      }
+      return this.responses[path] ?? { status: 404, body: 'Not found' };
     });
   }
 

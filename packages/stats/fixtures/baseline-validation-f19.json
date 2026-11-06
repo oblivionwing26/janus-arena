@@ -1,0 +1,679 @@
+{
+  "format": "janus-run",
+  "version": 1,
+  "runId": "01M6RERZTANA42VTASA0ZXAJF5",
+  "exportedAt": "2026-11-06T13:05:57.607Z",
+  "events": [
+    {
+      "id": "01M6RERZTJSS1YP79CVFE0M7EK",
+      "runId": "01M6RERZTANA42VTASA0ZXAJF5",
+      "seq": 0,
+      "ts": "2026-11-06T12:54:11.538Z",
+      "schemaVersion": 1,
+      "actor": {
+        "agentId": "orchestrator",
+        "role": "orchestrator"
+      },
+      "type": "run.started",
+      "payload": {
+        "budget": {
+          "maxTokens": 3000000,
+          "maxEur": 1
+        }
+      }
+    },
+    {
+      "id": "01M6RESN3TXC1V7CF6R2ZETV1X",
+      "runId": "01M6RERZTANA42VTASA0ZXAJF5",
+      "seq": 1,
+      "ts": "2026-11-06T12:54:33.338Z",
+      "schemaVersion": 1,
+      "actor": {
+        "agentId": "competent-baseline-a-t1-s1-a1",
+        "role": "competent-baseline"
+      },
+      "type": "session.started",
+      "payload": {
+        "variant": "a",
+        "kind": "baseline",
+        "persona": "competent-baseline",
+        "seed": 1,
+        "attempt": 1,
+        "task": "buy-mug"
+      }
+    },
+    {
+      "id": "01M6RESN3W54DC7V6XCTGYF60B",
+      "runId": "01M6RERZTANA42VTASA0ZXAJF5",
+      "seq": 2,
+      "ts": "2026-11-06T12:54:33.340Z",
+      "schemaVersion": 1,
+      "actor": {
+        "agentId": "competent-baseline-a-t2-s1-a1",
+        "role": "competent-baseline"
+      },
+      "type": "session.started",
+      "payload": {
+        "variant": "a",
+        "kind": "baseline",
+        "persona": "competent-baseline",
+        "seed": 1,
+        "attempt": 1,
+        "task": "buy-two-notebooks"
+      }
+    },
+    {
+      "id": "01M6RETQT0CMKQBBEEVYFEEY6X",
+      "runId": "01M6RERZTANA42VTASA0ZXAJF5",
+      "seq": 103,
+      "ts": "2026-11-06T12:55:08.864Z",
+      "schemaVersion": 1,
+      "actor": {
+        "agentId": "competent-baseline-a-t1-s1-a1",
+        "role": "competent-baseline"
+      },
+      "type": "session.ended",
+      "payload": {
+        "outcome": "success",
+        "reason": "El pedido #6 de una Taza de cerámica se ha realizado y se enviará a Calle Sintética 1, 28001 Madrid.",
+        "steps": 12,
+        "durationMs": 35504.8419
+      }
+    },
+    {
+      "id": "01M6RETQVAD7YYQQ19WA9SNCNX",
+      "runId": "01M6RERZTANA42VTASA0ZXAJF5",
+      "seq": 104,
+      "ts": "2026-11-06T12:55:08.906Z",
+      "schemaVersion": 1,
+      "actor": {
+        "agentId": "competent-baseline-a-t1-s1-a1",
+        "role": "competent-baseline"
+      },
+      "type": "task.verified",
+      "payload": {
+        "taskId": "buy-mug",
+        "status": "passed",
+        "checks": [
+          {
+            "check": "quantity of Taza de cerámica = 1",
+            "passed": true
+          }
+        ],
+        "orderId": 6
+      }
+    },
+    {
+      "id": "01M6RETQYAYRVNQ1M5HHZ0PGYW",
+      "runId": "01M6RERZTANA42VTASA0ZXAJF5",
+      "seq": 105,
+      "ts": "2026-11-06T12:55:09.002Z",
+      "schemaVersion": 1,
+      "actor": {
+        "agentId": "competent-baseline-a-t3-s1-a1",
+        "role": "competent-baseline"
+      },
+      "type": "session.started",
+      "payload": {
+        "variant": "a",
+        "kind": "baseline",
+        "persona": "competent-baseline",
+        "seed": 1,
+        "attempt": 1,
+        "task": "buy-mug-and-pens"
+      }
+    },
+    {
+      "id": "01M6RETS41W75J5781CVWYBQJ0",
+      "runId": "01M6RERZTANA42VTASA0ZXAJF5",
+      "seq": 110,
+      "ts": "2026-11-06T12:55:10.209Z",
+      "schemaVersion": 1,
+      "actor": {
+        "agentId": "competent-baseline-a-t2-s1-a1",
+        "role": "competent-baseline"
+      },
+      "type": "session.ended",
+      "payload": {
+        "outcome": "success",
+        "reason": "Pedido #7 realizado con 2 unidades de \"Cuaderno A5 punteado\" en el mismo pedido, total 24,79 €.",
+        "steps": 13,
+        "durationMs": 36833.6535
+      }
+    },
+    {
+      "id": "01M6RETS52G4CK8VAQ1772JN57",
+      "runId": "01M6RERZTANA42VTASA0ZXAJF5",
+      "seq": 111,
+      "ts": "2026-11-06T12:55:10.242Z",
+      "schemaVersion": 1,
+      "actor": {
+        "agentId": "competent-baseline-a-t2-s1-a1",
+        "role": "competent-baseline"
+      },
+      "type": "task.verified",
+      "payload": {
+        "taskId": "buy-two-notebooks",
+        "status": "passed",
+        "checks": [
+          {
+            "check": "quantity of Cuaderno A5 punteado = 2",
+            "passed": true
+          }
+        ],
+        "orderId": 7
+      }
+    },
+    {
+      "id": "01M6RETS80SX3SCZJCG9HEFQ5N",
+      "runId": "01M6RERZTANA42VTASA0ZXAJF5",
+      "seq": 112,
+      "ts": "2026-11-06T12:55:10.336Z",
+      "schemaVersion": 1,
+      "actor": {
+        "agentId": "competent-baseline-a-t4-s1-a1",
+        "role": "competent-baseline"
+      },
+      "type": "session.started",
+      "payload": {
+        "variant": "a",
+        "kind": "baseline",
+        "persona": "competent-baseline",
+        "seed": 1,
+        "attempt": 1,
+        "task": "ship-elsewhere"
+      }
+    },
+    {
+      "id": "01M6REVZVDKF76JZC56TEAM3KG",
+      "runId": "01M6RERZTANA42VTASA0ZXAJF5",
+      "seq": 219,
+      "ts": "2026-11-06T12:55:49.869Z",
+      "schemaVersion": 1,
+      "actor": {
+        "agentId": "competent-baseline-a-t4-s1-a1",
+        "role": "competent-baseline"
+      },
+      "type": "session.ended",
+      "payload": {
+        "outcome": "success",
+        "reason": "El pedido #8 con una Botella de acero 750 ml se ha realizado y el envío es a Avenida Prueba 7, 41001 Sevilla.",
+        "steps": 13,
+        "durationMs": 39521.799100000004
+      }
+    },
+    {
+      "id": "01M6REVZW7MG9EMMWSQ9TAE85S",
+      "runId": "01M6RERZTANA42VTASA0ZXAJF5",
+      "seq": 220,
+      "ts": "2026-11-06T12:55:49.895Z",
+      "schemaVersion": 1,
+      "actor": {
+        "agentId": "competent-baseline-a-t4-s1-a1",
+        "role": "competent-baseline"
+      },
+      "type": "task.verified",
+      "payload": {
+        "taskId": "ship-elsewhere",
+        "status": "passed",
+        "checks": [
+          {
+            "check": "quantity of Botella de acero 750 ml = 1",
+            "passed": true
+          },
+          {
+            "check": "shipped to Avenida Prueba 7, 41001 Sevilla",
+            "passed": true
+          }
+        ],
+        "orderId": 8
+      }
+    },
+    {
+      "id": "01M6REVZZ6S6ZPAPRZF2Y3TE2G",
+      "runId": "01M6RERZTANA42VTASA0ZXAJF5",
+      "seq": 221,
+      "ts": "2026-11-06T12:55:49.990Z",
+      "schemaVersion": 1,
+      "actor": {
+        "agentId": "competent-baseline-a-t5-s1-a1",
+        "role": "competent-baseline"
+      },
+      "type": "session.started",
+      "payload": {
+        "variant": "a",
+        "kind": "baseline",
+        "persona": "competent-baseline",
+        "seed": 1,
+        "attempt": 1,
+        "task": "use-coupon"
+      }
+    },
+    {
+      "id": "01M6RF16FBBD6HWSJME9XAEQJ8",
+      "runId": "01M6RERZTANA42VTASA0ZXAJF5",
+      "seq": 764,
+      "ts": "2026-11-06T12:58:40.491Z",
+      "schemaVersion": 1,
+      "actor": {
+        "agentId": "competent-baseline-a-t3-s1-a1",
+        "role": "competent-baseline"
+      },
+      "type": "session.ended",
+      "payload": {
+        "outcome": "success",
+        "reason": "El pedido #9 se realizó con una Taza de cerámica y un Bolígrafo de gel (pack 3) en un solo pedido, enviado a Calle Sintética 1, 28001 Madrid, con un total de 22,39 €.",
+        "steps": 58,
+        "durationMs": 211473.76419999998
+      }
+    },
+    {
+      "id": "01M6RF16G68WPQ0EV6MB1J19XF",
+      "runId": "01M6RERZTANA42VTASA0ZXAJF5",
+      "seq": 765,
+      "ts": "2026-11-06T12:58:40.518Z",
+      "schemaVersion": 1,
+      "actor": {
+        "agentId": "competent-baseline-a-t3-s1-a1",
+        "role": "competent-baseline"
+      },
+      "type": "task.verified",
+      "payload": {
+        "taskId": "buy-mug-and-pens",
+        "status": "passed",
+        "checks": [
+          {
+            "check": "quantity of Taza de cerámica = 1",
+            "passed": true
+          },
+          {
+            "check": "quantity of Bolígrafo de gel (pack 3) = 1",
+            "passed": true
+          }
+        ],
+        "orderId": 9
+      }
+    },
+    {
+      "id": "01M6RF16K2VKCJHQ4FX4G4HN03",
+      "runId": "01M6RERZTANA42VTASA0ZXAJF5",
+      "seq": 766,
+      "ts": "2026-11-06T12:58:40.610Z",
+      "schemaVersion": 1,
+      "actor": {
+        "agentId": "competent-baseline-a-t1-s2-a1",
+        "role": "competent-baseline"
+      },
+      "type": "session.started",
+      "payload": {
+        "variant": "a",
+        "kind": "baseline",
+        "persona": "competent-baseline",
+        "seed": 2,
+        "attempt": 1,
+        "task": "buy-mug"
+      }
+    },
+    {
+      "id": "01M6RF287G7AAH0PPVH7NQHFKB",
+      "runId": "01M6RERZTANA42VTASA0ZXAJF5",
+      "seq": 872,
+      "ts": "2026-11-06T12:59:15.056Z",
+      "schemaVersion": 1,
+      "actor": {
+        "agentId": "competent-baseline-a-t1-s2-a1",
+        "role": "competent-baseline"
+      },
+      "type": "session.ended",
+      "payload": {
+        "outcome": "success",
+        "reason": "El pedido #10 de una Taza de cerámica se ha realizado y se enviará a Calle Sintética 1, 28001 Madrid.",
+        "steps": 12,
+        "durationMs": 34427.80800000002
+      }
+    },
+    {
+      "id": "01M6RF288APCY09GMHPV4MKH4G",
+      "runId": "01M6RERZTANA42VTASA0ZXAJF5",
+      "seq": 873,
+      "ts": "2026-11-06T12:59:15.082Z",
+      "schemaVersion": 1,
+      "actor": {
+        "agentId": "competent-baseline-a-t1-s2-a1",
+        "role": "competent-baseline"
+      },
+      "type": "task.verified",
+      "payload": {
+        "taskId": "buy-mug",
+        "status": "passed",
+        "checks": [
+          {
+            "check": "quantity of Taza de cerámica = 1",
+            "passed": true
+          }
+        ],
+        "orderId": 10
+      }
+    },
+    {
+      "id": "01M6RF28B721MBS2QHC1VKJ29F",
+      "runId": "01M6RERZTANA42VTASA0ZXAJF5",
+      "seq": 877,
+      "ts": "2026-11-06T12:59:15.175Z",
+      "schemaVersion": 1,
+      "actor": {
+        "agentId": "competent-baseline-a-t2-s2-a1",
+        "role": "competent-baseline"
+      },
+      "type": "session.started",
+      "payload": {
+        "variant": "a",
+        "kind": "baseline",
+        "persona": "competent-baseline",
+        "seed": 2,
+        "attempt": 1,
+        "task": "buy-two-notebooks"
+      }
+    },
+    {
+      "id": "01M6RF28DR0EZC4S301PCYXHC8",
+      "runId": "01M6RERZTANA42VTASA0ZXAJF5",
+      "seq": 879,
+      "ts": "2026-11-06T12:59:15.256Z",
+      "schemaVersion": 1,
+      "actor": {
+        "agentId": "competent-baseline-a-t5-s1-a1",
+        "role": "competent-baseline"
+      },
+      "type": "session.ended",
+      "payload": {
+        "outcome": "patience_exhausted",
+        "steps": 60,
+        "durationMs": 205251.719
+      }
+    },
+    {
+      "id": "01M6RF28ESTHTDF844RRQNXHG8",
+      "runId": "01M6RERZTANA42VTASA0ZXAJF5",
+      "seq": 880,
+      "ts": "2026-11-06T12:59:15.289Z",
+      "schemaVersion": 1,
+      "actor": {
+        "agentId": "competent-baseline-a-t5-s1-a1",
+        "role": "competent-baseline"
+      },
+      "type": "task.verified",
+      "payload": {
+        "taskId": "use-coupon",
+        "status": "failed",
+        "checks": [
+          {
+            "check": "an order was placed",
+            "passed": false,
+            "detail": "no orders"
+          }
+        ]
+      }
+    },
+    {
+      "id": "01M6RF28F9Z0CFEKWQHTCDFRG7",
+      "runId": "01M6RERZTANA42VTASA0ZXAJF5",
+      "seq": 881,
+      "ts": "2026-11-06T12:59:15.305Z",
+      "schemaVersion": 1,
+      "actor": {
+        "agentId": "competent-baseline-a-t3-s2-a1",
+        "role": "competent-baseline"
+      },
+      "type": "session.started",
+      "payload": {
+        "variant": "a",
+        "kind": "baseline",
+        "persona": "competent-baseline",
+        "seed": 2,
+        "attempt": 1,
+        "task": "buy-mug-and-pens"
+      }
+    },
+    {
+      "id": "01M6RF3BMNW0E919D4FFGK9R67",
+      "runId": "01M6RERZTANA42VTASA0ZXAJF5",
+      "seq": 986,
+      "ts": "2026-11-06T12:59:51.317Z",
+      "schemaVersion": 1,
+      "actor": {
+        "agentId": "competent-baseline-a-t2-s2-a1",
+        "role": "competent-baseline"
+      },
+      "type": "session.ended",
+      "payload": {
+        "outcome": "success",
+        "reason": "El pedido #11 se ha realizado con 2 unidades de \"Cuaderno A5 punteado\", con un total de 24,79 €.",
+        "steps": 13,
+        "durationMs": 36106.895299999975
+      }
+    },
+    {
+      "id": "01M6RF3BNDDPJTB2CEB5XCD00Z",
+      "runId": "01M6RERZTANA42VTASA0ZXAJF5",
+      "seq": 987,
+      "ts": "2026-11-06T12:59:51.341Z",
+      "schemaVersion": 1,
+      "actor": {
+        "agentId": "competent-baseline-a-t2-s2-a1",
+        "role": "competent-baseline"
+      },
+      "type": "task.verified",
+      "payload": {
+        "taskId": "buy-two-notebooks",
+        "status": "passed",
+        "checks": [
+          {
+            "check": "quantity of Cuaderno A5 punteado = 2",
+            "passed": true
+          }
+        ],
+        "orderId": 11
+      }
+    },
+    {
+      "id": "01M6RF3BR9Z21GSKE3T6Q5BE14",
+      "runId": "01M6RERZTANA42VTASA0ZXAJF5",
+      "seq": 988,
+      "ts": "2026-11-06T12:59:51.433Z",
+      "schemaVersion": 1,
+      "actor": {
+        "agentId": "competent-baseline-a-t4-s2-a1",
+        "role": "competent-baseline"
+      },
+      "type": "session.started",
+      "payload": {
+        "variant": "a",
+        "kind": "baseline",
+        "persona": "competent-baseline",
+        "seed": 2,
+        "attempt": 1,
+        "task": "ship-elsewhere"
+      }
+    },
+    {
+      "id": "01M6RF4J24ADNXJSAMWX98PR22",
+      "runId": "01M6RERZTANA42VTASA0ZXAJF5",
+      "seq": 1100,
+      "ts": "2026-11-06T13:00:30.660Z",
+      "schemaVersion": 1,
+      "actor": {
+        "agentId": "competent-baseline-a-t4-s2-a1",
+        "role": "competent-baseline"
+      },
+      "type": "session.ended",
+      "payload": {
+        "outcome": "success",
+        "reason": "He comprado una Botella de acero 750 ml. El pedido #12 se ha confirmado con envío a Avenida Prueba 7, 41001 Sevilla.",
+        "steps": 13,
+        "durationMs": 39209.39970000001
+      }
+    },
+    {
+      "id": "01M6RF4J2T0BGDXRDJZR6AAXNR",
+      "runId": "01M6RERZTANA42VTASA0ZXAJF5",
+      "seq": 1101,
+      "ts": "2026-11-06T13:00:30.682Z",
+      "schemaVersion": 1,
+      "actor": {
+        "agentId": "competent-baseline-a-t4-s2-a1",
+        "role": "competent-baseline"
+      },
+      "type": "task.verified",
+      "payload": {
+        "taskId": "ship-elsewhere",
+        "status": "passed",
+        "checks": [
+          {
+            "check": "quantity of Botella de acero 750 ml = 1",
+            "passed": true
+          },
+          {
+            "check": "shipped to Avenida Prueba 7, 41001 Sevilla",
+            "passed": true
+          }
+        ],
+        "orderId": 12
+      }
+    },
+    {
+      "id": "01M6RF4J5V6WV5N3EXBTJH01ZT",
+      "runId": "01M6RERZTANA42VTASA0ZXAJF5",
+      "seq": 1102,
+      "ts": "2026-11-06T13:00:30.779Z",
+      "schemaVersion": 1,
+      "actor": {
+        "agentId": "competent-baseline-a-t5-s2-a1",
+        "role": "competent-baseline"
+      },
+      "type": "session.started",
+      "payload": {
+        "variant": "a",
+        "kind": "baseline",
+        "persona": "competent-baseline",
+        "seed": 2,
+        "attempt": 1,
+        "task": "use-coupon"
+      }
+    },
+    {
+      "id": "01M6RF4JV308VDR9YRTS2SJ9PK",
+      "runId": "01M6RERZTANA42VTASA0ZXAJF5",
+      "seq": 1107,
+      "ts": "2026-11-06T13:00:31.459Z",
+      "schemaVersion": 1,
+      "actor": {
+        "agentId": "competent-baseline-a-t3-s2-a1",
+        "role": "competent-baseline"
+      },
+      "type": "session.ended",
+      "payload": {
+        "outcome": "success",
+        "reason": "El pedido #13 se ha realizado con una Taza de cerámica y un Bolígrafo de gel (pack 3) en un solo pedido, por un total de 22,39 €.",
+        "steps": 23,
+        "durationMs": 76133.98260000005
+      }
+    },
+    {
+      "id": "01M6RF4JVQH7Z7P0H504QQDZPZ",
+      "runId": "01M6RERZTANA42VTASA0ZXAJF5",
+      "seq": 1108,
+      "ts": "2026-11-06T13:00:31.479Z",
+      "schemaVersion": 1,
+      "actor": {
+        "agentId": "competent-baseline-a-t3-s2-a1",
+        "role": "competent-baseline"
+      },
+      "type": "task.verified",
+      "payload": {
+        "taskId": "buy-mug-and-pens",
+        "status": "passed",
+        "checks": [
+          {
+            "check": "quantity of Taza de cerámica = 1",
+            "passed": true
+          },
+          {
+            "check": "quantity of Bolígrafo de gel (pack 3) = 1",
+            "passed": true
+          }
+        ],
+        "orderId": 13
+      }
+    },
+    {
+      "id": "01M6RFA2RWB7JTG27J8W8SMDEV",
+      "runId": "01M6RERZTANA42VTASA0ZXAJF5",
+      "seq": 1393,
+      "ts": "2026-11-06T13:03:31.612Z",
+      "schemaVersion": 1,
+      "actor": {
+        "agentId": "competent-baseline-a-t5-s2-a1",
+        "role": "competent-baseline"
+      },
+      "type": "session.ended",
+      "payload": {
+        "outcome": "success",
+        "reason": "Pedido #14 realizado: Set de acuarelas (12 colores) con el descuento BIENVENIDA10 de −2,29 €, total 25,60 €.",
+        "steps": 53,
+        "durationMs": 180810.62050000002
+      }
+    },
+    {
+      "id": "01M6RFA2SSQ95W74A931MG3ZEQ",
+      "runId": "01M6RERZTANA42VTASA0ZXAJF5",
+      "seq": 1394,
+      "ts": "2026-11-06T13:03:31.641Z",
+      "schemaVersion": 1,
+      "actor": {
+        "agentId": "competent-baseline-a-t5-s2-a1",
+        "role": "competent-baseline"
+      },
+      "type": "task.verified",
+      "payload": {
+        "taskId": "use-coupon",
+        "status": "passed",
+        "checks": [
+          {
+            "check": "quantity of Set de acuarelas (12 colores) = 1",
+            "passed": true
+          },
+          {
+            "check": "a discount was applied",
+            "passed": true
+          }
+        ],
+        "orderId": 14
+      }
+    },
+    {
+      "id": "01M6RFA3HMMB6XVBZR3TKZKVYQ",
+      "runId": "01M6RERZTANA42VTASA0ZXAJF5",
+      "seq": 1531,
+      "ts": "2026-11-06T13:03:32.404Z",
+      "schemaVersion": 1,
+      "actor": {
+        "agentId": "orchestrator",
+        "role": "orchestrator"
+      },
+      "type": "run.completed",
+      "payload": {
+        "outcome": "error",
+        "reason": "9/10 sessions completed; failed: 1",
+        "sessions": {
+          "total": 10,
+          "completed": 9,
+          "failed": 1,
+          "budgetExhausted": 0,
+          "cancelled": 0,
+          "excluded": 0
+        }
+      }
+    }
+  ]
+}

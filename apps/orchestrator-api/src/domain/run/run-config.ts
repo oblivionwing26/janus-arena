@@ -1,4 +1,5 @@
 import type { BudgetLimits } from '../llm/budget.js';
+import type { TaskSpec } from '../task/task-spec.js';
 import { InvalidRunConfigError } from './invalid-run-config-error.js';
 
 export const BASELINE_PERSONA = 'competent-baseline';
@@ -8,8 +9,13 @@ export interface RunConfig {
   readonly target: string;
   /** One to four variants; the same personas and seeds play every one of them. */
   readonly variants: readonly { readonly key: string; readonly ref: string }[];
-  /** Persona ids. The competent baseline is always added to each variant, never listed. */
+  /**
+   * Persona ids. The competent baseline is always added to each variant, never listed; an
+   * empty list makes a baseline-only run (F1.9).
+   */
   readonly personas: readonly string[];
+  /** Tasks every slot plays, checked by the oracle (F1.9); without them, persona goals. */
+  readonly tasks?: readonly TaskSpec[];
   readonly seeds: readonly number[];
   /** Caps every persona's patience in steps. */
   readonly maxSteps?: number;
@@ -20,6 +26,7 @@ export interface RunConfig {
 
 const VARIANT_KEY = /^[a-z][a-z0-9]{0,3}$/;
 const MAX_SESSIONS = 100;
+const TASK_ID = /^[a-z0-9][a-z0-9-]{0,47}$/;
 
 function unique(values: readonly unknown[]): boolean {
   return new Set(values).size === values.length;
@@ -33,8 +40,23 @@ export function assertValidRunConfig(config: RunConfig): void {
     throw fail(`variant keys must match ${VARIANT_KEY.source} and have a ref`);
   }
   if (!unique(variants.map((variant) => variant.key))) throw fail('variant keys repeat');
-  if (personas.length < 1 || personas.length > 10 || !unique(personas)) {
-    throw fail('one to ten different personas');
+  if (personas.length > 10 || !unique(personas)) throw fail('at most ten different personas');
+  const tasks = config.tasks ?? [];
+  if (tasks.length > 10 || !unique(tasks.map((task) => task.id))) {
+    throw fail('at most ten tasks with different ids');
+  }
+  for (const task of tasks) {
+    if (!TASK_ID.test(task.id) || task.goal.trim() === '' || task.goal.length > 300) {
+      throw fail(`task ${task.id} needs a slug id and a goal of up to 300 characters`);
+    }
+    if (
+      task.expect.items.length === 0 ||
+      !task.expect.items.every(
+        (item) => Number.isInteger(item.quantity) && item.quantity >= 1 && item.quantity <= 10,
+      )
+    ) {
+      throw fail(`task ${task.id} must expect one or more items with quantities from 1 to 10`);
+    }
   }
   if (personas.includes(BASELINE_PERSONA)) {
     throw fail(`${BASELINE_PERSONA} is added to every variant; do not list it`);
@@ -56,7 +78,8 @@ export function assertValidRunConfig(config: RunConfig): void {
   ) {
     throw fail('concurrency must be an integer from 1 to 10');
   }
-  const sessions = (personas.length + 1) * seeds.length * variants.length;
+  const sessions =
+    (personas.length + 1) * seeds.length * variants.length * Math.max(1, tasks.length);
   if (sessions > MAX_SESSIONS)
     throw fail(`${String(sessions)} sessions; at most ${String(MAX_SESSIONS)}`);
 }

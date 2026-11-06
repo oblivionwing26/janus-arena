@@ -9,6 +9,9 @@ import { BudgetExhaustedError } from '../domain/llm/budget-exhausted-error.js';
 import type { Budget } from '../domain/llm/budget.js';
 import type { LLMGatewayPort } from '../domain/llm/llm-gateway-port.js';
 import type { Persona } from '../domain/persona/persona.js';
+import { checkOrder } from '../domain/task/check-order.js';
+import type { OrderReaderPort } from '../domain/task/order-reader-port.js';
+import type { TaskSpec } from '../domain/task/task-spec.js';
 import { ActionExecutor, type ActionResult } from './action-executor.js';
 import type { Decider } from './decider.js';
 import { LlmDecider } from './llm-decider.js';
@@ -41,6 +44,11 @@ export interface NavigatorSessionInput {
   /** The run's shared budget; every LLM call is charged to it. */
   readonly budget?: Budget;
   readonly signal?: AbortSignal;
+  /**
+   * The task the session plays and how to read the target afterwards (F1.9): when the session
+   * ends, the oracle checks the target and records task.verified.
+   */
+  readonly verify?: { readonly task: TaskSpec; readonly orders: OrderReaderPort };
 }
 
 type Outcome = SessionEndedEvent['payload']['outcome'];
@@ -115,7 +123,9 @@ export class NavigatorSession {
     const seenSignals = new Set<string>();
     const started = this.now();
 
+    let ended: Outcome | undefined;
     const end = async (outcome: Outcome, steps: number, reason?: string) => {
+      ended = outcome;
       const result = { outcome, steps, ...(reason === undefined ? {} : { reason }) };
       await recorder.record('session.ended', {
         ...result,
@@ -171,8 +181,41 @@ export class NavigatorSession {
       if (error instanceof BudgetExhaustedError) return await end('budget_exhausted', steps);
       throw error;
     } finally {
+      // Budget exhaustion is our limit, not the shopper's: such sessions are not verified.
+      if (input.verify !== undefined && ended !== undefined && ended !== 'budget_exhausted') {
+        await this.verifyTask(session, input.verify, recorder);
+      }
       await browser.close(session);
     }
+  }
+
+  /** The oracle (F1.9): what the target says happened, never what the agent claimed. */
+  private async verifyTask(
+    session: string,
+    verify: { readonly task: TaskSpec; readonly orders: OrderReaderPort },
+    recorder: RunEventRecorder,
+  ): Promise<void> {
+    const taskId = verify.task.id;
+    let orders;
+    try {
+      orders = await verify.orders.read(session);
+    } catch (error) {
+      const detail =
+        (error instanceof Error ? error.message : String(error)).slice(0, 300) || 'error';
+      await recorder.record('task.verified', {
+        taskId,
+        status: 'unverifiable',
+        checks: [{ check: 'read the orders', passed: false, detail }],
+      });
+      return;
+    }
+    const verdict = checkOrder(orders, verify.task.expect);
+    await recorder.record('task.verified', {
+      taskId,
+      status: verdict.passed ? 'passed' : 'failed',
+      checks: verdict.checks.map((check) => ({ ...check })),
+      ...(verdict.orderId === undefined ? {} : { orderId: verdict.orderId }),
+    });
   }
 
   private llmDecider(input: NavigatorSessionInput): Decider {

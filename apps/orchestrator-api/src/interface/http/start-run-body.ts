@@ -30,7 +30,31 @@ export const runConfigBodySchema = z.strictObject({
     .array(z.strictObject({ id: z.string().regex(/^[a-z][a-z0-9]{0,3}$/), ref }))
     .min(1)
     .max(4),
-  personas: z.array(personaId).min(1).max(10),
+  /** Empty for a baseline-only run (F1.9). */
+  personas: z.array(personaId).max(10),
+  /** Tasks every slot plays, checked by the oracle (F1.9). */
+  tasks: z
+    .array(
+      z.strictObject({
+        id: personaId,
+        goal: z.string().min(1).max(300),
+        expect: z.strictObject({
+          items: z
+            .array(
+              z.strictObject({
+                product: z.string().min(1).max(100),
+                quantity: z.int().min(1).max(10),
+              }),
+            )
+            .min(1)
+            .max(10),
+          discounted: z.boolean().optional(),
+          shippingAddress: z.string().min(1).max(200).optional(),
+        }),
+      }),
+    )
+    .max(10)
+    .optional(),
   seeds: z.array(z.int().min(0).max(9999)).min(1).max(20),
   maxSteps: z.int().min(1).max(200).optional(),
   budget,
@@ -51,5 +75,22 @@ export function runConfigFromBody(body: RunConfigBody): RunConfig {
     budget: body.budget,
     ...(body.maxSteps === undefined ? {} : { maxSteps: body.maxSteps }),
     ...(body.concurrency === undefined ? {} : { concurrency: body.concurrency }),
+    ...(body.tasks === undefined
+      ? {}
+      : {
+          tasks: body.tasks.map((task) => ({
+            id: task.id,
+            goal: task.goal,
+            expect: {
+              items: task.expect.items,
+              ...(task.expect.discounted === undefined
+                ? {}
+                : { discounted: task.expect.discounted }),
+              ...(task.expect.shippingAddress === undefined
+                ? {}
+                : { shippingAddress: task.expect.shippingAddress }),
+            },
+          })),
+        }),
   };
 }

@@ -17,6 +17,11 @@ export const sessionStartedEventSchema = defineEventSchema(
       .optional(),
     seed: z.int().min(0).max(9999),
     attempt: z.int().min(1),
+    /** The task the session plays (F1.9); absent when it plays the persona's own goal. */
+    task: z
+      .string()
+      .regex(/^[a-z0-9][a-z0-9-]{0,47}$/)
+      .optional(),
   }),
 );
 

@@ -289,11 +289,13 @@ Nota F1.8: paquete puro `packages/stats` (regla `stats-pure`: solo `shared-kerne
 
 ### F1.9 · Validar el baseline competente — S a M (3–6 h, variable)
 
-- [ ] Ejecutar el baseline competente 10 veces sobre las tareas de ShopLab
-- [ ] Si falla más del 20 %, analizar por qué (observación confusa, acción que falta, ref inestable) y volver a F1.1/F1.2
-- [ ] Medir tokens reales por paso y actualizar la tabla de FinOps del plan maestro
+- [x] Ejecutar el baseline competente 10 veces sobre las tareas de ShopLab
+- [x] Si falla más del 20 %, analizar por qué (observación confusa, acción que falta, ref inestable) y volver a F1.1/F1.2
+- [x] Medir tokens reales por paso y actualizar la tabla de FinOps del plan maestro
 
 Hecho cuando: el baseline completa al menos el 80 % de las tareas. **No se pasa de aquí sin cumplirlo.**
+
+Nota F1.9: el éxito ya no es la palabra del agente. Un oráculo determinista lee ShopLab como el comprador (los ids de `/orders` y `GET /api/orders/<id>`, validado con zod, con las cookies de la sesión y `fetchText`, solo lectura y mismo origen) y comprueba lo que pide la tarea (productos y cantidades en un mismo pedido, descuento, dirección); registra `task.verified` (`passed`, `failed` o `unverifiable`, que queda fuera de la estadística) y `abSummary` usa su veredicto cuando existe. Las tareas van en el fichero de run (`tasks`), sustituyen el objetivo de la persona y cada una es una sesión con identidad propia (`…-t2-s1-a1`, y cuenta sintética propia); `personas: []` permite un run solo de baseline. Verificado: el oráculo contra ShopLab real distingue un pedido de 2 cuadernos de uno de 1 aunque los dos "agentes" digan `success` (sandbox, sin gasto). Validación real con `runs/baseline-validation.yaml` (5 tareas × 2 semillas, Sonnet): **9/10 según el oráculo** (90 %); falla solo `use-coupon` con semilla 1: busca el cupón en carrito y pago 60 pasos sin probar "Otras opciones" (el fallo sembrado UX-2); con semilla 2 lo encuentra en 53 pasos. Coste 0,83 € (estimé ~0,35 €; aviso del 80 % del presupuesto de 1 €). Análisis: la observación y las refs no fallan (cuando llega a pagar, el pedido es correcto); el agente entra en bucles carrito↔pago (también en "taza + bolígrafos", 58 pasos: el pago no lista los artículos y vuelve a comprobarlos) aunque su memoria los muestra. Pendiente, sin bloquear: detectar el bucle A↔B en la memoria del agente (abarataría mucho) y agrupar esos `backtrack`, que salen uno por vaivén. Tokens reales por paso (~2.850 de entrada, ~75 % desde caché, frente a los 3.000–4.000 estimados) en `docs/finops.md`; el plan maestro no se ha tocado.
 
 ### F1.10 · Heatmap e informe — L (8–10 h)
 

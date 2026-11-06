@@ -8,6 +8,7 @@ import { AnthropicGateway } from '../infrastructure/llm/anthropic-gateway.js';
 import { SdkAnthropicTransport } from '../infrastructure/llm/anthropic-transport.js';
 import { loadModelsConfig, repoModelsConfigPath } from '../infrastructure/llm/models-config.js';
 import { RecordedLLMAdapter } from '../infrastructure/llm/recorded-llm-adapter.js';
+import { ShopLabOrderReader } from '../infrastructure/orders/shoplab-order-reader.js';
 import { YamlPersonaCatalog } from '../infrastructure/personas/yaml-persona-catalog.js';
 import { FileArtifactStore } from '../infrastructure/artifacts/file-artifact-store.js';
 import {
@@ -50,13 +51,15 @@ if (gateway === undefined) {
   console.warn('ANTHROPIC_API_KEY is not set: runs can only use the scripted buyer.');
 }
 
+const browser = new PlaywrightRunner();
 const app = await createApp({
   eventStore,
   sandbox: new DockerSandbox({
     docker: new DockerCli(required('DOCKER_HOST')),
     workspacesRoot: workspacesRoot(),
   }),
-  browser: new PlaywrightRunner(),
+  browser,
+  orders: new ShopLabOrderReader(browser),
   queue: new BullMqSessionQueue({
     redisUrl: required('REDIS_URL'),
     concurrency: Number(process.env.SESSION_CONCURRENCY ?? 2),

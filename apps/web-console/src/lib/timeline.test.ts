@@ -124,6 +124,18 @@ describe('buildTimeline', () => {
       },
       {
         ...base,
+        seq: 42,
+        type: 'task.verified',
+        payload: {
+          taskId: 'buy-two-notebooks',
+          status: 'failed',
+          checks: [
+            { check: 'quantity of Cuaderno A5 punteado = 2', passed: false, detail: 'found 1' },
+          ],
+        },
+      },
+      {
+        ...base,
         seq: 41,
         type: 'run.completed',
         payload: {
@@ -146,6 +158,7 @@ describe('buildTimeline', () => {
 
     expect(labels).toEqual([
       'Sesión carmen-retired · variante B · semilla 1 · intento 2',
+      'Tarea buy-two-notebooks: no cumplida (quantity of Cuaderno A5 punteado = 2)',
       'Fin · error · sesiones 9/10 completas · 1 excluida (infraestructura)',
     ]);
   });

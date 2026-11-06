@@ -64,12 +64,24 @@ function describe(event: JanusEvent): { label: string; tone: Tone } {
         tone: outcome === 'success' ? 'ok' : 'error',
       };
     }
+    case 'task.verified': {
+      const { taskId, status, checks } = event.payload;
+      const failed = checks.filter((check) => !check.passed).map((check) => check.check);
+      const text = { passed: 'cumplida', failed: 'no cumplida', unverifiable: 'sin verificar' }[
+        status
+      ];
+      return {
+        label: `Tarea ${taskId}: ${text}${failed.length === 0 ? '' : ` (${failed.join('; ')})`}`,
+        tone: status === 'passed' ? 'ok' : status === 'failed' ? 'error' : 'warning',
+      };
+    }
     case 'session.started': {
-      const { variant, kind, persona, seed, attempt } = event.payload;
+      const { variant, kind, persona, seed, attempt, task } = event.payload;
       const who = kind === 'scripted' ? 'agente programado' : (persona ?? kind);
       const retry = attempt > 1 ? ` · intento ${String(attempt)}` : '';
+      const playing = task === undefined ? '' : ` · tarea ${task}`;
       return {
-        label: `Sesión ${kind === 'baseline' ? 'baseline ' : ''}${who} · variante ${variant.toUpperCase()} · semilla ${String(seed)}${retry}`,
+        label: `Sesión ${kind === 'baseline' ? 'baseline ' : ''}${who} · variante ${variant.toUpperCase()} · semilla ${String(seed)}${playing}${retry}`,
         tone: 'neutral',
       };
     }
