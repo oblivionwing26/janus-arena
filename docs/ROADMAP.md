@@ -205,12 +205,14 @@ Nota F1.1: el paquete es puro (regla `observation-builder-pure` en `check:arch`:
 
 ### F1.2 · Espacio de acciones — M (4–6 h)
 
-- [ ] Acciones: `click(ref)`, `type(ref, text)`, `select(ref, value)`, `scroll(dir)`, `back()`, `wait(ms)`, `done(outcome, reason)` con `outcome` = `success | abandon`
-- [ ] Esquemas zod y validación antes de ejecutar
-- [ ] Ejecutor que traduce refs a locators; un error (ref inexistente, elemento tapado) vuelve como observación, no como excepción
-- [ ] Cada acción emite `agent.action` con ref, selector resuelto, bounding box y duración
+- [x] Acciones: `click(ref)`, `type(ref, text)`, `select(ref, value)`, `scroll(dir)`, `back()`, `wait(ms)`, `done(outcome, reason)` con `outcome` = `success | abandon`
+- [x] Esquemas zod y validación antes de ejecutar
+- [x] Ejecutor que traduce refs a locators; un error (ref inexistente, elemento tapado) vuelve como observación, no como excepción
+- [x] Cada acción emite `agent.action` con ref, selector resuelto, bounding box y duración
 
 Hecho cuando: una lista fija de acciones reproduce la compra de F0.9 a través del ejecutor.
+
+Nota F1.2: las acciones viven en `shared-kernel` (`parseAgentAction`, zod; `domain/` no puede importar zod) con límites: refs `e<n>`, texto ≤ 500, `wait` ≤ 10 s. `agent.action` sigue en v1 con `action` abierto (los eventos del agente programado siguen valiendo) y gana `errorCode` opcional. `ActionExecutor` (application) recibe el mapa ref → `{ role, name, nth }` de la última observación como datos, así que no importa `observation-builder`; antes de actuar localiza el elemento para el `boundingBox`. Ref inexistente, acción inválida, elemento tapado o deshabilitado y opción inexistente vuelven como `{ status: 'failed', error: { code, message } }` y quedan en el evento; solo lo de infraestructura (sesión cerrada) lanza. `BrowserPort` gana `select`, `locate`, `scroll`, `back` y `nth`; Playwright traduce "intercepts pointer events" y "not enabled" de su log a errores de dominio. Verificado en `pnpm test:sandbox`: 12 acciones fijas por refs (registro, producto con `select` de cantidad, carrito, pago con `scroll`, `done`) compran en una variante real observando cada paso con `ObservationBuilder`; los 12 `agent.action` quedan en Postgres en orden, los 10 con ref con selector y caja. Las refs se mantienen entre páginas (cabecera `e1`–`e3`, "Dirección de envío" `e9` en registro y pago). Para F1.4: el ejecutor no espera a que termine una navegación; el bucle debe esperar a que la página se asiente antes de observar. El agente programado de F0.9 sigue igual.
 
 ### F1.3 · Personas — M (4–6 h)
 

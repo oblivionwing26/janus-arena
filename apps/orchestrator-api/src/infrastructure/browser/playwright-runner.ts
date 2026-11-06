@@ -9,15 +9,20 @@ import {
 
 import {
   BrowserSessionNotFoundError,
+  ElementDisabledError,
   ElementNotFoundError,
+  ElementObscuredError,
   NavigationTimeoutError,
+  OptionNotFoundError,
 } from '../../domain/browser/browser-errors.js';
 import type {
   BrowserPort,
   BrowserSessionOptions,
+  ElementBox,
   ElementTarget,
   PageSnapshot,
 } from '../../domain/browser/browser-port.js';
+import { actionFailureOf } from './action-failure.js';
 
 type AriaRole = Parameters<Page['getByRole']>[0];
 
@@ -74,12 +79,41 @@ export class PlaywrightRunner implements BrowserPort {
 
   async click(sessionId: string, target: ElementTarget): Promise<void> {
     const locator = await this.visible(sessionId, target);
-    await locator.click();
+    await this.acting(sessionId, target, () => locator.click());
   }
 
   async type(sessionId: string, target: ElementTarget, text: string): Promise<void> {
     const locator = await this.visible(sessionId, target);
-    await locator.fill(text);
+    await this.acting(sessionId, target, () => locator.fill(text));
+  }
+
+  async select(sessionId: string, target: ElementTarget, option: string): Promise<void> {
+    const locator = await this.visible(sessionId, target);
+    // Checked up front: selectOption would otherwise keep waiting for the option to appear.
+    const labels = (await locator.locator('option').allInnerTexts()).map((label) => label.trim());
+    if (labels.length > 0 && !labels.includes(option)) {
+      throw new OptionNotFoundError(target, option, this.session(sessionId).page.url());
+    }
+    await this.acting(sessionId, target, () => locator.selectOption({ label: option }));
+  }
+
+  async locate(sessionId: string, target: ElementTarget): Promise<ElementBox> {
+    const locator = await this.visible(sessionId, target);
+    const box = await locator.boundingBox();
+    if (box === null) throw new ElementNotFoundError(target, this.session(sessionId).page.url());
+    return box;
+  }
+
+  async scroll(sessionId: string, direction: 'up' | 'down'): Promise<void> {
+    const { page } = this.session(sessionId);
+    const step = (page.viewportSize() ?? DEFAULT_VIEWPORT).height * 0.8;
+    const dy = Math.round(direction === 'down' ? step : -step);
+    // A string expression: the orchestrator has no DOM types. `dy` is a number we computed.
+    await page.evaluate(`window.scrollBy({ top: ${String(dy)}, behavior: 'instant' })`);
+  }
+
+  async back(sessionId: string): Promise<void> {
+    await this.session(sessionId).page.goBack({ waitUntil: 'domcontentloaded' });
   }
 
   async waitForUrl(sessionId: string, pattern: RegExp): Promise<void> {
@@ -130,14 +164,38 @@ export class PlaywrightRunner implements BrowserPort {
     const { page } = this.session(sessionId);
     const locator =
       'label' in target
-        ? page.getByLabel(target.label, { exact: true })
-        : page.getByRole(target.role as AriaRole, { name: target.name, exact: true });
+        ? page.getByLabel(target.label, { exact: true }).first()
+        : page
+            .getByRole(target.role as AriaRole, { name: target.name, exact: true })
+            .nth(target.nth ?? 0);
     try {
-      await locator.first().waitFor({ state: 'visible' });
+      await locator.waitFor({ state: 'visible' });
     } catch (error) {
       if (error instanceof errors.TimeoutError) throw new ElementNotFoundError(target, page.url());
       throw error;
     }
-    return locator.first();
+    return locator;
+  }
+
+  /** Runs an action on a visible element, turning Playwright's timeouts into domain errors. */
+  private async acting(
+    sessionId: string,
+    target: ElementTarget,
+    action: () => Promise<unknown>,
+  ): Promise<void> {
+    try {
+      await action();
+    } catch (error) {
+      if (!(error instanceof errors.TimeoutError)) throw error;
+      const url = this.session(sessionId).page.url();
+      switch (actionFailureOf(error.message)) {
+        case 'obscured':
+          throw new ElementObscuredError(target, url);
+        case 'disabled':
+          throw new ElementDisabledError(target, url);
+        case 'not-found':
+          throw new ElementNotFoundError(target, url);
+      }
+    }
   }
 }
