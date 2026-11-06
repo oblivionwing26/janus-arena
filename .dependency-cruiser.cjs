@@ -59,6 +59,16 @@ module.exports = {
       },
     },
     {
+      name: 'friction-engine-pure',
+      severity: 'error',
+      comment:
+        'CLAUDE.md rule 5: friction-engine is pure functions over events. No Playwright, no LLM, no I/O; zod and shared-kernel only.',
+      from: { path: '^packages/friction-engine/src/', pathNot: [TEST_FILE, '/src/test-support/'] },
+      to: {
+        pathNot: ['^packages/friction-engine/src/', SHARED_KERNEL, '(^|/)node_modules/zod/'],
+      },
+    },
+    {
       name: 'no-circular',
       severity: 'error',
       comment: 'Circular dependencies make layering impossible to reason about.',

@@ -108,4 +108,20 @@ export const validEvents: Record<JanusEventType, Record<string, unknown>> = {
     { outcome: 'abandon', reason: 'No encuentro el envío', steps: 12, durationMs: 41_000 },
     { actor: { agentId: 'persona-ana-1', role: 'navigator' } },
   ),
+  'page.error': envelope(
+    'page.error',
+    {
+      stepIndex: 2,
+      kind: 'http',
+      url: 'http://shoplab.test/api/cart',
+      status: 500,
+      message: 'Internal Server Error',
+    },
+    { actor: { agentId: 'persona-ana-1', role: 'navigator' } },
+  ),
+  'page.vitals': envelope(
+    'page.vitals',
+    { stepIndex: 2, url: 'http://shoplab.test/cart', lcpMs: 1800, cls: 0.02, inpMs: 120 },
+    { actor: { agentId: 'persona-ana-1', role: 'navigator' } },
+  ),
 };

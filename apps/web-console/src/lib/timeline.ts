@@ -85,6 +85,20 @@ function describe(event: JanusEvent): { label: string; tone: Tone } {
       return { label: `Hallazgo: ${event.payload.title}`, tone: 'warning' };
     case 'patch.proposed':
       return { label: `Parche propuesto (${event.payload.author})`, tone: 'neutral' };
+    case 'page.error': {
+      const { kind, status, message } = event.payload;
+      const what = kind === 'http' ? `HTTP ${String(status ?? '')}`.trim() : kind;
+      return { label: `Error técnico (${what}): ${message}`, tone: 'error' };
+    }
+    case 'page.vitals': {
+      const { lcpMs, cls, inpMs } = event.payload;
+      const parts = [
+        lcpMs === undefined ? undefined : `LCP ${String(Math.round(lcpMs))} ms`,
+        cls === undefined ? undefined : `CLS ${cls.toFixed(2)}`,
+        inpMs === undefined ? undefined : `INP ${String(Math.round(inpMs))} ms`,
+      ].filter(Boolean);
+      return { label: `Vitals: ${parts.join(' · ') || 'sin medidas'}`, tone: 'neutral' };
+    }
     case 'agent.thought':
       return { label: `Pensamiento: «${event.payload.text}»`, tone: 'neutral' };
     case 'session.ended': {

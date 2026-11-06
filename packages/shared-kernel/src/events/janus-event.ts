@@ -7,6 +7,8 @@ import { budgetThresholdEventSchema } from './v1/budget-threshold.js';
 import { findingCreatedEventSchema } from './v1/finding-created.js';
 import { frictionSignalEventSchema } from './v1/friction-signal.js';
 import { llmCallEventSchema } from './v1/llm-call.js';
+import { pageErrorEventSchema } from './v1/page-error.js';
+import { pageVitalsEventSchema } from './v1/page-vitals.js';
 import { patchProposedEventSchema } from './v1/patch-proposed.js';
 import { runCompletedEventSchema } from './v1/run-completed.js';
 import { runStartedEventSchema } from './v1/run-started.js';
@@ -26,6 +28,8 @@ const knownEventSchemas = [
   budgetThresholdEventSchema,
   agentThoughtEventSchema,
   sessionEndedEventSchema,
+  pageErrorEventSchema,
+  pageVitalsEventSchema,
 ] as const;
 
 export const janusEventSchema = z.discriminatedUnion('type', knownEventSchemas);
