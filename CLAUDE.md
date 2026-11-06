@@ -14,7 +14,7 @@ More context: `docs/VISION.md` (product), `docs/adr/` (decisions), `docs/ROADMAP
 
 ## Current step
 
-**F1.13 — Gate G1.** Read this step in `docs/ROADMAP.md` before starting. Do not build features from later steps.
+**F2.1 — VCS port and local git adapter.** Read this step in `docs/ROADMAP.md` before starting. Do not build features from later steps.
 
 (Update this line every time a step is closed.)
 
@@ -61,7 +61,7 @@ config/
   funnels.yaml           report routes and purchase funnel per target
 personas/                persona YAML files
 docker/sandboxes/        sandbox definitions
-docs/                    VISION.md, ROADMAP.md, adr/
+docs/                    VISION.md, ROADMAP.md, adr/, finops.md, reports/, articles/
 recordings/              recorded LLM responses (gitignored except fixtures)
 .workspaces/             cloned target repos per run (gitignored)
 ```
