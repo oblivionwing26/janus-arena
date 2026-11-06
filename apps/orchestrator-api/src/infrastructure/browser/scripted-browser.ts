@@ -97,7 +97,19 @@ export class ScriptedBrowser implements BrowserPort {
           'label' in target ? `- textbox "${target.label}"` : `- ${target.role} "${target.name}"`,
         )
         .join('\n');
-      return { url: session.baseUrl + session.path, title: page.title, aria };
+      const tree = page.elements.map(({ target }, index) => ({
+        role: 'label' in target ? 'textbox' : target.role,
+        name: 'label' in target ? target.label : target.name,
+        ref: `e${String(index + 1)}`,
+        box: { x: 0, y: index * 40, width: 200, height: 32 },
+      }));
+      return {
+        url: session.baseUrl + session.path,
+        title: page.title,
+        aria,
+        tree,
+        viewport: { width: 1280, height: 720 },
+      };
     });
   }
 

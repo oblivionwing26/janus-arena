@@ -1,0 +1,14 @@
+page /register · "ShopLab"
+[e1] link "ShopLab" → /
+[e2] link "Tienda" → /
+[e3] link "Carrito" → /cart
+[e4] link "Entrar" → /login
+[e5] link "Crear cuenta" → /register
+# Crear cuenta
+[e6] textbox "Nombre"
+[e7] textbox "Email"
+[e8] textbox "Contraseña (mínimo 8 caracteres)"
+[e9] textbox "Dirección de envío"
+[e10] button "Crear cuenta"
+¿Ya tienes cuenta?
+[e11] link "Entra" → /login

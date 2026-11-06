@@ -15,7 +15,8 @@
     "db:migrate": "prisma migrate deploy",
     "postinstall": "prisma generate",
     "llm:record-fixture": "pnpm run build && node dist/interface/cli/record-fixture.js",
-    "test:sandbox": "vitest run --config vitest.sandbox.config.ts"
+    "test:sandbox": "vitest run --config vitest.sandbox.config.ts",
+    "observation:capture-fixtures": "pnpm run build && node dist/interface/cli/capture-observation-fixtures.js"
   },
   "dependencies": {
     "@anthropic-ai/sdk": "^1.5.0",

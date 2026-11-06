@@ -1,0 +1,17 @@
+page /checkout · "ShopLab"
+[e1] link "ShopLab" → /
+[e2] link "Tienda" → /
+[e3] link "Carrito" → /cart
+[e4] link "Mis pedidos" → /orders
+[e5] button "Salir"
+# Pago
+Totales:
+Subtotal | 12,90 €
+Envío | 4,99 €
+Total | 17,89 €
+[e6] textbox "Dirección de envío" = "Calle Fixture 1, 28001 Madrid"
+Método de pago:
+Pago simulado: no se cobra nada ni se piden datos bancarios.
+[e7] radio "Tarjeta de prueba (simulada)" [checked]
+[e8] radio "Transferencia de prueba (simulada)"
+[e9] button "Confirmar pedido"

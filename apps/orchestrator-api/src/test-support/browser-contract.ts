@@ -41,6 +41,9 @@ export function describeBrowserContract(name: string, harness: BrowserContractHa
         const before = await browser.snapshot(session);
         expect(new URL(before.url).pathname).toBe(harness.page);
         expect(before.aria.length).toBeGreaterThan(0);
+        expect(Array.isArray(before.tree)).toBe(true);
+        expect(before.tree).not.toEqual([]);
+        expect(before.viewport.width).toBeGreaterThan(0);
 
         await browser.click(session, harness.link);
         await browser.waitForUrl(session, harness.linkTarget);

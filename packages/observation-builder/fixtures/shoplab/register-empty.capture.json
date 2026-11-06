@@ -1,0 +1,352 @@
+{
+  "url": "http://janus-obsfix-app:3100/register",
+  "title": "ShopLab",
+  "viewport": {
+    "width": 1280,
+    "height": 720
+  },
+  "tree": [
+    {
+      "role": "generic",
+      "active": true,
+      "ref": "e1",
+      "box": {
+        "x": 0,
+        "y": 0,
+        "width": 1280,
+        "height": 743
+      },
+      "children": [
+        {
+          "role": "banner",
+          "ref": "e2",
+          "box": {
+            "x": 0,
+            "y": 0,
+            "width": 1280,
+            "height": 55
+          },
+          "children": [
+            {
+              "role": "link",
+              "name": "ShopLab",
+              "ref": "e3",
+              "cursor": "pointer",
+              "box": {
+                "x": 16,
+                "y": 12,
+                "width": 76,
+                "height": 30
+              },
+              "url": "/"
+            },
+            {
+              "role": "navigation",
+              "name": "Principal",
+              "ref": "e4",
+              "box": {
+                "x": 552,
+                "y": 15,
+                "width": 109,
+                "height": 24
+              },
+              "children": [
+                {
+                  "role": "list",
+                  "ref": "e5",
+                  "box": {
+                    "x": 552,
+                    "y": 15,
+                    "width": 109,
+                    "height": 24
+                  },
+                  "children": [
+                    {
+                      "role": "listitem",
+                      "ref": "e6",
+                      "box": {
+                        "x": 552,
+                        "y": 15,
+                        "width": 46,
+                        "height": 24
+                      },
+                      "children": [
+                        {
+                          "role": "link",
+                          "name": "Tienda",
+                          "ref": "e7",
+                          "cursor": "pointer",
+                          "box": {
+                            "x": 552,
+                            "y": 17,
+                            "width": 46,
+                            "height": 20
+                          },
+                          "url": "/"
+                        }
+                      ]
+                    },
+                    {
+                      "role": "listitem",
+                      "ref": "e8",
+                      "box": {
+                        "x": 615,
+                        "y": 15,
+                        "width": 46,
+                        "height": 24
+                      },
+                      "children": [
+                        {
+                          "role": "link",
+                          "name": "Carrito",
+                          "ref": "e9",
+                          "cursor": "pointer",
+                          "box": {
+                            "x": 615,
+                            "y": 17,
+                            "width": 46,
+                            "height": 20
+                          },
+                          "url": "/cart"
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "role": "generic",
+              "ref": "e10",
+              "box": {
+                "x": 1121,
+                "y": 15,
+                "width": 143,
+                "height": 24
+              },
+              "children": [
+                {
+                  "role": "link",
+                  "name": "Entrar",
+                  "ref": "e11",
+                  "cursor": "pointer",
+                  "box": {
+                    "x": 1121,
+                    "y": 15,
+                    "width": 42,
+                    "height": 24
+                  },
+                  "url": "/login"
+                },
+                {
+                  "role": "link",
+                  "name": "Crear cuenta",
+                  "ref": "e12",
+                  "cursor": "pointer",
+                  "box": {
+                    "x": 1175,
+                    "y": 15,
+                    "width": 89,
+                    "height": 24
+                  },
+                  "url": "/register"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "role": "main",
+          "ref": "e13",
+          "box": {
+            "x": 160,
+            "y": 55,
+            "width": 960,
+            "height": 635
+          },
+          "children": [
+            {
+              "role": "heading",
+              "name": "Crear cuenta",
+              "level": 1,
+              "ref": "e14",
+              "box": {
+                "x": 176,
+                "y": 100,
+                "width": 928,
+                "height": 48
+              }
+            },
+            {
+              "role": "generic",
+              "ref": "e15",
+              "box": {
+                "x": 176,
+                "y": 170,
+                "width": 480,
+                "height": 416
+              },
+              "children": [
+                {
+                  "role": "generic",
+                  "ref": "e16",
+                  "box": {
+                    "x": 176,
+                    "y": 170,
+                    "width": 480,
+                    "height": 70
+                  },
+                  "children": [
+                    "Nombre",
+                    {
+                      "role": "textbox",
+                      "name": "Nombre",
+                      "ref": "e17",
+                      "box": {
+                        "x": 176,
+                        "y": 198,
+                        "width": 480,
+                        "height": 42
+                      }
+                    }
+                  ]
+                },
+                {
+                  "role": "generic",
+                  "ref": "e18",
+                  "box": {
+                    "x": 176,
+                    "y": 252,
+                    "width": 480,
+                    "height": 70
+                  },
+                  "children": [
+                    "Email",
+                    {
+                      "role": "textbox",
+                      "name": "Email",
+                      "ref": "e19",
+                      "box": {
+                        "x": 176,
+                        "y": 280,
+                        "width": 480,
+                        "height": 42
+                      }
+                    }
+                  ]
+                },
+                {
+                  "role": "generic",
+                  "ref": "e20",
+                  "box": {
+                    "x": 176,
+                    "y": 334,
+                    "width": 480,
+                    "height": 70
+                  },
+                  "children": [
+                    "Contraseña (mínimo 8 caracteres)",
+                    {
+                      "role": "textbox",
+                      "name": "Contraseña (mínimo 8 caracteres)",
+                      "ref": "e21",
+                      "box": {
+                        "x": 176,
+                        "y": 362,
+                        "width": 480,
+                        "height": 42
+                      }
+                    }
+                  ]
+                },
+                {
+                  "role": "generic",
+                  "ref": "e22",
+                  "box": {
+                    "x": 176,
+                    "y": 416,
+                    "width": 480,
+                    "height": 118
+                  },
+                  "children": [
+                    "Dirección de envío",
+                    {
+                      "role": "textbox",
+                      "name": "Dirección de envío",
+                      "ref": "e23",
+                      "box": {
+                        "x": 176,
+                        "y": 444,
+                        "width": 480,
+                        "height": 90
+                      }
+                    }
+                  ]
+                },
+                {
+                  "role": "button",
+                  "name": "Crear cuenta",
+                  "ref": "e24",
+                  "cursor": "pointer",
+                  "box": {
+                    "x": 176,
+                    "y": 546,
+                    "width": 121,
+                    "height": 40
+                  }
+                }
+              ]
+            },
+            {
+              "role": "paragraph",
+              "ref": "e25",
+              "box": {
+                "x": 176,
+                "y": 602,
+                "width": 928,
+                "height": 24
+              },
+              "children": [
+                "¿Ya tienes cuenta?",
+                {
+                  "role": "link",
+                  "name": "Entra",
+                  "ref": "e26",
+                  "cursor": "pointer",
+                  "box": {
+                    "x": 316,
+                    "y": 604,
+                    "width": 36,
+                    "height": 20
+                  },
+                  "url": "/login"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "role": "contentinfo",
+          "ref": "e27",
+          "box": {
+            "x": 0,
+            "y": 690,
+            "width": 1280,
+            "height": 53
+          },
+          "text": "Tienda de demostración. Los productos, usuarios y pagos son ficticios."
+        },
+        {
+          "role": "alert",
+          "ref": "e28",
+          "box": {
+            "x": -1,
+            "y": 742,
+            "width": 1,
+            "height": 1
+          }
+        }
+      ]
+    }
+  ]
+}

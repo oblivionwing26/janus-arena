@@ -1,0 +1,391 @@
+{
+  "url": "http://janus-obsfix-app:3100/orders",
+  "title": "ShopLab",
+  "viewport": {
+    "width": 1280,
+    "height": 720
+  },
+  "tree": [
+    {
+      "role": "generic",
+      "active": true,
+      "ref": "f2e1",
+      "box": {
+        "x": 0,
+        "y": 0,
+        "width": 1280,
+        "height": 363
+      },
+      "children": [
+        {
+          "role": "banner",
+          "ref": "f2e2",
+          "box": {
+            "x": 0,
+            "y": 0,
+            "width": 1280,
+            "height": 65
+          },
+          "children": [
+            {
+              "role": "link",
+              "name": "ShopLab",
+              "ref": "f2e3",
+              "cursor": "pointer",
+              "box": {
+                "x": 16,
+                "y": 17,
+                "width": 76,
+                "height": 30
+              },
+              "url": "/"
+            },
+            {
+              "role": "navigation",
+              "name": "Principal",
+              "ref": "f2e4",
+              "box": {
+                "x": 451,
+                "y": 20,
+                "width": 210,
+                "height": 24
+              },
+              "children": [
+                {
+                  "role": "list",
+                  "ref": "f2e5",
+                  "box": {
+                    "x": 451,
+                    "y": 20,
+                    "width": 210,
+                    "height": 24
+                  },
+                  "children": [
+                    {
+                      "role": "listitem",
+                      "ref": "f2e6",
+                      "box": {
+                        "x": 451,
+                        "y": 20,
+                        "width": 46,
+                        "height": 24
+                      },
+                      "children": [
+                        {
+                          "role": "link",
+                          "name": "Tienda",
+                          "ref": "f2e7",
+                          "cursor": "pointer",
+                          "box": {
+                            "x": 451,
+                            "y": 22,
+                            "width": 46,
+                            "height": 20
+                          },
+                          "url": "/"
+                        }
+                      ]
+                    },
+                    {
+                      "role": "listitem",
+                      "ref": "f2e8",
+                      "box": {
+                        "x": 514,
+                        "y": 20,
+                        "width": 46,
+                        "height": 24
+                      },
+                      "children": [
+                        {
+                          "role": "link",
+                          "name": "Carrito",
+                          "ref": "f2e9",
+                          "cursor": "pointer",
+                          "box": {
+                            "x": 514,
+                            "y": 22,
+                            "width": 46,
+                            "height": 20
+                          },
+                          "url": "/cart"
+                        }
+                      ]
+                    },
+                    {
+                      "role": "listitem",
+                      "ref": "f2e10",
+                      "box": {
+                        "x": 576,
+                        "y": 20,
+                        "width": 85,
+                        "height": 24
+                      },
+                      "children": [
+                        {
+                          "role": "link",
+                          "name": "Mis pedidos",
+                          "ref": "f2e11",
+                          "cursor": "pointer",
+                          "box": {
+                            "x": 576,
+                            "y": 22,
+                            "width": 85,
+                            "height": 20
+                          },
+                          "url": "/orders"
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "role": "generic",
+              "ref": "f2e12",
+              "box": {
+                "x": 1020,
+                "y": 12,
+                "width": 244,
+                "height": 40
+              },
+              "children": [
+                {
+                  "role": "generic",
+                  "ref": "f2e13",
+                  "box": {
+                    "x": 1020,
+                    "y": 20,
+                    "width": 168,
+                    "height": 24
+                  },
+                  "text": "Hola, Comprador Fixture"
+                },
+                {
+                  "role": "button",
+                  "name": "Salir",
+                  "ref": "f2e15",
+                  "cursor": "pointer",
+                  "box": {
+                    "x": 1201,
+                    "y": 12,
+                    "width": 63,
+                    "height": 40
+                  }
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "role": "main",
+          "ref": "f2e16",
+          "box": {
+            "x": 160,
+            "y": 65,
+            "width": 960,
+            "height": 245
+          },
+          "children": [
+            {
+              "role": "heading",
+              "name": "Mis pedidos",
+              "level": 1,
+              "ref": "f2e17",
+              "box": {
+                "x": 176,
+                "y": 110,
+                "width": 928,
+                "height": 48
+              }
+            },
+            {
+              "role": "table",
+              "name": "Pedidos",
+              "ref": "f2e18",
+              "box": {
+                "x": 176,
+                "y": 180,
+                "width": 928,
+                "height": 82
+              },
+              "children": [
+                {
+                  "role": "rowgroup",
+                  "ref": "f2e19",
+                  "box": {
+                    "x": 176,
+                    "y": 180,
+                    "width": 928,
+                    "height": 41
+                  },
+                  "children": [
+                    {
+                      "role": "row",
+                      "ref": "f2e20",
+                      "box": {
+                        "x": 176,
+                        "y": 180,
+                        "width": 928,
+                        "height": 41
+                      },
+                      "children": [
+                        {
+                          "role": "columnheader",
+                          "name": "Pedido",
+                          "ref": "f2e21",
+                          "box": {
+                            "x": 176,
+                            "y": 180,
+                            "width": 163,
+                            "height": 41
+                          }
+                        },
+                        {
+                          "role": "columnheader",
+                          "name": "Fecha",
+                          "ref": "f2e22",
+                          "box": {
+                            "x": 339,
+                            "y": 180,
+                            "width": 363,
+                            "height": 41
+                          }
+                        },
+                        {
+                          "role": "columnheader",
+                          "name": "Artículos",
+                          "ref": "f2e23",
+                          "box": {
+                            "x": 702,
+                            "y": 180,
+                            "width": 196,
+                            "height": 41
+                          }
+                        },
+                        {
+                          "role": "columnheader",
+                          "name": "Total",
+                          "ref": "f2e24",
+                          "box": {
+                            "x": 898,
+                            "y": 180,
+                            "width": 206,
+                            "height": 41
+                          }
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "role": "rowgroup",
+                  "ref": "f2e25",
+                  "box": {
+                    "x": 176,
+                    "y": 220,
+                    "width": 928,
+                    "height": 41
+                  },
+                  "children": [
+                    {
+                      "role": "row",
+                      "ref": "f2e26",
+                      "box": {
+                        "x": 176,
+                        "y": 220,
+                        "width": 928,
+                        "height": 41
+                      },
+                      "children": [
+                        {
+                          "role": "cell",
+                          "ref": "f2e27",
+                          "box": {
+                            "x": 176,
+                            "y": 220,
+                            "width": 163,
+                            "height": 41
+                          },
+                          "children": [
+                            {
+                              "role": "link",
+                              "name": "#6",
+                              "ref": "f2e28",
+                              "cursor": "pointer",
+                              "box": {
+                                "x": 184,
+                                "y": 231,
+                                "width": 19,
+                                "height": 20
+                              },
+                              "url": "/orders/6"
+                            }
+                          ]
+                        },
+                        {
+                          "role": "cell",
+                          "name": "6 nov 2026, 0:00",
+                          "ref": "f2e29",
+                          "box": {
+                            "x": 339,
+                            "y": 220,
+                            "width": 363,
+                            "height": 41
+                          }
+                        },
+                        {
+                          "role": "cell",
+                          "name": "1",
+                          "ref": "f2e30",
+                          "box": {
+                            "x": 702,
+                            "y": 220,
+                            "width": 196,
+                            "height": 41
+                          }
+                        },
+                        {
+                          "role": "cell",
+                          "name": "17,89 €",
+                          "ref": "f2e31",
+                          "box": {
+                            "x": 898,
+                            "y": 220,
+                            "width": 206,
+                            "height": 41
+                          }
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "role": "contentinfo",
+          "ref": "f2e32",
+          "box": {
+            "x": 0,
+            "y": 310,
+            "width": 1280,
+            "height": 53
+          },
+          "text": "Tienda de demostración. Los productos, usuarios y pagos son ficticios."
+        },
+        {
+          "role": "alert",
+          "ref": "f2e33",
+          "box": {
+            "x": -1,
+            "y": 362,
+            "width": 1,
+            "height": 1
+          }
+        }
+      ]
+    }
+  ]
+}

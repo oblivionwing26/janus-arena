@@ -176,7 +176,7 @@ Nota F0.11: `apps/web-console` (Next.js, `127.0.0.1:3012`) llega al orquestador 
 
 - [x] Vídeo de 1 minuto del replay
 - [x] Revisar ADRs y actualizar `Current step` a F1.1
-- [ ] Etiqueta `v0.1.0` (tras el merge)
+- [x] Etiqueta `v0.1.0` (tras el merge)
 
 Nota F0.12: el vídeo (grabación de un run de 2 sesiones en vivo, "Abrir sin backend", orquestador parado y replay a 16×) va como adjunto del release `v0.1.0`, no en el repo. Se cierran los pendientes de F0.4 y F0.11 sin dependencias nuevas: `pnpm dev` arranca la consola y el orquestador, que se recompila con `tsc --watch` y se reinicia con `node --watch` sobre `dist/` (puerto 3011), así que no hacen falta `tsx` ni `@nestjs/cli`; verificado editando un controlador y viendo cambiar el proceso que escucha en 3011. `pnpm run:replay <runId|file> [--json]` reproduce un run en texto desde Postgres o desde un fichero `janus-run` y nunca llama a un LLM; `--json` escribe la misma exportación que la consola. El parser de `janus-run` v1 pasa de la consola a `shared-kernel` para que consola y CLI lean lo mismo. Verificado: el run del vídeo reproducido desde la base de datos y desde su exportación da la misma salida línea a línea. Revisión de ADRs: sin cambios de decisión; el 0003 recoge cómo quedó implementado el replay.
 
@@ -188,18 +188,20 @@ F1 sustituye el agente programado por personas con LLM y convierte sus sesiones 
 
 Sub-entrega A: snapshot podado
 
-- [ ] Paquete `packages/observation-builder`
-- [ ] Partir del snapshot ARIA de Playwright y quedarse solo con elementos interactivos y visibles en viewport (o a un scroll de distancia)
-- [ ] Asignar refs cortas estables (`e1`, `e2`…) y guardar el mapa ref → locator
-- [ ] Incluir textos cercanos que dan contexto (precio, errores de validación, encabezados)
+- [x] Paquete `packages/observation-builder`
+- [x] Partir del snapshot ARIA de Playwright y quedarse solo con elementos interactivos y visibles en viewport (o a un scroll de distancia)
+- [x] Asignar refs cortas estables (`e1`, `e2`…) y guardar el mapa ref → locator
+- [x] Incluir textos cercanos que dan contexto (precio, errores de validación, encabezados)
 
 Sub-entrega B: diff y medición
 
-- [ ] Diff contra la observación anterior (añadido, eliminado, cambiado) con fallback a snapshot completo tras navegar
-- [ ] Contador de tokens por observación
-- [ ] Golden files: 6–8 páginas de ShopLab guardadas como fixtures con su salida esperada
+- [x] Diff contra la observación anterior (añadido, eliminado, cambiado) con fallback a snapshot completo tras navegar
+- [x] Contador de tokens por observación
+- [x] Golden files: 6–8 páginas de ShopLab guardadas como fixtures con su salida esperada
 
 Hecho cuando: los golden tests pasan y la observación media de ShopLab cabe en menos de 1.500 tokens.
+
+Nota F1.1: el paquete es puro (regla `observation-builder-pure` en `check:arch`: solo `zod`). Recibe la captura que da `BrowserPort.snapshot()`, que ahora añade `tree` (`ariaSnapshotJSON` de Playwright en modo `ai` con cajas) y `viewport`. Se queda con los controles dentro de una ventana de una pantalla por arriba y otra por abajo, y con encabezados, avisos (`alert`/`status`, sin el anunciador de rutas de Next) y texto de `main`; cada fila de tabla va en una línea. Las refs (`e1`…) son propias y estables por sesión: la clave es rol + nombre exacto + posición entre iguales, que es también el locator para F1.2 (sin CSS). El diff marca `~`/`-`/`+` y vuelve a la observación completa al navegar o si el diff sale más largo. Tokens estimados a 3 caracteres por token (conservador; la medición real llega con `llm.call` en F1.9). Golden: 9 capturas reales de ShopLab (`pnpm --filter @janus/orchestrator-api observation:capture-fixtures`, local, datos sintéticos fijos) más un diff de formulario. Media: 173 tokens (de 89 en `/orders` a 384 en el catálogo). Pendiente: el snapshot de Playwright expone el valor de los campos de contraseña; antes de F1.4 el adaptador debe enmascararlo. Cuando `application/` use el paquete (F1.4) habrá que permitirlo en la regla de capas.
 
 ### F1.2 · Espacio de acciones — M (4–6 h)
 
