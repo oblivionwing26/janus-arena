@@ -92,6 +92,18 @@ export function describeVcsContract(name: string, harness: VcsContractHarness): 
       expect(await vcs.head(workspace)).toEqual({ branch: 'main', sha: workspace.baseSha });
     });
 
+    it('lists the files of the working tree, new ones included and hidden ones never', async () => {
+      const { vcs, workspace } = await cloned();
+
+      expect(await vcs.listFiles(workspace)).toEqual(['README.md', 'src/app/cart/page.tsx']);
+      await vcs.applyPatch(workspace, NEW_FILE_PATCH);
+      expect(await vcs.listFiles(workspace)).toEqual([
+        'README.md',
+        'src/app/cart/page.tsx',
+        'src/components/coupon.tsx',
+      ]);
+    });
+
     it('refuses repository URLs other than https:// and file://, and unknown refs', async () => {
       const { vcs, repoUrl } = await harness.create();
 

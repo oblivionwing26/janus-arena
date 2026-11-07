@@ -354,13 +354,15 @@ Nota F2.1: `VcsPort` (dominio) trabaja sobre un `VcsWorkspace` (`id`, `path`, `b
 
 ### F2.2 · Localizar el código de la fricción — M (6–8 h)
 
-- [ ] De cada zona de fricción top tomar: ruta, textos visibles, `aria-label`, selector resuelto
-- [ ] Buscar esos textos en el repo objetivo (ripgrep) y mapear ruta → fichero de página según las convenciones de Next.js
-- [ ] Ordenar ficheros candidatos por coincidencias y devolver un contexto compacto (fragmentos, no ficheros enteros)
-- [ ] Tope de tamaño del contexto y medición en tokens
-- [ ] El contexto nunca incluye `UX_FLAWS.md` (la búsqueda la excluye explícitamente)
+- [x] De cada zona de fricción top tomar: ruta, textos visibles, `aria-label`, selector resuelto
+- [x] Buscar esos textos en el repo objetivo (ripgrep) y mapear ruta → fichero de página según las convenciones de Next.js
+- [x] Ordenar ficheros candidatos por coincidencias y devolver un contexto compacto (fragmentos, no ficheros enteros)
+- [x] Tope de tamaño del contexto y medición en tokens
+- [x] El contexto nunca incluye `UX_FLAWS.md` (la búsqueda la excluye explícitamente)
 
 Hecho cuando: para cada fallo de `UX_FLAWS.md`, el fichero real aparece entre los 3 primeros candidatos.
+
+Nota F2.2: los eventos no guardaban los textos visibles, así que `agent.step` gana `texts` (opcional, hasta 40): encabezados, prosa (celdas sueltas) y nombres accesibles de los controles, calculados por el observation builder (`Observation.texts`). `LocateFrictionCode` (aplicación, sin LLM) va de una zona al código: `zoneHints` saca la ruta, el elemento (rol, nombre accesible y selector) y los textos y avisos de los pasos de sus sesiones en esa ruta, sin los textos que aparecen en la mitad o más de las rutas del run (cabecera y menú); `rankCandidates` puntúa la página de la ruta según las convenciones del app router de Next.js (+5, también segmentos dinámicos, catch-all y grupos), los componentes que importa directamente (+2), el nombre del elemento (+3) y cada texto o aviso de la zona (+1), con sus motivos; `buildContext` da fragmentos numerados (±3 líneas, unidos al solaparse, y los imports de la página) hasta 6.000 tokens estimados, y dice qué dejó fuera. La búsqueda es en Node sobre `VcsPort.listFiles` (nuevo, con su caso de contrato; nunca lista ficheros ocultos), no ripgrep: el repo es pequeño y así no hay otro binario del que depender. Solo se busca en código (`.ts/.tsx/.js/.jsx`), nunca en tests, documentos, `node_modules` ni código generado, y nada con `ux_flaws` en el nombre. `application/` puede usar `@janus/synthlab-report` (enmienda de ADR 0001). La fixture de las sondas (`flaw-probes-f110.json`) se ha regenerado en sandbox para que traiga `texts`; sus 3 fallos siguen en el top 5. Verificado con ShopLab real (`locate-friction-code.integration.test.ts`): UX-1 (zona `/checkout`) → `totals-table.tsx` 2.º (la página de pago es 1.ª; el carrito, que es donde se oculta el envío, no entra en el top 3); UX-2 (zona `/cart`) → `cart/page.tsx` 1.º; UX-3 (botón "Crear cuenta" en `/register`) → `register/page.tsx` 1.º (`json-form.tsx` queda 4.º, por detrás del layout, que también tiene un enlace "Crear cuenta"). Contextos de 958 a 2.355 tokens, sin rastro de `UX_FLAWS.md`.
 
 ### F2.3 · Agente UI Engineer — L (10–14 h)
 

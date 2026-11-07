@@ -3,6 +3,7 @@ import { diffLines } from './diff.js';
 import { prune, type ObservationLine } from './prune.js';
 import { parseCapture } from './raw-capture.js';
 import { RefRegistry, type ElementLocator } from './ref-registry.js';
+import { visibleTexts } from './visible-texts.js';
 
 export interface Observation {
   /** `full` the first time and after navigating; otherwise `diff` when it is shorter. */
@@ -17,6 +18,8 @@ export interface Observation {
   readonly locators: ReadonlyMap<string, ElementLocator>;
   /** Texts of the page's `alert` notices, such as form validation errors. */
   readonly alerts: readonly string[];
+  /** Plain texts on the page (headings, prose, control names), at most 40 (F2.2). */
+  readonly texts: readonly string[];
 }
 
 function pathOf(url: string): string {
@@ -63,6 +66,7 @@ export class ObservationBuilder {
       tokens: estimateTokens(text),
       locators,
       alerts,
+      texts: visibleTexts(lines, locators),
     };
   }
 }

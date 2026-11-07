@@ -49,6 +49,8 @@ export interface VcsPort {
   diffStats(workspace: VcsWorkspace): Promise<DiffStats>;
   /** The current branch (null when detached) and commit. */
   head(workspace: VcsWorkspace): Promise<{ branch: string | null; sha: string }>;
+  /** Every file of the working tree, tracked or new, sorted; hidden files never appear (F2.2). */
+  listFiles(workspace: VcsWorkspace): Promise<string[]>;
   /** A file of the working tree; FileNotInWorkspaceError when absent or hidden. */
   readFile(workspace: VcsWorkspace, path: string): Promise<string>;
 }

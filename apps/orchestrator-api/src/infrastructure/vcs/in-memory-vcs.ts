@@ -205,6 +205,10 @@ export class InMemoryVcs implements VcsPort {
     });
   }
 
+  listFiles(workspace: VcsWorkspace): Promise<string[]> {
+    return this.run(() => Object.keys(this.state(workspace).tree).sort());
+  }
+
   readFile(workspace: VcsWorkspace, path: string): Promise<string> {
     return this.run(() => {
       const content = this.state(workspace).tree[path];

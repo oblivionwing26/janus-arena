@@ -170,6 +170,7 @@ export class NavigatorSession {
           url: snapshot.url,
           durationMs: Math.max(0, this.now() - stepStarted),
           ...(observation.alerts.length === 0 ? {} : { alerts: [...observation.alerts] }),
+          ...(observation.texts.length === 0 ? {} : { texts: [...observation.texts] }),
         });
         await this.recordTelemetry(session, recorder, steps);
         await this.screenshotNewSignals(session, input, recorder, steps, snapshot.url, seenSignals);
