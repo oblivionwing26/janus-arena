@@ -23,6 +23,11 @@ function toBlockParam(block: LlmContentBlock): Anthropic.ContentBlockParam {
         content: block.content,
         ...(block.isError === undefined ? {} : { is_error: block.isError }),
       };
+    case 'image':
+      return {
+        type: 'image',
+        source: { type: 'base64', media_type: block.mediaType, data: block.data },
+      };
     case 'thinking':
       return { type: 'thinking', thinking: block.thinking, signature: block.signature };
     case 'redacted_thinking':

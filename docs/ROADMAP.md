@@ -368,9 +368,9 @@ Nota F2.2: los eventos no guardaban los textos visibles, así que `agent.step` g
 
 Sub-entrega A: generación con límites
 
-- [ ] Rol `ui-engineer`; entrada = zona de fricción + evidencia (capturas, señales) + contexto de F2.2
-- [ ] Herramienta `edit_file` con lista blanca de rutas (solo componentes y páginas de frontend)
-- [ ] Límites duros: máximo 5 ficheros, 200 líneas cambiadas, sin tocar `package.json`, auth ni API
+- [x] Rol `ui-engineer`; entrada = zona de fricción + evidencia (capturas, señales) + contexto de F2.2
+- [x] Herramienta `edit_file` con lista blanca de rutas (solo componentes y páginas de frontend)
+- [x] Límites duros: máximo 5 ficheros, 200 líneas cambiadas, sin tocar `package.json`, auth ni API
 
 Sub-entrega B: verificación
 
@@ -379,6 +379,8 @@ Sub-entrega B: verificación
 - [ ] Eventos `patch.proposed` (con diff) y `verification.result`
 
 Hecho cuando: para 2 de los 3 fallos sembrados genera una Variante B que compila y pasa los tests.
+
+Nota F2.3-A (sub-entrega A, su propio PR): `GenerateVariantPatch` hace un intento del UI Engineer sobre una zona: localiza el código (F2.2), deja editar al agente y convierte sus ediciones en un parche (generador de diffs unificados propio, probado contra `git apply`) que aplica con `VcsPort.applyPatch` en `janus/variant-<runId>`; graba `patch.proposed`. El agente (`UiEngineerAgent`, rol `ui-engineer`) solo tiene tres herramientas en lista cerrada (`read_file`, `edit_file` con reemplazo exacto de un texto que aparezca una sola vez, `done`) y como mucho 12 turnos; las ediciones viven en memoria hasta el final. Todas las reglas las aplica código: `EditPolicy` con la lista blanca de `docker/sandboxes/shoplab.yaml` (`uiEngineer.allow`: páginas, CSS y componentes; `deny`: `src/app/api/**`), y además siempre prohíbe manifiestos, lockfiles, ficheros `.env` y la verdad oculta; `src/lib` (negocio y auth) queda fuera por no estar permitido. Tras aplicar, `diffStats` contra la base debe dar como mucho 5 ficheros y 200 líneas cambiadas, o el parche se deshace. La parte estable del prompt (reglas, fricción medida, candidatos y contexto de F2.2) es el prefijo cacheado e idéntico en todos los turnos; la captura de la zona va como bloque de imagen (nuevo en el gateway) en el primer mensaje. Los pensamientos de las personas no se le pasan (opinión de un LLM, no evidencia). Tests sin API con un gateway guionizado: parche correcto en la rama y su evento; ediciones a `package.json`, `src/lib` y la API rechazadas, y nada de `UX_FLAWS.md` en ninguna petición; texto ambiguo devuelto como error; más de 5 ficheros rechazado y deshecho; tope de turnos. La verificación (lint, typecheck, tests en contenedor, un reintento) y el "Hecho cuando" son la sub-entrega B.
 
 ### F2.4 · A/B automático — S a M (4–6 h)
 

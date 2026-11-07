@@ -19,6 +19,14 @@ const sandboxDefinitionSchema = z.object({
         .refine((path) => path.split('/').every((part) => part !== '.' && part !== '..')),
     )
     .default([]),
+  // Files the UI Engineer may edit (F2.3): globs, `**` across folders. Manifests, lockfiles,
+  // env files and the ground truth are refused whatever these say (EditPolicy).
+  uiEngineer: z
+    .object({
+      allow: z.array(z.string().regex(/^[\w*.[\]/-]+$/)).min(1),
+      deny: z.array(z.string().regex(/^[\w*.[\]/-]+$/)).default([]),
+    })
+    .optional(),
   build: z.object({ setupTarget: imageTarget, appTarget: imageTarget }),
   database: z.object({
     image: z.string().min(1),

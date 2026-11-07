@@ -6,6 +6,16 @@ repo: https://github.com/oblivionwing26/janus-shoplab.git
 excludeFiles:
   - UX_FLAWS.md
 
+# What the UI Engineer may edit (F2.3): pages, styles and components. Never the API, the
+# business and auth code in src/lib, manifests, lockfiles or the ground truth.
+uiEngineer:
+  allow:
+    - src/app/**/page.tsx
+    - src/app/**/*.css
+    - src/components/**
+  deny:
+    - src/app/api/**
+
 build:
   setupTarget: tools
   appTarget: runner

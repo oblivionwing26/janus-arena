@@ -187,6 +187,37 @@ describe('AnthropicGateway', () => {
     ]);
   });
 
+  it('sends a screenshot as a base64 image block', async () => {
+    const { transport, gateway } = setup();
+
+    await gateway.complete(
+      request({
+        messages: [
+          {
+            role: 'user',
+            content: [
+              { type: 'text', text: 'The cart where shoppers stumble:' },
+              { type: 'image', mediaType: 'image/png', data: 'iVBORw0KGgo=' },
+            ],
+          },
+        ],
+      }),
+    );
+
+    expect(transport.calls[0]?.params.messages).toEqual([
+      {
+        role: 'user',
+        content: [
+          { type: 'text', text: 'The cart where shoppers stumble:' },
+          {
+            type: 'image',
+            source: { type: 'base64', media_type: 'image/png', data: 'iVBORw0KGgo=' },
+          },
+        ],
+      },
+    ]);
+  });
+
   it('warns once when the budget crosses 80 %', async () => {
     const { observer, gateway } = setup(() => fakeMessage({ usage: { input: 400, output: 0 } }));
     const budget = new Budget({ maxTokens: 1000, maxEur: 1 });
