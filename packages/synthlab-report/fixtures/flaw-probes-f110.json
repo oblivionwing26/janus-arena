@@ -2,13 +2,13 @@
   "format": "janus-run",
   "version": 1,
   "runId": "01JC0F16FXF0000000000000AA",
-  "exportedAt": "2026-11-06T14:05:28.754Z",
+  "exportedAt": "2026-11-07T15:29:31.797Z",
   "events": [
     {
-      "id": "01M6RJTTZ0RY5XFAAARJYMRBZ5",
+      "id": "01M6VA1EDR9VG3MPXDKQCW1JRZ",
       "runId": "01JC0F16FXF0000000000000AA",
       "seq": 0,
-      "ts": "2026-11-06T14:05:06.400Z",
+      "ts": "2026-11-07T15:29:09.050Z",
       "schemaVersion": 1,
       "actor": {
         "agentId": "probe-ux1-0",
@@ -18,7 +18,7 @@
       "payload": {
         "stepIndex": 0,
         "action": "click",
-        "durationMs": 686.6311999999998,
+        "durationMs": 703.3513999999996,
         "ok": true,
         "ref": "e5",
         "selector": "role=link[name=\"Crear cuenta\"]",
@@ -32,10 +32,10 @@
       }
     },
     {
-      "id": "01M6RJTTZ1HW7Q5BZ9VVN3PETJ",
+      "id": "01M6VA1EDT52171TXJNDSH3G9V",
       "runId": "01JC0F16FXF0000000000000AA",
       "seq": 1,
-      "ts": "2026-11-06T14:05:06.401Z",
+      "ts": "2026-11-07T15:29:09.050Z",
       "schemaVersion": 1,
       "actor": {
         "agentId": "probe-ux1-0",
@@ -45,14 +45,56 @@
       "payload": {
         "stepIndex": 0,
         "url": "http://janus-f16-app:3100/",
-        "durationMs": 1564.0771999999997
+        "durationMs": 1635.0328999999983,
+        "texts": [
+          "ShopLab",
+          "Tienda",
+          "Carrito",
+          "Entrar",
+          "Crear cuenta",
+          "Catálogo",
+          "Agenda semanal 2027",
+          "13,90 €",
+          "50 en stock",
+          "Alfombrilla de ratón XL",
+          "14,90 €",
+          "35 en stock",
+          "Auriculares con cable",
+          "15,90 €",
+          "25 en stock",
+          "Bolígrafo de gel (pack 3)",
+          "4,50 €",
+          "100 en stock",
+          "Botella de acero 750 ml",
+          "19,90 €",
+          "30 en stock",
+          "Cuaderno A5 punteado",
+          "9,90 €",
+          "60 en stock",
+          "Lámpara de escritorio LED",
+          "34,90 €",
+          "12 en stock",
+          "Mochila urbana 20 L",
+          "49,90 €",
+          "15 en stock",
+          "Planta artificial pequeña",
+          "8,90 €",
+          "Agotado",
+          "Set de acuarelas (12 colores)",
+          "22,90 €",
+          "20 en stock",
+          "Soporte para portátil",
+          "27,90 €",
+          "18 en stock",
+          "Taza de cerámica"
+        ]
       }
     },
     {
-      "id": "01M6RJTTZ3A2YSB2EVBT1JN12K",
+      "id": "01M6VA1EDWQHEQ3YXHWY9Y56SB",
       "runId": "01JC0F16FXF0000000000000AA",
       "seq": 2,
-      "ts": "2026-11-06T14:05:06.403Z",
+      "ts": "2026-11-07T15:29:09.052Z",
       "schemaVersion": 1,
       "actor": {
         "agentId": "probe-ux1-0",
@@ -62,16 +104,16 @@
       "payload": {
         "stepIndex": 0,
         "url": "http://janus-f16-app:3100/register",
-        "lcpMs": 248,
+        "lcpMs": 860,
         "cls": 0,
         "inpMs": 16
       }
     },
     {
-      "id": "01M6RJTV5M2KDS710B1VGE6D90",
+      "id": "01M6VA1EKPNRCKM9JDFWQ7CHTK",
       "runId": "01JC0F16FXF0000000000000AA",
       "seq": 3,
-      "ts": "2026-11-06T14:05:06.612Z",
+      "ts": "2026-11-07T15:29:09.238Z",
       "schemaVersion": 1,
       "actor": {
         "agentId": "probe-ux1-0",
@@ -81,7 +123,7 @@
       "payload": {
         "stepIndex": 1,
         "action": "type",
-        "durationMs": 137.90480000000025,
+        "durationMs": 114.1346999999987,
         "ok": true,
         "ref": "e18",
         "selector": "role=textbox[name=\"Nombre\"]",
@@ -94,10 +136,10 @@
       }
     },
     {
-      "id": "01M6RJTV5M6HP5BCWR5EEKZV83",
+      "id": "01M6VA1EKPZBP67568PJ7HMDJY",
       "runId": "01JC0F16FXF0000000000000AA",
       "seq": 4,
-      "ts": "2026-11-06T14:05:06.612Z",
+      "ts": "2026-11-07T15:29:09.238Z",
       "schemaVersion": 1,
       "actor": {
         "agentId": "probe-ux1-0",
@@ -107,14 +149,27 @@
       "payload": {
         "stepIndex": 1,
         "url": "http://janus-f16-app:3100/register",
-        "durationMs": 208.41749999999956
+        "durationMs": 185.26410000000033,
+        "texts": [
+          "ShopLab",
+          "Tienda",
+          "Carrito",
+          "Entrar",
+          "Crear cuenta",
+          "Nombre",
+          "Email",
+          "Contraseña (mínimo 8 caracteres)",
+          "Dirección de envío",
+          "¿Ya tienes cuenta?",
+          "Entra"
+        ]
       }
     },
     {
-      "id": "01M6RJTV5P69D8ZFPCK327P33F",
+      "id": "01M6VA1EKR9YCP1PX6NCYG6F9H",
       "runId": "01JC0F16FXF0000000000000AA",
       "seq": 5,
-      "ts": "2026-11-06T14:05:06.614Z",
+      "ts": "2026-11-07T15:29:09.240Z",
       "schemaVersion": 1,
       "actor": {
         "agentId": "probe-ux1-0",
@@ -124,16 +179,16 @@
       "payload": {
         "stepIndex": 1,
         "url": "http://janus-f16-app:3100/register",
-        "lcpMs": 248,
+        "lcpMs": 860,
         "cls": 0,
         "inpMs": 16
       }
     },
     {
-      "id": "01M6RJTVB0BHYZ6RXA1ENPWA8Q",
+      "id": "01M6VA1ES1SFB4XYSKQK2XH8F5",
       "runId": "01JC0F16FXF0000000000000AA",
       "seq": 6,
-      "ts": "2026-11-06T14:05:06.784Z",
+      "ts": "2026-11-07T15:29:09.409Z",
       "schemaVersion": 1,
       "actor": {
         "agentId": "probe-ux1-0",
@@ -143,7 +198,7 @@
       "payload": {
         "stepIndex": 2,
         "action": "type",
-        "durationMs": 102.66879999999946,
+        "durationMs": 100.14259999999922,
         "ok": true,
         "ref": "e19",
         "selector": "role=textbox[name=\"Email\"]",
@@ -156,10 +211,10 @@
       }
     },
     {
-      "id": "01M6RJTVB06PXCQT5XW3B7QGTM",
+      "id": "01M6VA1ES1NT0SXHXRW3R1FBPX",
       "runId": "01JC0F16FXF0000000000000AA",
       "seq": 7,
-      "ts": "2026-11-06T14:05:06.784Z",
+      "ts": "2026-11-07T15:29:09.409Z",
       "schemaVersion": 1,
       "actor": {
         "agentId": "probe-ux1-0",
@@ -169,14 +224,27 @@
       "payload": {
         "stepIndex": 2,
         "url": "http://janus-f16-app:3100/register",
-        "durationMs": 169.95010000000184
+        "durationMs": 168.45830000000205,
+        "texts": [
+          "ShopLab",
+          "Tienda",
+          "Carrito",
+          "Entrar",
+          "Crear cuenta",
+          "Nombre",
+          "Email",
+          "Contraseña (mínimo 8 caracteres)",
+          "Dirección de envío",
+          "¿Ya tienes cuenta?",
+          "Entra"
+        ]
       }
     },
     {
-      "id": "01M6RJTVB2MH4W7BR5JV9307RN",
+      "id": "01M6VA1ES3RG0HGCE7MDT9WFRP",
       "runId": "01JC0F16FXF0000000000000AA",
       "seq": 8,
-      "ts": "2026-11-06T14:05:06.786Z",
+      "ts": "2026-11-07T15:29:09.411Z",
       "schemaVersion": 1,
       "actor": {
         "agentId": "probe-ux1-0",
@@ -186,16 +254,16 @@
       "payload": {
         "stepIndex": 2,
         "url": "http://janus-f16-app:3100/register",
-        "lcpMs": 248,
+        "lcpMs": 860,
         "cls": 0,
         "inpMs": 16
       }
     },
     {
-      "id": "01M6RJTVGD0ZYHCQGT31ZR6MBJ",
+      "id": "01M6VA1EYMR9D1S7ZMZ3FDHYZD",
       "runId": "01JC0F16FXF0000000000000AA",
       "seq": 9,
-      "ts": "2026-11-06T14:05:06.957Z",
+      "ts": "2026-11-07T15:29:09.588Z",
       "schemaVersion": 1,
       "actor": {
         "agentId": "probe-ux1-0",
@@ -205,7 +273,7 @@
       "payload": {
         "stepIndex": 3,
         "action": "type",
-        "durationMs": 103.9565999999977,
+        "durationMs": 109.3127999999997,
         "ok": true,
         "ref": "e20",
         "selector": "role=textbox[name=\"Contraseña (mínimo 8 caracteres)\"]",
@@ -218,10 +286,10 @@
       }
     },
     {
-      "id": "01M6RJTVGDNBSX1AHCSK3PGB13",
+      "id": "01M6VA1EYMBDAVGBA02PWTH25Q",
       "runId": "01JC0F16FXF0000000000000AA",
       "seq": 10,
-      "ts": "2026-11-06T14:05:06.957Z",
+      "ts": "2026-11-07T15:29:09.588Z",
       "schemaVersion": 1,
       "actor": {
         "agentId": "probe-ux1-0",
@@ -231,14 +299,27 @@
       "payload": {
         "stepIndex": 3,
         "url": "http://janus-f16-app:3100/register",
-        "durationMs": 171.12159999999858
+        "durationMs": 177.0524000000005,
+        "texts": [
+          "ShopLab",
+          "Tienda",
+          "Carrito",
+          "Entrar",
+          "Crear cuenta",
+          "Nombre",
+          "Email",
+          "Contraseña (mínimo 8 caracteres)",
+          "Dirección de envío",
+          "¿Ya tienes cuenta?",
+          "Entra"
+        ]
       }
     },
     {
-      "id": "01M6RJTVGF501ZEZN0NNDWF2DF",
+      "id": "01M6VA1EYP8B4Y0J5076YH08S7",
       "runId": "01JC0F16FXF0000000000000AA",
       "seq": 11,
-      "ts": "2026-11-06T14:05:06.959Z",
+      "ts": "2026-11-07T15:29:09.590Z",
       "schemaVersion": 1,
       "actor": {
         "agentId": "probe-ux1-0",
@@ -248,16 +329,16 @@
       "payload": {
         "stepIndex": 3,
         "url": "http://janus-f16-app:3100/register",
-        "lcpMs": 248,
+        "lcpMs": 860,
         "cls": 0,
         "inpMs": 16
       }
     },
     {
-      "id": "01M6RJTVNRZCARW3HFN4E074MW",
+      "id": "01M6VA1F3YKHSW08Z933ET6KWH",
       "runId": "01JC0F16FXF0000000000000AA",
       "seq": 12,
-      "ts": "2026-11-06T14:05:07.128Z",
+      "ts": "2026-11-07T15:29:09.758Z",
       "schemaVersion": 1,
       "actor": {
         "agentId": "probe-ux1-0",
@@ -267,7 +348,7 @@
       "payload": {
         "stepIndex": 4,
         "action": "type",
-        "durationMs": 103.17079999999987,
+        "durationMs": 101.17499999999927,
         "ok": true,
         "ref": "e21",
         "selector": "role=textbox[name=\"Dirección de envío\"]",
@@ -280,10 +361,10 @@
       }
     },
     {
-      "id": "01M6RJTVNRD4W7XGJQGCZ8537B",
+      "id": "01M6VA1F3Y87DEVZFVD8Q4G30P",
       "runId": "01JC0F16FXF0000000000000AA",
       "seq": 13,
-      "ts": "2026-11-06T14:05:07.128Z",
+      "ts": "2026-11-07T15:29:09.758Z",
       "schemaVersion": 1,
       "actor": {
         "agentId": "probe-ux1-0",
@@ -293,14 +374,27 @@
       "payload": {
         "stepIndex": 4,
         "url": "http://janus-f16-app:3100/register",
-        "durationMs": 168.59890000000087
+        "durationMs": 167.54409999999916,
+        "texts": [
+          "ShopLab",
+          "Tienda",
+          "Carrito",
+          "Entrar",
+          "Crear cuenta",
+          "Nombre",
+          "Email",
+          "Contraseña (mínimo 8 caracteres)",
+          "Dirección de envío",
+          "¿Ya tienes cuenta?",
+          "Entra"
+        ]
       }
     },
     {
-      "id": "01M6RJTVNTGJNZYNNMR73PBHMD",
+      "id": "01M6VA1F3Z3K60T8XHBSX0X39Q",
       "runId": "01JC0F16FXF0000000000000AA",
       "seq": 14,
-      "ts": "2026-11-06T14:05:07.130Z",
+      "ts": "2026-11-07T15:29:09.759Z",
       "schemaVersion": 1,
       "actor": {
         "agentId": "probe-ux1-0",
@@ -310,16 +404,16 @@
       "payload": {
         "stepIndex": 4,
         "url": "http://janus-f16-app:3100/register",
-        "lcpMs": 248,
+        "lcpMs": 860,
         "cls": 0,
         "inpMs": 16
       }
     },
     {
-      "id": "01M6RJTWM823B5M0GME67AST8X",
+      "id": "01M6VA1G3CS4YG8M1G0FM8CBS8",
       "runId": "01JC0F16FXF0000000000000AA",
       "seq": 15,
-      "ts": "2026-11-06T14:05:08.104Z",
+      "ts": "2026-11-07T15:29:10.764Z",
       "schemaVersion": 1,
       "actor": {
         "agentId": "probe-ux1-0",
@@ -329,7 +423,7 @@
       "payload": {
         "stepIndex": 5,
         "action": "click",
-        "durationMs": 907.4497999999985,
+        "durationMs": 936.8302999999942,
         "ok": true,
         "ref": "e22",
         "selector": "role=button[name=\"Crear cuenta\"]",
@@ -343,10 +437,10 @@
       }
     },
     {
-      "id": "01M6RJTWM8BFZ9YGSR326ZC3X9",
+      "id": "01M6VA1G3CNZRX0DD6RB1NAS5R",
       "runId": "01JC0F16FXF0000000000000AA",
       "seq": 16,
-      "ts": "2026-11-06T14:05:08.104Z",
+      "ts": "2026-11-07T15:29:10.764Z",
       "schemaVersion": 1,
       "actor": {
         "agentId": "probe-ux1-0",
@@ -356,14 +450,27 @@
       "payload": {
         "stepIndex": 5,
         "url": "http://janus-f16-app:3100/register",
-        "durationMs": 974.4737000000023
+        "durationMs": 1004.5540999999976,
+        "texts": [
+          "ShopLab",
+          "Tienda",
+          "Carrito",
+          "Entrar",
+          "Crear cuenta",
+          "Nombre",
+          "Email",
+          "Contraseña (mínimo 8 caracteres)",
+          "Dirección de envío",
+          "¿Ya tienes cuenta?",
+          "Entra"
+        ]
       }
     },
     {
-      "id": "01M6RJTWMA9W82NKDG85BWVMS4",
+      "id": "01M6VA1G3EAEMNQYRMMXVW3AAX",
       "runId": "01JC0F16FXF0000000000000AA",
       "seq": 17,
-      "ts": "2026-11-06T14:05:08.106Z",
+      "ts": "2026-11-07T15:29:10.766Z",
       "schemaVersion": 1,
       "actor": {
         "agentId": "probe-ux1-0",
@@ -373,16 +480,16 @@
       "payload": {
         "stepIndex": 5,
         "url": "http://janus-f16-app:3100/",
-        "lcpMs": 248,
+        "lcpMs": 860,
         "cls": 0,
         "inpMs": 16
       }
     },
     {
-      "id": "01M6RJTXBGFWV8ARHJ14XVFB45",
+      "id": "01M6VA1GVTBJXN53Z3856TAYW0",
       "runId": "01JC0F16FXF0000000000000AA",
       "seq": 18,
-      "ts": "2026-11-06T14:05:08.848Z",
+      "ts": "2026-11-07T15:29:11.546Z",
       "schemaVersion": 1,
       "actor": {
         "agentId": "probe-ux1-0",
@@ -392,7 +499,7 @@
       "payload": {
         "stepIndex": 6,
         "action": "click",
-        "durationMs": 672.4167000000016,
+        "durationMs": 702.6659999999974,
         "ok": true,
         "ref": "e17",
         "selector": "role=link[name=\"Taza de cerámica\"]",
@@ -406,10 +513,10 @@
       }
     },
     {
-      "id": "01M6RJTXBG85F5WMGW7FMZEB2H",
+      "id": "01M6VA1GVTMEGVMHWG5YR1N95D",
       "runId": "01JC0F16FXF0000000000000AA",
       "seq": 19,
-      "ts": "2026-11-06T14:05:08.848Z",
+      "ts": "2026-11-07T15:29:11.546Z",
       "schemaVersion": 1,
       "actor": {
         "agentId": "probe-ux1-0",
@@ -419,14 +526,56 @@
       "payload": {
         "stepIndex": 6,
         "url": "http://janus-f16-app:3100/",
-        "durationMs": 741.8388000000014
+        "durationMs": 779.6172999999981,
+        "texts": [
+          "ShopLab",
+          "Tienda",
+          "Carrito",
+          "Mis pedidos",
+          "Salir",
+          "Catálogo",
+          "Agenda semanal 2027",
+          "13,90 €",
+          "50 en stock",
+          "Alfombrilla de ratón XL",
+          "14,90 €",
+          "35 en stock",
+          "Auriculares con cable",
+          "15,90 €",
+          "25 en stock",
+          "Bolígrafo de gel (pack 3)",
+          "4,50 €",
+          "100 en stock",
+          "Botella de acero 750 ml",
+          "19,90 €",
+          "30 en stock",
+          "Cuaderno A5 punteado",
+          "9,90 €",
+          "60 en stock",
+          "Lámpara de escritorio LED",
+          "34,90 €",
+          "12 en stock",
+          "Mochila urbana 20 L",
+          "49,90 €",
+          "15 en stock",
+          "Planta artificial pequeña",
+          "8,90 €",
+          "Agotado",
+          "Set de acuarelas (12 colores)",
+          "22,90 €",
+          "20 en stock",
+          "Soporte para portátil",
+          "27,90 €",
+          "18 en stock",
+          "Taza de cerámica"
+        ]
       }
     },
     {
-      "id": "01M6RJTXBJTHFCGXDRSQMY42G3",
+      "id": "01M6VA1GVW1K1ZYGX89ETQXA6J",
       "runId": "01JC0F16FXF0000000000000AA",
       "seq": 20,
-      "ts": "2026-11-06T14:05:08.850Z",
+      "ts": "2026-11-07T15:29:11.548Z",
       "schemaVersion": 1,
       "actor": {
         "agentId": "probe-ux1-0",
@@ -436,16 +585,16 @@
       "payload": {
         "stepIndex": 6,
         "url": "http://janus-f16-app:3100/products/taza-ceramica",
-        "lcpMs": 248,
+        "lcpMs": 860,
         "cls": 0,
         "inpMs": 16
       }
     },
     {
-      "id": "01M6RJTY6MG2NX16WWPTCX0SGW",
+      "id": "01M6VA1HTEEQ5GD9DX52KGEYFP",
       "runId": "01JC0F16FXF0000000000000AA",
       "seq": 21,
-      "ts": "2026-11-06T14:05:09.716Z",
+      "ts": "2026-11-07T15:29:12.526Z",
       "schemaVersion": 1,
       "actor": {
         "agentId": "probe-ux1-0",
@@ -455,7 +604,7 @@
       "payload": {
         "stepIndex": 7,
         "action": "click",
-        "durationMs": 798.4617000000035,
+        "durationMs": 909.3630000000048,
         "ok": true,
         "ref": "e27",
         "selector": "role=button[name=\"Añadir al carrito\"]",
@@ -469,10 +618,10 @@
       }
     },
     {
-      "id": "01M6RJTY6MRP9KKCYECY7JZ48M",
+      "id": "01M6VA1HTE5RMBVX08VWDHPH4P",
       "runId": "01JC0F16FXF0000000000000AA",
       "seq": 22,
-      "ts": "2026-11-06T14:05:09.716Z",
+      "ts": "2026-11-07T15:29:12.526Z",
       "schemaVersion": 1,
       "actor": {
         "agentId": "probe-ux1-0",
@@ -482,14 +631,31 @@
       "payload": {
         "stepIndex": 7,
         "url": "http://janus-f16-app:3100/products/taza-ceramica",
-        "durationMs": 865.3790999999983
+        "durationMs": 977.8230999999942,
+        "texts": [
+          "ShopLab",
+          "Tienda",
+          "Carrito",
+          "Mis pedidos",
+          "Salir",
+          "Taza de cerámica",
+          "Taza de 350 ml apta para lavavajillas.",
+          "12,90 €",
+          "Cantidad",
+          "Añadir al carrito",
+          "Reseñas",
+          "Ana Prueba · 4/5 Muy contento con la compra. — Ana Prueba",
+          "Nota",
+          "Tu reseña",
+          "Publicar reseña"
+        ]
       }
     },
     {
-      "id": "01M6RJTY6PFEJ5KZ730M6BTKVS",
+      "id": "01M6VA1HTGA8E7BSKG7580RVRQ",
       "runId": "01JC0F16FXF0000000000000AA",
       "seq": 23,
-      "ts": "2026-11-06T14:05:09.718Z",
+      "ts": "2026-11-07T15:29:12.528Z",
       "schemaVersion": 1,
       "actor": {
         "agentId": "probe-ux1-0",
@@ -499,16 +665,16 @@
       "payload": {
         "stepIndex": 7,
         "url": "http://janus-f16-app:3100/cart",
-        "lcpMs": 248,
+        "lcpMs": 860,
         "cls": 0,
         "inpMs": 16
       }
     },
     {
-      "id": "01M6RJTYY2MJSNZKN4C509RF3P",
+      "id": "01M6VA1JHQHEY5PP3CRDBX3W2P",
       "runId": "01JC0F16FXF0000000000000AA",
       "seq": 24,
-      "ts": "2026-11-06T14:05:10.466Z",
+      "ts": "2026-11-07T15:29:13.271Z",
       "schemaVersion": 1,
       "actor": {
         "agentId": "probe-ux1-0",
@@ -518,7 +684,7 @@
       "payload": {
         "stepIndex": 8,
         "action": "click",
-        "durationMs": 680.8343999999997,
+        "durationMs": 675.3965000000026,
         "ok": true,
         "ref": "e35",
         "selector": "role=link[name=\"Ir a pagar\"]",
@@ -532,10 +698,10 @@
       }
     },
     {
-      "id": "01M6RJTYY23168JWN1171H771P",
+      "id": "01M6VA1JHQ2RYSFX8QTQ4FNTVV",
       "runId": "01JC0F16FXF0000000000000AA",
       "seq": 25,
-      "ts": "2026-11-06T14:05:10.466Z",
+      "ts": "2026-11-07T15:29:13.271Z",
       "schemaVersion": 1,
       "actor": {
         "agentId": "probe-ux1-0",
@@ -545,14 +711,36 @@
       "payload": {
         "stepIndex": 8,
         "url": "http://janus-f16-app:3100/cart",
-        "durationMs": 748.231200000002
+        "durationMs": 742.7132999999958,
+        "texts": [
+          "ShopLab",
+          "Tienda",
+          "Carrito",
+          "Mis pedidos",
+          "Salir",
+          "Productos del carrito",
+          "Producto",
+          "Precio",
+          "Cantidad",
+          "Quitar",
+          "Taza de cerámica",
+          "12,90 €",
+          "Cantidad de Taza de cerámica",
+          "Actualizar",
+          "Quitar Taza de cerámica",
+          "Otras opciones",
+          "Totales",
+          "Subtotal",
+          "Total",
+          "Ir a pagar"
+        ]
       }
     },
     {
-      "id": "01M6RJTYY4AK21DPZTSG7GB351",
+      "id": "01M6VA1JHSRFY7JEQTH9HAN835",
       "runId": "01JC0F16FXF0000000000000AA",
       "seq": 26,
-      "ts": "2026-11-06T14:05:10.468Z",
+      "ts": "2026-11-07T15:29:13.273Z",
       "schemaVersion": 1,
       "actor": {
         "agentId": "probe-ux1-0",
@@ -562,16 +750,16 @@
       "payload": {
         "stepIndex": 8,
         "url": "http://janus-f16-app:3100/checkout",
-        "lcpMs": 248,
+        "lcpMs": 860,
         "cls": 0,
         "inpMs": 16
       }
     },
     {
-      "id": "01M6RJTZ1JDJ2H3W3FSFKG83C4",
+      "id": "01M6VA1JN8BEQ916GGJQA1JQEG",
       "runId": "01JC0F16FXF0000000000000AA",
       "seq": 27,
-      "ts": "2026-11-06T14:05:10.578Z",
+      "ts": "2026-11-07T15:29:13.384Z",
       "schemaVersion": 1,
       "actor": {
         "agentId": "probe-ux1-0",
@@ -581,15 +769,15 @@
       "payload": {
         "stepIndex": 9,
         "action": "back",
-        "durationMs": 45.45499999999811,
+        "durationMs": 46.856299999999464,
         "ok": true
       }
     },
     {
-      "id": "01M6RJTZ1KMPEQJVFK5TN8EPQ2",
+      "id": "01M6VA1JN8098VRWZSQA59HH4A",
       "runId": "01JC0F16FXF0000000000000AA",
       "seq": 28,
-      "ts": "2026-11-06T14:05:10.579Z",
+      "ts": "2026-11-07T15:29:13.384Z",
       "schemaVersion": 1,
       "actor": {
         "agentId": "probe-ux1-0",
@@ -599,14 +787,35 @@
       "payload": {
         "stepIndex": 9,
         "url": "http://janus-f16-app:3100/checkout",
-        "durationMs": 110.36809999999969
+        "durationMs": 111.16649999999936,
+        "texts": [
+          "ShopLab",
+          "Tienda",
+          "Carrito",
+          "Mis pedidos",
+          "Salir",
+          "Pago",
+          "Totales",
+          "Subtotal",
+          "12,90 €",
+          "Envío",
+          "4,99 €",
+          "Total",
+          "17,89 €",
+          "Dirección de envío",
+          "Método de pago",
+          "Pago simulado: no se cobra nada ni se piden datos bancarios.",
+          "Tarjeta de prueba (simulada)",
+          "Transferencia de prueba (simulada)",
+          "Confirmar pedido"
+        ]
       }
     },
     {
-      "id": "01M6RJTZ1N1BNQW692RZMW8FQ5",
+      "id": "01M6VA1JNAEK0VWSRJAKD0PQB0",
       "runId": "01JC0F16FXF0000000000000AA",
       "seq": 29,
-      "ts": "2026-11-06T14:05:10.581Z",
+      "ts": "2026-11-07T15:29:13.386Z",
       "schemaVersion": 1,
       "actor": {
         "agentId": "probe-ux1-0",
@@ -616,16 +825,16 @@
       "payload": {
         "stepIndex": 9,
         "url": "http://janus-f16-app:3100/cart",
-        "lcpMs": 248,
+        "lcpMs": 860,
         "cls": 0,
         "inpMs": 16
       }
     },
     {
-      "id": "01M6RJTZ2J58PGS4S37P448VAG",
+      "id": "01M6VA1JPJ7RV7310YP0HDDQSK",
       "runId": "01JC0F16FXF0000000000000AA",
       "seq": 30,
-      "ts": "2026-11-06T14:05:10.610Z",
+      "ts": "2026-11-07T15:29:13.426Z",
       "schemaVersion": 1,
       "actor": {
         "agentId": "probe-ux1-0",
@@ -640,10 +849,10 @@
       }
     },
     {
-      "id": "01M6RJTZ4NFRDBDZNBHVHPA2P9",
+      "id": "01M6VA1JRP0K3CJZDCJTZ1D2J1",
       "runId": "01JC0F16FXF0000000000000AA",
       "seq": 31,
-      "ts": "2026-11-06T14:05:10.677Z",
+      "ts": "2026-11-07T15:29:13.494Z",
       "schemaVersion": 1,
       "actor": {
         "agentId": "probe-ux1-0",
@@ -653,15 +862,15 @@
       "payload": {
         "stepIndex": 10,
         "action": "done",
-        "durationMs": 0.30489999999917927,
+        "durationMs": 0.3525999999983469,
         "ok": true
       }
     },
     {
-      "id": "01M6RJTZ4N0CJ9JQY2KTD7RPCV",
+      "id": "01M6VA1JRPQ6AXRV5CW628KHEP",
       "runId": "01JC0F16FXF0000000000000AA",
       "seq": 32,
-      "ts": "2026-11-06T14:05:10.677Z",
+      "ts": "2026-11-07T15:29:13.494Z",
       "schemaVersion": 1,
       "actor": {
         "agentId": "probe-ux1-0",
@@ -671,14 +880,36 @@
       "payload": {
         "stepIndex": 10,
         "url": "http://janus-f16-app:3100/cart",
-        "durationMs": 66.79249999999956
+        "durationMs": 67.58370000000286,
+        "texts": [
+          "ShopLab",
+          "Tienda",
+          "Carrito",
+          "Mis pedidos",
+          "Salir",
+          "Productos del carrito",
+          "Producto",
+          "Precio",
+          "Cantidad",
+          "Quitar",
+          "Taza de cerámica",
+          "12,90 €",
+          "Cantidad de Taza de cerámica",
+          "Actualizar",
+          "Quitar Taza de cerámica",
+          "Otras opciones",
+          "Totales",
+          "Subtotal",
+          "Total",
+          "Ir a pagar"
+        ]
       }
     },
     {
-      "id": "01M6RJTZ4QEWB76DJA45VMR28Z",
+      "id": "01M6VA1JRRHR2NE3MBKK2GE241",
       "runId": "01JC0F16FXF0000000000000AA",
       "seq": 33,
-      "ts": "2026-11-06T14:05:10.679Z",
+      "ts": "2026-11-07T15:29:13.496Z",
       "schemaVersion": 1,
       "actor": {
         "agentId": "probe-ux1-0",
@@ -688,16 +919,16 @@
       "payload": {
         "stepIndex": 10,
         "url": "http://janus-f16-app:3100/cart",
-        "lcpMs": 248,
+        "lcpMs": 860,
         "cls": 0,
         "inpMs": 16
       }
     },
     {
-      "id": "01M6RJTZ4Q2D8VESXH4J1T3KYB",
+      "id": "01M6VA1JRRSWN6QDR7B3Z2GRQX",
       "runId": "01JC0F16FXF0000000000000AA",
       "seq": 34,
-      "ts": "2026-11-06T14:05:10.679Z",
+      "ts": "2026-11-07T15:29:13.496Z",
       "schemaVersion": 1,
       "actor": {
         "agentId": "probe-ux1-0",
@@ -708,14 +939,14 @@
         "outcome": "abandon",
         "steps": 11,
         "reason": "El envío solo aparece al pagar.",
-        "durationMs": 6305.560699999998
+        "durationMs": 11385.490899999997
       }
     },
     {
-      "id": "01M6RJV0X58VX9MN41J25NHYCN",
+      "id": "01M6VA1METM88ZFGSTCCTKZ7MQ",
       "runId": "01JC0F16FXF0000000000000AA",
       "seq": 35,
-      "ts": "2026-11-06T14:05:12.485Z",
+      "ts": "2026-11-07T15:29:15.227Z",
       "schemaVersion": 1,
       "actor": {
         "agentId": "baseline-ux2-1",
@@ -725,7 +956,7 @@
       "payload": {
         "stepIndex": 0,
         "action": "click",
-        "durationMs": 713.6242999999995,
+        "durationMs": 705.9648000000016,
         "ok": true,
         "ref": "e5",
         "selector": "role=link[name=\"Crear cuenta\"]",
@@ -739,10 +970,10 @@
       }
     },
     {
-      "id": "01M6RJV0X5S3Z1773E4D02MMPC",
+      "id": "01M6VA1MEXMK63XFJWTP2CSMJP",
       "runId": "01JC0F16FXF0000000000000AA",
       "seq": 36,
-      "ts": "2026-11-06T14:05:12.485Z",
+      "ts": "2026-11-07T15:29:15.229Z",
       "schemaVersion": 1,
       "actor": {
         "agentId": "baseline-ux2-1",
@@ -752,14 +983,56 @@
       "payload": {
         "stepIndex": 0,
         "url": "http://janus-f16-app:3100/",
-        "durationMs": 1498.3618999999999
+        "durationMs": 1400.4038999999975,
+        "texts": [
+          "ShopLab",
+          "Tienda",
+          "Carrito",
+          "Entrar",
+          "Crear cuenta",
+          "Catálogo",
+          "Agenda semanal 2027",
+          "13,90 €",
+          "50 en stock",
+          "Alfombrilla de ratón XL",
+          "14,90 €",
+          "35 en stock",
+          "Auriculares con cable",
+          "15,90 €",
+          "25 en stock",
+          "Bolígrafo de gel (pack 3)",
+          "4,50 €",
+          "100 en stock",
+          "Botella de acero 750 ml",
+          "19,90 €",
+          "30 en stock",
+          "Cuaderno A5 punteado",
+          "9,90 €",
+          "60 en stock",
+          "Lámpara de escritorio LED",
+          "34,90 €",
+          "12 en stock",
+          "Mochila urbana 20 L",
+          "49,90 €",
+          "15 en stock",
+          "Planta artificial pequeña",
+          "8,90 €",
+          "Agotado",
+          "Set de acuarelas (12 colores)",
+          "22,90 €",
+          "20 en stock",
+          "Soporte para portátil",
+          "27,90 €",
+          "18 en stock",
+          "Taza de cerámica"
+        ]
       }
     },
     {
-      "id": "01M6RJV0X7KYN3DNPGRNVR47ZY",
+      "id": "01M6VA1MEZAN36K5XBE8KA0F1K",
       "runId": "01JC0F16FXF0000000000000AA",
       "seq": 37,
-      "ts": "2026-11-06T14:05:12.487Z",
+      "ts": "2026-11-07T15:29:15.231Z",
       "schemaVersion": 1,
       "actor": {
         "agentId": "baseline-ux2-1",
@@ -775,10 +1048,10 @@
       }
     },
     {
-      "id": "01M6RJV12KA04HK9C2ZK88KKT3",
+      "id": "01M6VA1MMF45CH0PNDVG51RRZ0",
       "runId": "01JC0F16FXF0000000000000AA",
       "seq": 38,
-      "ts": "2026-11-06T14:05:12.660Z",
+      "ts": "2026-11-07T15:29:15.407Z",
       "schemaVersion": 1,
       "actor": {
         "agentId": "baseline-ux2-1",
@@ -788,7 +1061,7 @@
       "payload": {
         "stepIndex": 1,
         "action": "type",
-        "durationMs": 104.19440000000031,
+        "durationMs": 106.68559999999707,
         "ok": true,
         "ref": "e18",
         "selector": "role=textbox[name=\"Nombre\"]",
@@ -801,10 +1074,10 @@
       }
     },
     {
-      "id": "01M6RJV12MAX7W1X4AWR1RMZ8F",
+      "id": "01M6VA1MMF703GFK1VQR072ATF",
       "runId": "01JC0F16FXF0000000000000AA",
       "seq": 39,
-      "ts": "2026-11-06T14:05:12.660Z",
+      "ts": "2026-11-07T15:29:15.407Z",
       "schemaVersion": 1,
       "actor": {
         "agentId": "baseline-ux2-1",
@@ -814,14 +1087,27 @@
       "payload": {
         "stepIndex": 1,
         "url": "http://janus-f16-app:3100/register",
-        "durationMs": 172.34700000000157
+        "durationMs": 175.68059999999969,
+        "texts": [
+          "ShopLab",
+          "Tienda",
+          "Carrito",
+          "Entrar",
+          "Crear cuenta",
+          "Nombre",
+          "Email",
+          "Contraseña (mínimo 8 caracteres)",
+          "Dirección de envío",
+          "¿Ya tienes cuenta?",
+          "Entra"
+        ]
       }
     },
     {
-      "id": "01M6RJV12NPDC304GHS45ES0TC",
+      "id": "01M6VA1MMHDVAC39PKYXJ8X996",
       "runId": "01JC0F16FXF0000000000000AA",
       "seq": 40,
-      "ts": "2026-11-06T14:05:12.661Z",
+      "ts": "2026-11-07T15:29:15.409Z",
       "schemaVersion": 1,
       "actor": {
         "agentId": "baseline-ux2-1",
@@ -837,10 +1123,10 @@
       }
     },
     {
-      "id": "01M6RJV17ZXH81YZVTZTH97DQN",
+      "id": "01M6VA1MSRQJNY0CQB34MBBPCZ",
       "runId": "01JC0F16FXF0000000000000AA",
       "seq": 41,
-      "ts": "2026-11-06T14:05:12.831Z",
+      "ts": "2026-11-07T15:29:15.576Z",
       "schemaVersion": 1,
       "actor": {
         "agentId": "baseline-ux2-1",
@@ -850,7 +1136,7 @@
       "payload": {
         "stepIndex": 2,
         "action": "type",
-        "durationMs": 102.89190000000235,
+        "durationMs": 101.42889999999898,
         "ok": true,
         "ref": "e19",
         "selector": "role=textbox[name=\"Email\"]",
@@ -863,10 +1149,10 @@
       }
     },
     {
-      "id": "01M6RJV17ZTNPB41R1KFGR9GP9",
+      "id": "01M6VA1MSR6SN3J2V449M006K8",
       "runId": "01JC0F16FXF0000000000000AA",
       "seq": 42,
-      "ts": "2026-11-06T14:05:12.831Z",
+      "ts": "2026-11-07T15:29:15.576Z",
       "schemaVersion": 1,
       "actor": {
         "agentId": "baseline-ux2-1",
@@ -876,14 +1162,27 @@
       "payload": {
         "stepIndex": 2,
         "url": "http://janus-f16-app:3100/register",
-        "durationMs": 169.3905999999988
+        "durationMs": 167.41259999999602,
+        "texts": [
+          "ShopLab",
+          "Tienda",
+          "Carrito",
+          "Entrar",
+          "Crear cuenta",
+          "Nombre",
+          "Email",
+          "Contraseña (mínimo 8 caracteres)",
+          "Dirección de envío",
+          "¿Ya tienes cuenta?",
+          "Entra"
+        ]
       }
     },
     {
-      "id": "01M6RJV181544257VPN6JK31QZ",
+      "id": "01M6VA1MST60QY970EDXP7WKB3",
       "runId": "01JC0F16FXF0000000000000AA",
       "seq": 43,
-      "ts": "2026-11-06T14:05:12.833Z",
+      "ts": "2026-11-07T15:29:15.578Z",
       "schemaVersion": 1,
       "actor": {
         "agentId": "baseline-ux2-1",
@@ -899,10 +1198,10 @@
       }
     },
     {
-      "id": "01M6RJV1DB5E8SA43B04GDGZRZ",
+      "id": "01M6VA1MZ5G6N2SS2M6XGQCDVJ",
       "runId": "01JC0F16FXF0000000000000AA",
       "seq": 44,
-      "ts": "2026-11-06T14:05:13.003Z",
+      "ts": "2026-11-07T15:29:15.749Z",
       "schemaVersion": 1,
       "actor": {
         "agentId": "baseline-ux2-1",
@@ -912,7 +1211,7 @@
       "payload": {
         "stepIndex": 3,
         "action": "type",
-        "durationMs": 103.59080000000176,
+        "durationMs": 103.7815000000046,
         "ok": true,
         "ref": "e20",
         "selector": "role=textbox[name=\"Contraseña (mínimo 8 caracteres)\"]",
@@ -925,10 +1224,10 @@
       }
     },
     {
-      "id": "01M6RJV1DB0CSDKG760AJVEY5Z",
+      "id": "01M6VA1MZ5SRKCRRKMFXZFXEZS",
       "runId": "01JC0F16FXF0000000000000AA",
       "seq": 45,
-      "ts": "2026-11-06T14:05:13.003Z",
+      "ts": "2026-11-07T15:29:15.749Z",
       "schemaVersion": 1,
       "actor": {
         "agentId": "baseline-ux2-1",
@@ -938,14 +1237,27 @@
       "payload": {
         "stepIndex": 3,
         "url": "http://janus-f16-app:3100/register",
-        "durationMs": 170.3037000000004
+        "durationMs": 170.8353999999963,
+        "texts": [
+          "ShopLab",
+          "Tienda",
+          "Carrito",
+          "Entrar",
+          "Crear cuenta",
+          "Nombre",
+          "Email",
+          "Contraseña (mínimo 8 caracteres)",
+          "Dirección de envío",
+          "¿Ya tienes cuenta?",
+          "Entra"
+        ]
       }
     },
     {
-      "id": "01M6RJV1DD40D2V6QQ4R7SWRXW",
+      "id": "01M6VA1MZ7FJHHZYNKS3D5JD6G",
       "runId": "01JC0F16FXF0000000000000AA",
       "seq": 46,
-      "ts": "2026-11-06T14:05:13.005Z",
+      "ts": "2026-11-07T15:29:15.751Z",
       "schemaVersion": 1,
       "actor": {
         "agentId": "baseline-ux2-1",
@@ -961,10 +1273,10 @@
       }
     },
     {
-      "id": "01M6RJV1JPVH9GHZFT033A07BT",
+      "id": "01M6VA1N4GEBVK4X7WV53457EB",
       "runId": "01JC0F16FXF0000000000000AA",
       "seq": 47,
-      "ts": "2026-11-06T14:05:13.174Z",
+      "ts": "2026-11-07T15:29:15.920Z",
       "schemaVersion": 1,
       "actor": {
         "agentId": "baseline-ux2-1",
@@ -974,7 +1286,7 @@
       "payload": {
         "stepIndex": 4,
         "action": "type",
-        "durationMs": 102.1313999999984,
+        "durationMs": 102.73559999999998,
         "ok": true,
         "ref": "e21",
         "selector": "role=textbox[name=\"Dirección de envío\"]",
@@ -987,10 +1299,10 @@
       }
     },
     {
-      "id": "01M6RJV1JQAZFS0HTQMPPB1C69",
+      "id": "01M6VA1N4GRKA6H9CV2AJPC21C",
       "runId": "01JC0F16FXF0000000000000AA",
       "seq": 48,
-      "ts": "2026-11-06T14:05:13.175Z",
+      "ts": "2026-11-07T15:29:15.920Z",
       "schemaVersion": 1,
       "actor": {
         "agentId": "baseline-ux2-1",
@@ -1000,14 +1312,27 @@
       "payload": {
         "stepIndex": 4,
         "url": "http://janus-f16-app:3100/register",
-        "durationMs": 168.97090000000026
+        "durationMs": 168.9652999999962,
+        "texts": [
+          "ShopLab",
+          "Tienda",
+          "Carrito",
+          "Entrar",
+          "Crear cuenta",
+          "Nombre",
+          "Email",
+          "Contraseña (mínimo 8 caracteres)",
+          "Dirección de envío",
+          "¿Ya tienes cuenta?",
+          "Entra"
+        ]
       }
     },
     {
-      "id": "01M6RJV1JRXJ0N972PC5HKWNSM",
+      "id": "01M6VA1N4J8SBF7GG693CBZ6YV",
       "runId": "01JC0F16FXF0000000000000AA",
       "seq": 49,
-      "ts": "2026-11-06T14:05:13.176Z",
+      "ts": "2026-11-07T15:29:15.922Z",
       "schemaVersion": 1,
       "actor": {
         "agentId": "baseline-ux2-1",
@@ -1023,10 +1348,10 @@
       }
     },
     {
-      "id": "01M6RJV2EA1QMZ0QFQ2C7R1Q0Q",
+      "id": "01M6VA1NZC4KN9967M6RN3VDN5",
       "runId": "01JC0F16FXF0000000000000AA",
       "seq": 50,
-      "ts": "2026-11-06T14:05:14.058Z",
+      "ts": "2026-11-07T15:29:16.780Z",
       "schemaVersion": 1,
       "actor": {
         "agentId": "baseline-ux2-1",
@@ -1036,7 +1361,7 @@
       "payload": {
         "stepIndex": 5,
         "action": "click",
-        "durationMs": 815.6793999999973,
+        "durationMs": 790.7338999999993,
         "ok": true,
         "ref": "e22",
         "selector": "role=button[name=\"Crear cuenta\"]",
@@ -1050,10 +1375,10 @@
       }
     },
     {
-      "id": "01M6RJV2EA76ZDKA4MXS8S1D0R",
+      "id": "01M6VA1NZC9JX3EDPD77YSMG18",
       "runId": "01JC0F16FXF0000000000000AA",
       "seq": 51,
-      "ts": "2026-11-06T14:05:14.058Z",
+      "ts": "2026-11-07T15:29:16.780Z",
       "schemaVersion": 1,
       "actor": {
         "agentId": "baseline-ux2-1",
@@ -1063,14 +1388,27 @@
       "payload": {
         "stepIndex": 5,
         "url": "http://janus-f16-app:3100/register",
-        "durationMs": 881.1640000000007
+        "durationMs": 857.7176999999938,
+        "texts": [
+          "ShopLab",
+          "Tienda",
+          "Carrito",
+          "Entrar",
+          "Crear cuenta",
+          "Nombre",
+          "Email",
+          "Contraseña (mínimo 8 caracteres)",
+          "Dirección de envío",
+          "¿Ya tienes cuenta?",
+          "Entra"
+        ]
       }
     },
     {
-      "id": "01M6RJV2EB61M9X5B2BZA68KR5",
+      "id": "01M6VA1NZEAS50PVX1AWZGSNT1",
       "runId": "01JC0F16FXF0000000000000AA",
       "seq": 52,
-      "ts": "2026-11-06T14:05:14.059Z",
+      "ts": "2026-11-07T15:29:16.782Z",
       "schemaVersion": 1,
       "actor": {
         "agentId": "baseline-ux2-1",
@@ -1086,10 +1424,10 @@
       }
     },
     {
-      "id": "01M6RJV34D993R8M7TFW987DNZ",
+      "id": "01M6VA1PQ5G3YPRZF7ZGHEVF3N",
       "runId": "01JC0F16FXF0000000000000AA",
       "seq": 53,
-      "ts": "2026-11-06T14:05:14.765Z",
+      "ts": "2026-11-07T15:29:17.541Z",
       "schemaVersion": 1,
       "actor": {
         "agentId": "baseline-ux2-1",
@@ -1099,7 +1437,7 @@
       "payload": {
         "stepIndex": 6,
         "action": "click",
-        "durationMs": 637.0570999999982,
+        "durationMs": 690.0968999999968,
         "ok": true,
         "ref": "e17",
         "selector": "role=link[name=\"Taza de cerámica\"]",
@@ -1113,10 +1451,10 @@
       }
     },
     {
-      "id": "01M6RJV34DEYEP0RANW1HSS7JZ",
+      "id": "01M6VA1PQ5A5JVMV04E4CZH2A5",
       "runId": "01JC0F16FXF0000000000000AA",
       "seq": 54,
-      "ts": "2026-11-06T14:05:14.765Z",
+      "ts": "2026-11-07T15:29:17.541Z",
       "schemaVersion": 1,
       "actor": {
         "agentId": "baseline-ux2-1",
@@ -1126,14 +1464,56 @@
       "payload": {
         "stepIndex": 6,
         "url": "http://janus-f16-app:3100/",
-        "durationMs": 705.3217000000004
+        "durationMs": 758.9001999999964,
+        "texts": [
+          "ShopLab",
+          "Tienda",
+          "Carrito",
+          "Mis pedidos",
+          "Salir",
+          "Catálogo",
+          "Agenda semanal 2027",
+          "13,90 €",
+          "50 en stock",
+          "Alfombrilla de ratón XL",
+          "14,90 €",
+          "35 en stock",
+          "Auriculares con cable",
+          "15,90 €",
+          "25 en stock",
+          "Bolígrafo de gel (pack 3)",
+          "4,50 €",
+          "100 en stock",
+          "Botella de acero 750 ml",
+          "19,90 €",
+          "30 en stock",
+          "Cuaderno A5 punteado",
+          "9,90 €",
+          "60 en stock",
+          "Lámpara de escritorio LED",
+          "34,90 €",
+          "12 en stock",
+          "Mochila urbana 20 L",
+          "49,90 €",
+          "15 en stock",
+          "Planta artificial pequeña",
+          "8,90 €",
+          "Agotado",
+          "Set de acuarelas (12 colores)",
+          "22,90 €",
+          "20 en stock",
+          "Soporte para portátil",
+          "27,90 €",
+          "18 en stock",
+          "Taza de cerámica"
+        ]
       }
     },
     {
-      "id": "01M6RJV34F6TAKYR8FTC7KTX9P",
+      "id": "01M6VA1PQ736SV7MKKZ879QK0N",
       "runId": "01JC0F16FXF0000000000000AA",
       "seq": 55,
-      "ts": "2026-11-06T14:05:14.767Z",
+      "ts": "2026-11-07T15:29:17.543Z",
       "schemaVersion": 1,
       "actor": {
         "agentId": "baseline-ux2-1",
@@ -1149,10 +1529,10 @@
       }
     },
     {
-      "id": "01M6RJV3X1CY3EZXYB1ZBHZ9NX",
+      "id": "01M6VA1QG87GF7TY0M952VZVGG",
       "runId": "01JC0F16FXF0000000000000AA",
       "seq": 56,
-      "ts": "2026-11-06T14:05:15.553Z",
+      "ts": "2026-11-07T15:29:18.345Z",
       "schemaVersion": 1,
       "actor": {
         "agentId": "baseline-ux2-1",
@@ -1162,7 +1542,7 @@
       "payload": {
         "stepIndex": 7,
         "action": "click",
-        "durationMs": 719.0120999999999,
+        "durationMs": 732.1766000000061,
         "ok": true,
         "ref": "e27",
         "selector": "role=button[name=\"Añadir al carrito\"]",
@@ -1176,10 +1556,10 @@
       }
     },
     {
-      "id": "01M6RJV3X14E9XBYHHB8VVNFVA",
+      "id": "01M6VA1QG9KSJTQ2D8NMKSF87Z",
       "runId": "01JC0F16FXF0000000000000AA",
       "seq": 57,
-      "ts": "2026-11-06T14:05:15.553Z",
+      "ts": "2026-11-07T15:29:18.345Z",
       "schemaVersion": 1,
       "actor": {
         "agentId": "baseline-ux2-1",
@@ -1189,14 +1569,31 @@
       "payload": {
         "stepIndex": 7,
         "url": "http://janus-f16-app:3100/products/taza-ceramica",
-        "durationMs": 786.2551999999996
+        "durationMs": 801.2070999999996,
+        "texts": [
+          "ShopLab",
+          "Tienda",
+          "Carrito",
+          "Mis pedidos",
+          "Salir",
+          "Taza de cerámica",
+          "Taza de 350 ml apta para lavavajillas.",
+          "12,90 €",
+          "Cantidad",
+          "Añadir al carrito",
+          "Reseñas",
+          "Ana Prueba · 4/5 Muy contento con la compra. — Ana Prueba",
+          "Nota",
+          "Tu reseña",
+          "Publicar reseña"
+        ]
       }
     },
     {
-      "id": "01M6RJV3X3M2AEFH1A6STV1B1Q",
+      "id": "01M6VA1QGA5S5DMM2621TR2K4N",
       "runId": "01JC0F16FXF0000000000000AA",
       "seq": 58,
-      "ts": "2026-11-06T14:05:15.555Z",
+      "ts": "2026-11-07T15:29:18.346Z",
       "schemaVersion": 1,
       "actor": {
         "agentId": "baseline-ux2-1",
@@ -1212,10 +1609,10 @@
       }
     },
     {
-      "id": "01M6RJV44E52T1WVGB40PJWZ14",
+      "id": "01M6VA1QR5V9DCCAM8KC4MV9P3",
       "runId": "01JC0F16FXF0000000000000AA",
       "seq": 59,
-      "ts": "2026-11-06T14:05:15.790Z",
+      "ts": "2026-11-07T15:29:18.597Z",
       "schemaVersion": 1,
       "actor": {
         "agentId": "baseline-ux2-1",
@@ -1225,7 +1622,7 @@
       "payload": {
         "stepIndex": 8,
         "action": "click",
-        "durationMs": 165.12569999999687,
+        "durationMs": 182.20930000000226,
         "ok": true,
         "ref": "e34",
         "selector": "role=link[name=\"Otras opciones\"]",
@@ -1239,10 +1636,10 @@
       }
     },
     {
-      "id": "01M6RJV44ECJMN3YKWYG0GAYA8",
+      "id": "01M6VA1QR5DFJCR2H74JSJYDQE",
       "runId": "01JC0F16FXF0000000000000AA",
       "seq": 60,
-      "ts": "2026-11-06T14:05:15.790Z",
+      "ts": "2026-11-07T15:29:18.597Z",
       "schemaVersion": 1,
       "actor": {
         "agentId": "baseline-ux2-1",
@@ -1252,14 +1649,36 @@
       "payload": {
         "stepIndex": 8,
         "url": "http://janus-f16-app:3100/cart",
-        "durationMs": 234.3080000000009
+        "durationMs": 250.24350000000413,
+        "texts": [
+          "ShopLab",
+          "Tienda",
+          "Carrito",
+          "Mis pedidos",
+          "Salir",
+          "Productos del carrito",
+          "Producto",
+          "Precio",
+          "Cantidad",
+          "Quitar",
+          "Taza de cerámica",
+          "12,90 €",
+          "Cantidad de Taza de cerámica",
+          "Actualizar",
+          "Quitar Taza de cerámica",
+          "Otras opciones",
+          "Totales",
+          "Subtotal",
+          "Total",
+          "Ir a pagar"
+        ]
       }
     },
     {
-      "id": "01M6RJV44FRBAHMWFWC126QH8D",
+      "id": "01M6VA1QR72NTKAQ4F3D31V7JN",
       "runId": "01JC0F16FXF0000000000000AA",
       "seq": 61,
-      "ts": "2026-11-06T14:05:15.791Z",
+      "ts": "2026-11-07T15:29:18.599Z",
       "schemaVersion": 1,
       "actor": {
         "agentId": "baseline-ux2-1",
@@ -1275,10 +1694,10 @@
       }
     },
     {
-      "id": "01M6RJV49PD6A94D02JNJRMEYP",
+      "id": "01M6VA1QW90RBGV334ZEHZ1AH9",
       "runId": "01JC0F16FXF0000000000000AA",
       "seq": 62,
-      "ts": "2026-11-06T14:05:15.958Z",
+      "ts": "2026-11-07T15:29:18.729Z",
       "schemaVersion": 1,
       "actor": {
         "agentId": "baseline-ux2-1",
@@ -1288,7 +1707,7 @@
       "payload": {
         "stepIndex": 9,
         "action": "type",
-        "durationMs": 99.12799999999697,
+        "durationMs": 62.35370000000694,
         "ok": true,
         "ref": "e36",
         "selector": "role=textbox[name=\"Código del cupón\"]",
@@ -1301,10 +1720,10 @@
       }
     },
     {
-      "id": "01M6RJV49PP71BQ95A3ABZCNMR",
+      "id": "01M6VA1QW9QBFC1FZKTE66FZC7",
       "runId": "01JC0F16FXF0000000000000AA",
       "seq": 63,
-      "ts": "2026-11-06T14:05:15.958Z",
+      "ts": "2026-11-07T15:29:18.729Z",
       "schemaVersion": 1,
       "actor": {
         "agentId": "baseline-ux2-1",
@@ -1314,14 +1733,38 @@
       "payload": {
         "stepIndex": 9,
         "url": "http://janus-f16-app:3100/cart",
-        "durationMs": 165.97340000000258
+        "durationMs": 130.26259999999456,
+        "texts": [
+          "ShopLab",
+          "Tienda",
+          "Carrito",
+          "Mis pedidos",
+          "Salir",
+          "Productos del carrito",
+          "Producto",
+          "Precio",
+          "Cantidad",
+          "Quitar",
+          "Taza de cerámica",
+          "12,90 €",
+          "Cantidad de Taza de cerámica",
+          "Actualizar",
+          "Quitar Taza de cerámica",
+          "Otras opciones",
+          "Código del cupón",
+          "Aplicar cupón",
+          "Totales",
+          "Subtotal",
+          "Total",
+          "Ir a pagar"
+        ]
       }
     },
     {
-      "id": "01M6RJV49QAHNTWRS71QCM1VYA",
+      "id": "01M6VA1QWBP3J28XJP1Y8PZ2E7",
       "runId": "01JC0F16FXF0000000000000AA",
       "seq": 64,
-      "ts": "2026-11-06T14:05:15.959Z",
+      "ts": "2026-11-07T15:29:18.731Z",
       "schemaVersion": 1,
       "actor": {
         "agentId": "baseline-ux2-1",
@@ -1337,10 +1780,10 @@
       }
     },
     {
-      "id": "01M6RJV51MNKRV4DQEPC1Z5X4H",
+      "id": "01M6VA1RPZ9GH74YS2MFC8203F",
       "runId": "01JC0F16FXF0000000000000AA",
       "seq": 65,
-      "ts": "2026-11-06T14:05:16.724Z",
+      "ts": "2026-11-07T15:29:19.583Z",
       "schemaVersion": 1,
       "actor": {
         "agentId": "baseline-ux2-1",
@@ -1350,7 +1793,7 @@
       "payload": {
         "stepIndex": 10,
         "action": "click",
-        "durationMs": 699.0839000000051,
+        "durationMs": 783.2809000000052,
         "ok": true,
         "ref": "e37",
         "selector": "role=button[name=\"Aplicar cupón\"]",
@@ -1364,10 +1807,10 @@
       }
     },
     {
-      "id": "01M6RJV51MKRH4074FD6SH233A",
+      "id": "01M6VA1RPZT40R968E5KC4FSQ1",
       "runId": "01JC0F16FXF0000000000000AA",
       "seq": 66,
-      "ts": "2026-11-06T14:05:16.724Z",
+      "ts": "2026-11-07T15:29:19.583Z",
       "schemaVersion": 1,
       "actor": {
         "agentId": "baseline-ux2-1",
@@ -1377,14 +1820,38 @@
       "payload": {
         "stepIndex": 10,
         "url": "http://janus-f16-app:3100/cart",
-        "durationMs": 764.7684000000008
+        "durationMs": 851.0146999999997,
+        "texts": [
+          "ShopLab",
+          "Tienda",
+          "Carrito",
+          "Mis pedidos",
+          "Salir",
+          "Productos del carrito",
+          "Producto",
+          "Precio",
+          "Cantidad",
+          "Quitar",
+          "Taza de cerámica",
+          "12,90 €",
+          "Cantidad de Taza de cerámica",
+          "Actualizar",
+          "Quitar Taza de cerámica",
+          "Otras opciones",
+          "Código del cupón",
+          "Aplicar cupón",
+          "Totales",
+          "Subtotal",
+          "Total",
+          "Ir a pagar"
+        ]
       }
     },
     {
-      "id": "01M6RJV51PP1D9X3W5MMD3PTYA",
+      "id": "01M6VA1RQ1GC4BX09XA0E9385Q",
       "runId": "01JC0F16FXF0000000000000AA",
       "seq": 67,
-      "ts": "2026-11-06T14:05:16.726Z",
+      "ts": "2026-11-07T15:29:19.585Z",
       "schemaVersion": 1,
       "actor": {
         "agentId": "baseline-ux2-1",
@@ -1400,10 +1867,10 @@
       }
     },
     {
-      "id": "01M6RJV53TVSQNBCCA8SKT81D6",
+      "id": "01M6VA1RS4P8E6VNBG1ZKSF8VD",
       "runId": "01JC0F16FXF0000000000000AA",
       "seq": 68,
-      "ts": "2026-11-06T14:05:16.794Z",
+      "ts": "2026-11-07T15:29:19.652Z",
       "schemaVersion": 1,
       "actor": {
         "agentId": "baseline-ux2-1",
@@ -1413,15 +1880,15 @@
       "payload": {
         "stepIndex": 11,
         "action": "done",
-        "durationMs": 0.027000000001862645,
+        "durationMs": 0.03570000000036089,
         "ok": true
       }
     },
     {
-      "id": "01M6RJV53TQZC2YHF2MM7VCR1V",
+      "id": "01M6VA1RS481M7T1VXQ5PA8RWE",
       "runId": "01JC0F16FXF0000000000000AA",
       "seq": 69,
-      "ts": "2026-11-06T14:05:16.794Z",
+      "ts": "2026-11-07T15:29:19.652Z",
       "schemaVersion": 1,
       "actor": {
         "agentId": "baseline-ux2-1",
@@ -1431,14 +1898,40 @@
       "payload": {
         "stepIndex": 11,
         "url": "http://janus-f16-app:3100/cart",
-        "durationMs": 67.09790000000066
+        "durationMs": 66.63870000000315,
+        "texts": [
+          "ShopLab",
+          "Tienda",
+          "Carrito",
+          "Mis pedidos",
+          "Salir",
+          "Productos del carrito",
+          "Producto",
+          "Precio",
+          "Cantidad",
+          "Quitar",
+          "Taza de cerámica",
+          "12,90 €",
+          "Cantidad de Taza de cerámica",
+          "Actualizar",
+          "Quitar Taza de cerámica",
+          "Cupón BIENVENIDA10 aplicado (−10 %).",
+          "Quitar cupón",
+          "Totales",
+          "Subtotal",
+          "Descuento (BIENVENIDA10)",
+          "−1,29 €",
+          "Total",
+          "11,61 €",
+          "Ir a pagar"
+        ]
       }
     },
     {
-      "id": "01M6RJV53WKDZSTSF64WZ6VRNC",
+      "id": "01M6VA1RS5K08Q690WZ14X0V1S",
       "runId": "01JC0F16FXF0000000000000AA",
       "seq": 70,
-      "ts": "2026-11-06T14:05:16.796Z",
+      "ts": "2026-11-07T15:29:19.653Z",
       "schemaVersion": 1,
       "actor": {
         "agentId": "baseline-ux2-1",
@@ -1454,10 +1947,10 @@
       }
     },
     {
-      "id": "01M6RJV53WAGENNS5G718EFFRC",
+      "id": "01M6VA1RS644RZ49CAJNPZRKY8",
       "runId": "01JC0F16FXF0000000000000AA",
       "seq": 71,
-      "ts": "2026-11-06T14:05:16.796Z",
+      "ts": "2026-11-07T15:29:19.654Z",
       "schemaVersion": 1,
       "actor": {
         "agentId": "baseline-ux2-1",
@@ -1468,14 +1961,14 @@
         "outcome": "success",
         "steps": 12,
         "reason": "Cupón aplicado.",
-        "durationMs": 6029.5302999999985
+        "durationMs": 6069.442999999999
       }
     },
     {
-      "id": "01M6RJV6SFFX9D83573BT29CQ2",
+      "id": "01M6VA1TDVCNXB8WF1VHHKBZ1G",
       "runId": "01JC0F16FXF0000000000000AA",
       "seq": 72,
-      "ts": "2026-11-06T14:05:18.511Z",
+      "ts": "2026-11-07T15:29:21.339Z",
       "schemaVersion": 1,
       "actor": {
         "agentId": "probe-ux2-2",
@@ -1485,7 +1978,7 @@
       "payload": {
         "stepIndex": 0,
         "action": "click",
-        "durationMs": 674.8960999999981,
+        "durationMs": 689.5064999999959,
         "ok": true,
         "ref": "e5",
         "selector": "role=link[name=\"Crear cuenta\"]",
@@ -1499,10 +1992,10 @@
       }
     },
     {
-      "id": "01M6RJV6SF7EF3VNGHNXNY86VB",
+      "id": "01M6VA1TDV14CX5T8E84CEMEMM",
       "runId": "01JC0F16FXF0000000000000AA",
       "seq": 73,
-      "ts": "2026-11-06T14:05:18.511Z",
+      "ts": "2026-11-07T15:29:21.339Z",
       "schemaVersion": 1,
       "actor": {
         "agentId": "probe-ux2-2",
@@ -1512,14 +2005,56 @@
       "payload": {
         "stepIndex": 0,
         "url": "http://janus-f16-app:3100/",
-        "durationMs": 1396.3890000000029
+        "durationMs": 1413.5753999999943,
+        "texts": [
+          "ShopLab",
+          "Tienda",
+          "Carrito",
+          "Entrar",
+          "Crear cuenta",
+          "Catálogo",
+          "Agenda semanal 2027",
+          "13,90 €",
+          "50 en stock",
+          "Alfombrilla de ratón XL",
+          "14,90 €",
+          "35 en stock",
+          "Auriculares con cable",
+          "15,90 €",
+          "25 en stock",
+          "Bolígrafo de gel (pack 3)",
+          "4,50 €",
+          "100 en stock",
+          "Botella de acero 750 ml",
+          "19,90 €",
+          "30 en stock",
+          "Cuaderno A5 punteado",
+          "9,90 €",
+          "60 en stock",
+          "Lámpara de escritorio LED",
+          "34,90 €",
+          "12 en stock",
+          "Mochila urbana 20 L",
+          "49,90 €",
+          "15 en stock",
+          "Planta artificial pequeña",
+          "8,90 €",
+          "Agotado",
+          "Set de acuarelas (12 colores)",
+          "22,90 €",
+          "20 en stock",
+          "Soporte para portátil",
+          "27,90 €",
+          "18 en stock",
+          "Taza de cerámica"
+        ]
       }
     },
     {
-      "id": "01M6RJV6SH3K319D9FG8S97ZDR",
+      "id": "01M6VA1TDXMWMWAT1YXM63N1E8",
       "runId": "01JC0F16FXF0000000000000AA",
       "seq": 74,
-      "ts": "2026-11-06T14:05:18.513Z",
+      "ts": "2026-11-07T15:29:21.341Z",
       "schemaVersion": 1,
       "actor": {
         "agentId": "probe-ux2-2",
@@ -1535,10 +2070,10 @@
       }
     },
     {
-      "id": "01M6RJV6YVJYPQWJ2G234GH1T2",
+      "id": "01M6VA1TK4J0JHYVCBGSKC1F9T",
       "runId": "01JC0F16FXF0000000000000AA",
       "seq": 75,
-      "ts": "2026-11-06T14:05:18.683Z",
+      "ts": "2026-11-07T15:29:21.508Z",
       "schemaVersion": 1,
       "actor": {
         "agentId": "probe-ux2-2",
@@ -1548,7 +2083,7 @@
       "payload": {
         "stepIndex": 1,
         "action": "type",
-        "durationMs": 101.24920000000566,
+        "durationMs": 100.56999999999971,
         "ok": true,
         "ref": "e18",
         "selector": "role=textbox[name=\"Nombre\"]",
@@ -1561,10 +2096,10 @@
       }
     },
     {
-      "id": "01M6RJV6YVNAE30CAEQTKA1TSZ",
+      "id": "01M6VA1TK5P6QFZPPVQ1F0EYTK",
       "runId": "01JC0F16FXF0000000000000AA",
       "seq": 76,
-      "ts": "2026-11-06T14:05:18.683Z",
+      "ts": "2026-11-07T15:29:21.509Z",
       "schemaVersion": 1,
       "actor": {
         "agentId": "probe-ux2-2",
@@ -1574,14 +2109,27 @@
       "payload": {
         "stepIndex": 1,
         "url": "http://janus-f16-app:3100/register",
-        "durationMs": 169.60329999999522
+        "durationMs": 167.3171000000002,
+        "texts": [
+          "ShopLab",
+          "Tienda",
+          "Carrito",
+          "Entrar",
+          "Crear cuenta",
+          "Nombre",
+          "Email",
+          "Contraseña (mínimo 8 caracteres)",
+          "Dirección de envío",
+          "¿Ya tienes cuenta?",
+          "Entra"
+        ]
       }
     },
     {
-      "id": "01M6RJV6YXQ4R0YX7PFP2TNG5R",
+      "id": "01M6VA1TK6ZJBF1AP7EMG15P0W",
       "runId": "01JC0F16FXF0000000000000AA",
       "seq": 77,
-      "ts": "2026-11-06T14:05:18.685Z",
+      "ts": "2026-11-07T15:29:21.510Z",
       "schemaVersion": 1,
       "actor": {
         "agentId": "probe-ux2-2",
@@ -1597,10 +2145,10 @@
       }
     },
     {
-      "id": "01M6RJV746WMVDTFTCZWB2YA7X",
+      "id": "01M6VA1TRGGT7EX2SDPKJ4K9ZJ",
       "runId": "01JC0F16FXF0000000000000AA",
       "seq": 78,
-      "ts": "2026-11-06T14:05:18.854Z",
+      "ts": "2026-11-07T15:29:21.680Z",
       "schemaVersion": 1,
       "actor": {
         "agentId": "probe-ux2-2",
@@ -1610,7 +2158,7 @@
       "payload": {
         "stepIndex": 2,
         "action": "type",
-        "durationMs": 101.3530000000028,
+        "durationMs": 103.16250000000582,
         "ok": true,
         "ref": "e19",
         "selector": "role=textbox[name=\"Email\"]",
@@ -1623,10 +2171,10 @@
       }
     },
     {
-      "id": "01M6RJV746DZGFF5PARTYPB1GG",
+      "id": "01M6VA1TRGPA2V1YGPEP7QW4NN",
       "runId": "01JC0F16FXF0000000000000AA",
       "seq": 79,
-      "ts": "2026-11-06T14:05:18.854Z",
+      "ts": "2026-11-07T15:29:21.680Z",
       "schemaVersion": 1,
       "actor": {
         "agentId": "probe-ux2-2",
@@ -1636,14 +2184,27 @@
       "payload": {
         "stepIndex": 2,
         "url": "http://janus-f16-app:3100/register",
-        "durationMs": 168.6530999999959
+        "durationMs": 169.6090999999942,
+        "texts": [
+          "ShopLab",
+          "Tienda",
+          "Carrito",
+          "Entrar",
+          "Crear cuenta",
+          "Nombre",
+          "Email",
+          "Contraseña (mínimo 8 caracteres)",
+          "Dirección de envío",
+          "¿Ya tienes cuenta?",
+          "Entra"
+        ]
       }
     },
     {
-      "id": "01M6RJV748TKQNB80JFRB74015",
+      "id": "01M6VA1TRJVN54WNG2G2SE3FJ5",
       "runId": "01JC0F16FXF0000000000000AA",
       "seq": 80,
-      "ts": "2026-11-06T14:05:18.856Z",
+      "ts": "2026-11-07T15:29:21.682Z",
       "schemaVersion": 1,
       "actor": {
         "agentId": "probe-ux2-2",
@@ -1659,10 +2220,10 @@
       }
     },
     {
-      "id": "01M6RJV79KFTSW5XPRWE5NR26E",
+      "id": "01M6VA1TYX8ZD74V697NFC4Q5Q",
       "runId": "01JC0F16FXF0000000000000AA",
       "seq": 81,
-      "ts": "2026-11-06T14:05:19.027Z",
+      "ts": "2026-11-07T15:29:21.885Z",
       "schemaVersion": 1,
       "actor": {
         "agentId": "probe-ux2-2",
@@ -1672,7 +2233,7 @@
       "payload": {
         "stepIndex": 3,
         "action": "type",
-        "durationMs": 103.55659999999625,
+        "durationMs": 126.89130000000296,
         "ok": true,
         "ref": "e20",
         "selector": "role=textbox[name=\"Contraseña (mínimo 8 caracteres)\"]",
@@ -1685,10 +2246,10 @@
       }
     },
     {
-      "id": "01M6RJV79K1Q7HVZSHWWGKGPY0",
+      "id": "01M6VA1TYXTS9DFJJB64HY785T",
       "runId": "01JC0F16FXF0000000000000AA",
       "seq": 82,
-      "ts": "2026-11-06T14:05:19.027Z",
+      "ts": "2026-11-07T15:29:21.885Z",
       "schemaVersion": 1,
       "actor": {
         "agentId": "probe-ux2-2",
@@ -1698,14 +2259,27 @@
       "payload": {
         "stepIndex": 3,
         "url": "http://janus-f16-app:3100/register",
-        "durationMs": 170.25740000000224
+        "durationMs": 202.56319999999687,
+        "texts": [
+          "ShopLab",
+          "Tienda",
+          "Carrito",
+          "Entrar",
+          "Crear cuenta",
+          "Nombre",
+          "Email",
+          "Contraseña (mínimo 8 caracteres)",
+          "Dirección de envío",
+          "¿Ya tienes cuenta?",
+          "Entra"
+        ]
       }
     },
     {
-      "id": "01M6RJV79MMT39QWNZKS80SVF3",
+      "id": "01M6VA1TZ0D33Q9NGDWTSXQECZ",
       "runId": "01JC0F16FXF0000000000000AA",
       "seq": 83,
-      "ts": "2026-11-06T14:05:19.028Z",
+      "ts": "2026-11-07T15:29:21.888Z",
       "schemaVersion": 1,
       "actor": {
         "agentId": "probe-ux2-2",
@@ -1721,10 +2295,10 @@
       }
     },
     {
-      "id": "01M6RJV7EVPG658AQBW8E8CCJZ",
+      "id": "01M6VA1V4AY3HC8QHW3D8E25BC",
       "runId": "01JC0F16FXF0000000000000AA",
       "seq": 84,
-      "ts": "2026-11-06T14:05:19.195Z",
+      "ts": "2026-11-07T15:29:22.058Z",
       "schemaVersion": 1,
       "actor": {
         "agentId": "probe-ux2-2",
@@ -1734,7 +2308,7 @@
       "payload": {
         "stepIndex": 4,
         "action": "type",
-        "durationMs": 101.2207999999955,
+        "durationMs": 101.57979999999952,
         "ok": true,
         "ref": "e21",
         "selector": "role=textbox[name=\"Dirección de envío\"]",
@@ -1747,10 +2321,10 @@
       }
     },
     {
-      "id": "01M6RJV7EVDTDEAWBC9E3FFE2E",
+      "id": "01M6VA1V4A3AB0FMFZGPCZKK1Z",
       "runId": "01JC0F16FXF0000000000000AA",
       "seq": 85,
-      "ts": "2026-11-06T14:05:19.195Z",
+      "ts": "2026-11-07T15:29:22.058Z",
       "schemaVersion": 1,
       "actor": {
         "agentId": "probe-ux2-2",
@@ -1760,14 +2334,27 @@
       "payload": {
         "stepIndex": 4,
         "url": "http://janus-f16-app:3100/register",
-        "durationMs": 165.93570000000182
+        "durationMs": 169.20730000000185,
+        "texts": [
+          "ShopLab",
+          "Tienda",
+          "Carrito",
+          "Entrar",
+          "Crear cuenta",
+          "Nombre",
+          "Email",
+          "Contraseña (mínimo 8 caracteres)",
+          "Dirección de envío",
+          "¿Ya tienes cuenta?",
+          "Entra"
+        ]
       }
     },
     {
-      "id": "01M6RJV7EX49XY2E367WF5NXB6",
+      "id": "01M6VA1V4BV95FWVYRGP3SPK2Y",
       "runId": "01JC0F16FXF0000000000000AA",
       "seq": 86,
-      "ts": "2026-11-06T14:05:19.197Z",
+      "ts": "2026-11-07T15:29:22.059Z",
       "schemaVersion": 1,
       "actor": {
         "agentId": "probe-ux2-2",
@@ -1783,10 +2370,10 @@
       }
     },
     {
-      "id": "01M6RJV89FHV5ADXQBPBFCKJHS",
+      "id": "01M6VA1W31YR6RMQY9DXRYQNCZ",
       "runId": "01JC0F16FXF0000000000000AA",
       "seq": 87,
-      "ts": "2026-11-06T14:05:20.047Z",
+      "ts": "2026-11-07T15:29:23.041Z",
       "schemaVersion": 1,
       "actor": {
         "agentId": "probe-ux2-2",
@@ -1796,7 +2383,7 @@
       "payload": {
         "stepIndex": 5,
         "action": "click",
-        "durationMs": 784.0952999999936,
+        "durationMs": 913.6398000000045,
         "ok": true,
         "ref": "e22",
         "selector": "role=button[name=\"Crear cuenta\"]",
@@ -1810,10 +2397,10 @@
       }
     },
     {
-      "id": "01M6RJV89FT74RVG4G412ENGFG",
+      "id": "01M6VA1W31J829TR8S2KFQW4Y6",
       "runId": "01JC0F16FXF0000000000000AA",
       "seq": 88,
-      "ts": "2026-11-06T14:05:20.047Z",
+      "ts": "2026-11-07T15:29:23.041Z",
       "schemaVersion": 1,
       "actor": {
         "agentId": "probe-ux2-2",
@@ -1823,14 +2410,27 @@
       "payload": {
         "stepIndex": 5,
         "url": "http://janus-f16-app:3100/register",
-        "durationMs": 850.4315999999963
+        "durationMs": 981.3257000000012,
+        "texts": [
+          "ShopLab",
+          "Tienda",
+          "Carrito",
+          "Entrar",
+          "Crear cuenta",
+          "Nombre",
+          "Email",
+          "Contraseña (mínimo 8 caracteres)",
+          "Dirección de envío",
+          "¿Ya tienes cuenta?",
+          "Entra"
+        ]
       }
     },
     {
-      "id": "01M6RJV89HV24NBT8P1PP7SJ7F",
+      "id": "01M6VA1W33263K60T4Z6V7PN62",
       "runId": "01JC0F16FXF0000000000000AA",
       "seq": 89,
-      "ts": "2026-11-06T14:05:20.049Z",
+      "ts": "2026-11-07T15:29:23.043Z",
       "schemaVersion": 1,
       "actor": {
         "agentId": "probe-ux2-2",
@@ -1846,10 +2446,10 @@
       }
     },
     {
-      "id": "01M6RJV90ZN84GD4R19S32JDDF",
+      "id": "01M6VA1WTC1M95PRHS8SRD1RDQ",
       "runId": "01JC0F16FXF0000000000000AA",
       "seq": 90,
-      "ts": "2026-11-06T14:05:20.799Z",
+      "ts": "2026-11-07T15:29:23.788Z",
       "schemaVersion": 1,
       "actor": {
         "agentId": "probe-ux2-2",
@@ -1859,7 +2459,7 @@
       "payload": {
         "stepIndex": 6,
         "action": "click",
-        "durationMs": 680.3987000000052,
+        "durationMs": 675.3548999999985,
         "ok": true,
         "ref": "e17",
         "selector": "role=link[name=\"Taza de cerámica\"]",
@@ -1873,10 +2473,10 @@
       }
     },
     {
-      "id": "01M6RJV90ZKHD5REGMJV467KHM",
+      "id": "01M6VA1WTC3WARCVS5GEYBH9DY",
       "runId": "01JC0F16FXF0000000000000AA",
       "seq": 91,
-      "ts": "2026-11-06T14:05:20.799Z",
+      "ts": "2026-11-07T15:29:23.788Z",
       "schemaVersion": 1,
       "actor": {
         "agentId": "probe-ux2-2",
@@ -1886,14 +2486,56 @@
       "payload": {
         "stepIndex": 6,
         "url": "http://janus-f16-app:3100/",
-        "durationMs": 749.313599999994
+        "durationMs": 744.5986000000048,
+        "texts": [
+          "ShopLab",
+          "Tienda",
+          "Carrito",
+          "Mis pedidos",
+          "Salir",
+          "Catálogo",
+          "Agenda semanal 2027",
+          "13,90 €",
+          "50 en stock",
+          "Alfombrilla de ratón XL",
+          "14,90 €",
+          "35 en stock",
+          "Auriculares con cable",
+          "15,90 €",
+          "25 en stock",
+          "Bolígrafo de gel (pack 3)",
+          "4,50 €",
+          "100 en stock",
+          "Botella de acero 750 ml",
+          "19,90 €",
+          "30 en stock",
+          "Cuaderno A5 punteado",
+          "9,90 €",
+          "60 en stock",
+          "Lámpara de escritorio LED",
+          "34,90 €",
+          "12 en stock",
+          "Mochila urbana 20 L",
+          "49,90 €",
+          "15 en stock",
+          "Planta artificial pequeña",
+          "8,90 €",
+          "Agotado",
+          "Set de acuarelas (12 colores)",
+          "22,90 €",
+          "20 en stock",
+          "Soporte para portátil",
+          "27,90 €",
+          "18 en stock",
+          "Taza de cerámica"
+        ]
       }
     },
     {
-      "id": "01M6RJV911B9N8944JANGYJTN5",
+      "id": "01M6VA1WTEQSHZMN4F61F6TYBW",
       "runId": "01JC0F16FXF0000000000000AA",
       "seq": 92,
-      "ts": "2026-11-06T14:05:20.801Z",
+      "ts": "2026-11-07T15:29:23.790Z",
       "schemaVersion": 1,
       "actor": {
         "agentId": "probe-ux2-2",
@@ -1909,10 +2551,10 @@
       }
     },
     {
-      "id": "01M6RJV9SJF5G6GE2HSCVGKDC3",
+      "id": "01M6VA1XK2KYZ2ABXBH59Y8R51",
       "runId": "01JC0F16FXF0000000000000AA",
       "seq": 93,
-      "ts": "2026-11-06T14:05:21.586Z",
+      "ts": "2026-11-07T15:29:24.578Z",
       "schemaVersion": 1,
       "actor": {
         "agentId": "probe-ux2-2",
@@ -1922,7 +2564,7 @@
       "payload": {
         "stepIndex": 7,
         "action": "click",
-        "durationMs": 717.3116000000009,
+        "durationMs": 721.3868999999977,
         "ok": true,
         "ref": "e27",
         "selector": "role=button[name=\"Añadir al carrito\"]",
@@ -1936,10 +2578,10 @@
       }
     },
     {
-      "id": "01M6RJV9SJ07XHYB1JJWPMBT1Y",
+      "id": "01M6VA1XK2M3CQ45MEMTVZ9MA1",
       "runId": "01JC0F16FXF0000000000000AA",
       "seq": 94,
-      "ts": "2026-11-06T14:05:21.586Z",
+      "ts": "2026-11-07T15:29:24.578Z",
       "schemaVersion": 1,
       "actor": {
         "agentId": "probe-ux2-2",
@@ -1949,14 +2591,31 @@
       "payload": {
         "stepIndex": 7,
         "url": "http://janus-f16-app:3100/products/taza-ceramica",
-        "durationMs": 784.7459000000017
+        "durationMs": 787.9076999999961,
+        "texts": [
+          "ShopLab",
+          "Tienda",
+          "Carrito",
+          "Mis pedidos",
+          "Salir",
+          "Taza de cerámica",
+          "Taza de 350 ml apta para lavavajillas.",
+          "12,90 €",
+          "Cantidad",
+          "Añadir al carrito",
+          "Reseñas",
+          "Ana Prueba · 4/5 Muy contento con la compra. — Ana Prueba",
+          "Nota",
+          "Tu reseña",
+          "Publicar reseña"
+        ]
       }
     },
     {
-      "id": "01M6RJV9SMVQ4KFV2WJBVY7PE8",
+      "id": "01M6VA1XK4GZK0ZH5Z6Z83F0A7",
       "runId": "01JC0F16FXF0000000000000AA",
       "seq": 95,
-      "ts": "2026-11-06T14:05:21.588Z",
+      "ts": "2026-11-07T15:29:24.580Z",
       "schemaVersion": 1,
       "actor": {
         "agentId": "probe-ux2-2",
@@ -1972,10 +2631,10 @@
       }
     },
     {
-      "id": "01M6RJV9VTVN0Q4EKWDKYCZM2T",
+      "id": "01M6VA1XNC58Z5TSWZ7F7TA8SP",
       "runId": "01JC0F16FXF0000000000000AA",
       "seq": 96,
-      "ts": "2026-11-06T14:05:21.658Z",
+      "ts": "2026-11-07T15:29:24.652Z",
       "schemaVersion": 1,
       "actor": {
         "agentId": "probe-ux2-2",
@@ -1985,15 +2644,15 @@
       "payload": {
         "stepIndex": 8,
         "action": "scroll",
-        "durationMs": 2.364000000001397,
+        "durationMs": 3.2540999999982887,
         "ok": true
       }
     },
     {
-      "id": "01M6RJV9VT7X2904VJPTWZNQYD",
+      "id": "01M6VA1XNC0CR5B7YJ4QY6FQBE",
       "runId": "01JC0F16FXF0000000000000AA",
       "seq": 97,
-      "ts": "2026-11-06T14:05:21.658Z",
+      "ts": "2026-11-07T15:29:24.652Z",
       "schemaVersion": 1,
       "actor": {
         "agentId": "probe-ux2-2",
@@ -2003,14 +2662,36 @@
       "payload": {
         "stepIndex": 8,
         "url": "http://janus-f16-app:3100/cart",
-        "durationMs": 69.46190000000206
+        "durationMs": 70.78929999999673,
+        "texts": [
+          "ShopLab",
+          "Tienda",
+          "Carrito",
+          "Mis pedidos",
+          "Salir",
+          "Productos del carrito",
+          "Producto",
+          "Precio",
+          "Cantidad",
+          "Quitar",
+          "Taza de cerámica",
+          "12,90 €",
+          "Cantidad de Taza de cerámica",
+          "Actualizar",
+          "Quitar Taza de cerámica",
+          "Otras opciones",
+          "Totales",
+          "Subtotal",
+          "Total",
+          "Ir a pagar"
+        ]
       }
     },
     {
-      "id": "01M6RJV9VVMWTS98TJBBA59GZY",
+      "id": "01M6VA1XNDFQJR9QJZY7Y8AF2S",
       "runId": "01JC0F16FXF0000000000000AA",
       "seq": 98,
-      "ts": "2026-11-06T14:05:21.659Z",
+      "ts": "2026-11-07T15:29:24.653Z",
       "schemaVersion": 1,
       "actor": {
         "agentId": "probe-ux2-2",
@@ -2026,10 +2707,10 @@
       }
     },
     {
-      "id": "01M6RJV9XZYAH2YE63BXMK0MYY",
+      "id": "01M6VA1XQJJR9FA3MJGGP85QX8",
       "runId": "01JC0F16FXF0000000000000AA",
       "seq": 99,
-      "ts": "2026-11-06T14:05:21.727Z",
+      "ts": "2026-11-07T15:29:24.722Z",
       "schemaVersion": 1,
       "actor": {
         "agentId": "probe-ux2-2",
@@ -2039,15 +2720,15 @@
       "payload": {
         "stepIndex": 9,
         "action": "scroll",
-        "durationMs": 1.9893000000010943,
+        "durationMs": 1.7353000000002794,
         "ok": true
       }
     },
     {
-      "id": "01M6RJV9XZT4F9MH8W285GDK8F",
+      "id": "01M6VA1XQJA2STAV4CRYF4BD9R",
       "runId": "01JC0F16FXF0000000000000AA",
       "seq": 100,
-      "ts": "2026-11-06T14:05:21.727Z",
+      "ts": "2026-11-07T15:29:24.722Z",
       "schemaVersion": 1,
       "actor": {
         "agentId": "probe-ux2-2",
@@ -2057,14 +2738,36 @@
       "payload": {
         "stepIndex": 9,
         "url": "http://janus-f16-app:3100/cart",
-        "durationMs": 67.17259999999806
+        "durationMs": 67.88980000000447,
+        "texts": [
+          "ShopLab",
+          "Tienda",
+          "Carrito",
+          "Mis pedidos",
+          "Salir",
+          "Productos del carrito",
+          "Producto",
+          "Precio",
+          "Cantidad",
+          "Quitar",
+          "Taza de cerámica",
+          "12,90 €",
+          "Cantidad de Taza de cerámica",
+          "Actualizar",
+          "Quitar Taza de cerámica",
+          "Otras opciones",
+          "Totales",
+          "Subtotal",
+          "Total",
+          "Ir a pagar"
+        ]
       }
     },
     {
-      "id": "01M6RJV9Y1K9CZ537D31QABKF0",
+      "id": "01M6VA1XQK0XV5N07Z49XS0TKC",
       "runId": "01JC0F16FXF0000000000000AA",
       "seq": 101,
-      "ts": "2026-11-06T14:05:21.729Z",
+      "ts": "2026-11-07T15:29:24.723Z",
       "schemaVersion": 1,
       "actor": {
         "agentId": "probe-ux2-2",
@@ -2080,10 +2783,10 @@
       }
     },
     {
-      "id": "01M6RJVAND7N5FA5SXG277TNXQ",
+      "id": "01M6VA1YETVP3R308TVK0V6MZ9",
       "runId": "01JC0F16FXF0000000000000AA",
       "seq": 102,
-      "ts": "2026-11-06T14:05:22.477Z",
+      "ts": "2026-11-07T15:29:25.466Z",
       "schemaVersion": 1,
       "actor": {
         "agentId": "probe-ux2-2",
@@ -2093,7 +2796,7 @@
       "payload": {
         "stepIndex": 10,
         "action": "click",
-        "durationMs": 680.6796000000031,
+        "durationMs": 679.0253000000012,
         "ok": true,
         "ref": "e35",
         "selector": "role=link[name=\"Ir a pagar\"]",
@@ -2107,10 +2810,10 @@
       }
     },
     {
-      "id": "01M6RJVAND1H94C4W4MKFJKPAN",
+      "id": "01M6VA1YEV1AK1N1K0BF9DHDRH",
       "runId": "01JC0F16FXF0000000000000AA",
       "seq": 103,
-      "ts": "2026-11-06T14:05:22.477Z",
+      "ts": "2026-11-07T15:29:25.467Z",
       "schemaVersion": 1,
       "actor": {
         "agentId": "probe-ux2-2",
@@ -2120,14 +2823,36 @@
       "payload": {
         "stepIndex": 10,
         "url": "http://janus-f16-app:3100/cart",
-        "durationMs": 748.2596000000049
+        "durationMs": 742.9192000000039,
+        "texts": [
+          "ShopLab",
+          "Tienda",
+          "Carrito",
+          "Mis pedidos",
+          "Salir",
+          "Productos del carrito",
+          "Producto",
+          "Precio",
+          "Cantidad",
+          "Quitar",
+          "Taza de cerámica",
+          "12,90 €",
+          "Cantidad de Taza de cerámica",
+          "Actualizar",
+          "Quitar Taza de cerámica",
+          "Otras opciones",
+          "Totales",
+          "Subtotal",
+          "Total",
+          "Ir a pagar"
+        ]
       }
     },
     {
-      "id": "01M6RJVANF5ZF3GQVPEAM8W1ZE",
+      "id": "01M6VA1YEXPTVDH2F25F4J9XY6",
       "runId": "01JC0F16FXF0000000000000AA",
       "seq": 104,
-      "ts": "2026-11-06T14:05:22.479Z",
+      "ts": "2026-11-07T15:29:25.469Z",
       "schemaVersion": 1,
       "actor": {
         "agentId": "probe-ux2-2",
@@ -2143,10 +2868,10 @@
       }
     },
     {
-      "id": "01M6RJVBD22YM9DX7W4J4QAPC2",
+      "id": "01M6VA1Z6FM81EKFKXEQCS0PJP",
       "runId": "01JC0F16FXF0000000000000AA",
       "seq": 105,
-      "ts": "2026-11-06T14:05:23.234Z",
+      "ts": "2026-11-07T15:29:26.223Z",
       "schemaVersion": 1,
       "actor": {
         "agentId": "probe-ux2-2",
@@ -2156,7 +2881,7 @@
       "payload": {
         "stepIndex": 11,
         "action": "click",
-        "durationMs": 690.4478999999992,
+        "durationMs": 688.6733999999997,
         "ok": true,
         "ref": "e3",
         "selector": "role=link[name=\"Carrito\"]",
@@ -2170,10 +2895,10 @@
       }
     },
     {
-      "id": "01M6RJVBD2211AK7P04SAM6CHS",
+      "id": "01M6VA1Z6F400TKJ1328VX7G12",
       "runId": "01JC0F16FXF0000000000000AA",
       "seq": 106,
-      "ts": "2026-11-06T14:05:23.234Z",
+      "ts": "2026-11-07T15:29:26.223Z",
       "schemaVersion": 1,
       "actor": {
         "agentId": "probe-ux2-2",
@@ -2183,14 +2908,35 @@
       "payload": {
         "stepIndex": 11,
         "url": "http://janus-f16-app:3100/checkout",
-        "durationMs": 754.2422000000006
+        "durationMs": 753.5544000000009,
+        "texts": [
+          "ShopLab",
+          "Tienda",
+          "Carrito",
+          "Mis pedidos",
+          "Salir",
+          "Pago",
+          "Totales",
+          "Subtotal",
+          "12,90 €",
+          "Envío",
+          "4,99 €",
+          "Total",
+          "17,89 €",
+          "Dirección de envío",
+          "Método de pago",
+          "Pago simulado: no se cobra nada ni se piden datos bancarios.",
+          "Tarjeta de prueba (simulada)",
+          "Transferencia de prueba (simulada)",
+          "Confirmar pedido"
+        ]
       }
     },
     {
-      "id": "01M6RJVBD4YX59C1ZEH2DNQJGF",
+      "id": "01M6VA1Z6HW1NZZTWCCHZJ0RS7",
       "runId": "01JC0F16FXF0000000000000AA",
       "seq": 107,
-      "ts": "2026-11-06T14:05:23.236Z",
+      "ts": "2026-11-07T15:29:26.225Z",
       "schemaVersion": 1,
       "actor": {
         "agentId": "probe-ux2-2",
@@ -2206,10 +2952,10 @@
       }
     },
     {
-      "id": "01M6RJVBFAER3GY9QV38ZSRKAD",
+      "id": "01M6VA1Z8PKZ552ZGSJJY37014",
       "runId": "01JC0F16FXF0000000000000AA",
       "seq": 108,
-      "ts": "2026-11-06T14:05:23.306Z",
+      "ts": "2026-11-07T15:29:26.294Z",
       "schemaVersion": 1,
       "actor": {
         "agentId": "probe-ux2-2",
@@ -2219,15 +2965,15 @@
       "payload": {
         "stepIndex": 12,
         "action": "scroll",
-        "durationMs": 1.7654999999940628,
+        "durationMs": 1.8255000000062864,
         "ok": true
       }
     },
     {
-      "id": "01M6RJVBFAZ99ZJDD99N62K9JZ",
+      "id": "01M6VA1Z8PGZK0ZD1J799BCZFM",
       "runId": "01JC0F16FXF0000000000000AA",
       "seq": 109,
-      "ts": "2026-11-06T14:05:23.306Z",
+      "ts": "2026-11-07T15:29:26.294Z",
       "schemaVersion": 1,
       "actor": {
         "agentId": "probe-ux2-2",
@@ -2237,14 +2983,36 @@
       "payload": {
         "stepIndex": 12,
         "url": "http://janus-f16-app:3100/cart",
-        "durationMs": 69.53250000000116
+        "durationMs": 68.46169999999984,
+        "texts": [
+          "ShopLab",
+          "Tienda",
+          "Carrito",
+          "Mis pedidos",
+          "Salir",
+          "Productos del carrito",
+          "Producto",
+          "Precio",
+          "Cantidad",
+          "Quitar",
+          "Taza de cerámica",
+          "12,90 €",
+          "Cantidad de Taza de cerámica",
+          "Actualizar",
+          "Quitar Taza de cerámica",
+          "Otras opciones",
+          "Totales",
+          "Subtotal",
+          "Total",
+          "Ir a pagar"
+        ]
       }
     },
     {
-      "id": "01M6RJVBFCK1G9WSMW4843H54M",
+      "id": "01M6VA1Z8RX2HTNW6V2MC9SNHN",
       "runId": "01JC0F16FXF0000000000000AA",
       "seq": 110,
-      "ts": "2026-11-06T14:05:23.308Z",
+      "ts": "2026-11-07T15:29:26.296Z",
       "schemaVersion": 1,
       "actor": {
         "agentId": "probe-ux2-2",
@@ -2260,10 +3028,10 @@
       }
     },
     {
-      "id": "01M6RJVBG7AR46XQ4TQRB6XBZM",
+      "id": "01M6VA1Z9N5HW7AWQYBW7GF08M",
       "runId": "01JC0F16FXF0000000000000AA",
       "seq": 111,
-      "ts": "2026-11-06T14:05:23.335Z",
+      "ts": "2026-11-07T15:29:26.325Z",
       "schemaVersion": 1,
       "actor": {
         "agentId": "probe-ux2-2",
@@ -2278,10 +3046,10 @@
       }
     },
     {
-      "id": "01M6RJVBJC6RWHNNBZGXJP4GE8",
+      "id": "01M6VA1ZBSRPWWEE3NXA7640JE",
       "runId": "01JC0F16FXF0000000000000AA",
       "seq": 112,
-      "ts": "2026-11-06T14:05:23.404Z",
+      "ts": "2026-11-07T15:29:26.393Z",
       "schemaVersion": 1,
       "actor": {
         "agentId": "probe-ux2-2",
@@ -2291,15 +3059,15 @@
       "payload": {
         "stepIndex": 13,
         "action": "scroll",
-        "durationMs": 1.6965999999956694,
+        "durationMs": 1.6244999999980791,
         "ok": true
       }
     },
     {
-      "id": "01M6RJVBJC6Y4AA4452RF26DSV",
+      "id": "01M6VA1ZBS27J5P72AAX1QXWJM",
       "runId": "01JC0F16FXF0000000000000AA",
       "seq": 113,
-      "ts": "2026-11-06T14:05:23.404Z",
+      "ts": "2026-11-07T15:29:26.393Z",
       "schemaVersion": 1,
       "actor": {
         "agentId": "probe-ux2-2",
@@ -2309,14 +3077,36 @@
       "payload": {
         "stepIndex": 13,
         "url": "http://janus-f16-app:3100/cart",
-        "durationMs": 69.0688999999984
+        "durationMs": 68.01089999999385,
+        "texts": [
+          "ShopLab",
+          "Tienda",
+          "Carrito",
+          "Mis pedidos",
+          "Salir",
+          "Productos del carrito",
+          "Producto",
+          "Precio",
+          "Cantidad",
+          "Quitar",
+          "Taza de cerámica",
+          "12,90 €",
+          "Cantidad de Taza de cerámica",
+          "Actualizar",
+          "Quitar Taza de cerámica",
+          "Otras opciones",
+          "Totales",
+          "Subtotal",
+          "Total",
+          "Ir a pagar"
+        ]
       }
     },
     {
-      "id": "01M6RJVBJEJXD3R1FWDD712CFW",
+      "id": "01M6VA1ZBVNF2SZEFTTHGKS5P4",
       "runId": "01JC0F16FXF0000000000000AA",
       "seq": 114,
-      "ts": "2026-11-06T14:05:23.406Z",
+      "ts": "2026-11-07T15:29:26.395Z",
       "schemaVersion": 1,
       "actor": {
         "agentId": "probe-ux2-2",
@@ -2332,10 +3122,10 @@
       }
     },
     {
-      "id": "01M6RJVBSQVJKCKG1GQQDYHHKQ",
+      "id": "01M6VA1ZK48BJY7F7MEP38N3AQ",
       "runId": "01JC0F16FXF0000000000000AA",
       "seq": 115,
-      "ts": "2026-11-06T14:05:23.640Z",
+      "ts": "2026-11-07T15:29:26.628Z",
       "schemaVersion": 1,
       "actor": {
         "agentId": "probe-ux2-2",
@@ -2345,7 +3135,7 @@
       "payload": {
         "stepIndex": 14,
         "action": "click",
-        "durationMs": 166.29079999999522,
+        "durationMs": 167.6198000000004,
         "ok": true,
         "ref": "e34",
         "selector": "role=link[name=\"Otras opciones\"]",
@@ -2359,10 +3149,10 @@
       }
     },
     {
-      "id": "01M6RJVBSRQ7RHGXQXQRAD9B71",
+      "id": "01M6VA1ZK411Y33V92PP2BK3Y5",
       "runId": "01JC0F16FXF0000000000000AA",
       "seq": 116,
-      "ts": "2026-11-06T14:05:23.640Z",
+      "ts": "2026-11-07T15:29:26.628Z",
       "schemaVersion": 1,
       "actor": {
         "agentId": "probe-ux2-2",
@@ -2372,14 +3162,36 @@
       "payload": {
         "stepIndex": 14,
         "url": "http://janus-f16-app:3100/cart",
-        "durationMs": 233.13500000000204
+        "durationMs": 232.7884000000049,
+        "texts": [
+          "ShopLab",
+          "Tienda",
+          "Carrito",
+          "Mis pedidos",
+          "Salir",
+          "Productos del carrito",
+          "Producto",
+          "Precio",
+          "Cantidad",
+          "Quitar",
+          "Taza de cerámica",
+          "12,90 €",
+          "Cantidad de Taza de cerámica",
+          "Actualizar",
+          "Quitar Taza de cerámica",
+          "Otras opciones",
+          "Totales",
+          "Subtotal",
+          "Total",
+          "Ir a pagar"
+        ]
       }
     },
     {
-      "id": "01M6RJVBSTG3WDQKC4TGK8HHZE",
+      "id": "01M6VA1ZK69WH1XZ8Z58ZH1QJ4",
       "runId": "01JC0F16FXF0000000000000AA",
       "seq": 117,
-      "ts": "2026-11-06T14:05:23.642Z",
+      "ts": "2026-11-07T15:29:26.630Z",
       "schemaVersion": 1,
       "actor": {
         "agentId": "probe-ux2-2",
@@ -2395,10 +3207,10 @@
       }
     },
     {
-      "id": "01M6RJVBZ937XPGGPD8ZFBY7RV",
+      "id": "01M6VA1ZRGQ17M491F4Y28YAM8",
       "runId": "01JC0F16FXF0000000000000AA",
       "seq": 118,
-      "ts": "2026-11-06T14:05:23.817Z",
+      "ts": "2026-11-07T15:29:26.800Z",
       "schemaVersion": 1,
       "actor": {
         "agentId": "probe-ux2-2",
@@ -2408,7 +3220,7 @@
       "payload": {
         "stepIndex": 15,
         "action": "type",
-        "durationMs": 106.95999999999913,
+        "durationMs": 103.08939999999711,
         "ok": true,
         "ref": "e39",
         "selector": "role=textbox[name=\"Código del cupón\"]",
@@ -2421,10 +3233,10 @@
       }
     },
     {
-      "id": "01M6RJVBZ9HB6QS0DGVZFDXC20",
+      "id": "01M6VA1ZRG2HM54F513KJ7R1V4",
       "runId": "01JC0F16FXF0000000000000AA",
       "seq": 119,
-      "ts": "2026-11-06T14:05:23.817Z",
+      "ts": "2026-11-07T15:29:26.800Z",
       "schemaVersion": 1,
       "actor": {
         "agentId": "probe-ux2-2",
@@ -2434,14 +3246,38 @@
       "payload": {
         "stepIndex": 15,
         "url": "http://janus-f16-app:3100/cart",
-        "durationMs": 174.5867999999973
+        "durationMs": 169.83150000000023,
+        "texts": [
+          "ShopLab",
+          "Tienda",
+          "Carrito",
+          "Mis pedidos",
+          "Salir",
+          "Productos del carrito",
+          "Producto",
+          "Precio",
+          "Cantidad",
+          "Quitar",
+          "Taza de cerámica",
+          "12,90 €",
+          "Cantidad de Taza de cerámica",
+          "Actualizar",
+          "Quitar Taza de cerámica",
+          "Otras opciones",
+          "Código del cupón",
+          "Aplicar cupón",
+          "Totales",
+          "Subtotal",
+          "Total",
+          "Ir a pagar"
+        ]
       }
     },
     {
-      "id": "01M6RJVBZBDZK6JKG2HRBGEGN8",
+      "id": "01M6VA1ZRJM4XKZCT6ZCPCBRM5",
       "runId": "01JC0F16FXF0000000000000AA",
       "seq": 120,
-      "ts": "2026-11-06T14:05:23.819Z",
+      "ts": "2026-11-07T15:29:26.802Z",
       "schemaVersion": 1,
       "actor": {
         "agentId": "probe-ux2-2",
@@ -2457,10 +3293,10 @@
       }
     },
     {
-      "id": "01M6RJVCRSABHPXEGZW14ZPR2Q",
+      "id": "01M6VA20J6BDANYT38KRTZEE3S",
       "runId": "01JC0F16FXF0000000000000AA",
       "seq": 121,
-      "ts": "2026-11-06T14:05:24.633Z",
+      "ts": "2026-11-07T15:29:27.622Z",
       "schemaVersion": 1,
       "actor": {
         "agentId": "probe-ux2-2",
@@ -2470,7 +3306,7 @@
       "payload": {
         "stepIndex": 16,
         "action": "click",
-        "durationMs": 745.2200000000012,
+        "durationMs": 751.438900000001,
         "ok": true,
         "ref": "e40",
         "selector": "role=button[name=\"Aplicar cupón\"]",
@@ -2484,10 +3320,10 @@
       }
     },
     {
-      "id": "01M6RJVCRS77DZ7S5C4WM5M2S3",
+      "id": "01M6VA20J62M91FBXRSVPWCK0V",
       "runId": "01JC0F16FXF0000000000000AA",
       "seq": 122,
-      "ts": "2026-11-06T14:05:24.633Z",
+      "ts": "2026-11-07T15:29:27.622Z",
       "schemaVersion": 1,
       "actor": {
         "agentId": "probe-ux2-2",
@@ -2497,14 +3333,38 @@
       "payload": {
         "stepIndex": 16,
         "url": "http://janus-f16-app:3100/cart",
-        "durationMs": 813.2324000000008
+        "durationMs": 818.7754000000059,
+        "texts": [
+          "ShopLab",
+          "Tienda",
+          "Carrito",
+          "Mis pedidos",
+          "Salir",
+          "Productos del carrito",
+          "Producto",
+          "Precio",
+          "Cantidad",
+          "Quitar",
+          "Taza de cerámica",
+          "12,90 €",
+          "Cantidad de Taza de cerámica",
+          "Actualizar",
+          "Quitar Taza de cerámica",
+          "Otras opciones",
+          "Código del cupón",
+          "Aplicar cupón",
+          "Totales",
+          "Subtotal",
+          "Total",
+          "Ir a pagar"
+        ]
       }
     },
     {
-      "id": "01M6RJVCRTQVXWGYFNP18SCSTS",
+      "id": "01M6VA20J7N4Z1KS999W31Q37V",
       "runId": "01JC0F16FXF0000000000000AA",
       "seq": 123,
-      "ts": "2026-11-06T14:05:24.634Z",
+      "ts": "2026-11-07T15:29:27.623Z",
       "schemaVersion": 1,
       "actor": {
         "agentId": "probe-ux2-2",
@@ -2520,10 +3380,10 @@
       }
     },
     {
-      "id": "01M6RJVCTZ4505W1VM30FJ599M",
+      "id": "01M6VA20MBS6SJW6W0PZZCN1YZ",
       "runId": "01JC0F16FXF0000000000000AA",
       "seq": 124,
-      "ts": "2026-11-06T14:05:24.703Z",
+      "ts": "2026-11-07T15:29:27.691Z",
       "schemaVersion": 1,
       "actor": {
         "agentId": "probe-ux2-2",
@@ -2533,15 +3393,15 @@
       "payload": {
         "stepIndex": 17,
         "action": "done",
-        "durationMs": 0.05069999999977881,
+        "durationMs": 0.021899999999732245,
         "ok": true
       }
     },
     {
-      "id": "01M6RJVCTZZ62EJADRYYK5GCVA",
+      "id": "01M6VA20MBTEKMD0WKYEQBNHMZ",
       "runId": "01JC0F16FXF0000000000000AA",
       "seq": 125,
-      "ts": "2026-11-06T14:05:24.703Z",
+      "ts": "2026-11-07T15:29:27.691Z",
       "schemaVersion": 1,
       "actor": {
         "agentId": "probe-ux2-2",
@@ -2551,14 +3411,40 @@
       "payload": {
         "stepIndex": 17,
         "url": "http://janus-f16-app:3100/cart",
-        "durationMs": 67.7531999999992
+        "durationMs": 66.8810999999987,
+        "texts": [
+          "ShopLab",
+          "Tienda",
+          "Carrito",
+          "Mis pedidos",
+          "Salir",
+          "Productos del carrito",
+          "Producto",
+          "Precio",
+          "Cantidad",
+          "Quitar",
+          "Taza de cerámica",
+          "12,90 €",
+          "Cantidad de Taza de cerámica",
+          "Actualizar",
+          "Quitar Taza de cerámica",
+          "Cupón BIENVENIDA10 aplicado (−10 %).",
+          "Quitar cupón",
+          "Totales",
+          "Subtotal",
+          "Descuento (BIENVENIDA10)",
+          "−1,29 €",
+          "Total",
+          "11,61 €",
+          "Ir a pagar"
+        ]
       }
     },
     {
-      "id": "01M6RJVCV0W2VAHFKKM7EQ35RT",
+      "id": "01M6VA20MDHFSB7R5NEY8H82SB",
       "runId": "01JC0F16FXF0000000000000AA",
       "seq": 126,
-      "ts": "2026-11-06T14:05:24.704Z",
+      "ts": "2026-11-07T15:29:27.693Z",
       "schemaVersion": 1,
       "actor": {
         "agentId": "probe-ux2-2",
@@ -2574,10 +3460,10 @@
       }
     },
     {
-      "id": "01M6RJVCV16NRBTCBKFQF1PZBP",
+      "id": "01M6VA20MEAYG547T55PARA0BY",
       "runId": "01JC0F16FXF0000000000000AA",
       "seq": 127,
-      "ts": "2026-11-06T14:05:24.705Z",
+      "ts": "2026-11-07T15:29:27.694Z",
       "schemaVersion": 1,
       "actor": {
         "agentId": "probe-ux2-2",
@@ -2588,14 +3474,14 @@
         "outcome": "success",
         "steps": 18,
         "reason": "Por fin encontré el cupón.",
-        "durationMs": 7818.398399999998
+        "durationMs": 7953.465999999993
       }
     },
     {
-      "id": "01M6RJVDW7BMR9312NG5XBGZJH",
+      "id": "01M6VA21NHPNZAYK93WYE603QD",
       "runId": "01JC0F16FXF0000000000000AA",
       "seq": 128,
-      "ts": "2026-11-06T14:05:25.767Z",
+      "ts": "2026-11-07T15:29:28.753Z",
       "schemaVersion": 1,
       "actor": {
         "agentId": "probe-ux3-3",
@@ -2605,7 +3491,7 @@
       "payload": {
         "stepIndex": 0,
         "action": "type",
-        "durationMs": 105.33200000000215,
+        "durationMs": 102.09560000000056,
         "ok": true,
         "ref": "e6",
         "selector": "role=textbox[name=\"Nombre\"]",
@@ -2618,10 +3504,10 @@
       }
     },
     {
-      "id": "01M6RJVDW8W364RKXSNPWV3QR6",
+      "id": "01M6VA21NJVM45SBQ4AGSGAS38",
       "runId": "01JC0F16FXF0000000000000AA",
       "seq": 129,
-      "ts": "2026-11-06T14:05:25.768Z",
+      "ts": "2026-11-07T15:29:28.754Z",
       "schemaVersion": 1,
       "actor": {
         "agentId": "probe-ux3-3",
@@ -2631,14 +3517,27 @@
       "payload": {
         "stepIndex": 0,
         "url": "http://janus-f16-app:3100/register",
-        "durationMs": 779.8067999999985
+        "durationMs": 794.8459000000003,
+        "texts": [
+          "ShopLab",
+          "Tienda",
+          "Carrito",
+          "Entrar",
+          "Crear cuenta",
+          "Nombre",
+          "Email",
+          "Contraseña (mínimo 8 caracteres)",
+          "Dirección de envío",
+          "¿Ya tienes cuenta?",
+          "Entra"
+        ]
       }
     },
     {
-      "id": "01M6RJVDW9ZE6EBX2STSMY8SZQ",
+      "id": "01M6VA21NMNQWDXH9WAH93TV71",
       "runId": "01JC0F16FXF0000000000000AA",
       "seq": 130,
-      "ts": "2026-11-06T14:05:25.769Z",
+      "ts": "2026-11-07T15:29:28.756Z",
       "schemaVersion": 1,
       "actor": {
         "agentId": "probe-ux3-3",
@@ -2648,15 +3547,15 @@
       "payload": {
         "stepIndex": 0,
         "url": "http://janus-f16-app:3100/register",
-        "lcpMs": 84,
+        "lcpMs": 80,
         "cls": 0
       }
     },
     {
-      "id": "01M6RJVE1KQ74JK6RZV2341A73",
+      "id": "01M6VA21V1J7249SBSA6KQ7XSB",
       "runId": "01JC0F16FXF0000000000000AA",
       "seq": 131,
-      "ts": "2026-11-06T14:05:25.939Z",
+      "ts": "2026-11-07T15:29:28.929Z",
       "schemaVersion": 1,
       "actor": {
         "agentId": "probe-ux3-3",
@@ -2666,7 +3565,7 @@
       "payload": {
         "stepIndex": 1,
         "action": "type",
-        "durationMs": 102.48029999999562,
+        "durationMs": 105.45750000000407,
         "ok": true,
         "ref": "e7",
         "selector": "role=textbox[name=\"Email\"]",
@@ -2679,10 +3578,10 @@
       }
     },
     {
-      "id": "01M6RJVE1KSY3FJR4PVBPEK9ZB",
+      "id": "01M6VA21V1SHZH090AC55GEYBB",
       "runId": "01JC0F16FXF0000000000000AA",
       "seq": 132,
-      "ts": "2026-11-06T14:05:25.939Z",
+      "ts": "2026-11-07T15:29:28.929Z",
       "schemaVersion": 1,
       "actor": {
         "agentId": "probe-ux3-3",
@@ -2692,14 +3591,27 @@
       "payload": {
         "stepIndex": 1,
         "url": "http://janus-f16-app:3100/register",
-        "durationMs": 169.11179999999877
+        "durationMs": 172.24619999999413,
+        "texts": [
+          "ShopLab",
+          "Tienda",
+          "Carrito",
+          "Entrar",
+          "Crear cuenta",
+          "Nombre",
+          "Email",
+          "Contraseña (mínimo 8 caracteres)",
+          "Dirección de envío",
+          "¿Ya tienes cuenta?",
+          "Entra"
+        ]
       }
     },
     {
-      "id": "01M6RJVE1NQFVYSN81N1X8RQNA",
+      "id": "01M6VA21V2TPHYHRN1S7067MZS",
       "runId": "01JC0F16FXF0000000000000AA",
       "seq": 133,
-      "ts": "2026-11-06T14:05:25.941Z",
+      "ts": "2026-11-07T15:29:28.930Z",
       "schemaVersion": 1,
       "actor": {
         "agentId": "probe-ux3-3",
@@ -2709,15 +3621,15 @@
       "payload": {
         "stepIndex": 1,
         "url": "http://janus-f16-app:3100/register",
-        "lcpMs": 84,
+        "lcpMs": 80,
         "cls": 0
       }
     },
     {
-      "id": "01M6RJVE71VNAJN3JH252NY3XJ",
+      "id": "01M6VA221AQC81BJ0NCB4V4T6V",
       "runId": "01JC0F16FXF0000000000000AA",
       "seq": 134,
-      "ts": "2026-11-06T14:05:26.113Z",
+      "ts": "2026-11-07T15:29:29.130Z",
       "schemaVersion": 1,
       "actor": {
         "agentId": "probe-ux3-3",
@@ -2727,7 +3639,7 @@
       "payload": {
         "stepIndex": 2,
         "action": "type",
-        "durationMs": 105.20870000000286,
+        "durationMs": 131.73770000000513,
         "ok": true,
         "ref": "e8",
         "selector": "role=textbox[name=\"Contraseña (mínimo 8 caracteres)\"]",
@@ -2740,10 +3652,10 @@
       }
     },
     {
-      "id": "01M6RJVE71WVBMC66S2J0E0S0Y",
+      "id": "01M6VA221AEVD0AR4ZSBG66GSK",
       "runId": "01JC0F16FXF0000000000000AA",
       "seq": 135,
-      "ts": "2026-11-06T14:05:26.113Z",
+      "ts": "2026-11-07T15:29:29.130Z",
       "schemaVersion": 1,
       "actor": {
         "agentId": "probe-ux3-3",
@@ -2753,14 +3665,27 @@
       "payload": {
         "stepIndex": 2,
         "url": "http://janus-f16-app:3100/register",
-        "durationMs": 171.59440000000177
+        "durationMs": 198.981200000002,
+        "texts": [
+          "ShopLab",
+          "Tienda",
+          "Carrito",
+          "Entrar",
+          "Crear cuenta",
+          "Nombre",
+          "Email",
+          "Contraseña (mínimo 8 caracteres)",
+          "Dirección de envío",
+          "¿Ya tienes cuenta?",
+          "Entra"
+        ]
       }
     },
     {
-      "id": "01M6RJVE73FG0GT8A7MZYS7MAB",
+      "id": "01M6VA221C6QM8HTV2PPFX2T1Z",
       "runId": "01JC0F16FXF0000000000000AA",
       "seq": 136,
-      "ts": "2026-11-06T14:05:26.115Z",
+      "ts": "2026-11-07T15:29:29.132Z",
       "schemaVersion": 1,
       "actor": {
         "agentId": "probe-ux3-3",
@@ -2770,15 +3695,15 @@
       "payload": {
         "stepIndex": 2,
         "url": "http://janus-f16-app:3100/register",
-        "lcpMs": 84,
+        "lcpMs": 80,
         "cls": 0
       }
     },
     {
-      "id": "01M6RJVECEE29HH2RXZEN07M93",
+      "id": "01M6VA225ETWPE75H0Q1EAEVMM",
       "runId": "01JC0F16FXF0000000000000AA",
       "seq": 137,
-      "ts": "2026-11-06T14:05:26.286Z",
+      "ts": "2026-11-07T15:29:29.263Z",
       "schemaVersion": 1,
       "actor": {
         "agentId": "probe-ux3-3",
@@ -2788,7 +3713,7 @@
       "payload": {
         "stepIndex": 3,
         "action": "type",
-        "durationMs": 103.33729999999923,
+        "durationMs": 61.708999999995285,
         "ok": true,
         "ref": "e9",
         "selector": "role=textbox[name=\"Dirección de envío\"]",
@@ -2801,10 +3726,10 @@
       }
     },
     {
-      "id": "01M6RJVECESZB4MBS24Q0YR7Z6",
+      "id": "01M6VA225FPS5XR9J57401F8EJ",
       "runId": "01JC0F16FXF0000000000000AA",
       "seq": 138,
-      "ts": "2026-11-06T14:05:26.286Z",
+      "ts": "2026-11-07T15:29:29.263Z",
       "schemaVersion": 1,
       "actor": {
         "agentId": "probe-ux3-3",
@@ -2814,14 +3739,27 @@
       "payload": {
         "stepIndex": 3,
         "url": "http://janus-f16-app:3100/register",
-        "durationMs": 170.4609000000055
+        "durationMs": 129.00880000000325,
+        "texts": [
+          "ShopLab",
+          "Tienda",
+          "Carrito",
+          "Entrar",
+          "Crear cuenta",
+          "Nombre",
+          "Email",
+          "Contraseña (mínimo 8 caracteres)",
+          "Dirección de envío",
+          "¿Ya tienes cuenta?",
+          "Entra"
+        ]
       }
     },
     {
-      "id": "01M6RJVECGQ13N9PR8HDB9ZD1D",
+      "id": "01M6VA225G9TT8MKJ9JH0THH8M",
       "runId": "01JC0F16FXF0000000000000AA",
       "seq": 139,
-      "ts": "2026-11-06T14:05:26.288Z",
+      "ts": "2026-11-07T15:29:29.264Z",
       "schemaVersion": 1,
       "actor": {
         "agentId": "probe-ux3-3",
@@ -2831,15 +3769,15 @@
       "payload": {
         "stepIndex": 3,
         "url": "http://janus-f16-app:3100/register",
-        "lcpMs": 84,
+        "lcpMs": 80,
         "cls": 0
       }
     },
     {
-      "id": "01M6RJVF5936DTTXCVK0GRK29S",
+      "id": "01M6VA22ZGE9ZBMA468H9TN40E",
       "runId": "01JC0F16FXF0000000000000AA",
       "seq": 140,
-      "ts": "2026-11-06T14:05:27.081Z",
+      "ts": "2026-11-07T15:29:30.096Z",
       "schemaVersion": 1,
       "actor": {
         "agentId": "probe-ux3-3",
@@ -2849,7 +3787,7 @@
       "payload": {
         "stepIndex": 4,
         "action": "click",
-        "durationMs": 726.7168999999994,
+        "durationMs": 764.1233999999968,
         "ok": true,
         "ref": "e10",
         "selector": "role=button[name=\"Crear cuenta\"]",
@@ -2863,10 +3801,10 @@
       }
     },
     {
-      "id": "01M6RJVF59G2W35PKY7QDVA7YQ",
+      "id": "01M6VA22ZGKE2ATVGK7DFMECH9",
       "runId": "01JC0F16FXF0000000000000AA",
       "seq": 141,
-      "ts": "2026-11-06T14:05:27.081Z",
+      "ts": "2026-11-07T15:29:30.096Z",
       "schemaVersion": 1,
       "actor": {
         "agentId": "probe-ux3-3",
@@ -2876,14 +3814,27 @@
       "payload": {
         "stepIndex": 4,
         "url": "http://janus-f16-app:3100/register",
-        "durationMs": 793.1002999999982
+        "durationMs": 831.1198000000004,
+        "texts": [
+          "ShopLab",
+          "Tienda",
+          "Carrito",
+          "Entrar",
+          "Crear cuenta",
+          "Nombre",
+          "Email",
+          "Contraseña (mínimo 8 caracteres)",
+          "Dirección de envío",
+          "¿Ya tienes cuenta?",
+          "Entra"
+        ]
       }
     },
     {
-      "id": "01M6RJVF5BWVVGJSZ4SFFKACX8",
+      "id": "01M6VA22ZJ7MN5DK6QBEWMJG5M",
       "runId": "01JC0F16FXF0000000000000AA",
       "seq": 142,
-      "ts": "2026-11-06T14:05:27.083Z",
+      "ts": "2026-11-07T15:29:30.098Z",
       "schemaVersion": 1,
       "actor": {
         "agentId": "probe-ux3-3",
@@ -2899,10 +3850,10 @@
       }
     },
     {
-      "id": "01M6RJVF5BJP7A8S5KGHB0308A",
+      "id": "01M6VA22ZJYS85DYQQX41Q5608",
       "runId": "01JC0F16FXF0000000000000AA",
       "seq": 143,
-      "ts": "2026-11-06T14:05:27.083Z",
+      "ts": "2026-11-07T15:29:30.098Z",
       "schemaVersion": 1,
       "actor": {
         "agentId": "probe-ux3-3",
@@ -2912,16 +3863,16 @@
       "payload": {
         "stepIndex": 4,
         "url": "http://janus-f16-app:3100/register",
-        "lcpMs": 84,
+        "lcpMs": 80,
         "cls": 0,
         "inpMs": 16
       }
     },
     {
-      "id": "01M6RJVFANESXDGK450A9NKP5H",
+      "id": "01M6VA2353S7MXK5ZVYA0HKN5H",
       "runId": "01JC0F16FXF0000000000000AA",
       "seq": 144,
-      "ts": "2026-11-06T14:05:27.253Z",
+      "ts": "2026-11-07T15:29:30.275Z",
       "schemaVersion": 1,
       "actor": {
         "agentId": "probe-ux3-3",
@@ -2931,7 +3882,7 @@
       "payload": {
         "stepIndex": 5,
         "action": "type",
-        "durationMs": 102.21990000000369,
+        "durationMs": 106.67199999999866,
         "ok": true,
         "ref": "e6",
         "selector": "role=textbox[name=\"Nombre\"]",
@@ -2944,10 +3895,10 @@
       }
     },
     {
-      "id": "01M6RJVFANRMXABK5GXW3102AM",
+      "id": "01M6VA23540TW4331T0JK1465Z",
       "runId": "01JC0F16FXF0000000000000AA",
       "seq": 145,
-      "ts": "2026-11-06T14:05:27.253Z",
+      "ts": "2026-11-07T15:29:30.276Z",
       "schemaVersion": 1,
       "actor": {
         "agentId": "probe-ux3-3",
@@ -2957,15 +3908,29 @@
       "payload": {
         "stepIndex": 5,
         "url": "http://janus-f16-app:3100/register",
-        "durationMs": 169.29409999999916,
-        "alerts": ["Revisa los campos del formulario."]
+        "durationMs": 176.1088000000018,
+        "alerts": ["Revisa los campos del formulario."],
+        "texts": [
+          "ShopLab",
+          "Tienda",
+          "Carrito",
+          "Entrar",
+          "Crear cuenta",
+          "Nombre",
+          "Email",
+          "Contraseña (mínimo 8 caracteres)",
+          "Dirección de envío",
+          "Revisa los campos del formulario.",
+          "¿Ya tienes cuenta?",
+          "Entra"
+        ]
       }
     },
     {
-      "id": "01M6RJVFAQ4ZCGVDNZW41MGQ25",
+      "id": "01M6VA235585FRMSDVRG6M7BBZ",
       "runId": "01JC0F16FXF0000000000000AA",
       "seq": 146,
-      "ts": "2026-11-06T14:05:27.255Z",
+      "ts": "2026-11-07T15:29:30.277Z",
       "schemaVersion": 1,
       "actor": {
         "agentId": "probe-ux3-3",
@@ -2975,16 +3940,16 @@
       "payload": {
         "stepIndex": 5,
         "url": "http://janus-f16-app:3100/register",
-        "lcpMs": 84,
+        "lcpMs": 80,
         "cls": 0,
         "inpMs": 16
       }
     },
     {
-      "id": "01M6RJVFBNKBWTZMSYP8KD25BR",
+      "id": "01M6VA23679Q2CDZHK6F7ERRSM",
       "runId": "01JC0F16FXF0000000000000AA",
       "seq": 147,
-      "ts": "2026-11-06T14:05:27.285Z",
+      "ts": "2026-11-07T15:29:30.311Z",
       "schemaVersion": 1,
       "actor": {
         "agentId": "probe-ux3-3",
@@ -2999,10 +3964,10 @@
       }
     },
     {
-      "id": "01M6RJVFGXN2C4HCPH7E1EFNCQ",
+      "id": "01M6VA23BK7G4ETC4E8NF12YBB",
       "runId": "01JC0F16FXF0000000000000AA",
       "seq": 148,
-      "ts": "2026-11-06T14:05:27.453Z",
+      "ts": "2026-11-07T15:29:30.483Z",
       "schemaVersion": 1,
       "actor": {
         "agentId": "probe-ux3-3",
@@ -3012,7 +3977,7 @@
       "payload": {
         "stepIndex": 6,
         "action": "type",
-        "durationMs": 101.51309999999648,
+        "durationMs": 103.79550000000017,
         "ok": true,
         "ref": "e7",
         "selector": "role=textbox[name=\"Email\"]",
@@ -3025,10 +3990,10 @@
       }
     },
     {
-      "id": "01M6RJVFGX6GJ4TVCH8500VYDW",
+      "id": "01M6VA23BKVPDMW7TF66FVNGK2",
       "runId": "01JC0F16FXF0000000000000AA",
       "seq": 149,
-      "ts": "2026-11-06T14:05:27.453Z",
+      "ts": "2026-11-07T15:29:30.483Z",
       "schemaVersion": 1,
       "actor": {
         "agentId": "probe-ux3-3",
@@ -3038,15 +4003,29 @@
       "payload": {
         "stepIndex": 6,
         "url": "http://janus-f16-app:3100/register",
-        "durationMs": 168.15320000000065,
-        "alerts": ["Revisa los campos del formulario."]
+        "durationMs": 171.57510000000184,
+        "alerts": ["Revisa los campos del formulario."],
+        "texts": [
+          "ShopLab",
+          "Tienda",
+          "Carrito",
+          "Entrar",
+          "Crear cuenta",
+          "Nombre",
+          "Email",
+          "Contraseña (mínimo 8 caracteres)",
+          "Dirección de envío",
+          "Revisa los campos del formulario.",
+          "¿Ya tienes cuenta?",
+          "Entra"
+        ]
       }
     },
     {
-      "id": "01M6RJVFGZC6F70FVPYEA2171W",
+      "id": "01M6VA23BNT7HG5E0MCASE0C1X",
       "runId": "01JC0F16FXF0000000000000AA",
       "seq": 150,
-      "ts": "2026-11-06T14:05:27.455Z",
+      "ts": "2026-11-07T15:29:30.485Z",
       "schemaVersion": 1,
       "actor": {
         "agentId": "probe-ux3-3",
@@ -3056,16 +4035,16 @@
       "payload": {
         "stepIndex": 6,
         "url": "http://janus-f16-app:3100/register",
-        "lcpMs": 84,
+        "lcpMs": 80,
         "cls": 0,
         "inpMs": 16
       }
     },
     {
-      "id": "01M6RJVFP6GQNN52MESCQZJ5PV",
+      "id": "01M6VA23GWPW4M0V9SC3R4HMXZ",
       "runId": "01JC0F16FXF0000000000000AA",
       "seq": 151,
-      "ts": "2026-11-06T14:05:27.622Z",
+      "ts": "2026-11-07T15:29:30.652Z",
       "schemaVersion": 1,
       "actor": {
         "agentId": "probe-ux3-3",
@@ -3075,7 +4054,7 @@
       "payload": {
         "stepIndex": 7,
         "action": "type",
-        "durationMs": 99.65929999999935,
+        "durationMs": 100.2896000000037,
         "ok": true,
         "ref": "e8",
         "selector": "role=textbox[name=\"Contraseña (mínimo 8 caracteres)\"]",
@@ -3088,10 +4067,10 @@
       }
     },
     {
-      "id": "01M6RJVFP60TRKJ8MS1JPP4TNX",
+      "id": "01M6VA23GW252HRAHBRD9PG4R4",
       "runId": "01JC0F16FXF0000000000000AA",
       "seq": 152,
-      "ts": "2026-11-06T14:05:27.622Z",
+      "ts": "2026-11-07T15:29:30.652Z",
       "schemaVersion": 1,
       "actor": {
         "agentId": "probe-ux3-3",
@@ -3101,15 +4080,29 @@
       "payload": {
         "stepIndex": 7,
         "url": "http://janus-f16-app:3100/register",
-        "durationMs": 166.07710000000225,
-        "alerts": ["Revisa los campos del formulario."]
+        "durationMs": 166.7039999999979,
+        "alerts": ["Revisa los campos del formulario."],
+        "texts": [
+          "ShopLab",
+          "Tienda",
+          "Carrito",
+          "Entrar",
+          "Crear cuenta",
+          "Nombre",
+          "Email",
+          "Contraseña (mínimo 8 caracteres)",
+          "Dirección de envío",
+          "Revisa los campos del formulario.",
+          "¿Ya tienes cuenta?",
+          "Entra"
+        ]
       }
     },
     {
-      "id": "01M6RJVFP89PDNWXM5KKBMCW5P",
+      "id": "01M6VA23GYNRSWRNTVGDD7TT94",
       "runId": "01JC0F16FXF0000000000000AA",
       "seq": 153,
-      "ts": "2026-11-06T14:05:27.624Z",
+      "ts": "2026-11-07T15:29:30.654Z",
       "schemaVersion": 1,
       "actor": {
         "agentId": "probe-ux3-3",
@@ -3119,16 +4112,16 @@
       "payload": {
         "stepIndex": 7,
         "url": "http://janus-f16-app:3100/register",
-        "lcpMs": 84,
+        "lcpMs": 80,
         "cls": 0,
         "inpMs": 16
       }
     },
     {
-      "id": "01M6RJVFVEZDB4KSHZP7TR87KH",
+      "id": "01M6VA23PAMGYC5RY5KXJZTV0P",
       "runId": "01JC0F16FXF0000000000000AA",
       "seq": 154,
-      "ts": "2026-11-06T14:05:27.790Z",
+      "ts": "2026-11-07T15:29:30.826Z",
       "schemaVersion": 1,
       "actor": {
         "agentId": "probe-ux3-3",
@@ -3138,7 +4131,7 @@
       "payload": {
         "stepIndex": 8,
         "action": "type",
-        "durationMs": 100.34180000000197,
+        "durationMs": 103.89300000000367,
         "ok": true,
         "ref": "e9",
         "selector": "role=textbox[name=\"Dirección de envío\"]",
@@ -3151,10 +4144,10 @@
       }
     },
     {
-      "id": "01M6RJVFVEETYGPCJRYHWSYM1R",
+      "id": "01M6VA23PAH1586NB9F9RXMDWZ",
       "runId": "01JC0F16FXF0000000000000AA",
       "seq": 155,
-      "ts": "2026-11-06T14:05:27.790Z",
+      "ts": "2026-11-07T15:29:30.826Z",
       "schemaVersion": 1,
       "actor": {
         "agentId": "probe-ux3-3",
@@ -3164,15 +4157,29 @@
       "payload": {
         "stepIndex": 8,
         "url": "http://janus-f16-app:3100/register",
-        "durationMs": 165.32250000000204,
-        "alerts": ["Revisa los campos del formulario."]
+        "durationMs": 171.25,
+        "alerts": ["Revisa los campos del formulario."],
+        "texts": [
+          "ShopLab",
+          "Tienda",
+          "Carrito",
+          "Entrar",
+          "Crear cuenta",
+          "Nombre",
+          "Email",
+          "Contraseña (mínimo 8 caracteres)",
+          "Dirección de envío",
+          "Revisa los campos del formulario.",
+          "¿Ya tienes cuenta?",
+          "Entra"
+        ]
       }
     },
     {
-      "id": "01M6RJVFVF6FYMRRHTS3DJGY6Y",
+      "id": "01M6VA23PDM5B30E201RXHRNX3",
       "runId": "01JC0F16FXF0000000000000AA",
       "seq": 156,
-      "ts": "2026-11-06T14:05:27.791Z",
+      "ts": "2026-11-07T15:29:30.829Z",
       "schemaVersion": 1,
       "actor": {
         "agentId": "probe-ux3-3",
@@ -3182,16 +4189,16 @@
       "payload": {
         "stepIndex": 8,
         "url": "http://janus-f16-app:3100/register",
-        "lcpMs": 84,
+        "lcpMs": 80,
         "cls": 0,
         "inpMs": 16
       }
     },
     {
-      "id": "01M6RJVGM1P3NE1MC845AAA6VZ",
+      "id": "01M6VA24F5ZA0MSGCJE12X0MXE",
       "runId": "01JC0F16FXF0000000000000AA",
       "seq": 157,
-      "ts": "2026-11-06T14:05:28.577Z",
+      "ts": "2026-11-07T15:29:31.621Z",
       "schemaVersion": 1,
       "actor": {
         "agentId": "probe-ux3-3",
@@ -3201,7 +4208,7 @@
       "payload": {
         "stepIndex": 9,
         "action": "click",
-        "durationMs": 719.6565999999948,
+        "durationMs": 725.158199999998,
         "ok": true,
         "ref": "e10",
         "selector": "role=button[name=\"Crear cuenta\"]",
@@ -3215,10 +4222,10 @@
       }
     },
     {
-      "id": "01M6RJVGM1XW3BZCVKEQRFZ15R",
+      "id": "01M6VA24F52QEAGFFV45EC64C1",
       "runId": "01JC0F16FXF0000000000000AA",
       "seq": 158,
-      "ts": "2026-11-06T14:05:28.577Z",
+      "ts": "2026-11-07T15:29:31.621Z",
       "schemaVersion": 1,
       "actor": {
         "agentId": "probe-ux3-3",
@@ -3228,15 +4235,29 @@
       "payload": {
         "stepIndex": 9,
         "url": "http://janus-f16-app:3100/register",
-        "durationMs": 784.7635000000009,
-        "alerts": ["Revisa los campos del formulario."]
+        "durationMs": 790.7670999999973,
+        "alerts": ["Revisa los campos del formulario."],
+        "texts": [
+          "ShopLab",
+          "Tienda",
+          "Carrito",
+          "Entrar",
+          "Crear cuenta",
+          "Nombre",
+          "Email",
+          "Contraseña (mínimo 8 caracteres)",
+          "Dirección de envío",
+          "Revisa los campos del formulario.",
+          "¿Ya tienes cuenta?",
+          "Entra"
+        ]
       }
     },
     {
-      "id": "01M6RJVGM3KKVGSQKTK82KACGD",
+      "id": "01M6VA24F67VS9RGQGKWD1TNRY",
       "runId": "01JC0F16FXF0000000000000AA",
       "seq": 159,
-      "ts": "2026-11-06T14:05:28.579Z",
+      "ts": "2026-11-07T15:29:31.622Z",
       "schemaVersion": 1,
       "actor": {
         "agentId": "probe-ux3-3",
@@ -3252,10 +4273,10 @@
       }
     },
     {
-      "id": "01M6RJVGM387R8GC8B1W7X7CEY",
+      "id": "01M6VA24F6ZBNKFS4M7A10FXD5",
       "runId": "01JC0F16FXF0000000000000AA",
       "seq": 160,
-      "ts": "2026-11-06T14:05:28.579Z",
+      "ts": "2026-11-07T15:29:31.622Z",
       "schemaVersion": 1,
       "actor": {
         "agentId": "probe-ux3-3",
@@ -3265,16 +4286,16 @@
       "payload": {
         "stepIndex": 9,
         "url": "http://janus-f16-app:3100/register",
-        "lcpMs": 84,
+        "lcpMs": 80,
         "cls": 0,
         "inpMs": 16
       }
     },
     {
-      "id": "01M6RJVGP5E4WMW88XHRZ6EP6R",
+      "id": "01M6VA24H8ER65X0QDHXJH7F3S",
       "runId": "01JC0F16FXF0000000000000AA",
       "seq": 161,
-      "ts": "2026-11-06T14:05:28.645Z",
+      "ts": "2026-11-07T15:29:31.688Z",
       "schemaVersion": 1,
       "actor": {
         "agentId": "probe-ux3-3",
@@ -3284,15 +4305,15 @@
       "payload": {
         "stepIndex": 10,
         "action": "done",
-        "durationMs": 0.02530000000115251,
+        "durationMs": 0.023399999998218846,
         "ok": true
       }
     },
     {
-      "id": "01M6RJVGP56QZNGQ1EGRRH6ZE5",
+      "id": "01M6VA24H80YEX03G2MG1BYW67",
       "runId": "01JC0F16FXF0000000000000AA",
       "seq": 162,
-      "ts": "2026-11-06T14:05:28.645Z",
+      "ts": "2026-11-07T15:29:31.688Z",
       "schemaVersion": 1,
       "actor": {
         "agentId": "probe-ux3-3",
@@ -3302,15 +4323,29 @@
       "payload": {
         "stepIndex": 10,
         "url": "http://janus-f16-app:3100/register",
-        "durationMs": 65.58030000000144,
-        "alerts": ["Revisa los campos del formulario."]
+        "durationMs": 65.24040000000241,
+        "alerts": ["Revisa los campos del formulario."],
+        "texts": [
+          "ShopLab",
+          "Tienda",
+          "Carrito",
+          "Entrar",
+          "Crear cuenta",
+          "Nombre",
+          "Email",
+          "Contraseña (mínimo 8 caracteres)",
+          "Dirección de envío",
+          "Revisa los campos del formulario.",
+          "¿Ya tienes cuenta?",
+          "Entra"
+        ]
       }
     },
     {
-      "id": "01M6RJVGP787EYZACVMH88KAGD",
+      "id": "01M6VA24HAYDB5EZRSFJDRRRN7",
       "runId": "01JC0F16FXF0000000000000AA",
       "seq": 163,
-      "ts": "2026-11-06T14:05:28.647Z",
+      "ts": "2026-11-07T15:29:31.690Z",
       "schemaVersion": 1,
       "actor": {
         "agentId": "probe-ux3-3",
@@ -3320,16 +4355,16 @@
       "payload": {
         "stepIndex": 10,
         "url": "http://janus-f16-app:3100/register",
-        "lcpMs": 84,
+        "lcpMs": 80,
         "cls": 0,
         "inpMs": 16
       }
     },
     {
-      "id": "01M6RJVGP7RC7WW48DKN96RNX4",
+      "id": "01M6VA24HB3RQKQEJ8MT38W828",
       "runId": "01JC0F16FXF0000000000000AA",
       "seq": 164,
-      "ts": "2026-11-06T14:05:28.647Z",
+      "ts": "2026-11-07T15:29:31.691Z",
       "schemaVersion": 1,
       "actor": {
         "agentId": "probe-ux3-3",
@@ -3340,14 +4375,14 @@
         "outcome": "abandon",
         "steps": 11,
         "reason": "Se me borra todo cada vez.",
-        "durationMs": 3853.1709000000046
+        "durationMs": 3911.3647000000055
       }
     },
     {
-      "id": "01M6RJVGS81ETAZPKNESG1EA74",
+      "id": "01M6VA24MB5T1GXDYWSJAMEPRS",
       "runId": "01JC0F16FXF0000000000000AA",
       "seq": 165,
-      "ts": "2026-11-06T14:05:28.744Z",
+      "ts": "2026-11-07T15:29:31.787Z",
       "schemaVersion": 1,
       "actor": {
         "agentId": "orchestrator",
@@ -3357,17 +4392,17 @@
       "payload": {
         "detector": "backtrack",
         "severity": "low",
-        "evidenceEventIds": ["01M6RJTZ1JDJ2H3W3FSFKG83C4"],
+        "evidenceEventIds": ["01M6VA1JN8BEQ916GGJQA1JQEG"],
         "agentId": "probe-ux1-0",
         "stepIndex": 9,
         "url": "http://janus-f16-app:3100/checkout"
       }
     },
     {
-      "id": "01M6RJVGS9NYQZV63KM48AYCQ7",
+      "id": "01M6VA24MCSNTV65DASB7V4299",
       "runId": "01JC0F16FXF0000000000000AA",
       "seq": 166,
-      "ts": "2026-11-06T14:05:28.745Z",
+      "ts": "2026-11-07T15:29:31.788Z",
       "schemaVersion": 1,
       "actor": {
         "agentId": "orchestrator",
@@ -3377,17 +4412,17 @@
       "payload": {
         "detector": "abandonment",
         "severity": "high",
-        "evidenceEventIds": ["01M6RJTZ4Q2D8VESXH4J1T3KYB"],
+        "evidenceEventIds": ["01M6VA1JRRSWN6QDR7B3Z2GRQX"],
         "agentId": "probe-ux1-0",
         "stepIndex": 10,
         "url": "http://janus-f16-app:3100/cart"
       }
     },
     {
-      "id": "01M6RJVGS9Q76D63R7ERKS6M62",
+      "id": "01M6VA24MCRPXENJ8KCAN0ZYN3",
       "runId": "01JC0F16FXF0000000000000AA",
       "seq": 167,
-      "ts": "2026-11-06T14:05:28.745Z",
+      "ts": "2026-11-07T15:29:31.788Z",
       "schemaVersion": 1,
       "actor": {
         "agentId": "orchestrator",
@@ -3397,15 +4432,15 @@
       "payload": {
         "detector": "extra-steps",
         "severity": "low",
-        "evidenceEventIds": ["01M6RJVCV16NRBTCBKFQF1PZBP", "01M6RJV53WAGENNS5G718EFFRC"],
+        "evidenceEventIds": ["01M6VA20MEAYG547T55PARA0BY", "01M6VA1RS644RZ49CAJNPZRKY8"],
         "agentId": "probe-ux2-2"
       }
     },
     {
-      "id": "01M6RJVGS9J1963PXK4WNKX8BS",
+      "id": "01M6VA24MCMY5YZ6SG3D071HEH",
       "runId": "01JC0F16FXF0000000000000AA",
       "seq": 168,
-      "ts": "2026-11-06T14:05:28.745Z",
+      "ts": "2026-11-07T15:29:31.788Z",
       "schemaVersion": 1,
       "actor": {
         "agentId": "orchestrator",
@@ -3415,17 +4450,17 @@
       "payload": {
         "detector": "backtrack",
         "severity": "low",
-        "evidenceEventIds": ["01M6RJVBD2211AK7P04SAM6CHS", "01M6RJVBFAZ99ZJDD99N62K9JZ"],
+        "evidenceEventIds": ["01M6VA1Z6F400TKJ1328VX7G12", "01M6VA1Z8PGZK0ZD1J799BCZFM"],
         "agentId": "probe-ux2-2",
         "stepIndex": 12,
         "url": "http://janus-f16-app:3100/cart"
       }
     },
     {
-      "id": "01M6RJVGS99XT6X63W1B50HF7B",
+      "id": "01M6VA24MCEKRF6QMC2A1DB2VC",
       "runId": "01JC0F16FXF0000000000000AA",
       "seq": 169,
-      "ts": "2026-11-06T14:05:28.745Z",
+      "ts": "2026-11-07T15:29:31.788Z",
       "schemaVersion": 1,
       "actor": {
         "agentId": "orchestrator",
@@ -3435,17 +4470,17 @@
       "payload": {
         "detector": "form-error",
         "severity": "medium",
-        "evidenceEventIds": ["01M6RJVF5936DTTXCVK0GRK29S", "01M6RJVFANRMXABK5GXW3102AM"],
+        "evidenceEventIds": ["01M6VA22ZGE9ZBMA468H9TN40E", "01M6VA23540TW4331T0JK1465Z"],
         "agentId": "probe-ux3-3",
         "stepIndex": 5,
         "url": "http://janus-f16-app:3100/register"
       }
     },
     {
-      "id": "01M6RJVGS92Y40H5TDPZX9QF8K",
+      "id": "01M6VA24MCK1GWWAV0SZZHHWZ5",
       "runId": "01JC0F16FXF0000000000000AA",
       "seq": 170,
-      "ts": "2026-11-06T14:05:28.745Z",
+      "ts": "2026-11-07T15:29:31.788Z",
       "schemaVersion": 1,
       "actor": {
         "agentId": "orchestrator",
@@ -3455,7 +4490,7 @@
       "payload": {
         "detector": "abandonment",
         "severity": "high",
-        "evidenceEventIds": ["01M6RJVGP7RC7WW48DKN96RNX4"],
+        "evidenceEventIds": ["01M6VA24HB3RQKQEJ8MT38W828"],
         "agentId": "probe-ux3-3",
         "stepIndex": 10,
         "url": "http://janus-f16-app:3100/register"
