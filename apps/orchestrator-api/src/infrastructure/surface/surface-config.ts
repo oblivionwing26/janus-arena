@@ -22,6 +22,16 @@ export const surfaceTargetSchema = z.object({
   framework: z.enum(['nextjs', 'express']),
   /** Express: the files that register routes (`app.get(...)`). */
   files: z.array(relativePath).default([]),
+  /** Calls inside a handler that demand a session (`requireUser`), F2.6-B. */
+  authCalls: z.array(z.string().min(1)).default([]),
+  /** Express middlewares that demand a session (`security.isAuthorized`). */
+  authMiddleware: z.array(z.string().min(1)).default([]),
+  /** Calls that return the session's user without demanding it (`security.authenticatedUsers.from`). */
+  sessionCalls: z.array(z.string().min(1)).default([]),
+  /** Expressions that hold the session user's id (`req.body.UserId`, set by a middleware). */
+  sessionIds: z.array(z.string().min(1)).default([]),
+  /** Calls whose arguments say nothing about access control (`challengeUtils.solveIf`). */
+  ignoreCalls: z.array(z.string().min(1)).default([]),
 });
 
 export type SurfaceTarget = z.infer<typeof surfaceTargetSchema>;

@@ -1,6 +1,6 @@
 import ts from 'typescript';
 
-import type { CodeLocation, Endpoint, HttpMethod } from '../../domain/surface/endpoint.js';
+import type { CodeLocation, DeclaredEndpoint, HttpMethod } from '../../domain/surface/endpoint.js';
 import {
   isFunctionNode,
   requestKeys,
@@ -20,9 +20,11 @@ const METHODS: Readonly<Record<string, HttpMethod>> = {
 
 /** A route as Express registers it, with the middlewares written before its handler. */
 export interface ExpressRoute {
-  readonly endpoint: Endpoint;
+  readonly endpoint: DeclaredEndpoint;
   readonly middlewares: readonly ts.Expression[];
   readonly handlerNode: FunctionNode | null;
+  /** The only argument after the path, when there is just one: it may be a guard, not a handler. */
+  readonly guardOnly: ts.Expression | null;
 }
 
 /** `app.use(prefix, ...middlewares)`: applies to every route under the prefix declared after it. */
@@ -148,6 +150,7 @@ export function expressRoutes(
         },
         middlewares: found.args.slice(0, -1),
         handlerNode: handler?.node ?? null,
+        guardOnly: found.args.length === 1 ? (found.args[0] ?? null) : null,
       });
     });
   }

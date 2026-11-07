@@ -53,8 +53,9 @@ try {
         endpoint.handler === null
           ? 'handler not found'
           : `${endpoint.handler.file}:${String(endpoint.handler.line)}`;
+      const access = `auth ${endpoint.auth ? 'yes' : 'no '}  owner ${String(endpoint.ownerCheck).padEnd(7)}`;
       console.log(
-        `${endpoint.method.padEnd(7)} ${endpoint.route}  [${endpoint.params.join(', ')}]  ${handler}`,
+        `${endpoint.method.padEnd(7)} ${access}  ${endpoint.route}  [${endpoint.params.join(', ')}]  ${handler}`,
       );
     }
     console.log(`\n${String(endpoints.length)} endpoints in ${name}.`);

@@ -4,6 +4,12 @@ import { join, relative, sep } from 'node:path';
 import type { AttackSurfacePort } from '../../domain/surface/attack-surface-port.js';
 import type { Endpoint } from '../../domain/surface/endpoint.js';
 import type { VcsWorkspace } from '../../domain/vcs/vcs-port.js';
+import {
+  handlerDemandsSession,
+  isAuthMiddleware,
+  mountCovers,
+  ownerCheckOf,
+} from './access-checks.js';
 import { expressRoutes } from './express-routes.js';
 import { nextjsEndpoints } from './nextjs-routes.js';
 import { SourceSet } from './source-set.js';
@@ -56,10 +62,45 @@ export class TypeScriptAttackSurface implements AttackSurfacePort {
       files.set(path, await readFile(join(workspace.path, ...path.split('/')), 'utf8'));
     }
     const sources = new SourceSet(files);
-    const endpoints =
-      this.target.framework === 'nextjs'
-        ? nextjsEndpoints(sources)
-        : expressRoutes(sources, this.target.files).routes.map((route) => route.endpoint);
-    return endpoints;
+    const rules = this.target;
+
+    if (this.target.framework === 'nextjs') {
+      return nextjsEndpoints(sources).map((endpoint) => {
+        const node =
+          endpoint.handler === null
+            ? undefined
+            : sources.exportedFunction(endpoint.handler.file, endpoint.handler.name);
+        return {
+          ...endpoint,
+          auth: node !== undefined && handlerDemandsSession(node, rules),
+          ownerCheck: node === undefined ? 'unknown' : ownerCheckOf(node, rules),
+        };
+      });
+    }
+
+    const { routes, mounts } = expressRoutes(sources, this.target.files);
+    return routes.map(({ endpoint, middlewares, handlerNode, guardOnly }) => {
+      // `app.post('/api/Products', security.isAuthorized())`: a guard in front of routes a
+      // library generates (finale-rest in Juice Shop), not a handler of its own.
+      const guard = guardOnly !== null && isAuthMiddleware(guardOnly, rules);
+      const mounted = mounts.some(
+        (mount) =>
+          mount.at.file === endpoint.declaredAt.file &&
+          mount.at.line <= endpoint.declaredAt.line &&
+          mountCovers(mount.prefix, endpoint.route) &&
+          mount.middlewares.some((middleware) => isAuthMiddleware(middleware, rules)),
+      );
+      const node = guard ? null : handlerNode;
+      return {
+        ...endpoint,
+        handler: guard ? null : endpoint.handler,
+        auth:
+          guard ||
+          mounted ||
+          middlewares.some((middleware) => isAuthMiddleware(middleware, rules)) ||
+          (node !== null && handlerDemandsSession(node, rules)),
+        ownerCheck: node === null ? 'unknown' : ownerCheckOf(node, rules),
+      };
+    });
   }
 }
