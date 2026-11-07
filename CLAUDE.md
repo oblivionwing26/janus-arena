@@ -14,7 +14,7 @@ More context: `docs/VISION.md` (product), `docs/adr/` (decisions), `docs/ROADMAP
 
 ## Current step
 
-**F2.1 — VCS port and local git adapter.** Read this step in `docs/ROADMAP.md` before starting. Do not build features from later steps.
+**F2.2 — Locate the friction code.** Read this step in `docs/ROADMAP.md` before starting. Do not build features from later steps.
 
 (Update this line every time a step is closed.)
 

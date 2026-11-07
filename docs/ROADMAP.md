@@ -344,11 +344,13 @@ F2 automatiza lo que en F1.11 hiciste a mano y añade la primera mitad de WarRoo
 
 ### F2.1 · Puerto VCS y adaptador git local — S a M (4–6 h)
 
-- [ ] Puerto `VcsPort`: `clone(repoUrl)`, `branch(name)`, `applyPatch(diff)`, `commit(msg)`, `diffStats()`, `checkout(ref)`
-- [ ] `LocalGitAdapter` que trabaja en `.workspaces/<runId>/` (fuera del repo de Janus)
-- [ ] Convención de ramas: `janus/variant-<runId>` y `janus/fix-<findingId>`
+- [x] Puerto `VcsPort`: `clone(repoUrl)`, `branch(name)`, `applyPatch(diff)`, `commit(msg)`, `diffStats()`, `checkout(ref)`
+- [x] `LocalGitAdapter` que trabaja en `.workspaces/<runId>/` (fuera del repo de Janus)
+- [x] Convención de ramas: `janus/variant-<runId>` y `janus/fix-<findingId>`
 
 Hecho cuando: un test de integración clona ShopLab, aplica un parche, hace commit y devuelve estadísticas del diff.
+
+Nota F2.1: `VcsPort` (dominio) trabaja sobre un `VcsWorkspace` (`id`, `path`, `baseSha`) y añade dos operaciones a la lista: `head()` (rama y commit actuales) y `readFile()`, que necesitarán F2.2 y F2.3. `diffStats` mide contra el commit de partida, cambios confirmados o no, que es lo que hará falta para los límites del UI Engineer (5 ficheros, 200 líneas). El dominio impone las reglas antes de que git vea nada: `JanusBranch` solo admite `janus/variant-<ULID>` y `janus/fix-<ULID>`; URLs solo `https://` o `file://`; `patchPaths` rechaza parches con rutas absolutas, `..` o `.git/`. `LocalGitAdapter` usa el binario `git` (sin dependencias nuevas): clona en `.workspaces/<runId>/` con `core.autocrlf=false` (los parches aplican tal cual en Windows), aplica con `git apply --check` antes de `git apply` (todo o nada) y firma los commits como `Janus <janus@localhost>` con `-c`, sin tocar la configuración del usuario. Los ficheros de verdad oculta (`UX_FLAWS.md`) se marcan `skip-worktree` y se borran: ningún agente los lee, un parche que los toque se rechaza y ningún commit registra su borrado. Contrato compartido (`test-support/vcs-contract.ts`, 8 casos) que pasan `InMemoryVcs` (con un aplicador de diffs unificados propio) y `LocalGitAdapter` sobre un repo `file://` temporal, en `pnpm test`. Verificado: el test de integración clona ShopLab desde GitHub, crea `janus/variant-<runId>`, cambia una línea del carrito, hace commit y obtiene 1 fichero, +1/−1; y a mano, `git status` limpio en el workspace, sin `UX_FLAWS.md` en disco ni en el commit.
 
 ### F2.2 · Localizar el código de la fricción — M (6–8 h)
 
