@@ -395,14 +395,16 @@ Nota F2.4: el diseño pareado compara A y B dentro de un mismo run, y B no exist
 
 ### F2.5 · Adaptadores de análisis estático — M (8–10 h)
 
-- [ ] Puerto `StaticAnalysisPort.run(repoPath) → Finding[]`
-- [ ] Semgrep (imagen Docker oficial, salida JSON, reglas OWASP + `rules/` propias)
-- [ ] gitleaks con el valor del secreto eliminado antes de emitir el hallazgo
-- [ ] osv-scanner sobre el lockfile
-- [ ] dependency-cruiser con reglas de arquitectura definidas para ShopLab
-- [ ] Normalización a `Finding { kind: 'static', tool, rule, severity, file, line, snippet≤ 5 líneas }`
+- [x] Puerto `StaticAnalysisPort.run(repoPath) → Finding[]`
+- [x] Semgrep (imagen Docker oficial, salida JSON, reglas OWASP + `rules/` propias)
+- [x] gitleaks con el valor del secreto eliminado antes de emitir el hallazgo
+- [x] osv-scanner sobre el lockfile
+- [x] dependency-cruiser con reglas de arquitectura definidas para ShopLab
+- [x] Normalización a `Finding { kind: 'static', tool, rule, severity, file, line, snippet≤ 5 líneas }`
 
 Hecho cuando: el XSS y el precio manipulable sembrados aparecen como hallazgos de Semgrep (con regla propia si hace falta).
+
+Nota F2.5 (ADR 0010): ShopLab no tiene fallos de seguridad sembrados (ADR 0006), así que el "Hecho cuando" se verifica sobre OWASP Juice Shop v20.3.0, el objetivo de seguridad, con sus dos fallos públicos equivalentes. `StaticAnalysisPort.run(workspace) → StaticFinding[]` con cuatro adaptadores; cada herramienta corre desde una imagen fijada en un contenedor desechable (`docker create` + `docker cp` del workspace + `start --attach` + borrado; `DockerCli` solo deja copiar hacia un contenedor `janus-tool-*`, nunca hacia el host): Semgrep 1.180.0 y gitleaks v8.30.1 sin red; osv-scanner v2.6.0 con red, solo para consultar osv.dev con nombres y versiones; dependency-cruiser dentro del proceso con `config/arch/shoplab.depcruise.cjs` (ShopLab: 0 violaciones, con los alias `@/` resueltos). Semgrep usa reglas propias en `rules/semgrep/` (sumideros de XSS en Angular, DOM y React; cantidades o precios comprobados solo contra un tope superior), cada una con sus casos `semgrep --test`; los paquetes del registro necesitarían red y su licencia limita redistribuirlos. Los fragmentos salen del workspace (Semgrep OSS no los imprime) y nunca pasan de 5 líneas; gitleaks nunca emite el secreto (se descartan `Secret`/`Match` y el valor se sustituye por `[REDACTED]`). `RunStaticAnalysis` ejecuta las herramientas y registra cada hallazgo como `finding.created` `suspected`. `VcsPort.clone` admite `depth` (clon superficial). Las salidas JSON reales de cada herramienta sobre un repo de ejemplo sintético son fixtures de los normalizadores (`pnpm test`); las herramientas reales pasan el contrato en `pnpm test:sandbox`. **Hecho cuando:** sobre Juice Shop v20.3.0, Semgrep da 13 hallazgos, entre ellos el DOM XSS del buscador (`frontend/src/app/search-result/search-result.component.ts:146`, `bypassSecurityTrustHtml(queryParam)`) y la manipulación de precio con cantidades negativas (`routes/basketItems.ts:94` y `:95`, solo se compara con el tope); los otros 11 también son XSS conocidos de Juice Shop. Hallazgo para pasos posteriores: Juice Shop lleva su verdad oculta en el propio código (comentarios `vuln-code-snippet` en 12 ficheros y 160 soluciones en `data/static/codefixes/`); hay que quitarla antes de que un agente lea su código. Arreglado de paso: un byte nulo literal en `LocalGitAdapter.listFiles` (F2.2), ahora `'�'`.
 
 ### F2.6 · Mapa de superficie de ataque — L (10–14 h)
 

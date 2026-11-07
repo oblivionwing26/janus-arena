@@ -1,0 +1,47 @@
+# Janus's own Semgrep rules (F2.5): cross-site scripting sinks in JavaScript and TypeScript.
+# Each rule has its test cases in the file of the same name (`semgrep --test rules/semgrep`).
+
+rules:
+  - id: janus.angular-bypass-security-trust
+    languages: [typescript, javascript]
+    severity: ERROR
+    message: >-
+      A non-constant value goes through Angular's $BYPASS, which turns off sanitisation for it.
+      If any part comes from the URL, a request or stored data, this is cross-site scripting.
+    metadata:
+      cwe: 'CWE-79: Improper Neutralization of Input During Web Page Generation'
+      owasp: 'A03:2021 - Injection'
+    patterns:
+      - pattern: $SANITIZER.$BYPASS($VALUE)
+      - metavariable-regex:
+          metavariable: $BYPASS
+          regex: ^bypassSecurityTrust(Html|Script|Style|Url|ResourceUrl)$
+      - pattern-not: $SANITIZER.$BYPASS("...")
+
+  - id: janus.dom-inner-html
+    languages: [typescript, javascript]
+    severity: WARNING
+    message: >-
+      A non-constant value is written to innerHTML/outerHTML. Unless it is escaped first, this is
+      cross-site scripting; prefer textContent.
+    metadata:
+      cwe: 'CWE-79: Improper Neutralization of Input During Web Page Generation'
+      owasp: 'A03:2021 - Injection'
+    patterns:
+      - pattern-either:
+          - pattern: $EL.innerHTML = $VALUE
+          - pattern: $EL.outerHTML = $VALUE
+      - pattern-not: $EL.$PROP = "..."
+
+  - id: janus.react-dangerously-set-inner-html
+    languages: [typescript, javascript]
+    severity: WARNING
+    message: >-
+      dangerouslySetInnerHTML renders a non-constant value as HTML. Unless it is sanitised, this
+      is cross-site scripting.
+    metadata:
+      cwe: 'CWE-79: Improper Neutralization of Input During Web Page Generation'
+      owasp: 'A03:2021 - Injection'
+    patterns:
+      - pattern: '<$TAG dangerouslySetInnerHTML={{__html: $VALUE}} />'
+      - pattern-not: '<$TAG dangerouslySetInnerHTML={{__html: "..."}} />'

@@ -61,6 +61,26 @@ describe('assertSafeDockerArgs', () => {
     }).toThrow(/unsafe/);
   });
 
+  it('lets cp copy a local folder into a container, never out of one', () => {
+    expect(() => {
+      assertSafeDockerArgs(['cp', 'C:/work/01JC/.', 'janus-tool-x:/src']);
+    }).not.toThrow();
+    expect(() => {
+      assertSafeDockerArgs(['cp', '/work/01JC/.', 'janus-tool-x:/src']);
+    }).not.toThrow();
+    for (const args of [
+      ['cp', 'janus-tool-x:/etc/passwd', '/tmp/passwd'],
+      ['cp', 'janus-tool-x:/src', 'C:/Users'],
+      ['cp', 'a:/x', 'b:/y'],
+      ['cp', '/work/.', 'janus-a-app:/app'],
+      ['cp', '-L', '/work/.', 'janus-tool-x:/src'],
+    ]) {
+      expect(() => {
+        assertSafeDockerArgs(args);
+      }).toThrow(/unsafe/);
+    }
+  });
+
   it.each(['buildx', 'builder', 'exec', 'volume', 'plugin', 'swarm'])(
     'refuses the %s command',
     (command) => {

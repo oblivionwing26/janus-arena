@@ -13,6 +13,9 @@ export default tseslint.config(
       '**/.turbo/**',
       '**/coverage/**',
       '.workspaces/**',
+      // Sample code the static analysis tools scan (F2.5): deliberately unsafe, never built.
+      '**/fixtures/static-analysis/**',
+      'rules/semgrep/**',
       'recordings/**',
       '**/persistence/generated/**',
     ],

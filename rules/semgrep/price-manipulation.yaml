@@ -1,0 +1,47 @@
+# Janus's own Semgrep rules (F2.5): quantities and prices trusted from the client.
+# Test cases in price-manipulation.ts (`semgrep --test rules/semgrep`).
+
+rules:
+  - id: janus.quantity-upper-bound-only
+    languages: [typescript, javascript]
+    severity: ERROR
+    message: >-
+      $Q is checked only against an upper bound ($LIMIT) in $F. Zero and negative values pass, so
+      a client can order negative quantities and lower the total it pays (price manipulation).
+      Check that $Q is a positive integer before accepting it.
+    metadata:
+      cwe: 'CWE-20: Improper Input Validation'
+      owasp: 'A04:2021 - Insecure Design'
+    patterns:
+      - pattern-either:
+          - pattern-inside: |
+              function $F(..., $Q, ...) { ... }
+          - pattern-inside: |
+              async function $F(..., $Q, ...) { ... }
+      - metavariable-regex:
+          metavariable: $Q
+          regex: ^(?i)(quantity|qty|amount|price|count)$
+      - pattern-either:
+          - pattern: $LIMIT >= $Q
+          - pattern: $LIMIT > $Q
+          - pattern: $Q <= $LIMIT
+          - pattern: $Q < $LIMIT
+      # A comparison with 0 or 1 is itself a lower bound, not the bug.
+      - metavariable-pattern:
+          metavariable: $LIMIT
+          patterns:
+            - pattern-not: '0'
+            - pattern-not: '1'
+      # Functions that check a lower bound anywhere are fine.
+      - pattern-not-inside: |
+          function $F(..., $Q, ...) { ... if (<... $Q < 1 ...>) { ... } ... }
+      - pattern-not-inside: |
+          function $F(..., $Q, ...) { ... if (<... $Q <= 0 ...>) { ... } ... }
+      - pattern-not-inside: |
+          function $F(..., $Q, ...) { ... if (<... $Q > 0 ...>) { ... } ... }
+      - pattern-not-inside: |
+          async function $F(..., $Q, ...) { ... if (<... $Q < 1 ...>) { ... } ... }
+      - pattern-not-inside: |
+          async function $F(..., $Q, ...) { ... if (<... $Q <= 0 ...>) { ... } ... }
+      - pattern-not-inside: |
+          async function $F(..., $Q, ...) { ... if (<... $Q > 0 ...>) { ... } ... }

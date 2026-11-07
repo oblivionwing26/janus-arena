@@ -80,6 +80,9 @@ importers:
       bullmq:
         specifier: ^6.7.0
         version: 6.7.0(ioredis@6.0.0)(pg@8.23.1)
+      dependency-cruiser:
+        specifier: ^18.7.2
+        version: 18.7.2
       ioredis:
         specifier: ^6.0.0
         version: 6.0.0
