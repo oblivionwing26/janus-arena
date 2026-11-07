@@ -2,13 +2,13 @@
   "format": "janus-run",
   "version": 1,
   "runId": "01JC0F16FXF0000000000000AA",
-  "exportedAt": "2026-11-07T15:29:31.797Z",
+  "exportedAt": "2026-11-07T15:49:32.649Z",
   "events": [
     {
-      "id": "01M6VA1EDR9VG3MPXDKQCW1JRZ",
+      "id": "01M6VB63JFEZE4GAW3X149NTDT",
       "runId": "01JC0F16FXF0000000000000AA",
       "seq": 0,
-      "ts": "2026-11-07T15:29:09.050Z",
+      "ts": "2026-11-07T15:49:10.352Z",
       "schemaVersion": 1,
       "actor": {
         "agentId": "probe-ux1-0",
@@ -18,7 +18,7 @@
       "payload": {
         "stepIndex": 0,
         "action": "click",
-        "durationMs": 703.3513999999996,
+        "durationMs": 697.614499999996,
         "ok": true,
         "ref": "e5",
         "selector": "role=link[name=\"Crear cuenta\"]",
@@ -32,10 +32,10 @@
       }
     },
     {
-      "id": "01M6VA1EDT52171TXJNDSH3G9V",
+      "id": "01M6VB63JG6801XKF3ENYGSJM1",
       "runId": "01JC0F16FXF0000000000000AA",
       "seq": 1,
-      "ts": "2026-11-07T15:29:09.050Z",
+      "ts": "2026-11-07T15:49:10.352Z",
       "schemaVersion": 1,
       "actor": {
         "agentId": "probe-ux1-0",
@@ -45,7 +45,7 @@
       "payload": {
         "stepIndex": 0,
         "url": "http://janus-f16-app:3100/",
-        "durationMs": 1635.0328999999983,
+        "durationMs": 1484.915799999988,
         "texts": [
           "ShopLab",
           "Tienda",
@@ -91,10 +91,10 @@
       }
     },
     {
-      "id": "01M6VA1EDWQHEQ3YXHWY9Y56SB",
+      "id": "01M6VB63JJS90YA9V2943G0NXY",
       "runId": "01JC0F16FXF0000000000000AA",
       "seq": 2,
-      "ts": "2026-11-07T15:29:09.052Z",
+      "ts": "2026-11-07T15:49:10.354Z",
       "schemaVersion": 1,
       "actor": {
         "agentId": "probe-ux1-0",
@@ -104,16 +104,16 @@
       "payload": {
         "stepIndex": 0,
         "url": "http://janus-f16-app:3100/register",
-        "lcpMs": 860,
+        "lcpMs": 228,
         "cls": 0,
         "inpMs": 16
       }
     },
     {
-      "id": "01M6VA1EKPNRCKM9JDFWQ7CHTK",
+      "id": "01M6VB63QY8WYC3ZRBJ12JMC3G",
       "runId": "01JC0F16FXF0000000000000AA",
       "seq": 3,
-      "ts": "2026-11-07T15:29:09.238Z",
+      "ts": "2026-11-07T15:49:10.526Z",
       "schemaVersion": 1,
       "actor": {
         "agentId": "probe-ux1-0",
@@ -123,7 +123,7 @@
       "payload": {
         "stepIndex": 1,
         "action": "type",
-        "durationMs": 114.1346999999987,
+        "durationMs": 103.51880000001984,
         "ok": true,
         "ref": "e18",
         "selector": "role=textbox[name=\"Nombre\"]",
@@ -136,10 +136,10 @@
       }
     },
     {
-      "id": "01M6VA1EKPZBP67568PJ7HMDJY",
+      "id": "01M6VB63QYZST5CGHYVZXN70QT",
       "runId": "01JC0F16FXF0000000000000AA",
       "seq": 4,
-      "ts": "2026-11-07T15:29:09.238Z",
+      "ts": "2026-11-07T15:49:10.526Z",
       "schemaVersion": 1,
       "actor": {
         "agentId": "probe-ux1-0",
@@ -149,7 +149,7 @@
       "payload": {
         "stepIndex": 1,
         "url": "http://janus-f16-app:3100/register",
-        "durationMs": 185.26410000000033,
+        "durationMs": 170.9869999999937,
         "texts": [
           "ShopLab",
           "Tienda",
@@ -166,10 +166,10 @@
       }
     },
     {
-      "id": "01M6VA1EKR9YCP1PX6NCYG6F9H",
+      "id": "01M6VB63R03GJFEB7ETGXHB93C",
       "runId": "01JC0F16FXF0000000000000AA",
       "seq": 5,
-      "ts": "2026-11-07T15:29:09.240Z",
+      "ts": "2026-11-07T15:49:10.528Z",
       "schemaVersion": 1,
       "actor": {
         "agentId": "probe-ux1-0",
@@ -179,16 +179,16 @@
       "payload": {
         "stepIndex": 1,
         "url": "http://janus-f16-app:3100/register",
-        "lcpMs": 860,
+        "lcpMs": 228,
         "cls": 0,
         "inpMs": 16
       }
     },
     {
-      "id": "01M6VA1ES1SFB4XYSKQK2XH8F5",
+      "id": "01M6VB63X86XKE4MRH8KVGE7DH",
       "runId": "01JC0F16FXF0000000000000AA",
       "seq": 6,
-      "ts": "2026-11-07T15:29:09.409Z",
+      "ts": "2026-11-07T15:49:10.696Z",
       "schemaVersion": 1,
       "actor": {
         "agentId": "probe-ux1-0",
@@ -198,7 +198,7 @@
       "payload": {
         "stepIndex": 2,
         "action": "type",
-        "durationMs": 100.14259999999922,
+        "durationMs": 102.2441000000108,
         "ok": true,
         "ref": "e19",
         "selector": "role=textbox[name=\"Email\"]",
@@ -211,10 +211,10 @@
       }
     },
     {
-      "id": "01M6VA1ES1NT0SXHXRW3R1FBPX",
+      "id": "01M6VB63X8GXHZ16BDCMQMPNDX",
       "runId": "01JC0F16FXF0000000000000AA",
       "seq": 7,
-      "ts": "2026-11-07T15:29:09.409Z",
+      "ts": "2026-11-07T15:49:10.696Z",
       "schemaVersion": 1,
       "actor": {
         "agentId": "probe-ux1-0",
@@ -224,7 +224,7 @@
       "payload": {
         "stepIndex": 2,
         "url": "http://janus-f16-app:3100/register",
-        "durationMs": 168.45830000000205,
+        "durationMs": 168.31259999997565,
         "texts": [
           "ShopLab",
           "Tienda",
@@ -241,10 +241,10 @@
       }
     },
     {
-      "id": "01M6VA1ES3RG0HGCE7MDT9WFRP",
+      "id": "01M6VB63XAMK0QS2KS2C5D3KY4",
       "runId": "01JC0F16FXF0000000000000AA",
       "seq": 8,
-      "ts": "2026-11-07T15:29:09.411Z",
+      "ts": "2026-11-07T15:49:10.698Z",
       "schemaVersion": 1,
       "actor": {
         "agentId": "probe-ux1-0",
@@ -254,16 +254,16 @@
       "payload": {
         "stepIndex": 2,
         "url": "http://janus-f16-app:3100/register",
-        "lcpMs": 860,
+        "lcpMs": 228,
         "cls": 0,
         "inpMs": 16
       }
     },
     {
-      "id": "01M6VA1EYMR9D1S7ZMZ3FDHYZD",
+      "id": "01M6VB642HSXQ9TXHE2D6N0CKN",
       "runId": "01JC0F16FXF0000000000000AA",
       "seq": 9,
-      "ts": "2026-11-07T15:29:09.588Z",
+      "ts": "2026-11-07T15:49:10.865Z",
       "schemaVersion": 1,
       "actor": {
         "agentId": "probe-ux1-0",
@@ -273,7 +273,7 @@
       "payload": {
         "stepIndex": 3,
         "action": "type",
-        "durationMs": 109.3127999999997,
+        "durationMs": 100.72469999999157,
         "ok": true,
         "ref": "e20",
         "selector": "role=textbox[name=\"Contraseña (mínimo 8 caracteres)\"]",
@@ -286,10 +286,10 @@
       }
     },
     {
-      "id": "01M6VA1EYMBDAVGBA02PWTH25Q",
+      "id": "01M6VB642HEDR7VC0FE9E3MJSH",
       "runId": "01JC0F16FXF0000000000000AA",
       "seq": 10,
-      "ts": "2026-11-07T15:29:09.588Z",
+      "ts": "2026-11-07T15:49:10.865Z",
       "schemaVersion": 1,
       "actor": {
         "agentId": "probe-ux1-0",
@@ -299,7 +299,7 @@
       "payload": {
         "stepIndex": 3,
         "url": "http://janus-f16-app:3100/register",
-        "durationMs": 177.0524000000005,
+        "durationMs": 167.13910000000033,
         "texts": [
           "ShopLab",
           "Tienda",
@@ -316,10 +316,10 @@
       }
     },
     {
-      "id": "01M6VA1EYP8B4Y0J5076YH08S7",
+      "id": "01M6VB642KYTTKQJ3EV6EZQ8JB",
       "runId": "01JC0F16FXF0000000000000AA",
       "seq": 11,
-      "ts": "2026-11-07T15:29:09.590Z",
+      "ts": "2026-11-07T15:49:10.867Z",
       "schemaVersion": 1,
       "actor": {
         "agentId": "probe-ux1-0",
@@ -329,16 +329,16 @@
       "payload": {
         "stepIndex": 3,
         "url": "http://janus-f16-app:3100/register",
-        "lcpMs": 860,
+        "lcpMs": 228,
         "cls": 0,
         "inpMs": 16
       }
     },
     {
-      "id": "01M6VA1F3YKHSW08Z933ET6KWH",
+      "id": "01M6VB647WZ6R3N2DHDZZ80EN3",
       "runId": "01JC0F16FXF0000000000000AA",
       "seq": 12,
-      "ts": "2026-11-07T15:29:09.758Z",
+      "ts": "2026-11-07T15:49:11.036Z",
       "schemaVersion": 1,
       "actor": {
         "agentId": "probe-ux1-0",
@@ -348,7 +348,7 @@
       "payload": {
         "stepIndex": 4,
         "action": "type",
-        "durationMs": 101.17499999999927,
+        "durationMs": 103.31890000001295,
         "ok": true,
         "ref": "e21",
         "selector": "role=textbox[name=\"Dirección de envío\"]",
@@ -361,10 +361,10 @@
       }
     },
     {
-      "id": "01M6VA1F3Y87DEVZFVD8Q4G30P",
+      "id": "01M6VB647W5CNY0CE92BFQXXZS",
       "runId": "01JC0F16FXF0000000000000AA",
       "seq": 13,
-      "ts": "2026-11-07T15:29:09.758Z",
+      "ts": "2026-11-07T15:49:11.036Z",
       "schemaVersion": 1,
       "actor": {
         "agentId": "probe-ux1-0",
@@ -374,7 +374,7 @@
       "payload": {
         "stepIndex": 4,
         "url": "http://janus-f16-app:3100/register",
-        "durationMs": 167.54409999999916,
+        "durationMs": 169.0916000000143,
         "texts": [
           "ShopLab",
           "Tienda",
@@ -391,10 +391,10 @@
       }
     },
     {
-      "id": "01M6VA1F3Z3K60T8XHBSX0X39Q",
+      "id": "01M6VB647Y9ARGVAZCBR51S3TF",
       "runId": "01JC0F16FXF0000000000000AA",
       "seq": 14,
-      "ts": "2026-11-07T15:29:09.759Z",
+      "ts": "2026-11-07T15:49:11.038Z",
       "schemaVersion": 1,
       "actor": {
         "agentId": "probe-ux1-0",
@@ -404,16 +404,16 @@
       "payload": {
         "stepIndex": 4,
         "url": "http://janus-f16-app:3100/register",
-        "lcpMs": 860,
+        "lcpMs": 228,
         "cls": 0,
         "inpMs": 16
       }
     },
     {
-      "id": "01M6VA1G3CS4YG8M1G0FM8CBS8",
+      "id": "01M6VB654V6VF4D4AADJPSD89N",
       "runId": "01JC0F16FXF0000000000000AA",
       "seq": 15,
-      "ts": "2026-11-07T15:29:10.764Z",
+      "ts": "2026-11-07T15:49:11.963Z",
       "schemaVersion": 1,
       "actor": {
         "agentId": "probe-ux1-0",
@@ -423,7 +423,7 @@
       "payload": {
         "stepIndex": 5,
         "action": "click",
-        "durationMs": 936.8302999999942,
+        "durationMs": 858.8103999999876,
         "ok": true,
         "ref": "e22",
         "selector": "role=button[name=\"Crear cuenta\"]",
@@ -437,10 +437,10 @@
       }
     },
     {
-      "id": "01M6VA1G3CNZRX0DD6RB1NAS5R",
+      "id": "01M6VB654VTP2W7EKAE1J8FYFG",
       "runId": "01JC0F16FXF0000000000000AA",
       "seq": 16,
-      "ts": "2026-11-07T15:29:10.764Z",
+      "ts": "2026-11-07T15:49:11.963Z",
       "schemaVersion": 1,
       "actor": {
         "agentId": "probe-ux1-0",
@@ -450,7 +450,7 @@
       "payload": {
         "stepIndex": 5,
         "url": "http://janus-f16-app:3100/register",
-        "durationMs": 1004.5540999999976,
+        "durationMs": 924.4078999999911,
         "texts": [
           "ShopLab",
           "Tienda",
@@ -467,10 +467,10 @@
       }
     },
     {
-      "id": "01M6VA1G3EAEMNQYRMMXVW3AAX",
+      "id": "01M6VB654WGEV75VXWPAD3CGF8",
       "runId": "01JC0F16FXF0000000000000AA",
       "seq": 17,
-      "ts": "2026-11-07T15:29:10.766Z",
+      "ts": "2026-11-07T15:49:11.964Z",
       "schemaVersion": 1,
       "actor": {
         "agentId": "probe-ux1-0",
@@ -480,16 +480,16 @@
       "payload": {
         "stepIndex": 5,
         "url": "http://janus-f16-app:3100/",
-        "lcpMs": 860,
+        "lcpMs": 228,
         "cls": 0,
         "inpMs": 16
       }
     },
     {
-      "id": "01M6VA1GVTBJXN53Z3856TAYW0",
+      "id": "01M6VB65TSQTVD42TBE9M94HMT",
       "runId": "01JC0F16FXF0000000000000AA",
       "seq": 18,
-      "ts": "2026-11-07T15:29:11.546Z",
+      "ts": "2026-11-07T15:49:12.665Z",
       "schemaVersion": 1,
       "actor": {
         "agentId": "probe-ux1-0",
@@ -499,7 +499,7 @@
       "payload": {
         "stepIndex": 6,
         "action": "click",
-        "durationMs": 702.6659999999974,
+        "durationMs": 632.9921000000031,
         "ok": true,
         "ref": "e17",
         "selector": "role=link[name=\"Taza de cerámica\"]",
@@ -513,10 +513,10 @@
       }
     },
     {
-      "id": "01M6VA1GVTMEGVMHWG5YR1N95D",
+      "id": "01M6VB65TSEY3KF183SR9ETQ1S",
       "runId": "01JC0F16FXF0000000000000AA",
       "seq": 19,
-      "ts": "2026-11-07T15:29:11.546Z",
+      "ts": "2026-11-07T15:49:12.665Z",
       "schemaVersion": 1,
       "actor": {
         "agentId": "probe-ux1-0",
@@ -526,7 +526,7 @@
       "payload": {
         "stepIndex": 6,
         "url": "http://janus-f16-app:3100/",
-        "durationMs": 779.6172999999981,
+        "durationMs": 700.579700000002,
         "texts": [
           "ShopLab",
           "Tienda",
@@ -572,10 +572,10 @@
       }
     },
     {
-      "id": "01M6VA1GVW1K1ZYGX89ETQXA6J",
+      "id": "01M6VB65TV26QYSRBE2ZDC4Y4Y",
       "runId": "01JC0F16FXF0000000000000AA",
       "seq": 20,
-      "ts": "2026-11-07T15:29:11.548Z",
+      "ts": "2026-11-07T15:49:12.667Z",
       "schemaVersion": 1,
       "actor": {
         "agentId": "probe-ux1-0",
@@ -585,16 +585,16 @@
       "payload": {
         "stepIndex": 6,
         "url": "http://janus-f16-app:3100/products/taza-ceramica",
-        "lcpMs": 860,
+        "lcpMs": 228,
         "cls": 0,
         "inpMs": 16
       }
     },
     {
-      "id": "01M6VA1HTEEQ5GD9DX52KGEYFP",
+      "id": "01M6VB66PDM255HTBSBENN5VA4",
       "runId": "01JC0F16FXF0000000000000AA",
       "seq": 21,
-      "ts": "2026-11-07T15:29:12.526Z",
+      "ts": "2026-11-07T15:49:13.549Z",
       "schemaVersion": 1,
       "actor": {
         "agentId": "probe-ux1-0",
@@ -604,7 +604,7 @@
       "payload": {
         "stepIndex": 7,
         "action": "click",
-        "durationMs": 909.3630000000048,
+        "durationMs": 815.0956000000006,
         "ok": true,
         "ref": "e27",
         "selector": "role=button[name=\"Añadir al carrito\"]",
@@ -618,10 +618,10 @@
       }
     },
     {
-      "id": "01M6VA1HTE5RMBVX08VWDHPH4P",
+      "id": "01M6VB66PDTFR8K8R9CTZWY070",
       "runId": "01JC0F16FXF0000000000000AA",
       "seq": 22,
-      "ts": "2026-11-07T15:29:12.526Z",
+      "ts": "2026-11-07T15:49:13.549Z",
       "schemaVersion": 1,
       "actor": {
         "agentId": "probe-ux1-0",
@@ -631,7 +631,7 @@
       "payload": {
         "stepIndex": 7,
         "url": "http://janus-f16-app:3100/products/taza-ceramica",
-        "durationMs": 977.8230999999942,
+        "durationMs": 882.1782999999996,
         "texts": [
           "ShopLab",
           "Tienda",
@@ -652,10 +652,10 @@
       }
     },
     {
-      "id": "01M6VA1HTGA8E7BSKG7580RVRQ",
+      "id": "01M6VB66PF09CWK1QY8QX3NGZ4",
       "runId": "01JC0F16FXF0000000000000AA",
       "seq": 23,
-      "ts": "2026-11-07T15:29:12.528Z",
+      "ts": "2026-11-07T15:49:13.551Z",
       "schemaVersion": 1,
       "actor": {
         "agentId": "probe-ux1-0",
@@ -665,16 +665,16 @@
       "payload": {
         "stepIndex": 7,
         "url": "http://janus-f16-app:3100/cart",
-        "lcpMs": 860,
+        "lcpMs": 228,
         "cls": 0,
         "inpMs": 16
       }
     },
     {
-      "id": "01M6VA1JHQHEY5PP3CRDBX3W2P",
+      "id": "01M6VB67DTNCF23HW36VHK391P",
       "runId": "01JC0F16FXF0000000000000AA",
       "seq": 24,
-      "ts": "2026-11-07T15:29:13.271Z",
+      "ts": "2026-11-07T15:49:14.298Z",
       "schemaVersion": 1,
       "actor": {
         "agentId": "probe-ux1-0",
@@ -684,7 +684,7 @@
       "payload": {
         "stepIndex": 8,
         "action": "click",
-        "durationMs": 675.3965000000026,
+        "durationMs": 678.0664999999863,
         "ok": true,
         "ref": "e35",
         "selector": "role=link[name=\"Ir a pagar\"]",
@@ -698,10 +698,10 @@
       }
     },
     {
-      "id": "01M6VA1JHQ2RYSFX8QTQ4FNTVV",
+      "id": "01M6VB67DVKS4MA2NGFZ6E4T99",
       "runId": "01JC0F16FXF0000000000000AA",
       "seq": 25,
-      "ts": "2026-11-07T15:29:13.271Z",
+      "ts": "2026-11-07T15:49:14.299Z",
       "schemaVersion": 1,
       "actor": {
         "agentId": "probe-ux1-0",
@@ -711,7 +711,7 @@
       "payload": {
         "stepIndex": 8,
         "url": "http://janus-f16-app:3100/cart",
-        "durationMs": 742.7132999999958,
+        "durationMs": 747.3366000000096,
         "texts": [
           "ShopLab",
           "Tienda",
@@ -737,10 +737,10 @@
       }
     },
     {
-      "id": "01M6VA1JHSRFY7JEQTH9HAN835",
+      "id": "01M6VB67DWS6VF61D8VA4GP9XG",
       "runId": "01JC0F16FXF0000000000000AA",
       "seq": 26,
-      "ts": "2026-11-07T15:29:13.273Z",
+      "ts": "2026-11-07T15:49:14.300Z",
       "schemaVersion": 1,
       "actor": {
         "agentId": "probe-ux1-0",
@@ -750,16 +750,16 @@
       "payload": {
         "stepIndex": 8,
         "url": "http://janus-f16-app:3100/checkout",
-        "lcpMs": 860,
+        "lcpMs": 228,
         "cls": 0,
         "inpMs": 16
       }
     },
     {
-      "id": "01M6VA1JN8BEQ916GGJQA1JQEG",
+      "id": "01M6VB67HCCHQTVVXSQ7D95N65",
       "runId": "01JC0F16FXF0000000000000AA",
       "seq": 27,
-      "ts": "2026-11-07T15:29:13.384Z",
+      "ts": "2026-11-07T15:49:14.412Z",
       "schemaVersion": 1,
       "actor": {
         "agentId": "probe-ux1-0",
@@ -769,15 +769,15 @@
       "payload": {
         "stepIndex": 9,
         "action": "back",
-        "durationMs": 46.856299999999464,
+        "durationMs": 45.62119999999413,
         "ok": true
       }
     },
     {
-      "id": "01M6VA1JN8098VRWZSQA59HH4A",
+      "id": "01M6VB67HCZC7C5RYE9R9P08HS",
       "runId": "01JC0F16FXF0000000000000AA",
       "seq": 28,
-      "ts": "2026-11-07T15:29:13.384Z",
+      "ts": "2026-11-07T15:49:14.412Z",
       "schemaVersion": 1,
       "actor": {
         "agentId": "probe-ux1-0",
@@ -787,7 +787,7 @@
       "payload": {
         "stepIndex": 9,
         "url": "http://janus-f16-app:3100/checkout",
-        "durationMs": 111.16649999999936,
+        "durationMs": 111.38390000001527,
         "texts": [
           "ShopLab",
           "Tienda",
@@ -812,10 +812,10 @@
       }
     },
     {
-      "id": "01M6VA1JNAEK0VWSRJAKD0PQB0",
+      "id": "01M6VB67HERKBZYT704EWMSHWX",
       "runId": "01JC0F16FXF0000000000000AA",
       "seq": 29,
-      "ts": "2026-11-07T15:29:13.386Z",
+      "ts": "2026-11-07T15:49:14.414Z",
       "schemaVersion": 1,
       "actor": {
         "agentId": "probe-ux1-0",
@@ -825,16 +825,16 @@
       "payload": {
         "stepIndex": 9,
         "url": "http://janus-f16-app:3100/cart",
-        "lcpMs": 860,
+        "lcpMs": 228,
         "cls": 0,
         "inpMs": 16
       }
     },
     {
-      "id": "01M6VA1JPJ7RV7310YP0HDDQSK",
+      "id": "01M6VB67JB5QG4E3YRK930BJHG",
       "runId": "01JC0F16FXF0000000000000AA",
       "seq": 30,
-      "ts": "2026-11-07T15:29:13.426Z",
+      "ts": "2026-11-07T15:49:14.443Z",
       "schemaVersion": 1,
       "actor": {
         "agentId": "probe-ux1-0",
@@ -849,10 +849,10 @@
       }
     },
     {
-      "id": "01M6VA1JRP0K3CJZDCJTZ1D2J1",
+      "id": "01M6VB67MDM5Y6NJMXPV0G7QFJ",
       "runId": "01JC0F16FXF0000000000000AA",
       "seq": 31,
-      "ts": "2026-11-07T15:29:13.494Z",
+      "ts": "2026-11-07T15:49:14.509Z",
       "schemaVersion": 1,
       "actor": {
         "agentId": "probe-ux1-0",
@@ -862,15 +862,15 @@
       "payload": {
         "stepIndex": 10,
         "action": "done",
-        "durationMs": 0.3525999999983469,
+        "durationMs": 0.29839999999967404,
         "ok": true
       }
     },
     {
-      "id": "01M6VA1JRPQ6AXRV5CW628KHEP",
+      "id": "01M6VB67MDZ4SQ1845B0VBEXQM",
       "runId": "01JC0F16FXF0000000000000AA",
       "seq": 32,
-      "ts": "2026-11-07T15:29:13.494Z",
+      "ts": "2026-11-07T15:49:14.509Z",
       "schemaVersion": 1,
       "actor": {
         "agentId": "probe-ux1-0",
@@ -880,7 +880,7 @@
       "payload": {
         "stepIndex": 10,
         "url": "http://janus-f16-app:3100/cart",
-        "durationMs": 67.58370000000286,
+        "durationMs": 66.16390000001411,
         "texts": [
           "ShopLab",
           "Tienda",
@@ -906,10 +906,10 @@
       }
     },
     {
-      "id": "01M6VA1JRRHR2NE3MBKK2GE241",
+      "id": "01M6VB67MFENWJZFVCD1EX1GYR",
       "runId": "01JC0F16FXF0000000000000AA",
       "seq": 33,
-      "ts": "2026-11-07T15:29:13.496Z",
+      "ts": "2026-11-07T15:49:14.511Z",
       "schemaVersion": 1,
       "actor": {
         "agentId": "probe-ux1-0",
@@ -919,16 +919,16 @@
       "payload": {
         "stepIndex": 10,
         "url": "http://janus-f16-app:3100/cart",
-        "lcpMs": 860,
+        "lcpMs": 228,
         "cls": 0,
         "inpMs": 16
       }
     },
     {
-      "id": "01M6VA1JRRSWN6QDR7B3Z2GRQX",
+      "id": "01M6VB67MFCK1ZG0YXY2TK7846",
       "runId": "01JC0F16FXF0000000000000AA",
       "seq": 34,
-      "ts": "2026-11-07T15:29:13.496Z",
+      "ts": "2026-11-07T15:49:14.511Z",
       "schemaVersion": 1,
       "actor": {
         "agentId": "probe-ux1-0",
@@ -939,14 +939,14 @@
         "outcome": "abandon",
         "steps": 11,
         "reason": "El envío solo aparece al pagar.",
-        "durationMs": 11385.490899999997
+        "durationMs": 6109.897700000001
       }
     },
     {
-      "id": "01M6VA1METM88ZFGSTCCTKZ7MQ",
+      "id": "01M6VB69BNKSZBC12SVMTBGV2J",
       "runId": "01JC0F16FXF0000000000000AA",
       "seq": 35,
-      "ts": "2026-11-07T15:29:15.227Z",
+      "ts": "2026-11-07T15:49:16.277Z",
       "schemaVersion": 1,
       "actor": {
         "agentId": "baseline-ux2-1",
@@ -956,7 +956,7 @@
       "payload": {
         "stepIndex": 0,
         "action": "click",
-        "durationMs": 705.9648000000016,
+        "durationMs": 675.2755999999936,
         "ok": true,
         "ref": "e5",
         "selector": "role=link[name=\"Crear cuenta\"]",
@@ -970,10 +970,10 @@
       }
     },
     {
-      "id": "01M6VA1MEXMK63XFJWTP2CSMJP",
+      "id": "01M6VB69BNX0PYXF74JNRPJJ67",
       "runId": "01JC0F16FXF0000000000000AA",
       "seq": 36,
-      "ts": "2026-11-07T15:29:15.229Z",
+      "ts": "2026-11-07T15:49:16.277Z",
       "schemaVersion": 1,
       "actor": {
         "agentId": "baseline-ux2-1",
@@ -983,7 +983,7 @@
       "payload": {
         "stepIndex": 0,
         "url": "http://janus-f16-app:3100/",
-        "durationMs": 1400.4038999999975,
+        "durationMs": 1462.0282999999763,
         "texts": [
           "ShopLab",
           "Tienda",
@@ -1029,10 +1029,10 @@
       }
     },
     {
-      "id": "01M6VA1MEZAN36K5XBE8KA0F1K",
+      "id": "01M6VB69BQDWXKFW964BQW99PW",
       "runId": "01JC0F16FXF0000000000000AA",
       "seq": 37,
-      "ts": "2026-11-07T15:29:15.231Z",
+      "ts": "2026-11-07T15:49:16.279Z",
       "schemaVersion": 1,
       "actor": {
         "agentId": "baseline-ux2-1",
@@ -1048,10 +1048,10 @@
       }
     },
     {
-      "id": "01M6VA1MMF45CH0PNDVG51RRZ0",
+      "id": "01M6VB69H1JR5T1RC7BJCAT5EE",
       "runId": "01JC0F16FXF0000000000000AA",
       "seq": 38,
-      "ts": "2026-11-07T15:29:15.407Z",
+      "ts": "2026-11-07T15:49:16.449Z",
       "schemaVersion": 1,
       "actor": {
         "agentId": "baseline-ux2-1",
@@ -1061,7 +1061,7 @@
       "payload": {
         "stepIndex": 1,
         "action": "type",
-        "durationMs": 106.68559999999707,
+        "durationMs": 103.26230000000214,
         "ok": true,
         "ref": "e18",
         "selector": "role=textbox[name=\"Nombre\"]",
@@ -1074,10 +1074,10 @@
       }
     },
     {
-      "id": "01M6VA1MMF703GFK1VQR072ATF",
+      "id": "01M6VB69H26YXV3ZBA80JADCVK",
       "runId": "01JC0F16FXF0000000000000AA",
       "seq": 39,
-      "ts": "2026-11-07T15:29:15.407Z",
+      "ts": "2026-11-07T15:49:16.450Z",
       "schemaVersion": 1,
       "actor": {
         "agentId": "baseline-ux2-1",
@@ -1087,7 +1087,7 @@
       "payload": {
         "stepIndex": 1,
         "url": "http://janus-f16-app:3100/register",
-        "durationMs": 175.68059999999969,
+        "durationMs": 170.32280000002356,
         "texts": [
           "ShopLab",
           "Tienda",
@@ -1104,10 +1104,10 @@
       }
     },
     {
-      "id": "01M6VA1MMHDVAC39PKYXJ8X996",
+      "id": "01M6VB69H3MWEEPANZBJVYD55P",
       "runId": "01JC0F16FXF0000000000000AA",
       "seq": 40,
-      "ts": "2026-11-07T15:29:15.409Z",
+      "ts": "2026-11-07T15:49:16.451Z",
       "schemaVersion": 1,
       "actor": {
         "agentId": "baseline-ux2-1",
@@ -1123,10 +1123,10 @@
       }
     },
     {
-      "id": "01M6VA1MSRQJNY0CQB34MBBPCZ",
+      "id": "01M6VB69P77FAAE4YHW7TAQDDM",
       "runId": "01JC0F16FXF0000000000000AA",
       "seq": 41,
-      "ts": "2026-11-07T15:29:15.576Z",
+      "ts": "2026-11-07T15:49:16.615Z",
       "schemaVersion": 1,
       "actor": {
         "agentId": "baseline-ux2-1",
@@ -1136,7 +1136,7 @@
       "payload": {
         "stepIndex": 2,
         "action": "type",
-        "durationMs": 101.42889999999898,
+        "durationMs": 99.3813000000082,
         "ok": true,
         "ref": "e19",
         "selector": "role=textbox[name=\"Email\"]",
@@ -1149,10 +1149,10 @@
       }
     },
     {
-      "id": "01M6VA1MSR6SN3J2V449M006K8",
+      "id": "01M6VB69P7X7TAVVXAEFF3027R",
       "runId": "01JC0F16FXF0000000000000AA",
       "seq": 42,
-      "ts": "2026-11-07T15:29:15.576Z",
+      "ts": "2026-11-07T15:49:16.615Z",
       "schemaVersion": 1,
       "actor": {
         "agentId": "baseline-ux2-1",
@@ -1162,7 +1162,7 @@
       "payload": {
         "stepIndex": 2,
         "url": "http://janus-f16-app:3100/register",
-        "durationMs": 167.41259999999602,
+        "durationMs": 163.9389000000083,
         "texts": [
           "ShopLab",
           "Tienda",
@@ -1179,10 +1179,10 @@
       }
     },
     {
-      "id": "01M6VA1MST60QY970EDXP7WKB3",
+      "id": "01M6VB69P98ZK9G27TQQ41VHXB",
       "runId": "01JC0F16FXF0000000000000AA",
       "seq": 43,
-      "ts": "2026-11-07T15:29:15.578Z",
+      "ts": "2026-11-07T15:49:16.617Z",
       "schemaVersion": 1,
       "actor": {
         "agentId": "baseline-ux2-1",
@@ -1198,10 +1198,10 @@
       }
     },
     {
-      "id": "01M6VA1MZ5G6N2SS2M6XGQCDVJ",
+      "id": "01M6VB69VJHCA21P4RHFY0ZF1B",
       "runId": "01JC0F16FXF0000000000000AA",
       "seq": 44,
-      "ts": "2026-11-07T15:29:15.749Z",
+      "ts": "2026-11-07T15:49:16.786Z",
       "schemaVersion": 1,
       "actor": {
         "agentId": "baseline-ux2-1",
@@ -1211,7 +1211,7 @@
       "payload": {
         "stepIndex": 3,
         "action": "type",
-        "durationMs": 103.7815000000046,
+        "durationMs": 102.42389999999432,
         "ok": true,
         "ref": "e20",
         "selector": "role=textbox[name=\"Contraseña (mínimo 8 caracteres)\"]",
@@ -1224,10 +1224,10 @@
       }
     },
     {
-      "id": "01M6VA1MZ5SRKCRRKMFXZFXEZS",
+      "id": "01M6VB69VJR56AZDW789SS63BP",
       "runId": "01JC0F16FXF0000000000000AA",
       "seq": 45,
-      "ts": "2026-11-07T15:29:15.749Z",
+      "ts": "2026-11-07T15:49:16.786Z",
       "schemaVersion": 1,
       "actor": {
         "agentId": "baseline-ux2-1",
@@ -1237,7 +1237,7 @@
       "payload": {
         "stepIndex": 3,
         "url": "http://janus-f16-app:3100/register",
-        "durationMs": 170.8353999999963,
+        "durationMs": 168.97630000000936,
         "texts": [
           "ShopLab",
           "Tienda",
@@ -1254,10 +1254,10 @@
       }
     },
     {
-      "id": "01M6VA1MZ7FJHHZYNKS3D5JD6G",
+      "id": "01M6VB69VMEQ1W13451C2709ZW",
       "runId": "01JC0F16FXF0000000000000AA",
       "seq": 46,
-      "ts": "2026-11-07T15:29:15.751Z",
+      "ts": "2026-11-07T15:49:16.788Z",
       "schemaVersion": 1,
       "actor": {
         "agentId": "baseline-ux2-1",
@@ -1273,10 +1273,10 @@
       }
     },
     {
-      "id": "01M6VA1N4GEBVK4X7WV53457EB",
+      "id": "01M6VB6A10HVZ0F10SPFDCYJNB",
       "runId": "01JC0F16FXF0000000000000AA",
       "seq": 47,
-      "ts": "2026-11-07T15:29:15.920Z",
+      "ts": "2026-11-07T15:49:16.960Z",
       "schemaVersion": 1,
       "actor": {
         "agentId": "baseline-ux2-1",
@@ -1286,7 +1286,7 @@
       "payload": {
         "stepIndex": 4,
         "action": "type",
-        "durationMs": 102.73559999999998,
+        "durationMs": 106.14040000000386,
         "ok": true,
         "ref": "e21",
         "selector": "role=textbox[name=\"Dirección de envío\"]",
@@ -1299,10 +1299,10 @@
       }
     },
     {
-      "id": "01M6VA1N4GRKA6H9CV2AJPC21C",
+      "id": "01M6VB6A10PAQ6KN6C29BVKW9S",
       "runId": "01JC0F16FXF0000000000000AA",
       "seq": 48,
-      "ts": "2026-11-07T15:29:15.920Z",
+      "ts": "2026-11-07T15:49:16.960Z",
       "schemaVersion": 1,
       "actor": {
         "agentId": "baseline-ux2-1",
@@ -1312,7 +1312,7 @@
       "payload": {
         "stepIndex": 4,
         "url": "http://janus-f16-app:3100/register",
-        "durationMs": 168.9652999999962,
+        "durationMs": 171.30439999999362,
         "texts": [
           "ShopLab",
           "Tienda",
@@ -1329,10 +1329,10 @@
       }
     },
     {
-      "id": "01M6VA1N4J8SBF7GG693CBZ6YV",
+      "id": "01M6VB6A11Y4A4CF2AW02R78N8",
       "runId": "01JC0F16FXF0000000000000AA",
       "seq": 49,
-      "ts": "2026-11-07T15:29:15.922Z",
+      "ts": "2026-11-07T15:49:16.962Z",
       "schemaVersion": 1,
       "actor": {
         "agentId": "baseline-ux2-1",
@@ -1348,10 +1348,10 @@
       }
     },
     {
-      "id": "01M6VA1NZC4KN9967M6RN3VDN5",
+      "id": "01M6VB6AV9C551STWWX2SAB1ZT",
       "runId": "01JC0F16FXF0000000000000AA",
       "seq": 50,
-      "ts": "2026-11-07T15:29:16.780Z",
+      "ts": "2026-11-07T15:49:17.801Z",
       "schemaVersion": 1,
       "actor": {
         "agentId": "baseline-ux2-1",
@@ -1361,7 +1361,7 @@
       "payload": {
         "stepIndex": 5,
         "action": "click",
-        "durationMs": 790.7338999999993,
+        "durationMs": 774.5664999999863,
         "ok": true,
         "ref": "e22",
         "selector": "role=button[name=\"Crear cuenta\"]",
@@ -1375,10 +1375,10 @@
       }
     },
     {
-      "id": "01M6VA1NZC9JX3EDPD77YSMG18",
+      "id": "01M6VB6AV9246VNW6GMT7XN8KW",
       "runId": "01JC0F16FXF0000000000000AA",
       "seq": 51,
-      "ts": "2026-11-07T15:29:16.780Z",
+      "ts": "2026-11-07T15:49:17.801Z",
       "schemaVersion": 1,
       "actor": {
         "agentId": "baseline-ux2-1",
@@ -1388,7 +1388,7 @@
       "payload": {
         "stepIndex": 5,
         "url": "http://janus-f16-app:3100/register",
-        "durationMs": 857.7176999999938,
+        "durationMs": 839.4781999999832,
         "texts": [
           "ShopLab",
           "Tienda",
@@ -1405,10 +1405,10 @@
       }
     },
     {
-      "id": "01M6VA1NZEAS50PVX1AWZGSNT1",
+      "id": "01M6VB6AVBF1H5ERN7SX99YXCZ",
       "runId": "01JC0F16FXF0000000000000AA",
       "seq": 52,
-      "ts": "2026-11-07T15:29:16.782Z",
+      "ts": "2026-11-07T15:49:17.803Z",
       "schemaVersion": 1,
       "actor": {
         "agentId": "baseline-ux2-1",
@@ -1424,10 +1424,10 @@
       }
     },
     {
-      "id": "01M6VA1PQ5G3YPRZF7ZGHEVF3N",
+      "id": "01M6VB6BK1HAQKKE1XEZSGMEYQ",
       "runId": "01JC0F16FXF0000000000000AA",
       "seq": 53,
-      "ts": "2026-11-07T15:29:17.541Z",
+      "ts": "2026-11-07T15:49:18.561Z",
       "schemaVersion": 1,
       "actor": {
         "agentId": "baseline-ux2-1",
@@ -1437,7 +1437,7 @@
       "payload": {
         "stepIndex": 6,
         "action": "click",
-        "durationMs": 690.0968999999968,
+        "durationMs": 688.9029999999912,
         "ok": true,
         "ref": "e17",
         "selector": "role=link[name=\"Taza de cerámica\"]",
@@ -1451,10 +1451,10 @@
       }
     },
     {
-      "id": "01M6VA1PQ5A5JVMV04E4CZH2A5",
+      "id": "01M6VB6BK2AJBT3K9Z68FRDQ1N",
       "runId": "01JC0F16FXF0000000000000AA",
       "seq": 54,
-      "ts": "2026-11-07T15:29:17.541Z",
+      "ts": "2026-11-07T15:49:18.562Z",
       "schemaVersion": 1,
       "actor": {
         "agentId": "baseline-ux2-1",
@@ -1464,7 +1464,7 @@
       "payload": {
         "stepIndex": 6,
         "url": "http://janus-f16-app:3100/",
-        "durationMs": 758.9001999999964,
+        "durationMs": 757.9830000000075,
         "texts": [
           "ShopLab",
           "Tienda",
@@ -1510,10 +1510,10 @@
       }
     },
     {
-      "id": "01M6VA1PQ736SV7MKKZ879QK0N",
+      "id": "01M6VB6BK33ZDDH60X4BCHHDA4",
       "runId": "01JC0F16FXF0000000000000AA",
       "seq": 55,
-      "ts": "2026-11-07T15:29:17.543Z",
+      "ts": "2026-11-07T15:49:18.563Z",
       "schemaVersion": 1,
       "actor": {
         "agentId": "baseline-ux2-1",
@@ -1529,10 +1529,10 @@
       }
     },
     {
-      "id": "01M6VA1QG87GF7TY0M952VZVGG",
+      "id": "01M6VB6CD0VAM3T544W2YV2TWX",
       "runId": "01JC0F16FXF0000000000000AA",
       "seq": 56,
-      "ts": "2026-11-07T15:29:18.345Z",
+      "ts": "2026-11-07T15:49:19.392Z",
       "schemaVersion": 1,
       "actor": {
         "agentId": "baseline-ux2-1",
@@ -1542,7 +1542,7 @@
       "payload": {
         "stepIndex": 7,
         "action": "click",
-        "durationMs": 732.1766000000061,
+        "durationMs": 760.8452000000107,
         "ok": true,
         "ref": "e27",
         "selector": "role=button[name=\"Añadir al carrito\"]",
@@ -1556,10 +1556,10 @@
       }
     },
     {
-      "id": "01M6VA1QG9KSJTQ2D8NMKSF87Z",
+      "id": "01M6VB6CD09BQHEVRWKYG4ZR74",
       "runId": "01JC0F16FXF0000000000000AA",
       "seq": 57,
-      "ts": "2026-11-07T15:29:18.345Z",
+      "ts": "2026-11-07T15:49:19.392Z",
       "schemaVersion": 1,
       "actor": {
         "agentId": "baseline-ux2-1",
@@ -1569,7 +1569,7 @@
       "payload": {
         "stepIndex": 7,
         "url": "http://janus-f16-app:3100/products/taza-ceramica",
-        "durationMs": 801.2070999999996,
+        "durationMs": 827.8652000000002,
         "texts": [
           "ShopLab",
           "Tienda",
@@ -1590,10 +1590,10 @@
       }
     },
     {
-      "id": "01M6VA1QGA5S5DMM2621TR2K4N",
+      "id": "01M6VB6CD1D8YVRVNRVVY8RBER",
       "runId": "01JC0F16FXF0000000000000AA",
       "seq": 58,
-      "ts": "2026-11-07T15:29:18.346Z",
+      "ts": "2026-11-07T15:49:19.393Z",
       "schemaVersion": 1,
       "actor": {
         "agentId": "baseline-ux2-1",
@@ -1609,10 +1609,10 @@
       }
     },
     {
-      "id": "01M6VA1QR5V9DCCAM8KC4MV9P3",
+      "id": "01M6VB6CMMBDKBCTD068PK0W9K",
       "runId": "01JC0F16FXF0000000000000AA",
       "seq": 59,
-      "ts": "2026-11-07T15:29:18.597Z",
+      "ts": "2026-11-07T15:49:19.636Z",
       "schemaVersion": 1,
       "actor": {
         "agentId": "baseline-ux2-1",
@@ -1622,7 +1622,7 @@
       "payload": {
         "stepIndex": 8,
         "action": "click",
-        "durationMs": 182.20930000000226,
+        "durationMs": 172.91279999999097,
         "ok": true,
         "ref": "e34",
         "selector": "role=link[name=\"Otras opciones\"]",
@@ -1636,10 +1636,10 @@
       }
     },
     {
-      "id": "01M6VA1QR5DFJCR2H74JSJYDQE",
+      "id": "01M6VB6CMMNBQ06W4P5DWNWQGS",
       "runId": "01JC0F16FXF0000000000000AA",
       "seq": 60,
-      "ts": "2026-11-07T15:29:18.597Z",
+      "ts": "2026-11-07T15:49:19.637Z",
       "schemaVersion": 1,
       "actor": {
         "agentId": "baseline-ux2-1",
@@ -1649,7 +1649,7 @@
       "payload": {
         "stepIndex": 8,
         "url": "http://janus-f16-app:3100/cart",
-        "durationMs": 250.24350000000413,
+        "durationMs": 242.80259999999544,
         "texts": [
           "ShopLab",
           "Tienda",
@@ -1675,10 +1675,10 @@
       }
     },
     {
-      "id": "01M6VA1QR72NTKAQ4F3D31V7JN",
+      "id": "01M6VB6CMPFH43D6D3VQA5H90C",
       "runId": "01JC0F16FXF0000000000000AA",
       "seq": 61,
-      "ts": "2026-11-07T15:29:18.599Z",
+      "ts": "2026-11-07T15:49:19.638Z",
       "schemaVersion": 1,
       "actor": {
         "agentId": "baseline-ux2-1",
@@ -1694,10 +1694,10 @@
       }
     },
     {
-      "id": "01M6VA1QW90RBGV334ZEHZ1AH9",
+      "id": "01M6VB6CSZZWCERJQF377KB1GH",
       "runId": "01JC0F16FXF0000000000000AA",
       "seq": 62,
-      "ts": "2026-11-07T15:29:18.729Z",
+      "ts": "2026-11-07T15:49:19.807Z",
       "schemaVersion": 1,
       "actor": {
         "agentId": "baseline-ux2-1",
@@ -1707,7 +1707,7 @@
       "payload": {
         "stepIndex": 9,
         "action": "type",
-        "durationMs": 62.35370000000694,
+        "durationMs": 102.42850000000908,
         "ok": true,
         "ref": "e36",
         "selector": "role=textbox[name=\"Código del cupón\"]",
@@ -1720,10 +1720,10 @@
       }
     },
     {
-      "id": "01M6VA1QW9QBFC1FZKTE66FZC7",
+      "id": "01M6VB6CSZ7WC1E36K70CSTK13",
       "runId": "01JC0F16FXF0000000000000AA",
       "seq": 63,
-      "ts": "2026-11-07T15:29:18.729Z",
+      "ts": "2026-11-07T15:49:19.807Z",
       "schemaVersion": 1,
       "actor": {
         "agentId": "baseline-ux2-1",
@@ -1733,7 +1733,7 @@
       "payload": {
         "stepIndex": 9,
         "url": "http://janus-f16-app:3100/cart",
-        "durationMs": 130.26259999999456,
+        "durationMs": 168.8246999999974,
         "texts": [
           "ShopLab",
           "Tienda",
@@ -1761,10 +1761,10 @@
       }
     },
     {
-      "id": "01M6VA1QWBP3J28XJP1Y8PZ2E7",
+      "id": "01M6VB6CT1AAHZE69HZZ3RX9CX",
       "runId": "01JC0F16FXF0000000000000AA",
       "seq": 64,
-      "ts": "2026-11-07T15:29:18.731Z",
+      "ts": "2026-11-07T15:49:19.809Z",
       "schemaVersion": 1,
       "actor": {
         "agentId": "baseline-ux2-1",
@@ -1780,10 +1780,10 @@
       }
     },
     {
-      "id": "01M6VA1RPZ9GH74YS2MFC8203F",
+      "id": "01M6VB6DKVVH7WY3CQDT8WQB30",
       "runId": "01JC0F16FXF0000000000000AA",
       "seq": 65,
-      "ts": "2026-11-07T15:29:19.583Z",
+      "ts": "2026-11-07T15:49:20.635Z",
       "schemaVersion": 1,
       "actor": {
         "agentId": "baseline-ux2-1",
@@ -1793,7 +1793,7 @@
       "payload": {
         "stepIndex": 10,
         "action": "click",
-        "durationMs": 783.2809000000052,
+        "durationMs": 756.6630000000005,
         "ok": true,
         "ref": "e37",
         "selector": "role=button[name=\"Aplicar cupón\"]",
@@ -1807,10 +1807,10 @@
       }
     },
     {
-      "id": "01M6VA1RPZT40R968E5KC4FSQ1",
+      "id": "01M6VB6DKV74PSAT25M9D66DNH",
       "runId": "01JC0F16FXF0000000000000AA",
       "seq": 66,
-      "ts": "2026-11-07T15:29:19.583Z",
+      "ts": "2026-11-07T15:49:20.635Z",
       "schemaVersion": 1,
       "actor": {
         "agentId": "baseline-ux2-1",
@@ -1820,7 +1820,7 @@
       "payload": {
         "stepIndex": 10,
         "url": "http://janus-f16-app:3100/cart",
-        "durationMs": 851.0146999999997,
+        "durationMs": 825.6863000000012,
         "texts": [
           "ShopLab",
           "Tienda",
@@ -1848,10 +1848,10 @@
       }
     },
     {
-      "id": "01M6VA1RQ1GC4BX09XA0E9385Q",
+      "id": "01M6VB6DKXHHAPHJQZWQYN83Z5",
       "runId": "01JC0F16FXF0000000000000AA",
       "seq": 67,
-      "ts": "2026-11-07T15:29:19.585Z",
+      "ts": "2026-11-07T15:49:20.637Z",
       "schemaVersion": 1,
       "actor": {
         "agentId": "baseline-ux2-1",
@@ -1867,10 +1867,10 @@
       }
     },
     {
-      "id": "01M6VA1RS4P8E6VNBG1ZKSF8VD",
+      "id": "01M6VB6DP1F9FKZB0JEHCMEWAK",
       "runId": "01JC0F16FXF0000000000000AA",
       "seq": 68,
-      "ts": "2026-11-07T15:29:19.652Z",
+      "ts": "2026-11-07T15:49:20.705Z",
       "schemaVersion": 1,
       "actor": {
         "agentId": "baseline-ux2-1",
@@ -1880,15 +1880,15 @@
       "payload": {
         "stepIndex": 11,
         "action": "done",
-        "durationMs": 0.03570000000036089,
+        "durationMs": 0.03479999999399297,
         "ok": true
       }
     },
     {
-      "id": "01M6VA1RS481M7T1VXQ5PA8RWE",
+      "id": "01M6VB6DP12ABA7NMNJA3DAEGP",
       "runId": "01JC0F16FXF0000000000000AA",
       "seq": 69,
-      "ts": "2026-11-07T15:29:19.652Z",
+      "ts": "2026-11-07T15:49:20.705Z",
       "schemaVersion": 1,
       "actor": {
         "agentId": "baseline-ux2-1",
@@ -1898,7 +1898,7 @@
       "payload": {
         "stepIndex": 11,
         "url": "http://janus-f16-app:3100/cart",
-        "durationMs": 66.63870000000315,
+        "durationMs": 67.27729999998701,
         "texts": [
           "ShopLab",
           "Tienda",
@@ -1928,10 +1928,10 @@
       }
     },
     {
-      "id": "01M6VA1RS5K08Q690WZ14X0V1S",
+      "id": "01M6VB6DP24E8DCZ9BYA8QE1YC",
       "runId": "01JC0F16FXF0000000000000AA",
       "seq": 70,
-      "ts": "2026-11-07T15:29:19.653Z",
+      "ts": "2026-11-07T15:49:20.706Z",
       "schemaVersion": 1,
       "actor": {
         "agentId": "baseline-ux2-1",
@@ -1947,10 +1947,10 @@
       }
     },
     {
-      "id": "01M6VA1RS644RZ49CAJNPZRKY8",
+      "id": "01M6VB6DP3ACM3JQQMSXZ4A7KY",
       "runId": "01JC0F16FXF0000000000000AA",
       "seq": 71,
-      "ts": "2026-11-07T15:29:19.654Z",
+      "ts": "2026-11-07T15:49:20.707Z",
       "schemaVersion": 1,
       "actor": {
         "agentId": "baseline-ux2-1",
@@ -1961,14 +1961,14 @@
         "outcome": "success",
         "steps": 12,
         "reason": "Cupón aplicado.",
-        "durationMs": 6069.442999999999
+        "durationMs": 6106.655800000008
       }
     },
     {
-      "id": "01M6VA1TDVCNXB8WF1VHHKBZ1G",
+      "id": "01M6VB6FC3WZNRGVKCG4CSQ0FN",
       "runId": "01JC0F16FXF0000000000000AA",
       "seq": 72,
-      "ts": "2026-11-07T15:29:21.339Z",
+      "ts": "2026-11-07T15:49:22.435Z",
       "schemaVersion": 1,
       "actor": {
         "agentId": "probe-ux2-2",
@@ -1978,7 +1978,7 @@
       "payload": {
         "stepIndex": 0,
         "action": "click",
-        "durationMs": 689.5064999999959,
+        "durationMs": 687.3005999999878,
         "ok": true,
         "ref": "e5",
         "selector": "role=link[name=\"Crear cuenta\"]",
@@ -1992,10 +1992,10 @@
       }
     },
     {
-      "id": "01M6VA1TDV14CX5T8E84CEMEMM",
+      "id": "01M6VB6FC41QK6B09YW2X4PY56",
       "runId": "01JC0F16FXF0000000000000AA",
       "seq": 73,
-      "ts": "2026-11-07T15:29:21.339Z",
+      "ts": "2026-11-07T15:49:22.436Z",
       "schemaVersion": 1,
       "actor": {
         "agentId": "probe-ux2-2",
@@ -2005,7 +2005,7 @@
       "payload": {
         "stepIndex": 0,
         "url": "http://janus-f16-app:3100/",
-        "durationMs": 1413.5753999999943,
+        "durationMs": 1410.3961999999883,
         "texts": [
           "ShopLab",
           "Tienda",
@@ -2051,10 +2051,10 @@
       }
     },
     {
-      "id": "01M6VA1TDXMWMWAT1YXM63N1E8",
+      "id": "01M6VB6FC6FM3GBH8N2KCSMJQH",
       "runId": "01JC0F16FXF0000000000000AA",
       "seq": 74,
-      "ts": "2026-11-07T15:29:21.341Z",
+      "ts": "2026-11-07T15:49:22.438Z",
       "schemaVersion": 1,
       "actor": {
         "agentId": "probe-ux2-2",
@@ -2070,10 +2070,10 @@
       }
     },
     {
-      "id": "01M6VA1TK4J0JHYVCBGSKC1F9T",
+      "id": "01M6VB6FHGTGAGRYZQ37Q87SPD",
       "runId": "01JC0F16FXF0000000000000AA",
       "seq": 75,
-      "ts": "2026-11-07T15:29:21.508Z",
+      "ts": "2026-11-07T15:49:22.608Z",
       "schemaVersion": 1,
       "actor": {
         "agentId": "probe-ux2-2",
@@ -2083,7 +2083,7 @@
       "payload": {
         "stepIndex": 1,
         "action": "type",
-        "durationMs": 100.56999999999971,
+        "durationMs": 102.8297999999777,
         "ok": true,
         "ref": "e18",
         "selector": "role=textbox[name=\"Nombre\"]",
@@ -2096,10 +2096,10 @@
       }
     },
     {
-      "id": "01M6VA1TK5P6QFZPPVQ1F0EYTK",
+      "id": "01M6VB6FHGC9G0C3SCVSX6508D",
       "runId": "01JC0F16FXF0000000000000AA",
       "seq": 76,
-      "ts": "2026-11-07T15:29:21.509Z",
+      "ts": "2026-11-07T15:49:22.608Z",
       "schemaVersion": 1,
       "actor": {
         "agentId": "probe-ux2-2",
@@ -2109,7 +2109,7 @@
       "payload": {
         "stepIndex": 1,
         "url": "http://janus-f16-app:3100/register",
-        "durationMs": 167.3171000000002,
+        "durationMs": 169.98569999999017,
         "texts": [
           "ShopLab",
           "Tienda",
@@ -2126,10 +2126,10 @@
       }
     },
     {
-      "id": "01M6VA1TK6ZJBF1AP7EMG15P0W",
+      "id": "01M6VB6FHJ5WY2MMHN1QYRRTDB",
       "runId": "01JC0F16FXF0000000000000AA",
       "seq": 77,
-      "ts": "2026-11-07T15:29:21.510Z",
+      "ts": "2026-11-07T15:49:22.610Z",
       "schemaVersion": 1,
       "actor": {
         "agentId": "probe-ux2-2",
@@ -2145,10 +2145,10 @@
       }
     },
     {
-      "id": "01M6VA1TRGGT7EX2SDPKJ4K9ZJ",
+      "id": "01M6VB6FPQXMPH4F47BT29J61C",
       "runId": "01JC0F16FXF0000000000000AA",
       "seq": 78,
-      "ts": "2026-11-07T15:29:21.680Z",
+      "ts": "2026-11-07T15:49:22.775Z",
       "schemaVersion": 1,
       "actor": {
         "agentId": "probe-ux2-2",
@@ -2158,7 +2158,7 @@
       "payload": {
         "stepIndex": 2,
         "action": "type",
-        "durationMs": 103.16250000000582,
+        "durationMs": 100.67620000001625,
         "ok": true,
         "ref": "e19",
         "selector": "role=textbox[name=\"Email\"]",
@@ -2171,10 +2171,10 @@
       }
     },
     {
-      "id": "01M6VA1TRGPA2V1YGPEP7QW4NN",
+      "id": "01M6VB6FPQ7BBTGN3DQC8REE2P",
       "runId": "01JC0F16FXF0000000000000AA",
       "seq": 79,
-      "ts": "2026-11-07T15:29:21.680Z",
+      "ts": "2026-11-07T15:49:22.776Z",
       "schemaVersion": 1,
       "actor": {
         "agentId": "probe-ux2-2",
@@ -2184,7 +2184,7 @@
       "payload": {
         "stepIndex": 2,
         "url": "http://janus-f16-app:3100/register",
-        "durationMs": 169.6090999999942,
+        "durationMs": 165.30449999999837,
         "texts": [
           "ShopLab",
           "Tienda",
@@ -2201,10 +2201,10 @@
       }
     },
     {
-      "id": "01M6VA1TRJVN54WNG2G2SE3FJ5",
+      "id": "01M6VB6FPSM0WN0J93V5B7184K",
       "runId": "01JC0F16FXF0000000000000AA",
       "seq": 80,
-      "ts": "2026-11-07T15:29:21.682Z",
+      "ts": "2026-11-07T15:49:22.777Z",
       "schemaVersion": 1,
       "actor": {
         "agentId": "probe-ux2-2",
@@ -2220,10 +2220,10 @@
       }
     },
     {
-      "id": "01M6VA1TYX8ZD74V697NFC4Q5Q",
+      "id": "01M6VB6FW1749BZVH1SBH0F2FG",
       "runId": "01JC0F16FXF0000000000000AA",
       "seq": 81,
-      "ts": "2026-11-07T15:29:21.885Z",
+      "ts": "2026-11-07T15:49:22.945Z",
       "schemaVersion": 1,
       "actor": {
         "agentId": "probe-ux2-2",
@@ -2233,7 +2233,7 @@
       "payload": {
         "stepIndex": 3,
         "action": "type",
-        "durationMs": 126.89130000000296,
+        "durationMs": 101.39380000001984,
         "ok": true,
         "ref": "e20",
         "selector": "role=textbox[name=\"Contraseña (mínimo 8 caracteres)\"]",
@@ -2246,10 +2246,10 @@
       }
     },
     {
-      "id": "01M6VA1TYXTS9DFJJB64HY785T",
+      "id": "01M6VB6FW1RQ4MHGT70YF3GDY0",
       "runId": "01JC0F16FXF0000000000000AA",
       "seq": 82,
-      "ts": "2026-11-07T15:29:21.885Z",
+      "ts": "2026-11-07T15:49:22.945Z",
       "schemaVersion": 1,
       "actor": {
         "agentId": "probe-ux2-2",
@@ -2259,7 +2259,7 @@
       "payload": {
         "stepIndex": 3,
         "url": "http://janus-f16-app:3100/register",
-        "durationMs": 202.56319999999687,
+        "durationMs": 167.24029999997583,
         "texts": [
           "ShopLab",
           "Tienda",
@@ -2276,10 +2276,10 @@
       }
     },
     {
-      "id": "01M6VA1TZ0D33Q9NGDWTSXQECZ",
+      "id": "01M6VB6FW30BP147ZN9095BSRT",
       "runId": "01JC0F16FXF0000000000000AA",
       "seq": 83,
-      "ts": "2026-11-07T15:29:21.888Z",
+      "ts": "2026-11-07T15:49:22.947Z",
       "schemaVersion": 1,
       "actor": {
         "agentId": "probe-ux2-2",
@@ -2295,10 +2295,10 @@
       }
     },
     {
-      "id": "01M6VA1V4AY3HC8QHW3D8E25BC",
+      "id": "01M6VB6G1BWJ18ZXFPWCCPTFZQ",
       "runId": "01JC0F16FXF0000000000000AA",
       "seq": 84,
-      "ts": "2026-11-07T15:29:22.058Z",
+      "ts": "2026-11-07T15:49:23.115Z",
       "schemaVersion": 1,
       "actor": {
         "agentId": "probe-ux2-2",
@@ -2308,7 +2308,7 @@
       "payload": {
         "stepIndex": 4,
         "action": "type",
-        "durationMs": 101.57979999999952,
+        "durationMs": 102.5679999999993,
         "ok": true,
         "ref": "e21",
         "selector": "role=textbox[name=\"Dirección de envío\"]",
@@ -2321,10 +2321,10 @@
       }
     },
     {
-      "id": "01M6VA1V4A3AB0FMFZGPCZKK1Z",
+      "id": "01M6VB6G1B366HNAZ01G8YW86T",
       "runId": "01JC0F16FXF0000000000000AA",
       "seq": 85,
-      "ts": "2026-11-07T15:29:22.058Z",
+      "ts": "2026-11-07T15:49:23.115Z",
       "schemaVersion": 1,
       "actor": {
         "agentId": "probe-ux2-2",
@@ -2334,7 +2334,7 @@
       "payload": {
         "stepIndex": 4,
         "url": "http://janus-f16-app:3100/register",
-        "durationMs": 169.20730000000185,
+        "durationMs": 168.39349999997648,
         "texts": [
           "ShopLab",
           "Tienda",
@@ -2351,10 +2351,10 @@
       }
     },
     {
-      "id": "01M6VA1V4BV95FWVYRGP3SPK2Y",
+      "id": "01M6VB6G1DXJJGQ1Z43VQ5W4ZX",
       "runId": "01JC0F16FXF0000000000000AA",
       "seq": 86,
-      "ts": "2026-11-07T15:29:22.059Z",
+      "ts": "2026-11-07T15:49:23.117Z",
       "schemaVersion": 1,
       "actor": {
         "agentId": "probe-ux2-2",
@@ -2370,10 +2370,10 @@
       }
     },
     {
-      "id": "01M6VA1W31YR6RMQY9DXRYQNCZ",
+      "id": "01M6VB6GVW5HTJHGCYRXDHARCA",
       "runId": "01JC0F16FXF0000000000000AA",
       "seq": 87,
-      "ts": "2026-11-07T15:29:23.041Z",
+      "ts": "2026-11-07T15:49:23.964Z",
       "schemaVersion": 1,
       "actor": {
         "agentId": "probe-ux2-2",
@@ -2383,7 +2383,7 @@
       "payload": {
         "stepIndex": 5,
         "action": "click",
-        "durationMs": 913.6398000000045,
+        "durationMs": 780.4266999999818,
         "ok": true,
         "ref": "e22",
         "selector": "role=button[name=\"Crear cuenta\"]",
@@ -2397,10 +2397,10 @@
       }
     },
     {
-      "id": "01M6VA1W31J829TR8S2KFQW4Y6",
+      "id": "01M6VB6GVWFJCHJ2N228R4SJ2E",
       "runId": "01JC0F16FXF0000000000000AA",
       "seq": 88,
-      "ts": "2026-11-07T15:29:23.041Z",
+      "ts": "2026-11-07T15:49:23.964Z",
       "schemaVersion": 1,
       "actor": {
         "agentId": "probe-ux2-2",
@@ -2410,7 +2410,7 @@
       "payload": {
         "stepIndex": 5,
         "url": "http://janus-f16-app:3100/register",
-        "durationMs": 981.3257000000012,
+        "durationMs": 846.5204000000085,
         "texts": [
           "ShopLab",
           "Tienda",
@@ -2427,10 +2427,10 @@
       }
     },
     {
-      "id": "01M6VA1W33263K60T4Z6V7PN62",
+      "id": "01M6VB6GVYTSZ447FK7CNMPT78",
       "runId": "01JC0F16FXF0000000000000AA",
       "seq": 89,
-      "ts": "2026-11-07T15:29:23.043Z",
+      "ts": "2026-11-07T15:49:23.966Z",
       "schemaVersion": 1,
       "actor": {
         "agentId": "probe-ux2-2",
@@ -2446,10 +2446,10 @@
       }
     },
     {
-      "id": "01M6VA1WTC1M95PRHS8SRD1RDQ",
+      "id": "01M6VB6HK5VJA7JJP669DNG1ZX",
       "runId": "01JC0F16FXF0000000000000AA",
       "seq": 90,
-      "ts": "2026-11-07T15:29:23.788Z",
+      "ts": "2026-11-07T15:49:24.709Z",
       "schemaVersion": 1,
       "actor": {
         "agentId": "probe-ux2-2",
@@ -2459,7 +2459,7 @@
       "payload": {
         "stepIndex": 6,
         "action": "click",
-        "durationMs": 675.3548999999985,
+        "durationMs": 674.2755999999936,
         "ok": true,
         "ref": "e17",
         "selector": "role=link[name=\"Taza de cerámica\"]",
@@ -2473,10 +2473,10 @@
       }
     },
     {
-      "id": "01M6VA1WTC3WARCVS5GEYBH9DY",
+      "id": "01M6VB6HK5GNSBGZZBV038V5WS",
       "runId": "01JC0F16FXF0000000000000AA",
       "seq": 91,
-      "ts": "2026-11-07T15:29:23.788Z",
+      "ts": "2026-11-07T15:49:24.709Z",
       "schemaVersion": 1,
       "actor": {
         "agentId": "probe-ux2-2",
@@ -2486,7 +2486,7 @@
       "payload": {
         "stepIndex": 6,
         "url": "http://janus-f16-app:3100/",
-        "durationMs": 744.5986000000048,
+        "durationMs": 742.1304999999993,
         "texts": [
           "ShopLab",
           "Tienda",
@@ -2532,10 +2532,10 @@
       }
     },
     {
-      "id": "01M6VA1WTEQSHZMN4F61F6TYBW",
+      "id": "01M6VB6HK7JTK6C2ZBDN409SGB",
       "runId": "01JC0F16FXF0000000000000AA",
       "seq": 92,
-      "ts": "2026-11-07T15:29:23.790Z",
+      "ts": "2026-11-07T15:49:24.711Z",
       "schemaVersion": 1,
       "actor": {
         "agentId": "probe-ux2-2",
@@ -2551,10 +2551,10 @@
       }
     },
     {
-      "id": "01M6VA1XK2KYZ2ABXBH59Y8R51",
+      "id": "01M6VB6JBRRPPNP5SF0HA3JRBZ",
       "runId": "01JC0F16FXF0000000000000AA",
       "seq": 93,
-      "ts": "2026-11-07T15:29:24.578Z",
+      "ts": "2026-11-07T15:49:25.496Z",
       "schemaVersion": 1,
       "actor": {
         "agentId": "probe-ux2-2",
@@ -2564,7 +2564,7 @@
       "payload": {
         "stepIndex": 7,
         "action": "click",
-        "durationMs": 721.3868999999977,
+        "durationMs": 719.0255000000179,
         "ok": true,
         "ref": "e27",
         "selector": "role=button[name=\"Añadir al carrito\"]",
@@ -2578,10 +2578,10 @@
       }
     },
     {
-      "id": "01M6VA1XK2M3CQ45MEMTVZ9MA1",
+      "id": "01M6VB6JBR1Q0D5PF7YZP23Y94",
       "runId": "01JC0F16FXF0000000000000AA",
       "seq": 94,
-      "ts": "2026-11-07T15:29:24.578Z",
+      "ts": "2026-11-07T15:49:25.496Z",
       "schemaVersion": 1,
       "actor": {
         "agentId": "probe-ux2-2",
@@ -2591,7 +2591,7 @@
       "payload": {
         "stepIndex": 7,
         "url": "http://janus-f16-app:3100/products/taza-ceramica",
-        "durationMs": 787.9076999999961,
+        "durationMs": 784.987300000008,
         "texts": [
           "ShopLab",
           "Tienda",
@@ -2612,10 +2612,10 @@
       }
     },
     {
-      "id": "01M6VA1XK4GZK0ZH5Z6Z83F0A7",
+      "id": "01M6VB6JBTERZJBD782P4J9BVG",
       "runId": "01JC0F16FXF0000000000000AA",
       "seq": 95,
-      "ts": "2026-11-07T15:29:24.580Z",
+      "ts": "2026-11-07T15:49:25.498Z",
       "schemaVersion": 1,
       "actor": {
         "agentId": "probe-ux2-2",
@@ -2631,10 +2631,10 @@
       }
     },
     {
-      "id": "01M6VA1XNC58Z5TSWZ7F7TA8SP",
+      "id": "01M6VB6JE0X5MW48QB17HQW2VZ",
       "runId": "01JC0F16FXF0000000000000AA",
       "seq": 96,
-      "ts": "2026-11-07T15:29:24.652Z",
+      "ts": "2026-11-07T15:49:25.568Z",
       "schemaVersion": 1,
       "actor": {
         "agentId": "probe-ux2-2",
@@ -2644,15 +2644,15 @@
       "payload": {
         "stepIndex": 8,
         "action": "scroll",
-        "durationMs": 3.2540999999982887,
+        "durationMs": 2.326200000010431,
         "ok": true
       }
     },
     {
-      "id": "01M6VA1XNC0CR5B7YJ4QY6FQBE",
+      "id": "01M6VB6JE06E5XARDYA6FR0XJF",
       "runId": "01JC0F16FXF0000000000000AA",
       "seq": 97,
-      "ts": "2026-11-07T15:29:24.652Z",
+      "ts": "2026-11-07T15:49:25.568Z",
       "schemaVersion": 1,
       "actor": {
         "agentId": "probe-ux2-2",
@@ -2662,7 +2662,7 @@
       "payload": {
         "stepIndex": 8,
         "url": "http://janus-f16-app:3100/cart",
-        "durationMs": 70.78929999999673,
+        "durationMs": 69.83810000002268,
         "texts": [
           "ShopLab",
           "Tienda",
@@ -2688,10 +2688,10 @@
       }
     },
     {
-      "id": "01M6VA1XNDFQJR9QJZY7Y8AF2S",
+      "id": "01M6VB6JE2FGAHY0N1N868EQ31",
       "runId": "01JC0F16FXF0000000000000AA",
       "seq": 98,
-      "ts": "2026-11-07T15:29:24.653Z",
+      "ts": "2026-11-07T15:49:25.570Z",
       "schemaVersion": 1,
       "actor": {
         "agentId": "probe-ux2-2",
@@ -2707,10 +2707,10 @@
       }
     },
     {
-      "id": "01M6VA1XQJJR9FA3MJGGP85QX8",
+      "id": "01M6VB6JG5FP8ZY4TEH0JW3BR0",
       "runId": "01JC0F16FXF0000000000000AA",
       "seq": 99,
-      "ts": "2026-11-07T15:29:24.722Z",
+      "ts": "2026-11-07T15:49:25.637Z",
       "schemaVersion": 1,
       "actor": {
         "agentId": "probe-ux2-2",
@@ -2720,15 +2720,15 @@
       "payload": {
         "stepIndex": 9,
         "action": "scroll",
-        "durationMs": 1.7353000000002794,
+        "durationMs": 1.7185999999928754,
         "ok": true
       }
     },
     {
-      "id": "01M6VA1XQJA2STAV4CRYF4BD9R",
+      "id": "01M6VB6JG5W53HY1JTBV830XQ1",
       "runId": "01JC0F16FXF0000000000000AA",
       "seq": 100,
-      "ts": "2026-11-07T15:29:24.722Z",
+      "ts": "2026-11-07T15:49:25.637Z",
       "schemaVersion": 1,
       "actor": {
         "agentId": "probe-ux2-2",
@@ -2738,7 +2738,7 @@
       "payload": {
         "stepIndex": 9,
         "url": "http://janus-f16-app:3100/cart",
-        "durationMs": 67.88980000000447,
+        "durationMs": 66.49160000000848,
         "texts": [
           "ShopLab",
           "Tienda",
@@ -2764,10 +2764,10 @@
       }
     },
     {
-      "id": "01M6VA1XQK0XV5N07Z49XS0TKC",
+      "id": "01M6VB6JG70QXRYDNJNGYHR376",
       "runId": "01JC0F16FXF0000000000000AA",
       "seq": 101,
-      "ts": "2026-11-07T15:29:24.723Z",
+      "ts": "2026-11-07T15:49:25.639Z",
       "schemaVersion": 1,
       "actor": {
         "agentId": "probe-ux2-2",
@@ -2783,10 +2783,10 @@
       }
     },
     {
-      "id": "01M6VA1YETVP3R308TVK0V6MZ9",
+      "id": "01M6VB6K79GW5M5GKMYT5Z2MQ0",
       "runId": "01JC0F16FXF0000000000000AA",
       "seq": 102,
-      "ts": "2026-11-07T15:29:25.466Z",
+      "ts": "2026-11-07T15:49:26.377Z",
       "schemaVersion": 1,
       "actor": {
         "agentId": "probe-ux2-2",
@@ -2796,7 +2796,7 @@
       "payload": {
         "stepIndex": 10,
         "action": "click",
-        "durationMs": 679.0253000000012,
+        "durationMs": 674.0844999999972,
         "ok": true,
         "ref": "e35",
         "selector": "role=link[name=\"Ir a pagar\"]",
@@ -2810,10 +2810,10 @@
       }
     },
     {
-      "id": "01M6VA1YEV1AK1N1K0BF9DHDRH",
+      "id": "01M6VB6K79BBWSXTKK4ME8AWXX",
       "runId": "01JC0F16FXF0000000000000AA",
       "seq": 103,
-      "ts": "2026-11-07T15:29:25.467Z",
+      "ts": "2026-11-07T15:49:26.377Z",
       "schemaVersion": 1,
       "actor": {
         "agentId": "probe-ux2-2",
@@ -2823,7 +2823,7 @@
       "payload": {
         "stepIndex": 10,
         "url": "http://janus-f16-app:3100/cart",
-        "durationMs": 742.9192000000039,
+        "durationMs": 737.8007999999973,
         "texts": [
           "ShopLab",
           "Tienda",
@@ -2849,10 +2849,10 @@
       }
     },
     {
-      "id": "01M6VA1YEXPTVDH2F25F4J9XY6",
+      "id": "01M6VB6K7B0786A4CKR6BGWP41",
       "runId": "01JC0F16FXF0000000000000AA",
       "seq": 104,
-      "ts": "2026-11-07T15:29:25.469Z",
+      "ts": "2026-11-07T15:49:26.379Z",
       "schemaVersion": 1,
       "actor": {
         "agentId": "probe-ux2-2",
@@ -2868,10 +2868,10 @@
       }
     },
     {
-      "id": "01M6VA1Z6FM81EKFKXEQCS0PJP",
+      "id": "01M6VB6KYPPK922FY1KP2AESK1",
       "runId": "01JC0F16FXF0000000000000AA",
       "seq": 105,
-      "ts": "2026-11-07T15:29:26.223Z",
+      "ts": "2026-11-07T15:49:27.126Z",
       "schemaVersion": 1,
       "actor": {
         "agentId": "probe-ux2-2",
@@ -2881,7 +2881,7 @@
       "payload": {
         "stepIndex": 11,
         "action": "click",
-        "durationMs": 688.6733999999997,
+        "durationMs": 681.8893999999855,
         "ok": true,
         "ref": "e3",
         "selector": "role=link[name=\"Carrito\"]",
@@ -2895,10 +2895,10 @@
       }
     },
     {
-      "id": "01M6VA1Z6F400TKJ1328VX7G12",
+      "id": "01M6VB6KYP5KCCNYQ09V01S0FR",
       "runId": "01JC0F16FXF0000000000000AA",
       "seq": 106,
-      "ts": "2026-11-07T15:29:26.223Z",
+      "ts": "2026-11-07T15:49:27.126Z",
       "schemaVersion": 1,
       "actor": {
         "agentId": "probe-ux2-2",
@@ -2908,7 +2908,7 @@
       "payload": {
         "stepIndex": 11,
         "url": "http://janus-f16-app:3100/checkout",
-        "durationMs": 753.5544000000009,
+        "durationMs": 746.7663999999932,
         "texts": [
           "ShopLab",
           "Tienda",
@@ -2933,10 +2933,10 @@
       }
     },
     {
-      "id": "01M6VA1Z6HW1NZZTWCCHZJ0RS7",
+      "id": "01M6VB6KYRZ2Q8ZQAXZ77MSZFS",
       "runId": "01JC0F16FXF0000000000000AA",
       "seq": 107,
-      "ts": "2026-11-07T15:29:26.225Z",
+      "ts": "2026-11-07T15:49:27.128Z",
       "schemaVersion": 1,
       "actor": {
         "agentId": "probe-ux2-2",
@@ -2952,10 +2952,10 @@
       }
     },
     {
-      "id": "01M6VA1Z8PKZ552ZGSJJY37014",
+      "id": "01M6VB6M0XQ1HJ2484HSJMEZNM",
       "runId": "01JC0F16FXF0000000000000AA",
       "seq": 108,
-      "ts": "2026-11-07T15:29:26.294Z",
+      "ts": "2026-11-07T15:49:27.197Z",
       "schemaVersion": 1,
       "actor": {
         "agentId": "probe-ux2-2",
@@ -2965,15 +2965,15 @@
       "payload": {
         "stepIndex": 12,
         "action": "scroll",
-        "durationMs": 1.8255000000062864,
+        "durationMs": 1.8254000000015367,
         "ok": true
       }
     },
     {
-      "id": "01M6VA1Z8PGZK0ZD1J799BCZFM",
+      "id": "01M6VB6M0X7351Z8TN8RY8P9FT",
       "runId": "01JC0F16FXF0000000000000AA",
       "seq": 109,
-      "ts": "2026-11-07T15:29:26.294Z",
+      "ts": "2026-11-07T15:49:27.197Z",
       "schemaVersion": 1,
       "actor": {
         "agentId": "probe-ux2-2",
@@ -2983,7 +2983,7 @@
       "payload": {
         "stepIndex": 12,
         "url": "http://janus-f16-app:3100/cart",
-        "durationMs": 68.46169999999984,
+        "durationMs": 68.72910000002594,
         "texts": [
           "ShopLab",
           "Tienda",
@@ -3009,10 +3009,10 @@
       }
     },
     {
-      "id": "01M6VA1Z8RX2HTNW6V2MC9SNHN",
+      "id": "01M6VB6M0ZHVW63T8DQ5CT9TQG",
       "runId": "01JC0F16FXF0000000000000AA",
       "seq": 110,
-      "ts": "2026-11-07T15:29:26.296Z",
+      "ts": "2026-11-07T15:49:27.199Z",
       "schemaVersion": 1,
       "actor": {
         "agentId": "probe-ux2-2",
@@ -3028,10 +3028,10 @@
       }
     },
     {
-      "id": "01M6VA1Z9N5HW7AWQYBW7GF08M",
+      "id": "01M6VB6M1RGWBGCKEWNC904DHA",
       "runId": "01JC0F16FXF0000000000000AA",
       "seq": 111,
-      "ts": "2026-11-07T15:29:26.325Z",
+      "ts": "2026-11-07T15:49:27.224Z",
       "schemaVersion": 1,
       "actor": {
         "agentId": "probe-ux2-2",
@@ -3046,10 +3046,10 @@
       }
     },
     {
-      "id": "01M6VA1ZBSRPWWEE3NXA7640JE",
+      "id": "01M6VB6M3WQW3FX7CGSGH46437",
       "runId": "01JC0F16FXF0000000000000AA",
       "seq": 112,
-      "ts": "2026-11-07T15:29:26.393Z",
+      "ts": "2026-11-07T15:49:27.292Z",
       "schemaVersion": 1,
       "actor": {
         "agentId": "probe-ux2-2",
@@ -3059,15 +3059,15 @@
       "payload": {
         "stepIndex": 13,
         "action": "scroll",
-        "durationMs": 1.6244999999980791,
+        "durationMs": 1.6911000000254717,
         "ok": true
       }
     },
     {
-      "id": "01M6VA1ZBS27J5P72AAX1QXWJM",
+      "id": "01M6VB6M3W1Z23BCB5WTXV9ZKP",
       "runId": "01JC0F16FXF0000000000000AA",
       "seq": 113,
-      "ts": "2026-11-07T15:29:26.393Z",
+      "ts": "2026-11-07T15:49:27.292Z",
       "schemaVersion": 1,
       "actor": {
         "agentId": "probe-ux2-2",
@@ -3077,7 +3077,7 @@
       "payload": {
         "stepIndex": 13,
         "url": "http://janus-f16-app:3100/cart",
-        "durationMs": 68.01089999999385,
+        "durationMs": 67.35889999999199,
         "texts": [
           "ShopLab",
           "Tienda",
@@ -3103,10 +3103,10 @@
       }
     },
     {
-      "id": "01M6VA1ZBVNF2SZEFTTHGKS5P4",
+      "id": "01M6VB6M3X43664ZZ7YVJDKP5G",
       "runId": "01JC0F16FXF0000000000000AA",
       "seq": 114,
-      "ts": "2026-11-07T15:29:26.395Z",
+      "ts": "2026-11-07T15:49:27.293Z",
       "schemaVersion": 1,
       "actor": {
         "agentId": "probe-ux2-2",
@@ -3122,10 +3122,10 @@
       }
     },
     {
-      "id": "01M6VA1ZK48BJY7F7MEP38N3AQ",
+      "id": "01M6VB6MBG7WWNAHTWPW6HH51P",
       "runId": "01JC0F16FXF0000000000000AA",
       "seq": 115,
-      "ts": "2026-11-07T15:29:26.628Z",
+      "ts": "2026-11-07T15:49:27.536Z",
       "schemaVersion": 1,
       "actor": {
         "agentId": "probe-ux2-2",
@@ -3135,7 +3135,7 @@
       "payload": {
         "stepIndex": 14,
         "action": "click",
-        "durationMs": 167.6198000000004,
+        "durationMs": 176.4496999999974,
         "ok": true,
         "ref": "e34",
         "selector": "role=link[name=\"Otras opciones\"]",
@@ -3149,10 +3149,10 @@
       }
     },
     {
-      "id": "01M6VA1ZK411Y33V92PP2BK3Y5",
+      "id": "01M6VB6MBG0GP6Z4JRD60KDTTS",
       "runId": "01JC0F16FXF0000000000000AA",
       "seq": 116,
-      "ts": "2026-11-07T15:29:26.628Z",
+      "ts": "2026-11-07T15:49:27.536Z",
       "schemaVersion": 1,
       "actor": {
         "agentId": "probe-ux2-2",
@@ -3162,7 +3162,7 @@
       "payload": {
         "stepIndex": 14,
         "url": "http://janus-f16-app:3100/cart",
-        "durationMs": 232.7884000000049,
+        "durationMs": 242.17979999998352,
         "texts": [
           "ShopLab",
           "Tienda",
@@ -3188,10 +3188,10 @@
       }
     },
     {
-      "id": "01M6VA1ZK69WH1XZ8Z58ZH1QJ4",
+      "id": "01M6VB6MBJZJ5EJBNRD4EC4A9N",
       "runId": "01JC0F16FXF0000000000000AA",
       "seq": 117,
-      "ts": "2026-11-07T15:29:26.630Z",
+      "ts": "2026-11-07T15:49:27.538Z",
       "schemaVersion": 1,
       "actor": {
         "agentId": "probe-ux2-2",
@@ -3207,10 +3207,10 @@
       }
     },
     {
-      "id": "01M6VA1ZRGQ17M491F4Y28YAM8",
+      "id": "01M6VB6MGZVGZAZ7DGGPC2AYHF",
       "runId": "01JC0F16FXF0000000000000AA",
       "seq": 118,
-      "ts": "2026-11-07T15:29:26.800Z",
+      "ts": "2026-11-07T15:49:27.711Z",
       "schemaVersion": 1,
       "actor": {
         "agentId": "probe-ux2-2",
@@ -3220,7 +3220,7 @@
       "payload": {
         "stepIndex": 15,
         "action": "type",
-        "durationMs": 103.08939999999711,
+        "durationMs": 104.77019999999902,
         "ok": true,
         "ref": "e39",
         "selector": "role=textbox[name=\"Código del cupón\"]",
@@ -3233,10 +3233,10 @@
       }
     },
     {
-      "id": "01M6VA1ZRG2HM54F513KJ7R1V4",
+      "id": "01M6VB6MGZB0FTNNQ0XTHR1H4G",
       "runId": "01JC0F16FXF0000000000000AA",
       "seq": 119,
-      "ts": "2026-11-07T15:29:26.800Z",
+      "ts": "2026-11-07T15:49:27.711Z",
       "schemaVersion": 1,
       "actor": {
         "agentId": "probe-ux2-2",
@@ -3246,7 +3246,7 @@
       "payload": {
         "stepIndex": 15,
         "url": "http://janus-f16-app:3100/cart",
-        "durationMs": 169.83150000000023,
+        "durationMs": 171.93090000000666,
         "texts": [
           "ShopLab",
           "Tienda",
@@ -3274,10 +3274,10 @@
       }
     },
     {
-      "id": "01M6VA1ZRJM4XKZCT6ZCPCBRM5",
+      "id": "01M6VB6MH1XX7EHEW3D09WSFGY",
       "runId": "01JC0F16FXF0000000000000AA",
       "seq": 120,
-      "ts": "2026-11-07T15:29:26.802Z",
+      "ts": "2026-11-07T15:49:27.713Z",
       "schemaVersion": 1,
       "actor": {
         "agentId": "probe-ux2-2",
@@ -3293,10 +3293,10 @@
       }
     },
     {
-      "id": "01M6VA20J6BDANYT38KRTZEE3S",
+      "id": "01M6VB6NAKJF8JJ02E2C08FCYQ",
       "runId": "01JC0F16FXF0000000000000AA",
       "seq": 121,
-      "ts": "2026-11-07T15:29:27.622Z",
+      "ts": "2026-11-07T15:49:28.532Z",
       "schemaVersion": 1,
       "actor": {
         "agentId": "probe-ux2-2",
@@ -3306,7 +3306,7 @@
       "payload": {
         "stepIndex": 16,
         "action": "click",
-        "durationMs": 751.438900000001,
+        "durationMs": 752.3485999999975,
         "ok": true,
         "ref": "e40",
         "selector": "role=button[name=\"Aplicar cupón\"]",
@@ -3320,10 +3320,10 @@
       }
     },
     {
-      "id": "01M6VA20J62M91FBXRSVPWCK0V",
+      "id": "01M6VB6NAM8QWN5463NS657083",
       "runId": "01JC0F16FXF0000000000000AA",
       "seq": 122,
-      "ts": "2026-11-07T15:29:27.622Z",
+      "ts": "2026-11-07T15:49:28.532Z",
       "schemaVersion": 1,
       "actor": {
         "agentId": "probe-ux2-2",
@@ -3333,7 +3333,7 @@
       "payload": {
         "stepIndex": 16,
         "url": "http://janus-f16-app:3100/cart",
-        "durationMs": 818.7754000000059,
+        "durationMs": 818.1647999999986,
         "texts": [
           "ShopLab",
           "Tienda",
@@ -3361,10 +3361,10 @@
       }
     },
     {
-      "id": "01M6VA20J7N4Z1KS999W31Q37V",
+      "id": "01M6VB6NAN8FTQPY6JGTE9FQA0",
       "runId": "01JC0F16FXF0000000000000AA",
       "seq": 123,
-      "ts": "2026-11-07T15:29:27.623Z",
+      "ts": "2026-11-07T15:49:28.533Z",
       "schemaVersion": 1,
       "actor": {
         "agentId": "probe-ux2-2",
@@ -3380,10 +3380,10 @@
       }
     },
     {
-      "id": "01M6VA20MBS6SJW6W0PZZCN1YZ",
+      "id": "01M6VB6NCSTGYPFPAM8YMFTVGR",
       "runId": "01JC0F16FXF0000000000000AA",
       "seq": 124,
-      "ts": "2026-11-07T15:29:27.691Z",
+      "ts": "2026-11-07T15:49:28.601Z",
       "schemaVersion": 1,
       "actor": {
         "agentId": "probe-ux2-2",
@@ -3393,15 +3393,15 @@
       "payload": {
         "stepIndex": 17,
         "action": "done",
-        "durationMs": 0.021899999999732245,
+        "durationMs": 0.024600000004284084,
         "ok": true
       }
     },
     {
-      "id": "01M6VA20MBTEKMD0WKYEQBNHMZ",
+      "id": "01M6VB6NCSY8ZM17GNMG0FKV0K",
       "runId": "01JC0F16FXF0000000000000AA",
       "seq": 125,
-      "ts": "2026-11-07T15:29:27.691Z",
+      "ts": "2026-11-07T15:49:28.601Z",
       "schemaVersion": 1,
       "actor": {
         "agentId": "probe-ux2-2",
@@ -3411,7 +3411,7 @@
       "payload": {
         "stepIndex": 17,
         "url": "http://janus-f16-app:3100/cart",
-        "durationMs": 66.8810999999987,
+        "durationMs": 67.19999999998254,
         "texts": [
           "ShopLab",
           "Tienda",
@@ -3441,10 +3441,10 @@
       }
     },
     {
-      "id": "01M6VA20MDHFSB7R5NEY8H82SB",
+      "id": "01M6VB6NCVCSXBTFXSC7Q8KP53",
       "runId": "01JC0F16FXF0000000000000AA",
       "seq": 126,
-      "ts": "2026-11-07T15:29:27.693Z",
+      "ts": "2026-11-07T15:49:28.603Z",
       "schemaVersion": 1,
       "actor": {
         "agentId": "probe-ux2-2",
@@ -3460,10 +3460,10 @@
       }
     },
     {
-      "id": "01M6VA20MEAYG547T55PARA0BY",
+      "id": "01M6VB6NCW78FKZTESHJAAEXDC",
       "runId": "01JC0F16FXF0000000000000AA",
       "seq": 127,
-      "ts": "2026-11-07T15:29:27.694Z",
+      "ts": "2026-11-07T15:49:28.604Z",
       "schemaVersion": 1,
       "actor": {
         "agentId": "probe-ux2-2",
@@ -3474,14 +3474,14 @@
         "outcome": "success",
         "steps": 18,
         "reason": "Por fin encontré el cupón.",
-        "durationMs": 7953.465999999993
+        "durationMs": 7804.029500000004
       }
     },
     {
-      "id": "01M6VA21NHPNZAYK93WYE603QD",
+      "id": "01M6VB6PFG29E9TBJTYMMDQFXF",
       "runId": "01JC0F16FXF0000000000000AA",
       "seq": 128,
-      "ts": "2026-11-07T15:29:28.753Z",
+      "ts": "2026-11-07T15:49:29.712Z",
       "schemaVersion": 1,
       "actor": {
         "agentId": "probe-ux3-3",
@@ -3491,7 +3491,7 @@
       "payload": {
         "stepIndex": 0,
         "action": "type",
-        "durationMs": 102.09560000000056,
+        "durationMs": 101.88360000000102,
         "ok": true,
         "ref": "e6",
         "selector": "role=textbox[name=\"Nombre\"]",
@@ -3504,10 +3504,10 @@
       }
     },
     {
-      "id": "01M6VA21NJVM45SBQ4AGSGAS38",
+      "id": "01M6VB6PFHVS9B1EGAGN9FDCRW",
       "runId": "01JC0F16FXF0000000000000AA",
       "seq": 129,
-      "ts": "2026-11-07T15:29:28.754Z",
+      "ts": "2026-11-07T15:49:29.713Z",
       "schemaVersion": 1,
       "actor": {
         "agentId": "probe-ux3-3",
@@ -3517,7 +3517,7 @@
       "payload": {
         "stepIndex": 0,
         "url": "http://janus-f16-app:3100/register",
-        "durationMs": 794.8459000000003,
+        "durationMs": 785.4432000000088,
         "texts": [
           "ShopLab",
           "Tienda",
@@ -3534,10 +3534,10 @@
       }
     },
     {
-      "id": "01M6VA21NMNQWDXH9WAH93TV71",
+      "id": "01M6VB6PFKNGCT2C7JRQWX3NW6",
       "runId": "01JC0F16FXF0000000000000AA",
       "seq": 130,
-      "ts": "2026-11-07T15:29:28.756Z",
+      "ts": "2026-11-07T15:49:29.715Z",
       "schemaVersion": 1,
       "actor": {
         "agentId": "probe-ux3-3",
@@ -3552,10 +3552,10 @@
       }
     },
     {
-      "id": "01M6VA21V1J7249SBSA6KQ7XSB",
+      "id": "01M6VB6PMVXVVDS0AJ806WCB7P",
       "runId": "01JC0F16FXF0000000000000AA",
       "seq": 131,
-      "ts": "2026-11-07T15:29:28.929Z",
+      "ts": "2026-11-07T15:49:29.883Z",
       "schemaVersion": 1,
       "actor": {
         "agentId": "probe-ux3-3",
@@ -3565,7 +3565,7 @@
       "payload": {
         "stepIndex": 1,
         "action": "type",
-        "durationMs": 105.45750000000407,
+        "durationMs": 101.4484999999986,
         "ok": true,
         "ref": "e7",
         "selector": "role=textbox[name=\"Email\"]",
@@ -3578,10 +3578,10 @@
       }
     },
     {
-      "id": "01M6VA21V1SHZH090AC55GEYBB",
+      "id": "01M6VB6PMV2T6W6Z3A9BEKEKKS",
       "runId": "01JC0F16FXF0000000000000AA",
       "seq": 132,
-      "ts": "2026-11-07T15:29:28.929Z",
+      "ts": "2026-11-07T15:49:29.883Z",
       "schemaVersion": 1,
       "actor": {
         "agentId": "probe-ux3-3",
@@ -3591,7 +3591,7 @@
       "payload": {
         "stepIndex": 1,
         "url": "http://janus-f16-app:3100/register",
-        "durationMs": 172.24619999999413,
+        "durationMs": 167.92909999997937,
         "texts": [
           "ShopLab",
           "Tienda",
@@ -3608,10 +3608,10 @@
       }
     },
     {
-      "id": "01M6VA21V2TPHYHRN1S7067MZS",
+      "id": "01M6VB6PMXZK7FGXFZ3T6G5ARQ",
       "runId": "01JC0F16FXF0000000000000AA",
       "seq": 133,
-      "ts": "2026-11-07T15:29:28.930Z",
+      "ts": "2026-11-07T15:49:29.885Z",
       "schemaVersion": 1,
       "actor": {
         "agentId": "probe-ux3-3",
@@ -3626,10 +3626,10 @@
       }
     },
     {
-      "id": "01M6VA221AQC81BJ0NCB4V4T6V",
+      "id": "01M6VB6PT891AT47Q995RQ6APC",
       "runId": "01JC0F16FXF0000000000000AA",
       "seq": 134,
-      "ts": "2026-11-07T15:29:29.130Z",
+      "ts": "2026-11-07T15:49:30.056Z",
       "schemaVersion": 1,
       "actor": {
         "agentId": "probe-ux3-3",
@@ -3639,7 +3639,7 @@
       "payload": {
         "stepIndex": 2,
         "action": "type",
-        "durationMs": 131.73770000000513,
+        "durationMs": 103.5614999999816,
         "ok": true,
         "ref": "e8",
         "selector": "role=textbox[name=\"Contraseña (mínimo 8 caracteres)\"]",
@@ -3652,10 +3652,10 @@
       }
     },
     {
-      "id": "01M6VA221AEVD0AR4ZSBG66GSK",
+      "id": "01M6VB6PT86XQVCQK1A3M0PJ1A",
       "runId": "01JC0F16FXF0000000000000AA",
       "seq": 135,
-      "ts": "2026-11-07T15:29:29.130Z",
+      "ts": "2026-11-07T15:49:30.056Z",
       "schemaVersion": 1,
       "actor": {
         "agentId": "probe-ux3-3",
@@ -3665,7 +3665,7 @@
       "payload": {
         "stepIndex": 2,
         "url": "http://janus-f16-app:3100/register",
-        "durationMs": 198.981200000002,
+        "durationMs": 170.4882000000216,
         "texts": [
           "ShopLab",
           "Tienda",
@@ -3682,10 +3682,10 @@
       }
     },
     {
-      "id": "01M6VA221C6QM8HTV2PPFX2T1Z",
+      "id": "01M6VB6PTAMGSG7AAXGDF91RFW",
       "runId": "01JC0F16FXF0000000000000AA",
       "seq": 136,
-      "ts": "2026-11-07T15:29:29.132Z",
+      "ts": "2026-11-07T15:49:30.058Z",
       "schemaVersion": 1,
       "actor": {
         "agentId": "probe-ux3-3",
@@ -3700,10 +3700,10 @@
       }
     },
     {
-      "id": "01M6VA225ETWPE75H0Q1EAEVMM",
+      "id": "01M6VB6PY8N6ZEKC4YHB5XMZNZ",
       "runId": "01JC0F16FXF0000000000000AA",
       "seq": 137,
-      "ts": "2026-11-07T15:29:29.263Z",
+      "ts": "2026-11-07T15:49:30.184Z",
       "schemaVersion": 1,
       "actor": {
         "agentId": "probe-ux3-3",
@@ -3713,7 +3713,7 @@
       "payload": {
         "stepIndex": 3,
         "action": "type",
-        "durationMs": 61.708999999995285,
+        "durationMs": 58.48809999998775,
         "ok": true,
         "ref": "e9",
         "selector": "role=textbox[name=\"Dirección de envío\"]",
@@ -3726,10 +3726,10 @@
       }
     },
     {
-      "id": "01M6VA225FPS5XR9J57401F8EJ",
+      "id": "01M6VB6PY8Y27QPN27GDF9M4BW",
       "runId": "01JC0F16FXF0000000000000AA",
       "seq": 138,
-      "ts": "2026-11-07T15:29:29.263Z",
+      "ts": "2026-11-07T15:49:30.184Z",
       "schemaVersion": 1,
       "actor": {
         "agentId": "probe-ux3-3",
@@ -3739,7 +3739,7 @@
       "payload": {
         "stepIndex": 3,
         "url": "http://janus-f16-app:3100/register",
-        "durationMs": 129.00880000000325,
+        "durationMs": 125.32039999999688,
         "texts": [
           "ShopLab",
           "Tienda",
@@ -3756,10 +3756,10 @@
       }
     },
     {
-      "id": "01M6VA225G9TT8MKJ9JH0THH8M",
+      "id": "01M6VB6PYAJZX405ZE4Z6ZY8MS",
       "runId": "01JC0F16FXF0000000000000AA",
       "seq": 139,
-      "ts": "2026-11-07T15:29:29.264Z",
+      "ts": "2026-11-07T15:49:30.186Z",
       "schemaVersion": 1,
       "actor": {
         "agentId": "probe-ux3-3",
@@ -3774,10 +3774,10 @@
       }
     },
     {
-      "id": "01M6VA22ZGE9ZBMA468H9TN40E",
+      "id": "01M6VB6QPZJ3H75C3QPN1YPNQB",
       "runId": "01JC0F16FXF0000000000000AA",
       "seq": 140,
-      "ts": "2026-11-07T15:29:30.096Z",
+      "ts": "2026-11-07T15:49:30.975Z",
       "schemaVersion": 1,
       "actor": {
         "agentId": "probe-ux3-3",
@@ -3787,7 +3787,7 @@
       "payload": {
         "stepIndex": 4,
         "action": "click",
-        "durationMs": 764.1233999999968,
+        "durationMs": 723.564000000013,
         "ok": true,
         "ref": "e10",
         "selector": "role=button[name=\"Crear cuenta\"]",
@@ -3801,10 +3801,10 @@
       }
     },
     {
-      "id": "01M6VA22ZGKE2ATVGK7DFMECH9",
+      "id": "01M6VB6QPZH4H0X3TFANCZXK03",
       "runId": "01JC0F16FXF0000000000000AA",
       "seq": 141,
-      "ts": "2026-11-07T15:29:30.096Z",
+      "ts": "2026-11-07T15:49:30.975Z",
       "schemaVersion": 1,
       "actor": {
         "agentId": "probe-ux3-3",
@@ -3814,7 +3814,7 @@
       "payload": {
         "stepIndex": 4,
         "url": "http://janus-f16-app:3100/register",
-        "durationMs": 831.1198000000004,
+        "durationMs": 788.5283000000054,
         "texts": [
           "ShopLab",
           "Tienda",
@@ -3831,10 +3831,10 @@
       }
     },
     {
-      "id": "01M6VA22ZJ7MN5DK6QBEWMJG5M",
+      "id": "01M6VB6QQ1KAK43N5GQWWBYPPA",
       "runId": "01JC0F16FXF0000000000000AA",
       "seq": 142,
-      "ts": "2026-11-07T15:29:30.098Z",
+      "ts": "2026-11-07T15:49:30.977Z",
       "schemaVersion": 1,
       "actor": {
         "agentId": "probe-ux3-3",
@@ -3850,10 +3850,10 @@
       }
     },
     {
-      "id": "01M6VA22ZJYS85DYQQX41Q5608",
+      "id": "01M6VB6QQ1XS773F8WJPZW3H2P",
       "runId": "01JC0F16FXF0000000000000AA",
       "seq": 143,
-      "ts": "2026-11-07T15:29:30.098Z",
+      "ts": "2026-11-07T15:49:30.977Z",
       "schemaVersion": 1,
       "actor": {
         "agentId": "probe-ux3-3",
@@ -3869,10 +3869,10 @@
       }
     },
     {
-      "id": "01M6VA2353S7MXK5ZVYA0HKN5H",
+      "id": "01M6VB6QWBZYMNC4YG0970YGN3",
       "runId": "01JC0F16FXF0000000000000AA",
       "seq": 144,
-      "ts": "2026-11-07T15:29:30.275Z",
+      "ts": "2026-11-07T15:49:31.147Z",
       "schemaVersion": 1,
       "actor": {
         "agentId": "probe-ux3-3",
@@ -3882,7 +3882,7 @@
       "payload": {
         "stepIndex": 5,
         "action": "type",
-        "durationMs": 106.67199999999866,
+        "durationMs": 101.74499999999534,
         "ok": true,
         "ref": "e6",
         "selector": "role=textbox[name=\"Nombre\"]",
@@ -3895,10 +3895,10 @@
       }
     },
     {
-      "id": "01M6VA23540TW4331T0JK1465Z",
+      "id": "01M6VB6QWBSQF78792K6FE4B23",
       "runId": "01JC0F16FXF0000000000000AA",
       "seq": 145,
-      "ts": "2026-11-07T15:29:30.276Z",
+      "ts": "2026-11-07T15:49:31.147Z",
       "schemaVersion": 1,
       "actor": {
         "agentId": "probe-ux3-3",
@@ -3908,7 +3908,7 @@
       "payload": {
         "stepIndex": 5,
         "url": "http://janus-f16-app:3100/register",
-        "durationMs": 176.1088000000018,
+        "durationMs": 169.39579999999842,
         "alerts": ["Revisa los campos del formulario."],
         "texts": [
           "ShopLab",
@@ -3927,10 +3927,10 @@
       }
     },
     {
-      "id": "01M6VA235585FRMSDVRG6M7BBZ",
+      "id": "01M6VB6QWDVMEMCHXCP8Y6RAE9",
       "runId": "01JC0F16FXF0000000000000AA",
       "seq": 146,
-      "ts": "2026-11-07T15:29:30.277Z",
+      "ts": "2026-11-07T15:49:31.149Z",
       "schemaVersion": 1,
       "actor": {
         "agentId": "probe-ux3-3",
@@ -3946,10 +3946,10 @@
       }
     },
     {
-      "id": "01M6VA23679Q2CDZHK6F7ERRSM",
+      "id": "01M6VB6QXD3V3EXE9KTQJ0YZFF",
       "runId": "01JC0F16FXF0000000000000AA",
       "seq": 147,
-      "ts": "2026-11-07T15:29:30.311Z",
+      "ts": "2026-11-07T15:49:31.181Z",
       "schemaVersion": 1,
       "actor": {
         "agentId": "probe-ux3-3",
@@ -3964,10 +3964,10 @@
       }
     },
     {
-      "id": "01M6VA23BK7G4ETC4E8NF12YBB",
+      "id": "01M6VB6R2JP9W5VPXVK8MGD68A",
       "runId": "01JC0F16FXF0000000000000AA",
       "seq": 148,
-      "ts": "2026-11-07T15:29:30.483Z",
+      "ts": "2026-11-07T15:49:31.346Z",
       "schemaVersion": 1,
       "actor": {
         "agentId": "probe-ux3-3",
@@ -3977,7 +3977,7 @@
       "payload": {
         "stepIndex": 6,
         "action": "type",
-        "durationMs": 103.79550000000017,
+        "durationMs": 100.33980000001611,
         "ok": true,
         "ref": "e7",
         "selector": "role=textbox[name=\"Email\"]",
@@ -3990,10 +3990,10 @@
       }
     },
     {
-      "id": "01M6VA23BKVPDMW7TF66FVNGK2",
+      "id": "01M6VB6R2KDJGTF090EJ1M0AV0",
       "runId": "01JC0F16FXF0000000000000AA",
       "seq": 149,
-      "ts": "2026-11-07T15:29:30.483Z",
+      "ts": "2026-11-07T15:49:31.347Z",
       "schemaVersion": 1,
       "actor": {
         "agentId": "probe-ux3-3",
@@ -4003,7 +4003,7 @@
       "payload": {
         "stepIndex": 6,
         "url": "http://janus-f16-app:3100/register",
-        "durationMs": 171.57510000000184,
+        "durationMs": 165.14019999999437,
         "alerts": ["Revisa los campos del formulario."],
         "texts": [
           "ShopLab",
@@ -4022,10 +4022,10 @@
       }
     },
     {
-      "id": "01M6VA23BNT7HG5E0MCASE0C1X",
+      "id": "01M6VB6R2MDDHS1XDWVH19A8YF",
       "runId": "01JC0F16FXF0000000000000AA",
       "seq": 150,
-      "ts": "2026-11-07T15:29:30.485Z",
+      "ts": "2026-11-07T15:49:31.348Z",
       "schemaVersion": 1,
       "actor": {
         "agentId": "probe-ux3-3",
@@ -4041,10 +4041,10 @@
       }
     },
     {
-      "id": "01M6VA23GWPW4M0V9SC3R4HMXZ",
+      "id": "01M6VB6R7VE61GVFC96SH31QQS",
       "runId": "01JC0F16FXF0000000000000AA",
       "seq": 151,
-      "ts": "2026-11-07T15:29:30.652Z",
+      "ts": "2026-11-07T15:49:31.515Z",
       "schemaVersion": 1,
       "actor": {
         "agentId": "probe-ux3-3",
@@ -4054,7 +4054,7 @@
       "payload": {
         "stepIndex": 7,
         "action": "type",
-        "durationMs": 100.2896000000037,
+        "durationMs": 100.81589999998687,
         "ok": true,
         "ref": "e8",
         "selector": "role=textbox[name=\"Contraseña (mínimo 8 caracteres)\"]",
@@ -4067,10 +4067,10 @@
       }
     },
     {
-      "id": "01M6VA23GW252HRAHBRD9PG4R4",
+      "id": "01M6VB6R7VNH774HWT8JVS87HE",
       "runId": "01JC0F16FXF0000000000000AA",
       "seq": 152,
-      "ts": "2026-11-07T15:29:30.652Z",
+      "ts": "2026-11-07T15:49:31.515Z",
       "schemaVersion": 1,
       "actor": {
         "agentId": "probe-ux3-3",
@@ -4080,7 +4080,7 @@
       "payload": {
         "stepIndex": 7,
         "url": "http://janus-f16-app:3100/register",
-        "durationMs": 166.7039999999979,
+        "durationMs": 165.92699999999604,
         "alerts": ["Revisa los campos del formulario."],
         "texts": [
           "ShopLab",
@@ -4099,10 +4099,10 @@
       }
     },
     {
-      "id": "01M6VA23GYNRSWRNTVGDD7TT94",
+      "id": "01M6VB6R7WZ7DETKVHD6H8QH97",
       "runId": "01JC0F16FXF0000000000000AA",
       "seq": 153,
-      "ts": "2026-11-07T15:29:30.654Z",
+      "ts": "2026-11-07T15:49:31.516Z",
       "schemaVersion": 1,
       "actor": {
         "agentId": "probe-ux3-3",
@@ -4118,10 +4118,10 @@
       }
     },
     {
-      "id": "01M6VA23PAMGYC5RY5KXJZTV0P",
+      "id": "01M6VB6RD2SDVZASMQX4H65SJX",
       "runId": "01JC0F16FXF0000000000000AA",
       "seq": 154,
-      "ts": "2026-11-07T15:29:30.826Z",
+      "ts": "2026-11-07T15:49:31.682Z",
       "schemaVersion": 1,
       "actor": {
         "agentId": "probe-ux3-3",
@@ -4131,7 +4131,7 @@
       "payload": {
         "stepIndex": 8,
         "action": "type",
-        "durationMs": 103.89300000000367,
+        "durationMs": 99.30250000001979,
         "ok": true,
         "ref": "e9",
         "selector": "role=textbox[name=\"Dirección de envío\"]",
@@ -4144,10 +4144,10 @@
       }
     },
     {
-      "id": "01M6VA23PAH1586NB9F9RXMDWZ",
+      "id": "01M6VB6RD3E7WZS2W9JBENN1M8",
       "runId": "01JC0F16FXF0000000000000AA",
       "seq": 155,
-      "ts": "2026-11-07T15:29:30.826Z",
+      "ts": "2026-11-07T15:49:31.683Z",
       "schemaVersion": 1,
       "actor": {
         "agentId": "probe-ux3-3",
@@ -4157,7 +4157,7 @@
       "payload": {
         "stepIndex": 8,
         "url": "http://janus-f16-app:3100/register",
-        "durationMs": 171.25,
+        "durationMs": 165.3056000000215,
         "alerts": ["Revisa los campos del formulario."],
         "texts": [
           "ShopLab",
@@ -4176,10 +4176,10 @@
       }
     },
     {
-      "id": "01M6VA23PDM5B30E201RXHRNX3",
+      "id": "01M6VB6RD4KH5RJTEM45DQYY7R",
       "runId": "01JC0F16FXF0000000000000AA",
       "seq": 156,
-      "ts": "2026-11-07T15:29:30.829Z",
+      "ts": "2026-11-07T15:49:31.684Z",
       "schemaVersion": 1,
       "actor": {
         "agentId": "probe-ux3-3",
@@ -4195,10 +4195,10 @@
       }
     },
     {
-      "id": "01M6VA24F5ZA0MSGCJE12X0MXE",
+      "id": "01M6VB6S5V7SWW2N2FC9GTVQ44",
       "runId": "01JC0F16FXF0000000000000AA",
       "seq": 157,
-      "ts": "2026-11-07T15:29:31.621Z",
+      "ts": "2026-11-07T15:49:32.475Z",
       "schemaVersion": 1,
       "actor": {
         "agentId": "probe-ux3-3",
@@ -4208,7 +4208,7 @@
       "payload": {
         "stepIndex": 9,
         "action": "click",
-        "durationMs": 725.158199999998,
+        "durationMs": 725.2498999999953,
         "ok": true,
         "ref": "e10",
         "selector": "role=button[name=\"Crear cuenta\"]",
@@ -4222,10 +4222,10 @@
       }
     },
     {
-      "id": "01M6VA24F52QEAGFFV45EC64C1",
+      "id": "01M6VB6S5V9HPWCFFZDT0J24P4",
       "runId": "01JC0F16FXF0000000000000AA",
       "seq": 158,
-      "ts": "2026-11-07T15:29:31.621Z",
+      "ts": "2026-11-07T15:49:32.475Z",
       "schemaVersion": 1,
       "actor": {
         "agentId": "probe-ux3-3",
@@ -4235,7 +4235,7 @@
       "payload": {
         "stepIndex": 9,
         "url": "http://janus-f16-app:3100/register",
-        "durationMs": 790.7670999999973,
+        "durationMs": 790.1465000000026,
         "alerts": ["Revisa los campos del formulario."],
         "texts": [
           "ShopLab",
@@ -4254,10 +4254,10 @@
       }
     },
     {
-      "id": "01M6VA24F67VS9RGQGKWD1TNRY",
+      "id": "01M6VB6S5X2NZ0AW7STWP0VPND",
       "runId": "01JC0F16FXF0000000000000AA",
       "seq": 159,
-      "ts": "2026-11-07T15:29:31.622Z",
+      "ts": "2026-11-07T15:49:32.477Z",
       "schemaVersion": 1,
       "actor": {
         "agentId": "probe-ux3-3",
@@ -4273,10 +4273,10 @@
       }
     },
     {
-      "id": "01M6VA24F6ZBNKFS4M7A10FXD5",
+      "id": "01M6VB6S5XXKDZYCWF04YZ8ZGG",
       "runId": "01JC0F16FXF0000000000000AA",
       "seq": 160,
-      "ts": "2026-11-07T15:29:31.622Z",
+      "ts": "2026-11-07T15:49:32.477Z",
       "schemaVersion": 1,
       "actor": {
         "agentId": "probe-ux3-3",
@@ -4292,10 +4292,10 @@
       }
     },
     {
-      "id": "01M6VA24H8ER65X0QDHXJH7F3S",
+      "id": "01M6VB6S7Z6PXPYXHBE2ZVBK2Z",
       "runId": "01JC0F16FXF0000000000000AA",
       "seq": 161,
-      "ts": "2026-11-07T15:29:31.688Z",
+      "ts": "2026-11-07T15:49:32.543Z",
       "schemaVersion": 1,
       "actor": {
         "agentId": "probe-ux3-3",
@@ -4305,15 +4305,15 @@
       "payload": {
         "stepIndex": 10,
         "action": "done",
-        "durationMs": 0.023399999998218846,
+        "durationMs": 0.022899999981746078,
         "ok": true
       }
     },
     {
-      "id": "01M6VA24H80YEX03G2MG1BYW67",
+      "id": "01M6VB6S7Z7KRES27Q8FA1VWV5",
       "runId": "01JC0F16FXF0000000000000AA",
       "seq": 162,
-      "ts": "2026-11-07T15:29:31.688Z",
+      "ts": "2026-11-07T15:49:32.543Z",
       "schemaVersion": 1,
       "actor": {
         "agentId": "probe-ux3-3",
@@ -4323,7 +4323,7 @@
       "payload": {
         "stepIndex": 10,
         "url": "http://janus-f16-app:3100/register",
-        "durationMs": 65.24040000000241,
+        "durationMs": 65.34919999999693,
         "alerts": ["Revisa los campos del formulario."],
         "texts": [
           "ShopLab",
@@ -4342,10 +4342,10 @@
       }
     },
     {
-      "id": "01M6VA24HAYDB5EZRSFJDRRRN7",
+      "id": "01M6VB6S805APJB7YR95PM4YAX",
       "runId": "01JC0F16FXF0000000000000AA",
       "seq": 163,
-      "ts": "2026-11-07T15:29:31.690Z",
+      "ts": "2026-11-07T15:49:32.544Z",
       "schemaVersion": 1,
       "actor": {
         "agentId": "probe-ux3-3",
@@ -4361,10 +4361,10 @@
       }
     },
     {
-      "id": "01M6VA24HB3RQKQEJ8MT38W828",
+      "id": "01M6VB6S81EBWWJDX2NHDT5R6V",
       "runId": "01JC0F16FXF0000000000000AA",
       "seq": 164,
-      "ts": "2026-11-07T15:29:31.691Z",
+      "ts": "2026-11-07T15:49:32.545Z",
       "schemaVersion": 1,
       "actor": {
         "agentId": "probe-ux3-3",
@@ -4375,14 +4375,14 @@
         "outcome": "abandon",
         "steps": 11,
         "reason": "Se me borra todo cada vez.",
-        "durationMs": 3911.3647000000055
+        "durationMs": 3850.0139999999956
       }
     },
     {
-      "id": "01M6VA24MB5T1GXDYWSJAMEPRS",
+      "id": "01M6VB6SB06YNKNZYPG1XXSEPF",
       "runId": "01JC0F16FXF0000000000000AA",
       "seq": 165,
-      "ts": "2026-11-07T15:29:31.787Z",
+      "ts": "2026-11-07T15:49:32.640Z",
       "schemaVersion": 1,
       "actor": {
         "agentId": "orchestrator",
@@ -4392,17 +4392,17 @@
       "payload": {
         "detector": "backtrack",
         "severity": "low",
-        "evidenceEventIds": ["01M6VA1JN8BEQ916GGJQA1JQEG"],
+        "evidenceEventIds": ["01M6VB67HCCHQTVVXSQ7D95N65"],
         "agentId": "probe-ux1-0",
         "stepIndex": 9,
         "url": "http://janus-f16-app:3100/checkout"
       }
     },
     {
-      "id": "01M6VA24MCSNTV65DASB7V4299",
+      "id": "01M6VB6SB1R9BJGKP1SNTJRZEJ",
       "runId": "01JC0F16FXF0000000000000AA",
       "seq": 166,
-      "ts": "2026-11-07T15:29:31.788Z",
+      "ts": "2026-11-07T15:49:32.641Z",
       "schemaVersion": 1,
       "actor": {
         "agentId": "orchestrator",
@@ -4412,17 +4412,17 @@
       "payload": {
         "detector": "abandonment",
         "severity": "high",
-        "evidenceEventIds": ["01M6VA1JRRSWN6QDR7B3Z2GRQX"],
+        "evidenceEventIds": ["01M6VB67MFCK1ZG0YXY2TK7846"],
         "agentId": "probe-ux1-0",
         "stepIndex": 10,
         "url": "http://janus-f16-app:3100/cart"
       }
     },
     {
-      "id": "01M6VA24MCRPXENJ8KCAN0ZYN3",
+      "id": "01M6VB6SB132JVDQC17H64KVE0",
       "runId": "01JC0F16FXF0000000000000AA",
       "seq": 167,
-      "ts": "2026-11-07T15:29:31.788Z",
+      "ts": "2026-11-07T15:49:32.641Z",
       "schemaVersion": 1,
       "actor": {
         "agentId": "orchestrator",
@@ -4432,15 +4432,15 @@
       "payload": {
         "detector": "extra-steps",
         "severity": "low",
-        "evidenceEventIds": ["01M6VA20MEAYG547T55PARA0BY", "01M6VA1RS644RZ49CAJNPZRKY8"],
+        "evidenceEventIds": ["01M6VB6NCW78FKZTESHJAAEXDC", "01M6VB6DP3ACM3JQQMSXZ4A7KY"],
         "agentId": "probe-ux2-2"
       }
     },
     {
-      "id": "01M6VA24MCMY5YZ6SG3D071HEH",
+      "id": "01M6VB6SB10CJ1F3W8WB2XSB35",
       "runId": "01JC0F16FXF0000000000000AA",
       "seq": 168,
-      "ts": "2026-11-07T15:29:31.788Z",
+      "ts": "2026-11-07T15:49:32.641Z",
       "schemaVersion": 1,
       "actor": {
         "agentId": "orchestrator",
@@ -4450,17 +4450,17 @@
       "payload": {
         "detector": "backtrack",
         "severity": "low",
-        "evidenceEventIds": ["01M6VA1Z6F400TKJ1328VX7G12", "01M6VA1Z8PGZK0ZD1J799BCZFM"],
+        "evidenceEventIds": ["01M6VB6KYP5KCCNYQ09V01S0FR", "01M6VB6M0X7351Z8TN8RY8P9FT"],
         "agentId": "probe-ux2-2",
         "stepIndex": 12,
         "url": "http://janus-f16-app:3100/cart"
       }
     },
     {
-      "id": "01M6VA24MCEKRF6QMC2A1DB2VC",
+      "id": "01M6VB6SB1339BF73X0K3SD1TX",
       "runId": "01JC0F16FXF0000000000000AA",
       "seq": 169,
-      "ts": "2026-11-07T15:29:31.788Z",
+      "ts": "2026-11-07T15:49:32.641Z",
       "schemaVersion": 1,
       "actor": {
         "agentId": "orchestrator",
@@ -4470,17 +4470,17 @@
       "payload": {
         "detector": "form-error",
         "severity": "medium",
-        "evidenceEventIds": ["01M6VA22ZGE9ZBMA468H9TN40E", "01M6VA23540TW4331T0JK1465Z"],
+        "evidenceEventIds": ["01M6VB6QPZJ3H75C3QPN1YPNQB", "01M6VB6QWBSQF78792K6FE4B23"],
         "agentId": "probe-ux3-3",
         "stepIndex": 5,
         "url": "http://janus-f16-app:3100/register"
       }
     },
     {
-      "id": "01M6VA24MCK1GWWAV0SZZHHWZ5",
+      "id": "01M6VB6SB19G6VG75P0TMZNCF4",
       "runId": "01JC0F16FXF0000000000000AA",
       "seq": 170,
-      "ts": "2026-11-07T15:29:31.788Z",
+      "ts": "2026-11-07T15:49:32.641Z",
       "schemaVersion": 1,
       "actor": {
         "agentId": "orchestrator",
@@ -4490,7 +4490,7 @@
       "payload": {
         "detector": "abandonment",
         "severity": "high",
-        "evidenceEventIds": ["01M6VA24HB3RQKQEJ8MT38W828"],
+        "evidenceEventIds": ["01M6VB6S81EBWWJDX2NHDT5R6V"],
         "agentId": "probe-ux3-3",
         "stepIndex": 10,
         "url": "http://janus-f16-app:3100/register"

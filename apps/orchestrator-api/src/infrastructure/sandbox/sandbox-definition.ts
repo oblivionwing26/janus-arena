@@ -28,6 +28,8 @@ const sandboxDefinitionSchema = z.object({
     })
     .optional(),
   build: z.object({ setupTarget: imageTarget, appTarget: imageTarget }),
+  // The target's own checks (F2.3): run without network in an image built from the workspace.
+  checks: z.object({ target: imageTarget, command: z.array(z.string().min(1)).min(1) }).optional(),
   database: z.object({
     image: z.string().min(1),
     user: slug,
