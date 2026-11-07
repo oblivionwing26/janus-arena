@@ -14,6 +14,8 @@ export type LlmContentBlock =
       readonly content: string;
       readonly isError?: boolean;
     }
+  // A screenshot for the model to look at (F2.3); base64, never a URL.
+  | { readonly type: 'image'; readonly mediaType: 'image/png'; readonly data: string }
   // Thinking blocks must be passed back unchanged on later turns.
   | { readonly type: 'thinking'; readonly thinking: string; readonly signature: string }
   | { readonly type: 'redacted_thinking'; readonly data: string };
