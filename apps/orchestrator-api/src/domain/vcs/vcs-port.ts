@@ -14,6 +14,8 @@ export interface CloneOptions {
   readonly runId: string;
   /** Branch, tag or commit to start from. */
   readonly ref: string;
+  /** Only the last commits (a shallow clone), for big targets read but never changed (F2.5). */
+  readonly depth?: number;
   /** Ground-truth files no agent may read (e.g. ShopLab's UX_FLAWS.md): hidden, never committed. */
   readonly excludeFiles?: readonly string[];
 }

@@ -14,7 +14,7 @@ More context: `docs/VISION.md` (product), `docs/adr/` (decisions), `docs/ROADMAP
 
 ## Current step
 
-**F2.5 — Static analysis adapters.** Read this step in `docs/ROADMAP.md` before starting. Do not build features from later steps.
+**F2.6 — Attack surface map.** Read this step in `docs/ROADMAP.md` before starting. Do not build features from later steps.
 
 (Update this line every time a step is closed.)
 
@@ -61,7 +61,9 @@ config/
   models.yaml            model role -> model id, editable price table
   friction.yaml          friction detector thresholds
   funnels.yaml           report routes and purchase funnel per target
+  arch/                  dependency-cruiser rules for each target's architecture
 personas/                persona YAML files
+rules/semgrep/           Janus's own Semgrep rules, each with its `semgrep --test` cases
 docker/sandboxes/        sandbox definitions
 docs/                    VISION.md, ROADMAP.md, adr/, finops.md, reports/, articles/
 recordings/              recorded LLM responses (gitignored except fixtures)

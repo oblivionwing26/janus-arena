@@ -24,6 +24,8 @@ const FORBIDDEN_PREFIX = [
   '--ipc=host',
   '--userns=host',
 ];
+// The throwaway containers analysis tools run in (`janus-tool-<ulid>:/path`).
+const TOOL_CONTAINER = /^janus-tool-[a-z0-9]+:\//;
 const FORBIDDEN_TEXT = /docker\.sock|docker_engine|dockerDesktopLinuxEngine/i;
 
 // buildx may start its own privileged BuildKit container through the proxy; never use it.
@@ -37,6 +39,21 @@ export function assertSafeDockerArgs(args: readonly string[]): void {
   const command = args[0] ?? '';
   if (FORBIDDEN_COMMANDS.has(command)) {
     throw new Error(`Refusing unsafe docker command: ${command}`);
+  }
+  // `docker cp` only copies a local folder into an analysis container (F2.5), never out of one.
+  if (command === 'cp') {
+    const [source, target, ...rest] = args.slice(1);
+    if (
+      source === undefined ||
+      target === undefined ||
+      rest.length > 0 ||
+      TOOL_CONTAINER.test(source) ||
+      !TOOL_CONTAINER.test(target)
+    ) {
+      throw new Error(
+        'Refusing unsafe docker argument: cp only copies into a janus-tool container',
+      );
+    }
   }
   args.forEach((arg, index) => {
     const next = args[index + 1];

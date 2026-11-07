@@ -139,15 +139,23 @@ module.exports = {
     {
       name: 'not-to-dev-dep',
       severity: 'error',
-      comment: 'Production code must not depend on devDependencies. test-support/ is test-only.',
+      comment:
+        'Production code must not depend on devDependencies. test-support/ is test-only. A package that is also a production dependency of the app (dependency-cruiser in the orchestrator, F2.5) is fine.',
       from: { path: '^(apps|packages)/[^/]+/src', pathNot: [TEST_FILE, '/src/test-support/'] },
-      to: { dependencyTypes: ['npm-dev'], dependencyTypesNot: ['type-only'] },
+      to: { dependencyTypes: ['npm-dev'], dependencyTypesNot: ['type-only', 'npm'] },
     },
   ],
   options: {
     doNotFollow: { path: ['node_modules'] },
     exclude: {
-      path: ['(^|/)dist/', '(^|/)[.]next/', '(^|/)coverage/', '/persistence/generated/'],
+      path: [
+        '(^|/)dist/',
+        '(^|/)[.]next/',
+        '(^|/)coverage/',
+        '/persistence/generated/',
+        // Sample code the static analysis tools scan (F2.5), not part of any app.
+        '/fixtures/static-analysis/',
+      ],
     },
     tsPreCompilationDeps: true,
     // Resolves the web console's `@/` path alias; no other workspace uses `paths`.
