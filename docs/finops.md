@@ -30,6 +30,7 @@ history). The measure is ~2,850, at the low end: the observation builder keeps p
 | F1.11 A/B, personas (Haiku)                     |       33 |            14.9 |        0.0023 |
 | F1.11 A/B, baseline (Sonnet)                    |        4 |            13.0 |         0.032 |
 | F2.3 UI Engineer (Sonnet), per seeded flaw      |        3 |             4.0 |         0.037 |
+| F2.4 automatic A/B, whole command (coupon task) |       29 |               — |  0.59 (total) |
 
 Steps per session dominate the bill. In F1.9 three sessions took 53–60 steps because the
 baseline bounced between cart and checkout (see the F1.9 note in the ROADMAP); without them the

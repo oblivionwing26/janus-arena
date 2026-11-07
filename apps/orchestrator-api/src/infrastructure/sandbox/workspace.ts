@@ -1,7 +1,7 @@
 import { execFile } from 'node:child_process';
 import { existsSync } from 'node:fs';
 import { mkdir, rm } from 'node:fs/promises';
-import { join } from 'node:path';
+import { join, resolve, sep } from 'node:path';
 import { fileURLToPath } from 'node:url';
 
 /** .workspaces at the repository root (gitignored), from src or dist alike. */
@@ -22,6 +22,23 @@ function git(args: readonly string[]): Promise<void> {
       },
     );
   });
+}
+
+/**
+ * A generated variant's clone (F2.4) may be built only from a file:// folder inside the
+ * workspaces root: never another local path, and never something to fetch.
+ */
+export function assertLocalRepo(repo: string, root: string): string {
+  let path: string;
+  try {
+    path = resolve(fileURLToPath(repo));
+  } catch {
+    throw new Error(`repo ${repo} is not a file:// URL`);
+  }
+  if (!path.startsWith(resolve(root) + sep)) {
+    throw new Error(`repo ${repo} is outside the workspaces folder`);
+  }
+  return repo;
 }
 
 export interface WorkspaceRequest {

@@ -126,7 +126,12 @@ export class InMemoryVcs implements VcsPort {
         hidden,
       };
       this.workspaces.set(options.runId, state);
-      return { id: options.runId, path: `memory://${options.runId}`, baseSha: sha };
+      return {
+        id: options.runId,
+        path: `memory://${options.runId}`,
+        url: `file:///memory/${options.runId}`,
+        baseSha: sha,
+      };
     });
   }
 

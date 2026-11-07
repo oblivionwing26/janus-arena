@@ -1,0 +1,757 @@
+{
+  "format": "janus-synthlab-report",
+  "version": 1,
+  "runId": "01M6VD0MWENHQCSKST7EHK0WG1",
+  "source": {
+    "events": 2362,
+    "lastSeq": 2361
+  },
+  "sessions": {
+    "persona": 17,
+    "baseline": 2,
+    "excluded": [
+      {
+        "agentId": "lucia-private-a-t1-s1-a1",
+        "reason": "task could not be verified"
+      },
+      {
+        "agentId": "lucia-private-b-t1-s1-a1",
+        "reason": "task could not be verified"
+      },
+      {
+        "agentId": "marta-first-phone-a-t1-s1-a1",
+        "reason": "never ended (infrastructure)"
+      },
+      {
+        "agentId": "pablo-student-a-t1-s1-a1",
+        "reason": "task could not be verified"
+      }
+    ]
+  },
+  "funnel": [
+    {
+      "variant": "a",
+      "sessions": 6,
+      "steps": [
+        {
+          "name": "Inicio",
+          "route": "/",
+          "reached": 6,
+          "rate": 1
+        },
+        {
+          "name": "Producto",
+          "route": "/products/:slug",
+          "reached": 6,
+          "rate": 1
+        },
+        {
+          "name": "Carrito",
+          "route": "/cart",
+          "reached": 6,
+          "rate": 1
+        },
+        {
+          "name": "Pago",
+          "route": "/checkout",
+          "reached": 6,
+          "rate": 1
+        },
+        {
+          "name": "Pedido confirmado",
+          "route": "/orders/:id",
+          "reached": 1,
+          "rate": 0.16666666666666666
+        }
+      ]
+    },
+    {
+      "variant": "b",
+      "sessions": 7,
+      "steps": [
+        {
+          "name": "Inicio",
+          "route": "/",
+          "reached": 7,
+          "rate": 1
+        },
+        {
+          "name": "Producto",
+          "route": "/products/:slug",
+          "reached": 7,
+          "rate": 1
+        },
+        {
+          "name": "Carrito",
+          "route": "/cart",
+          "reached": 7,
+          "rate": 1
+        },
+        {
+          "name": "Pago",
+          "route": "/checkout",
+          "reached": 5,
+          "rate": 0.7142857142857143
+        },
+        {
+          "name": "Pedido confirmado",
+          "route": "/orders/:id",
+          "reached": 5,
+          "rate": 0.7142857142857143
+        }
+      ]
+    }
+  ],
+  "zones": [
+    {
+      "rank": 1,
+      "route": "/cart",
+      "element": null,
+      "intensity": 25,
+      "signals": 66,
+      "sessions": 11,
+      "detectors": [
+        {
+          "detector": "backtrack",
+          "signals": 59
+        },
+        {
+          "detector": "abandonment",
+          "signals": 7
+        }
+      ],
+      "boxes": [],
+      "screenshot": {
+        "agentId": "carmen-retired-a-t1-s1-a1",
+        "stepIndex": 15,
+        "artifact": "carmen-retired-a-t1-s1-a1/step-15.png"
+      },
+      "evidenceEventIds": [
+        "01M6VD7909RDYV070KTMAGAP0E",
+        "01M6VD7CCDKRV7K1NRK291N2SX",
+        "01M6VD7FSC8R38RX8G92ZMSDME",
+        "01M6VD7JN00KFKMC8SRT0ZM0B2",
+        "01M6VD7MRZN9GGRZ19N1DG7QCM",
+        "01M6VD7QV61438KYY561G210R0",
+        "01M6VD7TGP1E3ARZFR9G1MX7P2",
+        "01M6VD7XQ9RW8XNBXZXWRPXV7G",
+        "01M6VD80EQWMWBK5SVZZR0W2N5",
+        "01M6VD83WGYJJSYYB296E3H5BG",
+        "01M6VD87J5417KX8NJG4F7F2CD",
+        "01M6VD8AGZ0RMAZGK8QTNT6ZY4",
+        "01M6VD8BG3CDFJNMVWEFW6PXYP",
+        "01M6VD8D5D75TJA4MWWG2J72BR",
+        "01M6VD8G40E59N5N9MPM49MFNQ",
+        "01M6VD8JD7K655H3XJEAS99YGC",
+        "01M6VD8N6XZNYAWQNEBFGJPD7C",
+        "01M6VD8R3V4P6D29QX2NB02ME5",
+        "01M6VD8V3R5CXZP79Z6VHTZZA0",
+        "01M6VD8YHFQ9W38PTQAGN58ECA"
+      ]
+    },
+    {
+      "rank": 2,
+      "route": "/products/:slug",
+      "element": null,
+      "intensity": 10,
+      "signals": 7,
+      "sessions": 4,
+      "detectors": [
+        {
+          "detector": "backtrack",
+          "signals": 4
+        },
+        {
+          "detector": "abandonment",
+          "signals": 3
+        }
+      ],
+      "boxes": [],
+      "screenshot": {
+        "agentId": "lucia-private-a-t1-s1-a1",
+        "stepIndex": 4,
+        "artifact": "lucia-private-a-t1-s1-a1/step-4.png"
+      },
+      "evidenceEventIds": [
+        "01M6VDB234HBTQHWQW8ZRZNZ8C",
+        "01M6VDB3AWDSKX78Q57EMPM00E",
+        "01M6VDBN6ZEMDKWN9T3HCNRG4A",
+        "01M6VDCM15FP3K27WV8Q2NZW4Q",
+        "01M6VDCYSSRB978W1PK4R9CADM",
+        "01M6VDD0HWS28HYK7A2HYEGMTV",
+        "01M6VDDQ5YR4YEKS6CA2HX3AWY",
+        "01M6VDDS14K3NFFR07ZYF7ZWT9",
+        "01M6VDDSYH33JADQ3S1BXJKJG5",
+        "01M6VDDVG39MPXE2N1AXCQMEGA",
+        "01M6VDE3CR6WAATZ94H8EBK566"
+      ]
+    },
+    {
+      "rank": 3,
+      "route": "/checkout",
+      "element": null,
+      "intensity": 9,
+      "signals": 63,
+      "sessions": 7,
+      "detectors": [
+        {
+          "detector": "backtrack",
+          "signals": 62
+        },
+        {
+          "detector": "abandonment",
+          "signals": 1
+        }
+      ],
+      "boxes": [],
+      "screenshot": {
+        "agentId": "carmen-retired-a-t1-s1-a1",
+        "stepIndex": 14,
+        "artifact": "carmen-retired-a-t1-s1-a1/step-14.png"
+      },
+      "evidenceEventIds": [
+        "01M6VD76P5DGYGASGFZSG013WE",
+        "01M6VD7909RDYV070KTMAGAP0E",
+        "01M6VD7CCDKRV7K1NRK291N2SX",
+        "01M6VD7FSC8R38RX8G92ZMSDME",
+        "01M6VD7JN00KFKMC8SRT0ZM0B2",
+        "01M6VD7MRZN9GGRZ19N1DG7QCM",
+        "01M6VD7QV61438KYY561G210R0",
+        "01M6VD7TGP1E3ARZFR9G1MX7P2",
+        "01M6VD7XQ9RW8XNBXZXWRPXV7G",
+        "01M6VD80EQWMWBK5SVZZR0W2N5",
+        "01M6VD83WGYJJSYYB296E3H5BG",
+        "01M6VD87J5417KX8NJG4F7F2CD",
+        "01M6VD89CM6GCAP9K5S74GJ6A2",
+        "01M6VD8BBZWPGEKMWP6SNM9J2J",
+        "01M6VD8AGZ0RMAZGK8QTNT6ZY4",
+        "01M6VD8D5D75TJA4MWWG2J72BR",
+        "01M6VD8G40E59N5N9MPM49MFNQ",
+        "01M6VD8JD7K655H3XJEAS99YGC",
+        "01M6VD8N6XZNYAWQNEBFGJPD7C",
+        "01M6VD8R3V4P6D29QX2NB02ME5"
+      ]
+    },
+    {
+      "rank": 4,
+      "route": "/login",
+      "element": null,
+      "intensity": 4,
+      "signals": 7,
+      "sessions": 4,
+      "detectors": [
+        {
+          "detector": "backtrack",
+          "signals": 7
+        }
+      ],
+      "boxes": [],
+      "screenshot": null,
+      "evidenceEventIds": [
+        "01M6VDAYHY2PCCTM3HKF1PQYXD",
+        "01M6VDB3ARN5KDXK0TTA4FZR0N",
+        "01M6VDBMBH4Z1RFDARWW12AS5V",
+        "01M6VDCWS7SZENNQ64R5H9W9WF",
+        "01M6VDD0HQ69S2NRRB0S0WT8SK",
+        "01M6VDDPZJBNW3MDTE1XF3GG05",
+        "01M6VDDVFXR6ZS9WEX396YZYT1"
+      ]
+    },
+    {
+      "rank": 5,
+      "route": "/orders/:id",
+      "element": null,
+      "intensity": 3,
+      "signals": 1,
+      "sessions": 1,
+      "detectors": [
+        {
+          "detector": "abandonment",
+          "signals": 1
+        }
+      ],
+      "boxes": [],
+      "screenshot": {
+        "agentId": "javier-budget-a-t1-s1-a1",
+        "stepIndex": 28,
+        "artifact": "javier-budget-a-t1-s1-a1/step-28.png"
+      },
+      "evidenceEventIds": ["01M6VDFVRCQ2AJJYZ5N00BBN8D"]
+    },
+    {
+      "rank": 6,
+      "route": "/",
+      "element": "role=link[name=\"Tienda\"]",
+      "intensity": 2,
+      "signals": 2,
+      "sessions": 2,
+      "detectors": [
+        {
+          "detector": "dead-click",
+          "signals": 2
+        }
+      ],
+      "boxes": [
+        {
+          "x": 265.359375,
+          "y": 17,
+          "width": 46.328125,
+          "height": 20,
+          "agentId": "diego-commuter-a-t1-s1-a1",
+          "stepIndex": 0
+        },
+        {
+          "x": 265.359375,
+          "y": 17,
+          "width": 46.328125,
+          "height": 20,
+          "agentId": "marta-first-phone-b-t1-s1-a1",
+          "stepIndex": 0
+        }
+      ],
+      "screenshot": {
+        "agentId": "diego-commuter-a-t1-s1-a1",
+        "stepIndex": 0,
+        "artifact": "diego-commuter-a-t1-s1-a1/step-0.png"
+      },
+      "evidenceEventIds": ["01M6VD7ETGFS5J4AVJCH8PQB9X", "01M6VDCH453W5H7R5C3S35JGA4"]
+    },
+    {
+      "rank": 7,
+      "route": "/register",
+      "element": null,
+      "intensity": 1,
+      "signals": 1,
+      "sessions": 1,
+      "detectors": [
+        {
+          "detector": "backtrack",
+          "signals": 1
+        }
+      ],
+      "boxes": [],
+      "screenshot": null,
+      "evidenceEventIds": ["01M6VDC748VB4C461V836WTEH0"]
+    }
+  ],
+  "zonesByVariant": [
+    {
+      "variant": "a",
+      "zones": [
+        {
+          "rank": 1,
+          "route": "/cart",
+          "element": null,
+          "intensity": 18,
+          "signals": 63,
+          "sessions": 8,
+          "detectors": [
+            {
+              "detector": "backtrack",
+              "signals": 58
+            },
+            {
+              "detector": "abandonment",
+              "signals": 5
+            }
+          ],
+          "boxes": [],
+          "screenshot": {
+            "agentId": "carmen-retired-a-t1-s1-a1",
+            "stepIndex": 15,
+            "artifact": "carmen-retired-a-t1-s1-a1/step-15.png"
+          },
+          "evidenceEventIds": [
+            "01M6VD7909RDYV070KTMAGAP0E",
+            "01M6VD7CCDKRV7K1NRK291N2SX",
+            "01M6VD7FSC8R38RX8G92ZMSDME",
+            "01M6VD7JN00KFKMC8SRT0ZM0B2",
+            "01M6VD7MRZN9GGRZ19N1DG7QCM",
+            "01M6VD7QV61438KYY561G210R0",
+            "01M6VD7TGP1E3ARZFR9G1MX7P2",
+            "01M6VD7XQ9RW8XNBXZXWRPXV7G",
+            "01M6VD80EQWMWBK5SVZZR0W2N5",
+            "01M6VD83WGYJJSYYB296E3H5BG",
+            "01M6VD87J5417KX8NJG4F7F2CD",
+            "01M6VD8AGZ0RMAZGK8QTNT6ZY4",
+            "01M6VD8BG3CDFJNMVWEFW6PXYP",
+            "01M6VD8D5D75TJA4MWWG2J72BR",
+            "01M6VD8G40E59N5N9MPM49MFNQ",
+            "01M6VD8JD7K655H3XJEAS99YGC",
+            "01M6VD8N6XZNYAWQNEBFGJPD7C",
+            "01M6VD8R3V4P6D29QX2NB02ME5",
+            "01M6VD8V3R5CXZP79Z6VHTZZA0",
+            "01M6VD8YHFQ9W38PTQAGN58ECA"
+          ]
+        },
+        {
+          "rank": 2,
+          "route": "/checkout",
+          "element": null,
+          "intensity": 9,
+          "signals": 63,
+          "sessions": 7,
+          "detectors": [
+            {
+              "detector": "backtrack",
+              "signals": 62
+            },
+            {
+              "detector": "abandonment",
+              "signals": 1
+            }
+          ],
+          "boxes": [],
+          "screenshot": {
+            "agentId": "carmen-retired-a-t1-s1-a1",
+            "stepIndex": 14,
+            "artifact": "carmen-retired-a-t1-s1-a1/step-14.png"
+          },
+          "evidenceEventIds": [
+            "01M6VD76P5DGYGASGFZSG013WE",
+            "01M6VD7909RDYV070KTMAGAP0E",
+            "01M6VD7CCDKRV7K1NRK291N2SX",
+            "01M6VD7FSC8R38RX8G92ZMSDME",
+            "01M6VD7JN00KFKMC8SRT0ZM0B2",
+            "01M6VD7MRZN9GGRZ19N1DG7QCM",
+            "01M6VD7QV61438KYY561G210R0",
+            "01M6VD7TGP1E3ARZFR9G1MX7P2",
+            "01M6VD7XQ9RW8XNBXZXWRPXV7G",
+            "01M6VD80EQWMWBK5SVZZR0W2N5",
+            "01M6VD83WGYJJSYYB296E3H5BG",
+            "01M6VD87J5417KX8NJG4F7F2CD",
+            "01M6VD89CM6GCAP9K5S74GJ6A2",
+            "01M6VD8BBZWPGEKMWP6SNM9J2J",
+            "01M6VD8AGZ0RMAZGK8QTNT6ZY4",
+            "01M6VD8D5D75TJA4MWWG2J72BR",
+            "01M6VD8G40E59N5N9MPM49MFNQ",
+            "01M6VD8JD7K655H3XJEAS99YGC",
+            "01M6VD8N6XZNYAWQNEBFGJPD7C",
+            "01M6VD8R3V4P6D29QX2NB02ME5"
+          ]
+        },
+        {
+          "rank": 3,
+          "route": "/products/:slug",
+          "element": null,
+          "intensity": 6,
+          "signals": 5,
+          "sessions": 2,
+          "detectors": [
+            {
+              "detector": "backtrack",
+              "signals": 3
+            },
+            {
+              "detector": "abandonment",
+              "signals": 2
+            }
+          ],
+          "boxes": [],
+          "screenshot": {
+            "agentId": "lucia-private-a-t1-s1-a1",
+            "stepIndex": 4,
+            "artifact": "lucia-private-a-t1-s1-a1/step-4.png"
+          },
+          "evidenceEventIds": [
+            "01M6VDB234HBTQHWQW8ZRZNZ8C",
+            "01M6VDB3AWDSKX78Q57EMPM00E",
+            "01M6VDBN6ZEMDKWN9T3HCNRG4A",
+            "01M6VDCYSSRB978W1PK4R9CADM",
+            "01M6VDD0HWS28HYK7A2HYEGMTV",
+            "01M6VDDQ5YR4YEKS6CA2HX3AWY",
+            "01M6VDDS14K3NFFR07ZYF7ZWT9",
+            "01M6VDE3CR6WAATZ94H8EBK566"
+          ]
+        },
+        {
+          "rank": 4,
+          "route": "/login",
+          "element": null,
+          "intensity": 2,
+          "signals": 4,
+          "sessions": 2,
+          "detectors": [
+            {
+              "detector": "backtrack",
+              "signals": 4
+            }
+          ],
+          "boxes": [],
+          "screenshot": null,
+          "evidenceEventIds": [
+            "01M6VDAYHY2PCCTM3HKF1PQYXD",
+            "01M6VDB3ARN5KDXK0TTA4FZR0N",
+            "01M6VDCWS7SZENNQ64R5H9W9WF",
+            "01M6VDD0HQ69S2NRRB0S0WT8SK"
+          ]
+        },
+        {
+          "rank": 5,
+          "route": "/",
+          "element": "role=link[name=\"Tienda\"]",
+          "intensity": 1,
+          "signals": 1,
+          "sessions": 1,
+          "detectors": [
+            {
+              "detector": "dead-click",
+              "signals": 1
+            }
+          ],
+          "boxes": [
+            {
+              "x": 265.359375,
+              "y": 17,
+              "width": 46.328125,
+              "height": 20,
+              "agentId": "diego-commuter-a-t1-s1-a1",
+              "stepIndex": 0
+            }
+          ],
+          "screenshot": {
+            "agentId": "diego-commuter-a-t1-s1-a1",
+            "stepIndex": 0,
+            "artifact": "diego-commuter-a-t1-s1-a1/step-0.png"
+          },
+          "evidenceEventIds": ["01M6VD7ETGFS5J4AVJCH8PQB9X"]
+        }
+      ]
+    },
+    {
+      "variant": "b",
+      "zones": [
+        {
+          "rank": 1,
+          "route": "/cart",
+          "element": null,
+          "intensity": 7,
+          "signals": 3,
+          "sessions": 3,
+          "detectors": [
+            {
+              "detector": "abandonment",
+              "signals": 2
+            },
+            {
+              "detector": "backtrack",
+              "signals": 1
+            }
+          ],
+          "boxes": [],
+          "screenshot": {
+            "agentId": "carmen-retired-a-t1-s1-a1",
+            "stepIndex": 15,
+            "artifact": "carmen-retired-a-t1-s1-a1/step-15.png"
+          },
+          "evidenceEventIds": [
+            "01M6VD97JZDWEZ3E8MWB0KZ4HR",
+            "01M6VDBSHG21PMJCFCSP1THN52",
+            "01M6VDHBM3N532R6S2G6CRJS2R"
+          ]
+        },
+        {
+          "rank": 2,
+          "route": "/products/:slug",
+          "element": null,
+          "intensity": 4,
+          "signals": 2,
+          "sessions": 2,
+          "detectors": [
+            {
+              "detector": "abandonment",
+              "signals": 1
+            },
+            {
+              "detector": "backtrack",
+              "signals": 1
+            }
+          ],
+          "boxes": [],
+          "screenshot": {
+            "agentId": "pablo-student-b-t1-s1-a1",
+            "stepIndex": 5,
+            "artifact": "pablo-student-b-t1-s1-a1/step-5.png"
+          },
+          "evidenceEventIds": [
+            "01M6VDCM15FP3K27WV8Q2NZW4Q",
+            "01M6VDDSYH33JADQ3S1BXJKJG5",
+            "01M6VDDVG39MPXE2N1AXCQMEGA"
+          ]
+        },
+        {
+          "rank": 3,
+          "route": "/orders/:id",
+          "element": null,
+          "intensity": 3,
+          "signals": 1,
+          "sessions": 1,
+          "detectors": [
+            {
+              "detector": "abandonment",
+              "signals": 1
+            }
+          ],
+          "boxes": [],
+          "screenshot": {
+            "agentId": "javier-budget-a-t1-s1-a1",
+            "stepIndex": 28,
+            "artifact": "javier-budget-a-t1-s1-a1/step-28.png"
+          },
+          "evidenceEventIds": ["01M6VDFVRCQ2AJJYZ5N00BBN8D"]
+        },
+        {
+          "rank": 4,
+          "route": "/login",
+          "element": null,
+          "intensity": 2,
+          "signals": 3,
+          "sessions": 2,
+          "detectors": [
+            {
+              "detector": "backtrack",
+              "signals": 3
+            }
+          ],
+          "boxes": [],
+          "screenshot": null,
+          "evidenceEventIds": [
+            "01M6VDBMBH4Z1RFDARWW12AS5V",
+            "01M6VDDPZJBNW3MDTE1XF3GG05",
+            "01M6VDDVFXR6ZS9WEX396YZYT1"
+          ]
+        },
+        {
+          "rank": 5,
+          "route": "/",
+          "element": "role=link[name=\"Tienda\"]",
+          "intensity": 1,
+          "signals": 1,
+          "sessions": 1,
+          "detectors": [
+            {
+              "detector": "dead-click",
+              "signals": 1
+            }
+          ],
+          "boxes": [
+            {
+              "x": 265.359375,
+              "y": 17,
+              "width": 46.328125,
+              "height": 20,
+              "agentId": "marta-first-phone-b-t1-s1-a1",
+              "stepIndex": 0
+            }
+          ],
+          "screenshot": {
+            "agentId": "marta-first-phone-b-t1-s1-a1",
+            "stepIndex": 0,
+            "artifact": "marta-first-phone-b-t1-s1-a1/step-0.png"
+          },
+          "evidenceEventIds": ["01M6VDCH453W5H7R5C3S35JGA4"]
+        },
+        {
+          "rank": 6,
+          "route": "/register",
+          "element": null,
+          "intensity": 1,
+          "signals": 1,
+          "sessions": 1,
+          "detectors": [
+            {
+              "detector": "backtrack",
+              "signals": 1
+            }
+          ],
+          "boxes": [],
+          "screenshot": null,
+          "evidenceEventIds": ["01M6VDC748VB4C461V836WTEH0"]
+        }
+      ]
+    }
+  ],
+  "detectors": [
+    {
+      "detector": "backtrack",
+      "signals": 133,
+      "sessions": 11
+    },
+    {
+      "detector": "abandonment",
+      "signals": 12,
+      "sessions": 12
+    },
+    {
+      "detector": "dead-click",
+      "signals": 2,
+      "sessions": 2
+    }
+  ],
+  "success": {
+    "variants": [
+      {
+        "variant": "a",
+        "personas": {
+          "rate": 0.16666666666666666,
+          "low": 0.030053369748306635,
+          "high": 0.5635028221864702,
+          "successes": 1,
+          "n": 6
+        },
+        "baseline": {
+          "successes": 0,
+          "n": 1
+        }
+      },
+      {
+        "variant": "b",
+        "personas": {
+          "rate": 0.7142857142857143,
+          "low": 0.3589344518326194,
+          "high": 0.9177810759959433,
+          "successes": 5,
+          "n": 7
+        },
+        "baseline": {
+          "successes": 1,
+          "n": 1
+        }
+      }
+    ],
+    "comparison": {
+      "a": "a",
+      "b": "b",
+      "pairs": 6,
+      "difference": {
+        "mean": 0.5,
+        "low": 0.16666666666666666,
+        "high": 0.8333333333333334,
+        "level": 0.95,
+        "resamples": 10000,
+        "seed": 20261106
+      },
+      "verdict": "b-higher"
+    }
+  },
+  "cost": {
+    "calls": 443,
+    "inputTokens": 244968,
+    "outputTokens": 95366,
+    "cacheReadInputTokens": 898719,
+    "cacheCreationInputTokens": 25299,
+    "estimatedEur": 0.2783142793,
+    "byRole": [
+      {
+        "role": "competent-baseline",
+        "calls": 82,
+        "estimatedEur": 0.21662213199999994
+      },
+      {
+        "role": "navigator",
+        "calls": 361,
+        "estimatedEur": 0.06169214730000001
+      }
+    ]
+  }
+}

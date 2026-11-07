@@ -8,7 +8,12 @@ export const BASELINE_PERSONA = 'competent-baseline';
 export interface RunConfig {
   readonly target: string;
   /** One to four variants; the same personas and seeds play every one of them. */
-  readonly variants: readonly { readonly key: string; readonly ref: string }[];
+  readonly variants: readonly {
+    readonly key: string;
+    readonly ref: string;
+    /** A local clone (file://) holding a generated variant (F2.4); the target's repo otherwise. */
+    readonly repo?: string;
+  }[];
   /**
    * Persona ids. The competent baseline is always added to each variant, never listed; an
    * empty list makes a baseline-only run (F1.9).
@@ -40,6 +45,11 @@ export function assertValidRunConfig(config: RunConfig): void {
     throw fail(`variant keys must match ${VARIANT_KEY.source} and have a ref`);
   }
   if (!unique(variants.map((variant) => variant.key))) throw fail('variant keys repeat');
+  if (
+    variants.some((variant) => variant.repo !== undefined && !variant.repo.startsWith('file://'))
+  ) {
+    throw fail('a variant repo must be a local file:// clone');
+  }
   if (personas.length > 10 || !unique(personas)) throw fail('at most ten different personas');
   const tasks = config.tasks ?? [];
   if (tasks.length > 10 || !unique(tasks.map((task) => task.id))) {

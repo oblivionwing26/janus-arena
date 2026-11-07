@@ -81,6 +81,7 @@ export function describeVcsContract(name: string, harness: VcsContractHarness): 
       const { vcs, workspace } = await cloned();
 
       expect(workspace.baseSha).toMatch(/^[0-9a-f]{40}$/);
+      expect(workspace.url).toMatch(/^file:\/\/\/.+/);
       expect(await vcs.readFile(workspace, 'README.md')).toBe('ShopLab fixture\n');
       await expect(vcs.readFile(workspace, 'UX_FLAWS.md')).rejects.toThrow(FileNotInWorkspaceError);
       expect(await vcs.diffStats(workspace)).toEqual({

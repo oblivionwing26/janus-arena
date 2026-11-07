@@ -386,10 +386,12 @@ Nota F2.3-B: `BuildChecksPort` con `DockerBuildChecks`: construye la imagen `che
 
 ### F2.4 · A/B automático — S a M (4–6 h)
 
-- [ ] Caso de uso `GenerateAndCompareVariant`: SynthLab A → localizar → UI Engineer → construir imagen B → SynthLab B (pareado) → informe
-- [ ] Reutiliza todo lo de F1 sin duplicar lógica
+- [x] Caso de uso `GenerateAndCompareVariant`: SynthLab A → localizar → UI Engineer → construir imagen B → SynthLab B (pareado) → informe
+- [x] Reutiliza todo lo de F1 sin duplicar lógica
 
 Hecho cuando: un único comando produce el informe A/B con una Variante B generada.
+
+Nota F2.4: el diseño pareado compara A y B dentro de un mismo run, y B no existe hasta que SynthLab ha visto A; por eso `GenerateAndCompareVariant` encadena dos runs normales de F1: descubrimiento (solo A, con las personas, semillas y tareas del fichero de run; o uno ya hecho con `--from <runId>`), el UI Engineer sobre las N zonas más intensas (2 por defecto) con `ProposeVariant` en un único workspace y una única rama `janus/variant-<runId>` (los límites de 5 ficheros y 200 líneas cuentan para la variante entera), y un run pareado A = `main` / B = esa rama. Sin parche verificado no hay A/B. B se construye desde el clon local: una variante admite `repo` (`file://`), que el cuerpo de `POST /runs`, el dominio y el sandbox validan, y el sandbox solo acepta dentro de `.workspaces/` (`assertLocalRepo`); nada se sube a GitHub. Puerto nuevo `SynthLabPort.runAndWait` con `HttpSynthLab` (POST /runs al API de `pnpm dev` y espera a `run.completed` en el event store) y un adaptador en proceso para tests; el contrato lo pasan los dos, el HTTP contra la app levantada en un puerto local. `VcsWorkspace` gana `url` (`file://`) para no usar `node:url` en la capa de aplicación. `pnpm run:ab-auto <runs/x.yaml> [--zones] [--from] [--engineer-eur]` no recompila (como `run:start`) e imprime y guarda el informe en `docs/reports/ab-auto-<runId>.json`. **Hecho cuando, verificado con la API real** (`runs/ab-auto.yaml`: 8 personas × 1 semilla con la tarea del cupón; 0,59 € en total: descubrimiento 0,22 €, UI Engineer 0,09 €, A/B 0,28 €): el UI Engineer arregló las dos zonas más intensas del descubrimiento al primer intento (`/cart`: el formulario de cupón a la vista, +10 −13; `/checkout`: los botones de método de pago junto a su texto y algo de espacio, +19 −1 en la página y `globals.css`, una causa que el propio agente reconoce que supone), y el A/B pareado dice **B más alta**: personas a 1/6 = 17 % [3 %, 56 %], b 5/7 = 71 % [36 %, 92 %], b − a en 6 pares = +0,50 [+0,17, +0,83]; embudo a 6 → 1 pedido, b 7 → 5; la zona `/cart` baja de intensidad 18 a 7. Lectura honesta: la tarea es usar un cupón, así que el arreglo del cupón es justo lo que se mide; son 6 pares (Lucía y Pablo vuelven a quedar fuera por el 307 del oráculo, pendiente desde F1.10) y es éxito sintético de la tarea, no conversión.
 
 ### F2.5 · Adaptadores de análisis estático — M (8–10 h)
 
