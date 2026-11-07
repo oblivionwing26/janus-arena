@@ -1,0 +1,13 @@
+diff --git a/src/app/register/page.tsx b/src/app/register/page.tsx
+--- a/src/app/register/page.tsx
++++ b/src/app/register/page.tsx
+@@ -6,7 +6,7 @@
+   return (
+     <>
+       <h1>Crear cuenta</h1>
+-      <JsonForm action="/api/auth/register" redirectTo="/" submitLabel="Crear cuenta" resetOnError>
++      <JsonForm action="/api/auth/register" redirectTo="/" submitLabel="Crear cuenta">
+         <label>
+           Nombre
+           <input name="name" autoComplete="name" required maxLength={100} />
+

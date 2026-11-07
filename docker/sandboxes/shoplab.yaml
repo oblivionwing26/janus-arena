@@ -20,6 +20,11 @@ build:
   setupTarget: tools
   appTarget: runner
 
+# ShopLab's own checks, run on every patch an agent proposes (F2.3), with no network.
+checks:
+  target: tools
+  command: [sh, -c, 'pnpm lint && pnpm typecheck && pnpm test']
+
 database:
   image: postgres:17-alpine
   user: shoplab

@@ -1,0 +1,40 @@
+diff --git a/src/app/checkout/page.tsx b/src/app/checkout/page.tsx
+--- a/src/app/checkout/page.tsx
++++ b/src/app/checkout/page.tsx
+@@ -7,6 +7,7 @@
+ import { currentUser } from '@/lib/current-user';
+ import { db } from '@/lib/db';
+ import { PAYMENT_METHODS } from '@/lib/orders';
++import { formatEur } from '@/lib/pricing';
+ 
+ export const dynamic = 'force-dynamic';
+ 
+@@ -29,6 +30,27 @@
+   return (
+     <>
+       <h1>Pago</h1>
++      <table aria-label="Resumen del pedido">
++        <thead>
++          <tr>
++            <th scope="col">Producto</th>
++            <th scope="col">Cantidad</th>
++            <th scope="col">Precio</th>
++          </tr>
++        </thead>
++        <tbody>
++          {cart.lines.map((line) => (
++            <tr key={line.productId}>
++              <td>{line.name}</td>
++              <td>{line.quantity}</td>
++              <td>{formatEur(line.unitPriceCents * line.quantity)}</td>
++            </tr>
++          ))}
++        </tbody>
++      </table>
++      <p>
++        <Link href="/cart">Modificar el carrito</Link>
++      </p>
+       <TotalsTable
+         totals={cart.totals}
+         {...(cart.coupon ? { couponCode: cart.coupon.code } : {})}
+

@@ -123,7 +123,12 @@ const PROBES: {
 
 beforeAll(async () => {
   ({ baseUrl } = await sandbox.up({ id: VARIANT, target: 'shoplab', ref: 'main' }));
-  artifacts = new FileArtifactStore(await mkdtemp(join(tmpdir(), 'janus-f16-')));
+  // When the fixture is written, its screenshots go to .artifacts/ too, where the UI Engineer
+  // CLI (F2.3) reads them; otherwise to a throwaway folder.
+  artifacts =
+    process.env.JANUS_WRITE_FIXTURE === '1'
+      ? new FileArtifactStore()
+      : new FileArtifactStore(await mkdtemp(join(tmpdir(), 'janus-f16-')));
   const persona = Persona.create(
     samplePersona('probe', { patience: { maxSteps: 40, maxSeconds: 600 } }),
   );

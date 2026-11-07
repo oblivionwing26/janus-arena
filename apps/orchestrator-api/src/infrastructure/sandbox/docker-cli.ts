@@ -58,6 +58,8 @@ export class DockerCommandError extends Error {
   constructor(
     readonly args: readonly string[],
     readonly stderr: string,
+    /** What the command printed before failing (e.g. a test runner's report). */
+    readonly stdout = '',
   ) {
     super(
       `docker ${args.slice(0, 2).join(' ')} failed: ${stderr.trim().split('\n').slice(-3).join(' ')}`,
@@ -90,7 +92,7 @@ export class DockerCli {
           windowsHide: true,
         },
         (error, stdout, stderr) => {
-          if (error) reject(new DockerCommandError(args, stderr || error.message));
+          if (error) reject(new DockerCommandError(args, stderr || error.message, stdout));
           else resolve({ stdout, stderr });
         },
       );
