@@ -17,7 +17,12 @@ import { RunEventRecorder } from './run-event-recorder.js';
 
 export interface StartRunInput {
   readonly target: string;
-  readonly variants: readonly { readonly key: string; readonly ref: string }[];
+  readonly variants: readonly {
+    readonly key: string;
+    readonly ref: string;
+    /** A local clone (file://) holding a generated variant (F2.4); the target's repo otherwise. */
+    readonly repo?: string;
+  }[];
   readonly sessions: readonly SessionSpec[];
   readonly budget: BudgetLimits;
   readonly maxSteps?: number | undefined;
@@ -91,12 +96,15 @@ export class StartRun {
 
   async execute(input: StartRunInput): Promise<{ runId: string; launched: Promise<void> }> {
     const runId = (this.deps.newRunId ?? newUlid)();
-    const variants: (VariantSpec & { key: string })[] = input.variants.map(({ key, ref }) => ({
-      key,
-      id: variantIdFor(runId, key),
-      target: input.target,
-      ref,
-    }));
+    const variants: (VariantSpec & { key: string })[] = input.variants.map(
+      ({ key, ref, repo }) => ({
+        key,
+        id: variantIdFor(runId, key),
+        target: input.target,
+        ref,
+        ...(repo === undefined ? {} : { repo }),
+      }),
+    );
     variants.forEach(assertValidVariant);
     // Unknown personas fail before the run exists (PersonaNotFoundError).
     const personas = new Set(

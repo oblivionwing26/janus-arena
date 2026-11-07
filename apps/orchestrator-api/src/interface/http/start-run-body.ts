@@ -27,7 +27,17 @@ export const sessionsBodySchema = z.strictObject({
 export const runConfigBodySchema = z.strictObject({
   target,
   variants: z
-    .array(z.strictObject({ id: z.string().regex(/^[a-z][a-z0-9]{0,3}$/), ref }))
+    .array(
+      z.strictObject({
+        id: z.string().regex(/^[a-z][a-z0-9]{0,3}$/),
+        ref,
+        /** A generated variant in a local clone (F2.4); the sandbox checks where it is. */
+        repo: z
+          .string()
+          .regex(/^file:\/\/\S{1,400}$/)
+          .optional(),
+      }),
+    )
     .min(1)
     .max(4),
   /** Empty for a baseline-only run (F1.9). */
@@ -69,7 +79,11 @@ export type RunConfigBody = z.infer<typeof runConfigBodySchema>;
 export function runConfigFromBody(body: RunConfigBody): RunConfig {
   return {
     target: body.target,
-    variants: body.variants.map(({ id, ref: variantRef }) => ({ key: id, ref: variantRef })),
+    variants: body.variants.map(({ id, ref: variantRef, repo }) => ({
+      key: id,
+      ref: variantRef,
+      ...(repo === undefined ? {} : { repo }),
+    })),
     personas: body.personas,
     seeds: body.seeds,
     budget: body.budget,

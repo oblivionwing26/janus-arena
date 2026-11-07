@@ -14,7 +14,7 @@ More context: `docs/VISION.md` (product), `docs/adr/` (decisions), `docs/ROADMAP
 
 ## Current step
 
-**F2.4 — Automatic A/B.** Read this step in `docs/ROADMAP.md` before starting. Do not build features from later steps.
+**F2.5 — Static analysis adapters.** Read this step in `docs/ROADMAP.md` before starting. Do not build features from later steps.
 
 (Update this line every time a step is closed.)
 
@@ -37,6 +37,7 @@ pnpm run:replay <runId|file>  # replay a run from DB or exported JSON, never cal
 pnpm run:start <runs/x.yaml>  # start a run from a run file (needs pnpm dev running)
 pnpm run:report <runId|file>  # SynthLab report (heatmap zones, funnel, success, cost) from recorded events
 pnpm run:ui-engineer <runId|file> --zone <rank>  # UI Engineer patch + checks + commit (calls the API)
+pnpm run:ab-auto <runs/x.yaml>  # discovery on A, generated B, paired A/B report (needs pnpm dev; calls the API)
 ```
 
 ## Repository map

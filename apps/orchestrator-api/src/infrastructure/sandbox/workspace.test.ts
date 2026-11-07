@@ -7,7 +7,7 @@ import { pathToFileURL } from 'node:url';
 
 import { afterAll, beforeAll, describe, expect, it } from 'vitest';
 
-import { prepareWorkspace, removeWorkspace } from './workspace.js';
+import { assertLocalRepo, prepareWorkspace, removeWorkspace } from './workspace.js';
 
 let base: string;
 let repoUrl: string;
@@ -83,5 +83,26 @@ describe('prepareWorkspace', { timeout: 30_000 }, () => {
         excludeFiles: [],
       }),
     ).rejects.toThrow(/must not start/);
+  });
+});
+
+describe('assertLocalRepo', () => {
+  const root = join(tmpdir(), 'janus-root');
+
+  it('accepts a generated variant clone inside the workspaces folder', () => {
+    const repo = pathToFileURL(join(root, '01JC0F24ABC0000000000000AA')).href;
+
+    expect(assertLocalRepo(repo, root)).toBe(repo);
+  });
+
+  it('refuses any other local folder, the root itself and remote URLs', () => {
+    for (const repo of [
+      pathToFileURL(join(tmpdir(), 'elsewhere')).href,
+      pathToFileURL(join(root, '..', 'janus-root-other')).href,
+      pathToFileURL(root).href,
+      'https://github.com/x/y.git',
+    ]) {
+      expect(() => assertLocalRepo(repo, root)).toThrow();
+    }
   });
 });

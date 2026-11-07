@@ -9,7 +9,7 @@ import type { RunningVariant, SandboxPort } from '../../domain/sandbox/sandbox-p
 import { assertValidVariant, type VariantSpec } from '../../domain/sandbox/variant-spec.js';
 import type { DockerCli } from './docker-cli.js';
 import { loadSandboxDefinition, type SandboxDefinition } from './sandbox-definition.js';
-import { prepareWorkspace, removeWorkspace } from './workspace.js';
+import { assertLocalRepo, prepareWorkspace, removeWorkspace } from './workspace.js';
 
 export const SANDBOX_NETWORK = 'janus-sbx';
 const VARIANT_LABEL = 'janus.variant';
@@ -72,7 +72,10 @@ export class DockerSandbox implements SandboxPort {
     const dir = await prepareWorkspace({
       root: this.options.workspacesRoot,
       variantId: variant.id,
-      repo: definition.repo,
+      repo:
+        variant.repo === undefined
+          ? definition.repo
+          : assertLocalRepo(variant.repo, this.options.workspacesRoot),
       ref: variant.ref,
       excludeFiles: definition.excludeFiles,
     });

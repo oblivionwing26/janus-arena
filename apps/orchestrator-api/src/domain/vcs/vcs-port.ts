@@ -3,6 +3,8 @@ export interface VcsWorkspace {
   readonly id: string;
   /** Local folder of the clone; outside the Janus repository. */
   readonly path: string;
+  /** The clone as a file:// URL, for a sandbox to build a variant from it (F2.4). */
+  readonly url: string;
   /** The commit the clone started from: diffs and limits are measured against it. */
   readonly baseSha: string;
 }
