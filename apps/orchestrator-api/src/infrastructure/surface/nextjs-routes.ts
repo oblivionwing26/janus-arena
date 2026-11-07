@@ -1,6 +1,6 @@
 import ts from 'typescript';
 
-import type { Endpoint, HttpMethod } from '../../domain/surface/endpoint.js';
+import type { DeclaredEndpoint, HttpMethod } from '../../domain/surface/endpoint.js';
 import { isFunctionNode, requestKeys, type SourceSet } from './source-set.js';
 
 const ROUTE_FILE = /^(?:src\/)?app\/(?:(.*)\/)?route\.(?:ts|js|tsx|jsx)$/;
@@ -66,8 +66,8 @@ function usesServer(source: ts.SourceFile): boolean {
  * HTTP method, and every exported function of a `'use server'` file (server actions, which
  * Next.js reaches with POST).
  */
-export function nextjsEndpoints(sources: SourceSet): Endpoint[] {
-  const endpoints: Endpoint[] = [];
+export function nextjsEndpoints(sources: SourceSet): DeclaredEndpoint[] {
+  const endpoints: DeclaredEndpoint[] = [];
   for (const file of sources.paths()) {
     const source = sources.get(file);
     if (source === undefined) continue;

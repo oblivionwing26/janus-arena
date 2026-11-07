@@ -14,7 +14,7 @@ More context: `docs/VISION.md` (product), `docs/adr/` (decisions), `docs/ROADMAP
 
 ## Current step
 
-**F2.6 — Attack surface map.** Read this step in `docs/ROADMAP.md` before starting. Do not build features from later steps.
+**F2.7 — Differential audit.** Read this step in `docs/ROADMAP.md` before starting. Do not build features from later steps.
 
 (Update this line every time a step is closed.)
 

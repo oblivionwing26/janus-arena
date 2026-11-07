@@ -4,6 +4,8 @@
 targets:
   shoplab:
     framework: nextjs
+    # Throws unless the request has a session; returns the session's user.
+    authCalls: [requireUser]
 
   # OWASP Juice Shop, the security target (ADR 0006), pinned to the release Janus is tested on.
   juice-shop:
@@ -11,3 +13,10 @@ targets:
     ref: v20.3.0
     framework: express
     files: [server.ts]
+    authMiddleware:
+      [security.isAuthorized, security.isAccounting, security.denyAll, security.isDeluxe]
+    sessionCalls: [security.authenticatedUsers.from, security.authenticatedUsers.get]
+    # security.appendUserId() copies the session user's id into the body.
+    sessionIds: [req.body.UserId]
+    # Marks challenges as solved; it reads the user but controls no access.
+    ignoreCalls: [challengeUtils.solveIf, challengeUtils.solve]

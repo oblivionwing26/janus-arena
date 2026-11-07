@@ -21,4 +21,14 @@ export interface Endpoint {
   readonly handler: (CodeLocation & { readonly name: string }) | null;
   /** Path parameters, then the body and query keys the handler reads (`body.quantity`). */
   readonly params: readonly string[];
+  /** Whether a session is demanded (by a middleware, a covering mount or the handler). */
+  readonly auth: boolean;
+  /**
+   * Whether the data the handler reaches is filtered by the session user (F2.6-B heuristic):
+   * `false` is a lead for broken object-level authorisation (IDOR), never a confirmed flaw.
+   */
+  readonly ownerCheck: boolean | 'unknown';
 }
+
+/** What the route extractors find, before the access checks. */
+export type DeclaredEndpoint = Omit<Endpoint, 'auth' | 'ownerCheck'>;
