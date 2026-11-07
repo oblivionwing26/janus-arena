@@ -410,8 +410,8 @@ Nota F2.5 (ADR 0010): ShopLab no tiene fallos de seguridad sembrados (ADR 0006),
 
 Sub-entrega A: rutas y handlers
 
-- [ ] Consultas tree-sitter (TypeScript) para encontrar route handlers de Next.js (`app/**/route.ts`, server actions)
-- [ ] Extraer método, ruta, parámetros y fichero
+- [x] Consultas tree-sitter (TypeScript) para encontrar route handlers de Next.js (`app/**/route.ts`, server actions)
+- [x] Extraer método, ruta, parámetros y fichero
 
 Sub-entrega B: comprobaciones
 
@@ -421,6 +421,8 @@ Sub-entrega B: comprobaciones
 - [ ] Tests con fixtures de handlers correctos e incorrectos
 
 Hecho cuando: `/api/orders/:id` aparece con `auth: true, ownerCheck: false`.
+
+Nota F2.6-A (sub-entrega A, su propio PR): en lugar de tree-sitter, el parser del compilador de TypeScript (`typescript`, ya en el repo, ahora también dependencia del orquestador): sin dependencias nuevas, lee TS y JS y permite seguir imports entre ficheros. `AttackSurfacePort.map(workspace) → Endpoint[]` (`route`, `method`, `declaredAt`, `handler`, `params`) con `TypeScriptAttackSurface` y dos extractores, según `config/surface.yaml`: Next.js (los `route.ts` del app router y sus exports por método HTTP, segmentos `[id]` → `:id`, catch-all y grupos; server actions de ficheros `'use server'` como `action:<fichero>#<nombre>`) y Express, porque el objetivo de seguridad es Juice Shop (ADR 0006): `x.get|post|put|patch|delete|all('/ruta', ...)` y `x.route('/ruta').get(...)` en los ficheros que se configuran, siguiendo el handler a través de envoltorios (`asyncHandler(fn)`), factorías (`fn()` → la función que devuelve) e imports con nombre o de espacio de nombres; los `app.use(prefijo, ...)` se guardan para la comprobación de auth de F2.6-B. Los parámetros son los de la ruta más las claves del cuerpo y la query que lee el handler. Se omiten dependencias, builds, la app de navegador (`frontend/`), tests y `codefixes/`. `pnpm run:surface <target> [--ref] [--json]` clona en superficial a un workspace temporal, imprime el mapa y lo borra. Contrato con proyectos de ejemplo en `fixtures/surface/` (`pnpm test`). Verificado: ShopLab, 12 endpoints en sus 10 `route.ts`, con `GET /api/orders/:id`; Juice Shop v20.3.0, 113 endpoints con 112 handlers resueltos (`GET /rest/basket/:id` → `routes/basket.ts`); 26 de ellos son registros con solo un middleware de auth delante de las rutas que genera finale-rest, y F2.6-B los tratará como tales.
 
 ### F2.7 · Auditoría diferencial — S (3–4 h)
 

@@ -155,6 +155,7 @@ module.exports = {
         '/persistence/generated/',
         // Sample code the static analysis tools scan (F2.5), not part of any app.
         '/fixtures/static-analysis/',
+        '/fixtures/surface/',
       ],
     },
     tsPreCompilationDeps: true,

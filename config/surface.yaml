@@ -1,0 +1,13 @@
+# How Janus reads each target's HTTP surface (F2.6): which framework declares its routes, and
+# for Express, the files that register them. The map is read from the code; nothing runs.
+
+targets:
+  shoplab:
+    framework: nextjs
+
+  # OWASP Juice Shop, the security target (ADR 0006), pinned to the release Janus is tested on.
+  juice-shop:
+    repo: https://github.com/juice-shop/juice-shop.git
+    ref: v20.3.0
+    framework: express
+    files: [server.ts]
