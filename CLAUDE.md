@@ -38,6 +38,7 @@ pnpm run:start <runs/x.yaml>  # start a run from a run file (needs pnpm dev runn
 pnpm run:report <runId|file>  # SynthLab report (heatmap zones, funnel, success, cost) from recorded events
 pnpm run:ui-engineer <runId|file> --zone <rank>  # UI Engineer patch + checks + commit (calls the API)
 pnpm run:ab-auto <runs/x.yaml>  # discovery on A, generated B, paired A/B report (needs pnpm dev; calls the API)
+pnpm run:surface <target>     # HTTP surface map of a target, read from its code (no LLM)
 ```
 
 ## Repository map
@@ -62,6 +63,7 @@ config/
   friction.yaml          friction detector thresholds
   funnels.yaml           report routes and purchase funnel per target
   arch/                  dependency-cruiser rules for each target's architecture
+  surface.yaml           how each target declares its HTTP routes (Next.js or Express)
 personas/                persona YAML files
 rules/semgrep/           Janus's own Semgrep rules, each with its `semgrep --test` cases
 docker/sandboxes/        sandbox definitions

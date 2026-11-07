@@ -10,3 +10,4 @@ apps/orchestrator-api/src/infrastructure/persistence/generated
 
 # Sample code and tool output for static analysis tests (F2.5): byte-exact, never reformatted.
 apps/orchestrator-api/fixtures/static-analysis/
+apps/orchestrator-api/fixtures/surface/
