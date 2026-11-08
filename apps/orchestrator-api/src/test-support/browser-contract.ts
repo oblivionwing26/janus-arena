@@ -3,6 +3,8 @@
 
 import { describe, expect, it } from 'vitest';
 
+import { ScopeBlockedError } from '../domain/scope/network-guard.js';
+
 import {
   BrowserSessionNotFoundError,
   ElementNotFoundError,
@@ -166,6 +168,29 @@ export function describeBrowserContract(name: string, harness: BrowserContractHa
         const first = await browser.drainTelemetry(session);
         expect(Array.isArray(first.errors)).toBe(true);
         expect((await browser.drainTelemetry(session)).errors).toEqual([]);
+      } finally {
+        await browser.close(session);
+      }
+    });
+
+    it('blocks navigation outside the variant and reports it in the telemetry', async () => {
+      const browser = harness.browser();
+      const session = await browser.newSession({ baseUrl: harness.baseUrl() });
+      try {
+        await expect(
+          browser.goto(session, 'http://janus-elsewhere.test/secret?q=1'),
+        ).rejects.toThrow(ScopeBlockedError);
+        const { blocked } = await browser.drainTelemetry(session);
+        expect(blocked).toEqual([
+          {
+            method: 'GET',
+            origin: 'http://janus-elsewhere.test',
+            path: '/secret',
+            testType: 'browse',
+            reason: 'out-of-scope-origin',
+          },
+        ]);
+        expect((await browser.drainTelemetry(session)).blocked).toEqual([]);
       } finally {
         await browser.close(session);
       }

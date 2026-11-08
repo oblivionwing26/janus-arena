@@ -45,8 +45,41 @@ const sandboxDefinitionSchema = z.object({
 
 export type SandboxDefinition = z.infer<typeof sandboxDefinitionSchema>;
 
+// A target run from a published image, unmodified (Juice Shop, ADR 0006, F3.1): no clone, no
+// build, no separate database. The image is pinned by digest.
+const imageSandboxDefinitionSchema = z.object({
+  name: slug,
+  image: z
+    .string()
+    .regex(/^[a-z0-9][\w./-]*:[\w.-]+@sha256:[0-9a-f]{64}$/, 'image must be pinned by digest'),
+  app: z.object({
+    port: z.int().min(1).max(65535),
+    // The image has no healthcheck and no shell: it is ready when it logs this line.
+    readyLog: z.string().min(1),
+  }),
+  // Where the app serves /.well-known from, for the ownership token (F3.1).
+  verification: z.object({ dir: z.string().regex(/^(\/[\w.-]+)+$/) }),
+});
+
+export type ImageSandboxDefinition = z.infer<typeof imageSandboxDefinitionSchema>;
+export type AnySandboxDefinition = SandboxDefinition | ImageSandboxDefinition;
+
 export function parseSandboxDefinition(source: string): SandboxDefinition {
   return sandboxDefinitionSchema.parse(parse(source));
+}
+
+/** A built (repo + Dockerfile) or an image definition, told apart by its `image` key. */
+export function parseAnySandboxDefinition(source: string): AnySandboxDefinition {
+  const raw: unknown = parse(source);
+  return typeof raw === 'object' && raw !== null && 'image' in raw
+    ? imageSandboxDefinitionSchema.parse(raw)
+    : sandboxDefinitionSchema.parse(raw);
+}
+
+export function isImageDefinition(
+  definition: AnySandboxDefinition,
+): definition is ImageSandboxDefinition {
+  return 'image' in definition;
 }
 
 /** docker/sandboxes at the repository root, from src or dist alike. */
@@ -54,12 +87,24 @@ export function sandboxDefinitionsDir(): string {
   return fileURLToPath(new URL('../../../../../docker/sandboxes/', import.meta.url));
 }
 
+/** A built target's definition: what code-changing agents and the A/B need (repo, build). */
 export async function loadSandboxDefinition(
   target: string,
   dir = sandboxDefinitionsDir(),
 ): Promise<SandboxDefinition> {
+  const definition = await loadAnySandboxDefinition(target, dir);
+  if (isImageDefinition(definition)) {
+    throw new Error(`docker/sandboxes/${target}.yaml runs an image; it has no repo to build`);
+  }
+  return definition;
+}
+
+export async function loadAnySandboxDefinition(
+  target: string,
+  dir = sandboxDefinitionsDir(),
+): Promise<AnySandboxDefinition> {
   slug.parse(target);
-  const definition = parseSandboxDefinition(await readFile(`${dir}${target}.yaml`, 'utf8'));
+  const definition = parseAnySandboxDefinition(await readFile(`${dir}${target}.yaml`, 'utf8'));
   if (definition.name !== target) {
     throw new Error(`docker/sandboxes/${target}.yaml declares name ${definition.name}`);
   }

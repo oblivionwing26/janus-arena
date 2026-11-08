@@ -26,6 +26,10 @@ const FORBIDDEN_PREFIX = [
 ];
 // The throwaway containers analysis tools run in (`janus-tool-<ulid>:/path`).
 const TOOL_CONTAINER = /^janus-tool-[a-z0-9]+:\//;
+// The one file Janus may put in a target's app container: its ownership token (F3.1).
+const TOKEN_FILE =
+  /^janus-[a-z0-9][a-z0-9-]{0,31}-app:(\/[\w.-]+)*\/\.well-known\/janus-verify\.txt$/;
+const LOCAL_TOKEN_FILE = /[\\/]janus-verify\.txt$/;
 const FORBIDDEN_TEXT = /docker\.sock|docker_engine|dockerDesktopLinuxEngine/i;
 
 // buildx may start its own privileged BuildKit container through the proxy; never use it.
@@ -40,18 +44,24 @@ export function assertSafeDockerArgs(args: readonly string[]): void {
   if (FORBIDDEN_COMMANDS.has(command)) {
     throw new Error(`Refusing unsafe docker command: ${command}`);
   }
-  // `docker cp` only copies a local folder into an analysis container (F2.5), never out of one.
+  // `docker cp` only copies a local folder into an analysis container (F2.5) or the ownership
+  // token into a target's app (F3.1), never out of a container.
   if (command === 'cp') {
     const [source, target, ...rest] = args.slice(1);
+    const intoTool = source !== undefined && target !== undefined && TOOL_CONTAINER.test(target);
+    const token =
+      source !== undefined &&
+      target !== undefined &&
+      LOCAL_TOKEN_FILE.test(source) &&
+      TOKEN_FILE.test(target) &&
+      !target.split('/').includes('..');
     if (
-      source === undefined ||
-      target === undefined ||
       rest.length > 0 ||
-      TOOL_CONTAINER.test(source) ||
-      !TOOL_CONTAINER.test(target)
+      (source !== undefined && /^janus-[\w-]+:/.test(source)) ||
+      !(intoTool || token)
     ) {
       throw new Error(
-        'Refusing unsafe docker argument: cp only copies into a janus-tool container',
+        'Refusing unsafe docker argument: cp only copies into a janus-tool container or a token into a target',
       );
     }
   }

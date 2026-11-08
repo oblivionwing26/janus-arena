@@ -21,6 +21,7 @@
     "run:surface": "node scripts/run-surface.mjs",
     "run:ab-auto": "node scripts/run-ab-auto.mjs",
     "run:audit-diff": "node scripts/run-audit-diff.mjs",
+    "run:scope": "node scripts/run-scope.mjs",
     "run:ui-engineer": "node scripts/run-ui-engineer.mjs",
     "check:arch": "turbo run build && depcruise --config .dependency-cruiser.cjs apps packages",
     "format": "prettier --write .",

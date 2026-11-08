@@ -1,3 +1,5 @@
+import type { BlockedRequest } from '../scope/network-guard.js';
+
 /** Mutations counted in the current document; `documentId` changes when the page navigates. */
 export interface PageActivity {
   readonly documentId: string;
@@ -23,4 +25,6 @@ export interface PageVitalsRecord {
 export interface PageTelemetry {
   readonly errors: readonly PageErrorRecord[];
   readonly vitals: PageVitalsRecord | null;
+  /** Requests the network guard refused since the last drain (F3.1); absent on old tapes. */
+  readonly blocked?: readonly BlockedRequest[];
 }

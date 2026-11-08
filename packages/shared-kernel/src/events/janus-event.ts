@@ -14,6 +14,8 @@ import { pageVitalsEventSchema } from './v1/page-vitals.js';
 import { patchProposedEventSchema } from './v1/patch-proposed.js';
 import { runCompletedEventSchema } from './v1/run-completed.js';
 import { runStartedEventSchema } from './v1/run-started.js';
+import { scopeBlockedEventSchema } from './v1/scope-blocked.js';
+import { scopeVerifiedEventSchema } from './v1/scope-verified.js';
 import { sessionEndedEventSchema } from './v1/session-ended.js';
 import { sessionStartedEventSchema } from './v1/session-started.js';
 import { surfaceMappedEventSchema } from './v1/surface-mapped.js';
@@ -40,6 +42,8 @@ const knownEventSchemas = [
   taskVerifiedEventSchema,
   auditCompletedEventSchema,
   surfaceMappedEventSchema,
+  scopeVerifiedEventSchema,
+  scopeBlockedEventSchema,
 ] as const;
 
 export const janusEventSchema = z.discriminatedUnion('type', knownEventSchemas);

@@ -453,13 +453,15 @@ F3 cierra el ciclo completo. La regla que lo sostiene todo: el éxito de un ataq
 
 ### F3.1 · Alcance y verificación de propiedad — M (8–10 h)
 
-- [ ] Entidad `ScopePolicy` en dominio: hosts permitidos, rutas excluidas, tipos de prueba permitidos, límite de peticiones por segundo
-- [ ] Verificación de propiedad con token en `/.well-known/janus-verify.txt`, aplicada también al sandbox (así el flujo existe desde el principio)
-- [ ] `NetworkGuard` en los adaptadores HTTP y de navegador: toda petición fuera de alcance se bloquea y emite un evento
-- [ ] Sandbox de Juice Shop desde su imagen fijada por digest; el token de cada run se copia al contenedor y las rutas de su verdad (`/api/Challenges`, `/api/Hints`, `/snippets/**`) quedan excluidas
-- [ ] Tests: petición a host no verificado bloqueada; ruta excluida bloqueada
+- [x] Entidad `ScopePolicy` en dominio: hosts permitidos, rutas excluidas, tipos de prueba permitidos, límite de peticiones por segundo
+- [x] Verificación de propiedad con token en `/.well-known/janus-verify.txt`, aplicada también al sandbox (así el flujo existe desde el principio)
+- [x] `NetworkGuard` en los adaptadores HTTP y de navegador: toda petición fuera de alcance se bloquea y emite un evento
+- [x] Sandbox de Juice Shop desde su imagen fijada por digest; el token de cada run se copia al contenedor y las rutas de su verdad (`/api/Challenges`, `/api/Hints`, `/snippets/**`) quedan excluidas
+- [x] Tests: petición a host no verificado bloqueada; ruta excluida bloqueada
 
 Hecho cuando: ningún módulo ofensivo arranca sin `ScopePolicy` verificada.
+
+Nota F3.1: en dominio, `ScopePolicy` (orígenes exactos, rutas excluidas con `*` y `/**`, tipos de prueba, peticiones por segundo), `NetworkGuard` y `VerifiedScope`. El guard decide cada petición: origen fuera del alcance, ruta excluida (comparada como la enrutaría el objetivo: decodificada, sin `..` ni barras repetidas y sin distinguir mayúsculas, porque Express no las distingue y `/API/challenges` devuelve la verdad de Juice Shop), prueba no permitida, prueba ofensiva sin verificar y ritmo. `VerifiedScope` solo se crea con `VerifiedScope.verify()`, que exige el token del run en todos los orígenes; los módulos ofensivos de F3.2 en adelante lo pedirán en su firma, y el guard bloquea toda prueba ofensiva (`not-verified`) sin él. `VerifyOwnership` genera un token por run, lo coloca (`OwnershipTokenPort`; `DockerSandbox` lo copia con `docker cp`, y `DockerCli` solo permite copiar ese fichero a esa ruta del contenedor de la app), lo lee a través del guard sin seguir redirecciones y registra `scope.verified` sin el token. Cada petición bloqueada emite `scope.blocked` (método, origen y ruta; nunca query ni cuerpo), con su línea en la consola. El navegador de SynthLab usa un guard de solo navegación para el origen de la variante, en lugar de la comprobación de origen que tenía, y sus bloqueos llegan por la telemetría. Clientes HTTP: `FetchScopedHttp` para objetivos fuera del sandbox y `PlaywrightScopedHttp` para los de dentro, porque el orquestador no tiene ruta a `janus-sbx` (red interna) y las peticiones salen del servidor de Playwright que vive allí. `config/scopes.yaml` da a ShopLab solo `browse` y `http-probe`, y a Juice Shop las clases de F3.3 con su verdad excluida. `docker/sandboxes/juice-shop.yaml` es un tipo nuevo de definición: la imagen publicada, sin modificar y fijada por digest; como es distroless y no tiene healthcheck ni shell, está lista cuando escribe su línea "Server listening on port 3000". **Hecho cuando**, comprobado a mano con `pnpm run:scope juice-shop` (run `01M6WFDK1N2FSN2XE48E0YCJMQ`): antes de verificar, `GET /rest/basket/1` como `idor` queda bloqueado (`not-verified`); tras verificar, la misma petición llega (401 sin sesión), `/` responde 200, `/api/Challenges` y `/API/challenges` quedan bloqueados (`excluded-path`), `example.com` también (`out-of-scope-origin`) y `scanner` no está permitido; el sandbox se borra al terminar. `pnpm test:sandbox` repite esto contra la imagen real y pasa el contrato del navegador en ShopLab con el bloqueo nuevo. Sin gasto de API.
 
 ### F3.2 · Herramientas de ataque — M (8–10 h)
 

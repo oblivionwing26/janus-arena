@@ -14,7 +14,7 @@ More context: `docs/VISION.md` (product), `docs/adr/` (decisions), `docs/ROADMAP
 
 ## Current step
 
-**F3.1 — Scope and ownership verification.** Read this step in `docs/ROADMAP.md` before starting. Do not build features from later steps.
+**F3.2 — Attack tools.** Read this step in `docs/ROADMAP.md` before starting. Do not build features from later steps.
 
 (Update this line every time a step is closed.)
 
@@ -40,6 +40,7 @@ pnpm run:ui-engineer <runId|file> --zone <rank>  # UI Engineer patch + checks + 
 pnpm run:ab-auto <runs/x.yaml>  # discovery on A, generated B, paired A/B report (needs pnpm dev; calls the API)
 pnpm run:surface <target>     # HTTP surface map of a target, read from its code (no LLM)
 pnpm run:audit-diff <target> --a <ref> --b <ref>  # what variant B introduces; exits 1 if the gate blocks it
+pnpm run:scope <target>       # sandbox the target, verify ownership, probe the scope (no LLM, no attack)
 ```
 
 ## Repository map
@@ -65,6 +66,7 @@ config/
   funnels.yaml           report routes and purchase funnel per target
   arch/                  dependency-cruiser rules for each target's architecture
   surface.yaml           how each target declares its HTTP routes (Next.js or Express)
+  scopes.yaml            what Janus may do to each target: tests, excluded paths, rate
 personas/                persona YAML files
 rules/semgrep/           Janus's own Semgrep rules, each with its `semgrep --test` cases
 docker/sandboxes/        sandbox definitions

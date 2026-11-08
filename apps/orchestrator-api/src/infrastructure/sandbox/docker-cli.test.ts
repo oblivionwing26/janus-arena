@@ -68,11 +68,22 @@ describe('assertSafeDockerArgs', () => {
     expect(() => {
       assertSafeDockerArgs(['cp', '/work/01JC/.', 'janus-tool-x:/src']);
     }).not.toThrow();
+    expect(() => {
+      assertSafeDockerArgs([
+        'cp',
+        'C:\\work\\juice-shop\\janus-verify.txt',
+        'janus-juice-shop-app:/juice-shop/.well-known/janus-verify.txt',
+      ]);
+    }).not.toThrow();
     for (const args of [
       ['cp', 'janus-tool-x:/etc/passwd', '/tmp/passwd'],
       ['cp', 'janus-tool-x:/src', 'C:/Users'],
       ['cp', 'a:/x', 'b:/y'],
       ['cp', '/work/.', 'janus-a-app:/app'],
+      ['cp', '/work/janus-verify.txt', 'janus-a-app:/app/server.js'],
+      ['cp', '/work/evil.js', 'janus-a-app:/juice-shop/.well-known/janus-verify.txt'],
+      ['cp', 'janus-a-app:/juice-shop/.well-known/janus-verify.txt', '/work/janus-verify.txt'],
+      ['cp', '/work/janus-verify.txt', 'janus-a-app:/x/../.well-known/janus-verify.txt'],
       ['cp', '-L', '/work/.', 'janus-tool-x:/src'],
     ]) {
       expect(() => {
