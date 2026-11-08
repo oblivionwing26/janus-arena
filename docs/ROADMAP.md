@@ -428,11 +428,13 @@ Nota F2.6-B: cada endpoint gana `auth` y `ownerCheck`. Reglas por objetivo en `c
 
 ### F2.7 · Auditoría diferencial — S (3–4 h)
 
-- [ ] Ejecutar F2.5 y F2.6 sobre A y sobre B
-- [ ] Informe solo de lo que **introduce** B (hallazgos nuevos, endpoints nuevos sin auth)
-- [ ] Regla de puerta: si B introduce un hallazgo alto o crítico, B queda bloqueada
+- [x] Ejecutar F2.5 y F2.6 sobre A y sobre B
+- [x] Informe solo de lo que **introduce** B (hallazgos nuevos, endpoints nuevos sin auth)
+- [x] Regla de puerta: si B introduce un hallazgo alto o crítico, B queda bloqueada
 
 Hecho cuando: una Variante B con un fallo inyectado a propósito queda bloqueada.
+
+Nota F2.7: `AuditVariantDiff` clona A y B (B puede venir de un clon local `file://`) y ejecuta en los dos el análisis estático de F2.5 (Semgrep, gitleaks, dependency-cruiser; osv-scanner con `--osv`, porque necesita red y B casi nunca cambia el lockfile) y el mapa de superficie de F2.6. Solo cuenta lo que introduce B: los hallazgos se identifican por herramienta, regla, fichero y el código del fragmento (no por línea, para que el código que solo se mueve no parezca nuevo) y se cuentan como multiconjunto; en los endpoints, uno nuevo sin auth es medium (se informa, no bloquea), perder la auth es high y una pista de IDOR nueva (endpoint nuevo con sesión y sin comprobación de propietario, o un `ownerCheck` que pasa de `true` a `false`) es high; los cambios desde o hacia `'unknown'` no cuentan. Regla de puerta: B queda bloqueada si introduce algo high o critical, con un motivo por línea. Cada cosa introducida se registra como `finding.created` (`suspected`) y el veredicto como el evento nuevo `audit.completed` (base y variante con su sha, recuentos, `blocked`, motivos), con su esquema en shared-kernel y su línea en la consola. `pnpm run:audit-diff <target> --a <ref> --b <ref> [--b-repo <file://clon>] [--osv]` imprime lo introducido y el veredicto, sale con 1 si B queda bloqueada y borra sus clones. **Hecho cuando** (sandbox, con las herramientas reales sobre ShopLab): una B con un fallo inyectado a propósito (`GET /api/orders/[id]/invoice`, que exige sesión pero lee el pedido solo por su id) queda **bloqueada** por la pista de IDOR nueva (high); la B inocua del arreglo del cupón de F2.3 no introduce nada y pasa; y a mano, la variante que generó el A/B automático de F2.4 también pasa. Conectar la auditoría al A/B automático queda para cuando se decida dónde vive la puerta completa. El contrato de `VcsPort` sube a 20 s de límite: con turbo en paralelo, los clones reales a veces pasaban de 5 s.
 
 ### F2.8 · Consola: diff y hallazgos — M (5–7 h)
 

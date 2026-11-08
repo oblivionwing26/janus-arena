@@ -63,6 +63,13 @@ export const validEvents: Record<JanusEventType, Record<string, unknown>> = {
     { role: 'navigator', model: 'claude-haiku-5-5', durationMs: 900, requestHash: 'sha256:abc' },
     { actor: { agentId: 'persona-ana-1', role: 'navigator' }, cost: sampleCost },
   ),
+  'audit.completed': envelope('audit.completed', {
+    base: { ref: 'main', sha: 'a'.repeat(40) },
+    variant: { ref: 'janus/variant-01JBZ7Q8K5V4W3X2Y1Z0ABCDEF', sha: 'b'.repeat(40) },
+    introduced: { findings: 1, endpoints: 1, high: 1, critical: 0 },
+    blocked: true,
+    reasons: ['GET /api/orders/:id/invoice: new endpoint with a session and no owner check'],
+  }),
   'finding.created': envelope(
     'finding.created',
     {

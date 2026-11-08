@@ -49,6 +49,10 @@ const invalidEvents: Record<JanusEventType, [string, Record<string, unknown>]> =
   ],
   'page.vitals': ['a negative CLS', withPayload('page.vitals', { cls: -0.1 })],
   'session.ended': ['an unknown outcome', withPayload('session.ended', { outcome: 'crashed' })],
+  'audit.completed': [
+    'a sha that is not a full git sha',
+    withPayload('audit.completed', { variant: { ref: 'main', sha: 'abc' } }),
+  ],
   'verification.result': [
     'a missing passed flag',
     withPayload('verification.result', { passed: undefined }),
@@ -78,6 +82,7 @@ describe('v1 event schemas', () => {
         'page.screenshot',
         'session.started',
         'task.verified',
+        'audit.completed',
       ].sort(),
     );
   });

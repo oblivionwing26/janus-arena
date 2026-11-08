@@ -3,6 +3,7 @@ import { z } from 'zod';
 import { agentActionEventSchema } from './v1/agent-action.js';
 import { agentStepEventSchema } from './v1/agent-step.js';
 import { agentThoughtEventSchema } from './v1/agent-thought.js';
+import { auditCompletedEventSchema } from './v1/audit-completed.js';
 import { budgetThresholdEventSchema } from './v1/budget-threshold.js';
 import { findingCreatedEventSchema } from './v1/finding-created.js';
 import { frictionSignalEventSchema } from './v1/friction-signal.js';
@@ -36,6 +37,7 @@ const knownEventSchemas = [
   pageScreenshotEventSchema,
   sessionStartedEventSchema,
   taskVerifiedEventSchema,
+  auditCompletedEventSchema,
 ] as const;
 
 export const janusEventSchema = z.discriminatedUnion('type', knownEventSchemas);
