@@ -13,6 +13,14 @@ export {
   type AgentActionType,
 } from './actions/agent-action.js';
 export { InvalidAgentActionError } from './actions/invalid-agent-action-error.js';
+export {
+  RED_TEAM_CLASSES,
+  redTeamClassSchema,
+  redTeamToolInputs,
+  type RedTeamClaim,
+  type RedTeamClass,
+  type RedTeamHttpRequest,
+} from './actions/red-team-tool-inputs.js';
 export { uiEngineerToolInputs } from './actions/ui-engineer-tool-inputs.js';
 export { actorRoleSchema, type ActorRole } from './events/actor-role.js';
 export { agentIdSchema, type AgentId } from './events/agent-id.js';
@@ -61,6 +69,8 @@ export {
   sessionStartedEventSchema,
   type SessionStartedEvent,
 } from './events/v1/session-started.js';
+export { attackAttemptEventSchema, type AttackAttemptEvent } from './events/v1/attack-attempt.js';
+export { attackVerdictEventSchema, type AttackVerdictEvent } from './events/v1/attack-verdict.js';
 export { scopeBlockedEventSchema, type ScopeBlockedEvent } from './events/v1/scope-blocked.js';
 export { scopeVerifiedEventSchema, type ScopeVerifiedEvent } from './events/v1/scope-verified.js';
 export {

@@ -79,6 +79,27 @@ export const validEvents: Record<JanusEventType, Record<string, unknown>> = {
       },
     ],
   }),
+  'attack.attempt': envelope(
+    'attack.attempt',
+    {
+      attemptId: OTHER_ID,
+      number: 3,
+      testType: 'idor',
+      as: 'b',
+      method: 'GET',
+      path: '/rest/basket/6',
+      status: 200,
+      bytes: 512,
+    },
+    { actor: { agentId: 'red-team-1', role: 'red-team' } },
+  ),
+  'attack.verdict': envelope('attack.verdict', {
+    attemptId: OTHER_ID,
+    testType: 'idor',
+    oracle: 'canary-leak',
+    exploitable: true,
+    evidence: 'user 22 received a record of user 21 holding "Apple Juice (1000ml)"',
+  }),
   'scope.verified': envelope('scope.verified', {
     target: 'juice-shop',
     origins: ['http://janus-juice-shop-app:3000'],

@@ -473,29 +473,31 @@ Hecho cuando: cada oráculo detecta su vulnerabilidad de Juice Shop ejecutando e
 
 Nota F3.2: Nuclei y ZAP salieron del paso (quedan como opcionales en F3.11): son dependencias pesadas y sus rastreadores no respetan el guard, así que leerían la verdad de Juice Shop. **Usuarios de prueba:** `TestUserPort` registra cuentas sintéticas por run (`janus-<rol>-<ulid>@janus.test`, contraseña aleatoria que no se registra en ningún evento) y las conecta; `asSession` envía cada petición del cliente con guard como ese usuario. **Carrera:** `race()` lanza N peticiones idénticas a la vez (2 a 50) y agrega estados, cuerpos distintos, bloqueos y fallos; cada petición pasa el guard como `race`, así que nunca supera el ritmo del alcance. Para que los flujos secuenciales no choquen con ese ritmo, las peticiones normales esperan hueco en la ventana (hasta 2 s) en lugar de fallar; las de carrera no esperan nunca. **Oráculos** (funciones puras en `domain/oracles`, con su caso positivo, negativo y falso positivo típico): `canaryLeak` (B recibe un registro de A con un canario de A; una cesta vacía de otro no es fuga), `authenticatedAs` (se abre la sesión de una cuenta cuyas credenciales no se presentaron; la evidencia nunca lleva la contraseña), `scriptExecuted` (un diálogo con el marcador único del run; el navegador ahora registra y cierra los diálogos en su telemetría), `priceMismatch` (total negativo, cantidad no positiva o total que no cuadra con precio × cantidad + envío − descuento) y `duplicateEffect` (el mismo actor más veces de las permitidas). La verdad de Juice Shop la lee `JuiceShopChallenges`, solo desde el orquestador y con su propio guard; ningún agente la recibe. **Hecho cuando**, en `pnpm test:sandbox` contra la imagen real (3 ejecuciones seguidas en verde): con el alcance verificado de F3.1, cada exploit hecho a mano da `exploitable` y Juice Shop marca su reto como resuelto (`basketAccessChallenge`, `loginAdminChallenge`, `localXssChallenge`, `negativeOrderChallenge`, `timingAttackChallenge`); cada control (B leyendo su cesta, un login correcto, una búsqueda normal, un pedido honrado, un solo like) da `no explotable` y deja el reto sin resolver. El XSS lleva la carga canónica de Juice Shop y otra con nuestro marcador, cada iframe cerrado (sin cerrar, el segundo era texto de reserva del primero y no se ejecutaba). Sin gasto de API.
 
-### F3.3 · Agente Red Team — L (14–20 h)
+### F3.3 · Motor Red Team — L (14–20 h)
 
-Sub-entrega A: IDOR y bypass de auth
+> **Replanteado ([ADR 0011](adr/0011-attacks-generated-by-code.md)):** el proveedor rechaza un agente LLM que busca y explota vulnerabilidades (run `01M6WHCQ…`, categoría `cyber`, 0,013 €). En lugar de disimular el prompt, los ataques los **genera el código**: un motor determinista arma los intentos a partir del mapa de superficie, los hallazgos estáticos y lo que el navegador encuentra al recorrer la app. Los oráculos deciden el éxito, como en F3.2. El agente LLM queda en el código tras un interruptor apagado por defecto (`--engine agent`), solo para una cuenta autorizada. Los límites, los eventos y los hallazgos del agente se reutilizan tal cual.
 
-- [ ] Rol `red-team`; entrada = mapa de superficie + hallazgos estáticos + usuarios de prueba
-- [ ] Playbook por clase: hipótesis → petición → oráculo → conclusión
-- [ ] Límite de intentos por endpoint y presupuesto propio
+Sub-entrega A (F3.3a): motor de IDOR y bypass de login, más el registro
 
-Sub-entrega B: XSS y lógica de negocio
+- [x] Motor determinista; entrada = mapa de superficie + hallazgos estáticos + usuarios de prueba; sin LLM en los ataques
+- [x] Generador por clase: candidatos deterministas → petición guardada → oráculo → conclusión
+- [x] Límite de intentos por endpoint y por run
+- [x] Cada intento emite `attack.attempt`; cada éxito confirmado por su oráculo, `finding.created` `dynamic` `suspected` con la evidencia (`attack.verdict`)
+- [x] Banco de ataque compartido: el motor y el agente (apagado) producen los mismos eventos, veredictos y hallazgos
 
-- [ ] XSS almacenado verificado abriendo la página con otro usuario y comprobando el marcador
-- [ ] Cantidad negativa en la cesta y la carrera de likes con el harness de carrera
+Sub-entrega B (F3.3b): motor de XSS y lógica de negocio
 
-Sub-entrega C: registro
+- [ ] XSS verificado inyectando en los campos y parámetros que el navegador encuentra, con el marcador del run (`scriptExecuted`)
+- [ ] Cantidad negativa en la cesta y la carrera de likes con el harness de carrera (`priceMismatch`, `duplicateEffect`)
 
-- [ ] Cada intento emite eventos; cada éxito, `finding.created` con la evidencia del oráculo
+Hecho cuando: el motor encuentra al menos 3 de las 4 vulnerabilidades de referencia de Juice Shop (IDOR, bypass de login, XSS, cantidad negativa) en 3 ejecuciones seguidas, sin tocar la API; y el código no lleva datos concretos de Juice Shop (rutas, ids) fuera de sus adaptadores.
 
-Hecho cuando: encuentra al menos 3 de las 4 vulnerabilidades de referencia de Juice Shop (IDOR, bypass de login, XSS, cantidad negativa) en 3 ejecuciones seguidas.
+Nota F3.3a: el intento con agente se paró en la primera llamada por el filtro del proveedor (0,013 €, [ADR 0011](adr/0011-attacks-generated-by-code.md)). El motor determinista arma los candidatos con funciones puras en `domain/attack`: para IDOR, los endpoints con sesión, sin comprobación de propietario (o desconocida) y con un id en la ruta, pidiendo como B su propio id y los vecinos (los ids son consecutivos, como en un IDOR real); para el bypass, los endpoints de login (POST con `email`/`password` en el cuerpo) con una lista fija y corta de cargas de inyección SQL. El banco (`AttackBench`) envía cada intento por el cliente con guard (F3.1), registra `attack.attempt` y lo juzga con su oráculo (`canaryLeak`, `authenticatedAs`), registrando `attack.verdict` y, solo si es explotable, `finding.created`. Nunca registra cuerpos, tokens ni contraseñas. El agente LLM queda tras `--engine agent`, apagado. **Hecho cuando** (F3.3a), verificado con `pnpm run:red-team juice-shop` (0 € de API): encuentra el IDOR de la cesta y el bypass de login, cada uno confirmado por su oráculo, en 3 ejecuciones seguidas.
 
-### F3.4 · Artefactos PoC — S a M (4–6 h)
+### F3.4 · Artefactos PoC — S (3–4 h)
 
-- [ ] Cada hallazgo guarda un script reproducible (TypeScript, usa el cliente y el oráculo)
-- [ ] `PocRunner` determinista que lo ejecuta sin LLM y devuelve `exploitable: bool`
+- [ ] Cada hallazgo guarda un PoC reproducible: el intento registrado (método, ruta, cuerpo, como quién) más su oráculo. Como el motor es determinista ([ADR 0011](adr/0011-attacks-generated-by-code.md)), el intento ya es el PoC.
+- [ ] `PocRunner` determinista que lo reejecuta sin LLM y devuelve `exploitable: bool`
 - [ ] Regla en dominio: un `Finding` dinámico sin PoC no puede pasar a estado `confirmed`
 
 Hecho cuando: los PoC de F3.3 pasan en un CI separado contra el sandbox de Juice Shop sin tocar la API de Anthropic.

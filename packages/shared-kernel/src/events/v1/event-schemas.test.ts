@@ -49,6 +49,11 @@ const invalidEvents: Record<JanusEventType, [string, Record<string, unknown>]> =
   ],
   'page.vitals': ['a negative CLS', withPayload('page.vitals', { cls: -0.1 })],
   'session.ended': ['an unknown outcome', withPayload('session.ended', { outcome: 'crashed' })],
+  'attack.attempt': ['a status that is not HTTP', withPayload('attack.attempt', { status: 42 })],
+  'attack.verdict': [
+    'an oracle that does not exist',
+    withPayload('attack.verdict', { oracle: 'llm-opinion' }),
+  ],
   'scope.verified': [
     'an unknown test type',
     withPayload('scope.verified', { allowedTests: ['ddos'] }),
@@ -110,6 +115,8 @@ describe('v1 event schemas', () => {
         'surface.mapped',
         'scope.verified',
         'scope.blocked',
+        'attack.attempt',
+        'attack.verdict',
       ].sort(),
     );
   });

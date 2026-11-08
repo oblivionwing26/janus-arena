@@ -7,7 +7,8 @@ import type { TestSession, TestUser, TestUserPort } from '../../domain/attack/te
 
 /** A target that keeps its accounts in memory, for tests. */
 export class InMemoryTestUsers implements TestUserPort {
-  private readonly accounts = new Map<string, TestUser>();
+  /** Every registered account, for tests that check nothing leaks. */
+  readonly accounts = new Map<string, TestUser>();
   private readonly sessions = new Map<string, string>();
   private nextId = 1;
 
