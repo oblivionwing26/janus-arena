@@ -1,4 +1,4 @@
-// `pnpm run:red-team <target> [--classes idor,auth-bypass] [--max-eur 0.4] [--keep]` (F3.3): reads
+// `pnpm run:red-team <target> [--classes idor,auth-bypass,xss,business-logic] [--engine deterministic|agent] [--keep]` (F3.3): reads
 // the target's HTTP surface and static leads from a throwaway clone, starts it in the sandbox,
 // verifies ownership, and lets the Red Team probe it through the guard. Every attempt, oracle
 // verdict and finding is recorded as a run. Calls the Anthropic API (role red-team).
@@ -16,7 +16,9 @@ import { VerifyOwnership } from '../../application/scope/verify-ownership.js';
 import { ORCHESTRATOR_ACTOR } from '../../application/start-run.js';
 import { Budget } from '../../domain/llm/budget.js';
 import { SemgrepAnalysis } from '../../infrastructure/analysis/semgrep-analysis.js';
+import { JuiceShopBusinessLogic } from '../../infrastructure/attack/juice-shop-business-logic.js';
 import { JuiceShopTestUsers } from '../../infrastructure/attack/juice-shop-test-users.js';
+import { PlaywrightBrowserAttack } from '../../infrastructure/attack/playwright-browser-attack.js';
 import { JuiceShopVictimData } from '../../infrastructure/attack/juice-shop-victim-data.js';
 import { PostgresEventStore } from '../../infrastructure/event-store/postgres-event-store.js';
 import { AnthropicGateway } from '../../infrastructure/llm/anthropic-gateway.js';
@@ -56,7 +58,7 @@ const classes = (option('classes') ?? RED_TEAM_CLASSES.join(','))
 const engine = option('engine') === 'agent' ? 'agent' : 'deterministic';
 if (name === undefined || name.startsWith('--') || !(maxEur > 0)) {
   console.error(
-    'Usage: pnpm run:red-team <target> [--classes idor,auth-bypass] [--engine deterministic|agent] [--max-eur 0.4] [--keep]',
+    'Usage: pnpm run:red-team <target> [--classes idor,auth-bypass,xss,business-logic] [--engine deterministic|agent] [--max-eur 0.4] [--keep]',
   );
   process.exit(2);
 }
@@ -85,6 +87,7 @@ const runId = newUlid();
 const variantId = `red-${runId.slice(-8).toLowerCase()}`;
 const sandbox = new DockerSandbox({ docker, workspacesRoot: workspacesRoot() });
 const http = new PlaywrightScopedHttp();
+const browser = new PlaywrightBrowserAttack();
 const orchestrator = new RunEventRecorder(store, runId, ORCHESTRATOR_ACTOR);
 const budget = { maxTokens: 2_000_000, maxEur };
 let outcome: 'success' | 'error' = 'error';
@@ -130,7 +133,9 @@ try {
     target: (client, at) => ({
       users: new JuiceShopTestUsers(client, at),
       victim: new JuiceShopVictimData(client, at),
+      businessLogic: new JuiceShopBusinessLogic(client, at),
     }),
+    browser,
   }).execute({
     runId,
     scope,
@@ -167,6 +172,7 @@ try {
     ...(reason === '' ? {} : { reason }),
   });
   await http.close();
+  await browser.close();
   if (!args.includes('--keep')) await sandbox.down(variantId);
   await store.close();
 }

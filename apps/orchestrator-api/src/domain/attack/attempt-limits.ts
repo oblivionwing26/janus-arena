@@ -43,11 +43,16 @@ export class AttemptLimits {
 
   /** The endpoint a request belongs to: `GET /rest/basket/:id`. */
   endpointOf(method: string, path: string): string {
-    const bare = path.split(/[?#]/)[0] ?? path;
+    const bare = path.split('?')[0] ?? path;
     const route = this.routes.find(
       (each) => (each.method === method || each.method === 'ALL') && matches(each.route, bare),
     );
     return `${method} ${route?.route ?? bare}`;
+  }
+
+  /** How many attempts the run has left. */
+  remaining(): number {
+    return Math.max(0, this.limits.total - this.count);
   }
 
   /** Counts the attempt when it fits both limits. */

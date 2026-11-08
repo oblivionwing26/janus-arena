@@ -50,6 +50,19 @@ fixes, it does not attack) and the report prose (F3.7).
   attempt limits, events (`attack.attempt`, `attack.verdict`) and dynamic `finding.created`
   built for the agent are reused unchanged.
 
+## Implementation notes (F3.3b)
+
+- Each class is a strategy over the shared bench: one HTTP request (IDOR, login bypass), a
+  browser visit (XSS) or the target's own flow (negative order, a raced once-per-user effect).
+  The bench's `record` logs an attempt the bench did not send itself; `conclude` records an
+  oracle's verdict and, when exploitable, the finding.
+- XSS has its own `BrowserAttackPort`, apart from SynthLab's `BrowserPort`. Its crawler finds
+  injection points by typing a harmless probe into each text field and checking whether it
+  comes back in the URL; it is given no route. Every visit's guard is bound to the target's
+  origin, never derived from the URL being visited.
+- Target specifics stay in adapters (`JuiceShopVictimData`, `JuiceShopBusinessLogic`); the
+  generators and strategies only read the surface map and what the browser found.
+
 ## Alternatives considered
 
 | Option                                           | Why not                                                                                      |

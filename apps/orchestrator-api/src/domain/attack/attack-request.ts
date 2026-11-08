@@ -1,4 +1,4 @@
-import type { RedTeamClass } from '@janus/shared-kernel';
+import type { HttpRedTeamClass } from '@janus/shared-kernel';
 
 /**
  * One request an attack makes (F3.3): a path on the target, never a full URL, sent as the
@@ -6,7 +6,7 @@ import type { RedTeamClass } from '@janus/shared-kernel';
  * the (disabled) LLM agent produces the same shape. The scope guard decides every one.
  */
 export interface AttackRequest {
-  readonly class: RedTeamClass;
+  readonly class: HttpRedTeamClass;
   readonly as: 'b' | 'anonymous';
   readonly method: 'GET' | 'POST' | 'PUT' | 'PATCH' | 'DELETE';
   /** Path and query, starting with `/`. */

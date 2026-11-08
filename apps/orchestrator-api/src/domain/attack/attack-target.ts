@@ -1,4 +1,5 @@
 import type { ScopedHttpClient } from '../scope/scoped-http-port.js';
+import type { BusinessLogicPort } from './business-logic-port.js';
 import type { TestSession, TestUserPort } from './test-user-port.js';
 
 /**
@@ -14,6 +15,7 @@ export interface VictimDataPort {
 export interface AttackTarget {
   readonly users: TestUserPort;
   readonly victim: VictimDataPort;
+  readonly businessLogic: BusinessLogicPort;
 }
 
 export type AttackTargetFactory = (client: ScopedHttpClient, origin: string) => AttackTarget;

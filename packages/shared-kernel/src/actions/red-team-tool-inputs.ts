@@ -3,10 +3,15 @@ import { z } from 'zod';
 // What the Red Team's tools accept (F3.3). The model's tool calls are validated here before any
 // code acts on them; the scope, the limits and the oracles live in the orchestrator.
 
-/** The attack classes the Red Team may try, a subset of the scope's test types. */
-export const RED_TEAM_CLASSES = ['idor', 'auth-bypass'] as const;
+/** The attack classes the Red Team may try, a subset of the scope's test types (F3.3). */
+export const RED_TEAM_CLASSES = ['idor', 'auth-bypass', 'xss', 'business-logic'] as const;
 export const redTeamClassSchema = z.enum(RED_TEAM_CLASSES);
 export type RedTeamClass = z.infer<typeof redTeamClassSchema>;
+
+/** The classes tested with one HTTP request, the only ones the (disabled) agent's tool takes. */
+export const HTTP_RED_TEAM_CLASSES = ['idor', 'auth-bypass'] as const;
+export const httpRedTeamClassSchema = z.enum(HTTP_RED_TEAM_CLASSES);
+export type HttpRedTeamClass = z.infer<typeof httpRedTeamClassSchema>;
 
 export const redTeamToolInputs = {
   http_request: z.object({
@@ -17,10 +22,10 @@ export const redTeamToolInputs = {
     path: z.string().startsWith('/').max(500),
     /** A JSON body, as text. */
     body: z.string().max(4000).optional(),
-    class: redTeamClassSchema,
+    class: httpRedTeamClassSchema,
   }),
   claim: z.object({
-    class: redTeamClassSchema,
+    class: httpRedTeamClassSchema,
     /** The number the tool gave the attempt (#1, #2...). */
     attempt: z.int().min(1),
   }),

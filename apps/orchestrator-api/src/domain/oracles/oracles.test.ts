@@ -208,3 +208,17 @@ describe('duplicateEffect', () => {
     ).toBe(false);
   });
 });
+
+describe('scriptExecuted evidence', () => {
+  it('names the page without repeating the payload in its query', () => {
+    const marker = 'janus-01JC0F28CNS0000000000000AA';
+    const result = scriptExecuted(
+      [{ kind: 'alert', message: marker, url: 'http://shop/#/search?q=%3Ciframe%3E' }],
+      marker,
+    );
+
+    expect(result.evidence).toBe(
+      `a dialog (alert) showed the marker ${marker} on http://shop/#/search`,
+    );
+  });
+});

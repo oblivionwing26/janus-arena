@@ -1,4 +1,4 @@
-import { isKnownEvent } from '@janus/shared-kernel';
+import { isKnownEvent, type RedTeamClass } from '@janus/shared-kernel';
 import { describe, expect, it } from 'vitest';
 
 import type { StaticFinding } from '../../domain/analysis/static-finding.js';
@@ -9,6 +9,7 @@ import type { ScopePolicy } from '../../domain/scope/scope-policy.js';
 import type { ScopedReply, ScopedRequest } from '../../domain/scope/scoped-http-port.js';
 import { VerifiedScope } from '../../domain/scope/verified-scope.js';
 import type { Endpoint } from '../../domain/surface/endpoint.js';
+import { InMemoryBrowserAttack } from '../../infrastructure/attack/in-memory-browser-attack.js';
 import { InMemoryTestUsers } from '../../infrastructure/attack/in-memory-test-users.js';
 import { InMemoryEventStore } from '../../infrastructure/event-store/in-memory-event-store.js';
 import { InMemoryScopedHttp } from '../../infrastructure/scope/in-memory-scoped-http.js';
@@ -24,7 +25,7 @@ const policy: ScopePolicy = {
   target: 'juice-shop',
   origins: [ORIGIN],
   excludedPaths: ['/api/Challenges/**'],
-  allowedTests: ['http-probe', 'idor', 'auth-bypass'],
+  allowedTests: ['http-probe', 'idor', 'auth-bypass', 'xss', 'business-logic', 'race'],
   maxRequestsPerSecond: 100,
 };
 const scope = VerifiedScope.verify(policy, TOKEN, new Map([[ORIGIN, TOKEN]]), 'now');
@@ -40,6 +41,7 @@ const endpoint = (over: Partial<Endpoint> & Pick<Endpoint, 'method' | 'route'>):
 const endpoints: Endpoint[] = [
   endpoint({ method: 'GET', route: '/rest/basket/:id', ownerCheck: false }),
   endpoint({ method: 'POST', route: '/rest/user/login', params: ['email', 'password'] }),
+  endpoint({ method: 'PUT', route: '/api/BasketItems/:id', params: ['body.quantity'] }),
 ];
 const leads: StaticFinding[] = [
   {
@@ -71,13 +73,16 @@ const reply = (status: number, body: string): ScopedReply => ({
 });
 
 /**
- * A shop with Juice Shop's two flaws, or (secure) without them: baskets reachable by id for
- * anyone with a session, and a login that splices its input into a query.
+ * A shop with Juice Shop's flaws, or (secure) without them: baskets reachable by id for anyone
+ * with a session, a login that splices its input into a query, a search that renders its query
+ * as HTML, orders that take a negative quantity, and likes that can be raced.
  */
 class FakeShop {
   readonly users = new InMemoryTestUsers();
   readonly baskets = new Map<number, string[]>();
+  readonly likedBy: string[] = [];
   private readonly byToken = new Map<string, number>();
+  private readonly emails = new Map<string, string>();
 
   constructor(private readonly secure = false) {}
 
@@ -105,6 +110,14 @@ class FakeShop {
         }),
       );
     }
+    if (pathname === '/rest/products/reviews' && request.method === 'POST') {
+      const token = request.headers?.authorization?.replace('Bearer ', '') ?? '';
+      const email = this.emails.get(token);
+      if (email === undefined) return reply(401, '');
+      if (this.secure && this.likedBy.includes(email)) return reply(403, '{"error":"Not allowed"}');
+      this.likedBy.push(email);
+      return reply(200, '{"status":"success"}');
+    }
     if (pathname === '/rest/user/login' && request.method === 'POST') {
       const injected = (request.body ?? '').includes("'");
       return injected && !this.secure
@@ -114,14 +127,21 @@ class FakeShop {
     return reply(404, 'Not found');
   }
 
+  browser(): InMemoryBrowserAttack {
+    return new InMemoryBrowserAttack(ORIGIN, [
+      { template: `${ORIGIN}/#/search?q={payload}`, field: 'search', unsafe: !this.secure },
+    ]);
+  }
+
   target(): AttackTarget {
-    const { users, baskets, byToken } = this;
+    const { users, baskets, byToken, emails, likedBy, secure } = this;
     return {
       users: {
         register: (label) => users.register(label),
         login: async (user) => {
           const session = await users.login(user);
           byToken.set(session.token, session.basketId ?? 0);
+          emails.set(session.token, user.email);
           return session;
         },
         whoami: async (token) => (token === STOLEN_JWT ? 'admin@juice-sh.op' : users.whoami(token)),
@@ -131,6 +151,34 @@ class FakeShop {
           baskets.set(victim.basketId ?? 0, [CANARY]);
           return Promise.resolve([CANARY]);
         },
+      },
+      businessLogic: {
+        orderWithQuantity: (_session, quantity) =>
+          Promise.resolve(
+            secure && quantity <= 0
+              ? { step: { method: 'PUT', path: '/api/BasketItems/1', status: 400 }, order: null }
+              : {
+                  step: { method: 'PUT', path: '/api/BasketItems/1', status: 200 },
+                  order: {
+                    totalPrice: 1.99 * quantity,
+                    deliveryPrice: 0,
+                    discount: 0,
+                    items: [{ price: 1.99, quantity }],
+                  },
+                },
+          ),
+        prepareOnceEffect: (session) =>
+          Promise.resolve({
+            name: 'review like',
+            request: {
+              method: 'POST',
+              url: `${ORIGIN}/rest/products/reviews`,
+              testType: 'race',
+              body: '{"id":"r1"}',
+            },
+            readBack: () => Promise.resolve([...likedBy]),
+            actor: session.user.email,
+          }),
       },
     };
   }
@@ -142,6 +190,7 @@ interface RunOptions {
   readonly replies?: ScriptedReply[];
   readonly limits?: { perEndpoint: number; total: number };
   readonly surface?: Endpoint[];
+  readonly classes?: RedTeamClass[];
 }
 
 async function run(options: RunOptions = {}) {
@@ -156,11 +205,12 @@ async function run(options: RunOptions = {}) {
     store,
     http,
     target: () => shop.target(),
+    browser: shop.browser(),
   }).execute({
     runId: RUN_ID,
     scope,
     origin: ORIGIN,
-    classes: ['idor', 'auth-bypass'],
+    classes: options.classes ?? ['idor', 'auth-bypass'],
     endpoints: options.surface ?? endpoints,
     findings: leads,
     budget: new Budget({ maxTokens: 1_000_000, maxEur: 1 }),
@@ -172,6 +222,66 @@ async function run(options: RunOptions = {}) {
 }
 
 describe('RunRedTeam deterministic engine', () => {
+  const ALL: RedTeamClass[] = ['idor', 'auth-bypass', 'xss', 'business-logic'];
+
+  it('finds all four classes, each confirmed by its oracle', async () => {
+    const { result, events } = await run({ classes: ALL });
+
+    expect([...new Set(result.findings.map((f) => f.testType))].sort()).toEqual([
+      'auth-bypass',
+      'business-logic',
+      'idor',
+      'xss',
+    ]);
+    const oracles = events.flatMap((e) =>
+      e.type === 'attack.verdict' && e.payload.exploitable ? [e.payload.oracle] : [],
+    );
+    expect(new Set(oracles)).toEqual(
+      new Set([
+        'canary-leak',
+        'authenticated-as',
+        'script-executed',
+        'price-mismatch',
+        'duplicate-effect',
+      ]),
+    );
+    // The negative order and the raced like are two findings on two endpoints.
+    expect(
+      result.findings
+        .filter((f) => f.testType === 'business-logic')
+        .map((f) => f.endpoint)
+        .sort(),
+    ).toEqual(['POST /rest/products/reviews', 'PUT /api/BasketItems/:id']);
+  });
+
+  it('finds nothing in a shop that escapes the search and refuses bad orders and repeat likes', async () => {
+    const { result } = await run({ shop: new FakeShop(true), classes: ALL });
+
+    expect(result.findings).toEqual([]);
+  });
+
+  it('skips XSS without a browser, and says so', async () => {
+    const shop = new FakeShop();
+    const http = new InMemoryScopedHttp((each) => shop.handle(each));
+    const result = await new RunRedTeam({
+      gateway: new ScriptedGateway([]),
+      store: new InMemoryEventStore(),
+      http,
+      target: () => shop.target(),
+    }).execute({
+      runId: RUN_ID,
+      scope,
+      origin: ORIGIN,
+      classes: ['xss'],
+      endpoints,
+      findings: [],
+      budget: new Budget({ maxTokens: 1, maxEur: 1 }),
+    });
+
+    expect(result.findings).toEqual([]);
+    expect(result.summary).toContain('Skipped: xss (no browser)');
+  });
+
   it('finds the IDOR and the login bypass by generating attacks from the surface map', async () => {
     const { result, events } = await run();
 

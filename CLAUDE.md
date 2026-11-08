@@ -14,7 +14,7 @@ More context: `docs/VISION.md` (product), `docs/adr/` (decisions), `docs/ROADMAP
 
 ## Current step
 
-**F3.3b — Red Team engine: XSS and business logic.** Read this step in `docs/ROADMAP.md` before starting. Do not build features from later steps.
+**F3.4 — PoC artefacts.** Read this step in `docs/ROADMAP.md` before starting. Do not build features from later steps.
 
 (Update this line every time a step is closed.)
 
@@ -41,7 +41,7 @@ pnpm run:ab-auto <runs/x.yaml>  # discovery on A, generated B, paired A/B report
 pnpm run:surface <target>     # HTTP surface map of a target, read from its code (no LLM)
 pnpm run:audit-diff <target> --a <ref> --b <ref>  # what variant B introduces; exits 1 if the gate blocks it
 pnpm run:scope <target>       # sandbox the target, verify ownership, probe the scope (no LLM, no attack)
-pnpm run:red-team <target>    # deterministic attack engine on the target: IDOR and login bypass (no LLM)
+pnpm run:red-team <target>    # deterministic attack engine: IDOR, login bypass, XSS, business logic (no LLM)
 ```
 
 ## Repository map
