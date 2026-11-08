@@ -13,5 +13,9 @@ export function scriptExecuted(
   const hit = dialogs.find((dialog) => dialog.message === marker);
   return hit === undefined
     ? verdict(false, `no dialog showed the marker (${String(dialogs.length)} dialogs)`)
-    : verdict(true, `a ${hit.kind} dialog showed the marker ${marker} on ${hit.url}`);
+    : // The page, not its query: the payload is not repeated in the evidence.
+      verdict(
+        true,
+        `a dialog (${hit.kind}) showed the marker ${marker} on ${hit.url.split('?')[0] ?? hit.url}`,
+      );
 }

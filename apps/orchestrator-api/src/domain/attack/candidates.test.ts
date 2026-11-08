@@ -3,6 +3,8 @@ import { describe, expect, it } from 'vitest';
 import type { Endpoint } from '../surface/endpoint.js';
 import { idorCandidates } from './idor-candidates.js';
 import { loginBypassCandidates, SQL_LOGIN_PAYLOADS } from './login-bypass-candidates.js';
+import { takesQuantity } from './quantity-candidates.js';
+import { xssCandidates, xssPayloads } from './xss-candidates.js';
 
 const endpoint = (over: Partial<Endpoint> & Pick<Endpoint, 'method' | 'route'>): Endpoint => ({
   declaredAt: { file: 'server.ts', line: 1 },
@@ -90,5 +92,48 @@ describe('loginBypassCandidates', () => {
 
     expect(body.username).toBe(SQL_LOGIN_PAYLOADS[0]);
     expect(body.pass).toBe('janus-not-the-password');
+  });
+});
+
+describe('xssCandidates', () => {
+  const marker = 'janus-01JC0F28CNS0000000000000AA';
+
+  it('fills every reflected field with each payload, encoded, carrying the run marker', () => {
+    const candidates = xssCandidates(
+      [{ template: 'http://shop/#/search?q={payload}', field: 'search' }],
+      marker,
+    );
+
+    expect(candidates).toHaveLength(xssPayloads(marker).length);
+    for (const candidate of candidates) {
+      expect(candidate.url.startsWith('http://shop/#/search?q=')).toBe(true);
+      expect(decodeURIComponent(candidate.url)).toContain(marker);
+      expect(candidate.url).not.toContain('{payload}');
+    }
+  });
+
+  it('closes every iframe, so a second vector is an element and not fallback text', () => {
+    const [first] = xssPayloads(marker);
+
+    expect(first?.match(/<iframe/g)?.length).toBe(first?.match(/<\/iframe>/g)?.length);
+  });
+});
+
+describe('takesQuantity', () => {
+  it('sees a quantity a writing endpoint takes, whatever its prefix', () => {
+    expect(
+      takesQuantity([
+        endpoint({ method: 'PUT', route: '/api/BasketItems/:id', params: ['body.quantity'] }),
+      ]),
+    ).toBe(true);
+  });
+
+  it('ignores reads and endpoints without a quantity', () => {
+    expect(
+      takesQuantity([
+        endpoint({ method: 'GET', route: '/api/items', params: ['query.quantity'] }),
+        endpoint({ method: 'POST', route: '/api/notes', params: ['body.text'] }),
+      ]),
+    ).toBe(false);
   });
 });

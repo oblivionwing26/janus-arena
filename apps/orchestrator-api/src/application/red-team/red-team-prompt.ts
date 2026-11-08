@@ -1,4 +1,4 @@
-import type { RedTeamClass } from '@janus/shared-kernel';
+import type { HttpRedTeamClass } from '@janus/shared-kernel';
 
 import type { StaticFinding } from '../../domain/analysis/static-finding.js';
 import type { LlmToolDefinition } from '../../domain/llm/llm-message.js';
@@ -15,7 +15,7 @@ Rules:
 - You never decide that an attack worked. When you think a response shows it, call claim with that attempt's number: a deterministic oracle decides, and only its verdict counts.
 - Stop with done when every class has a confirmed finding or you have no good hypothesis left.`;
 
-const PLAYBOOKS: Readonly<Record<RedTeamClass, string>> = {
+const PLAYBOOKS: Readonly<Record<HttpRedTeamClass, string>> = {
   idor: `idor (broken object-level authorisation): hypothesis: an endpoint that needs a session returns an object by id without checking it belongs to the caller. Pick endpoints with a session and no owner check, find your own id first, then request a neighbouring id as B. Claim the attempt whose response holds another user's object.`,
   'auth-bypass': `auth-bypass (authentication bypass): hypothesis: the login does not treat its input safely, so a session opens without the right credentials (for example SQL injection in the email field). Send crafted logins as anonymous. Claim the attempt whose response returned a session token.`,
 };
@@ -82,7 +82,7 @@ const endpointLine = (endpoint: Endpoint) =>
  * Byte-identical across the turns of a run: the cached prefix.
  */
 export function redTeamSystem(
-  classes: readonly RedTeamClass[],
+  classes: readonly HttpRedTeamClass[],
   endpoints: readonly Endpoint[],
   findings: readonly StaticFinding[],
 ): string {

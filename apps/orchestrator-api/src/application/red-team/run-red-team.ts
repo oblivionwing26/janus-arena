@@ -1,7 +1,12 @@
-import type { RedTeamClass } from '@janus/shared-kernel';
+import {
+  HTTP_RED_TEAM_CLASSES,
+  type HttpRedTeamClass,
+  type RedTeamClass,
+} from '@janus/shared-kernel';
 
 import type { StaticFinding } from '../../domain/analysis/static-finding.js';
 import type { AttackTargetFactory } from '../../domain/attack/attack-target.js';
+import type { BrowserAttackPort } from '../../domain/attack/browser-attack-port.js';
 import {
   AttemptLimits,
   DEFAULT_ATTEMPT_LIMITS,
@@ -59,6 +64,8 @@ export class RunRedTeam {
       readonly store: EventStorePort;
       readonly http: ScopedHttpPort;
       readonly target: AttackTargetFactory;
+      /** The browser for XSS; without it the engine skips that class. */
+      readonly browser?: BrowserAttackPort;
     },
   ) {}
 
@@ -88,19 +95,23 @@ export class RunRedTeam {
 
     let summary: string;
     if (engine === 'deterministic') {
-      ({ summary } = await new DeterministicEngine().run(bench, {
-        classes: input.classes,
-        endpoints: input.endpoints,
-      }));
+      ({ summary } = await new DeterministicEngine({ browser: this.deps.browser ?? null }).run(
+        bench,
+        { runId: input.runId, classes: input.classes, endpoints: input.endpoints },
+      ));
     } else {
+      // The agent's tool sends one HTTP request; it only takes the one-request classes.
+      const classes = input.classes.filter((cls): cls is HttpRedTeamClass =>
+        (HTTP_RED_TEAM_CLASSES as readonly string[]).includes(cls),
+      );
       const result = await new RedTeamAgent({ gateway: this.deps.gateway }).run({
         runId: input.runId,
         agentId,
-        system: redTeamSystem(input.classes, input.endpoints, input.findings),
+        system: redTeamSystem(classes, input.endpoints, input.findings),
         brief: redTeamBrief({
-          email: bench.attacker$.user.email,
-          userId: bench.attacker$.user.userId,
-          basketId: bench.attacker$.basketId,
+          email: bench.attacker.user.email,
+          userId: bench.attacker.user.userId,
+          basketId: bench.attacker.basketId,
         }),
         handlers: agentHandlers(bench),
         budget: input.budget,

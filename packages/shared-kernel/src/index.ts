@@ -14,10 +14,13 @@ export {
 } from './actions/agent-action.js';
 export { InvalidAgentActionError } from './actions/invalid-agent-action-error.js';
 export {
+  HTTP_RED_TEAM_CLASSES,
+  httpRedTeamClassSchema,
   RED_TEAM_CLASSES,
   redTeamClassSchema,
   redTeamToolInputs,
   type RedTeamClaim,
+  type HttpRedTeamClass,
   type RedTeamClass,
   type RedTeamHttpRequest,
 } from './actions/red-team-tool-inputs.js';
