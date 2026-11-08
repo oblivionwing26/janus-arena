@@ -23,7 +23,7 @@ Cuatro fases llevan a la demo completa y una quinta valida si hay negocio; cada 
 | F0 · Cimientos                       | 55–80  | Ejecución con agente programado (sin LLM) reproducida en la consola   | —                 |
 | F1 · SynthLab MVP                    | 70–105 | A/B pareado entre dos variantes hechas a mano, con heatmap y replay   | G1: A/B grabado   |
 | F2 · Variante B y auditoría estática | 50–70  | El UI Engineer genera la Variante B y la auditoría estática la revisa | —                 |
-| F3 · Red/Blue y gate                 | 85–120 | Ciclo completo con PR firmado y benchmark en Juice Shop               | G2: demo completa |
+| F3 · Red/Blue y gate                 | 95–135 | Ciclo completo con PR firmado y benchmark en Juice Shop               | G2: demo completa |
 | F4 · Fusión y validación             | 40–60  | Modo Launch Day, artículos y decisión SaaS                            | Puerta SaaS       |
 
 El orden importa más que las horas: F1 no empieza sin el event log y el replay de F0, porque todo lo demás se construye y se depura sobre ellos.
@@ -445,17 +445,18 @@ Nota F2.7: `AuditVariantDiff` clona A y B (B puede venir de un clon local `file:
 
 Nota F2.8: dos páginas nuevas en la consola, que leen los eventos del run (el mismo flujo `?replay=1` del replay) y los convierten en filas con funciones puras de `lib/` con sus tests. **`/runs/<id>/variant`** muestra los parches del UI Engineer con el diff coloreado por líneas y números de línea, sus `verification.result` y el resumen del agente, marcado como texto del agente y no como evidencia (`patch.proposed` gana el campo opcional `summary`; los runs anteriores no lo tienen). **`/runs/<id>/security`** muestra el veredicto de la auditoría diferencial con sus motivos, los hallazgos filtrables por herramienta y severidad (`finding.created` gana `tool`, `rule`, `file` y `line`, opcionales) y el mapa de superficie como tabla, con A y B en pestañas, filtros por sesión y propietario y las pistas de IDOR primero y resaltadas. Para eso la auditoría registra un evento nuevo, `surface.mapped`, por lado. El informe A/B enlaza el diff cuando B es una rama `janus/variant-<runId>`: `run.started` registra ahora las variantes (`key`, `ref`, `repo`), así que solo funciona en runs nuevos; está cubierto por tests. La página del run enlaza "Variante B" y "Seguridad" solo cuando tiene sus datos. **Hecho cuando**, comprobado en el navegador: el diff del run del UI Engineer `01M6VCWFPZ9D0E17ZSRQCN63NQ` (cupón, `build-checks` en verde) y la auditoría `01M6WD3T8R22GERT0HX1ZSPRK3` de ShopLab `main` contra una rama local con `GET /api/orders/[id]/invoice` inyectado: B bloqueada, 1 hallazgo `surface-map/new-idor-lead` (high), A con 12 endpoints y 0 pistas, B con 13 y la pista primero. Sin gasto de API. La etiqueta `v0.3.0` se crea tras el merge y cierra F2.
 
-## F3 · Red Team, Blue Team y gate (85–120 h)
+## F3 · Red Team, Blue Team y gate (95–135 h)
 
 F3 cierra el ciclo completo. La regla que lo sostiene todo: el éxito de un ataque lo decide un **oráculo determinista** (por ejemplo, el valor canario del usuario A aparece en la respuesta del usuario B), nunca la opinión del LLM.
 
-> **Pendiente de replanificar (ADR 0006):** los pasos de F3 que citan "vulnerabilidades sembradas" de ShopLab (F3.1, F3.3, F3.4, F3.6 y F4.2) se reescribirán contra OWASP Juice Shop al reestimar las fases tras cerrar F2. ShopLab sigue siendo el objetivo de UX y de los re-checks de SynthLab.
+> **Replanificado al cerrar F2 (ADR 0006):** el objetivo de seguridad es OWASP Juice Shop v20.3.0, sin modificar, en el sandbox; ShopLab sigue siendo el objetivo de UX. Las cuatro vulnerabilidades de referencia son reales de Juice Shop: **IDOR** en `GET /rest/basket/:id`, **bypass de login** por inyección SQL en `/rest/user/login`, **DOM XSS** en la búsqueda y **cantidad negativa** en la cesta; la **carrera** de "Multiple Likes" queda como extra. Juice Shop expone su propia verdad (`/api/Challenges`, `/api/Hints`, `/snippets/**`): ningún agente la ve (queda fuera del alcance) y solo el orquestador la lee para validar oráculos y medir el benchmark. SynthLab necesita Juice Shop para que el Blue Team pueda medir el coste en UX (paso nuevo F3.5a).
 
-### F3.1 · Alcance y verificación de propiedad — M (5–7 h)
+### F3.1 · Alcance y verificación de propiedad — M (8–10 h)
 
 - [ ] Entidad `ScopePolicy` en dominio: hosts permitidos, rutas excluidas, tipos de prueba permitidos, límite de peticiones por segundo
 - [ ] Verificación de propiedad con token en `/.well-known/janus-verify.txt`, aplicada también al sandbox (así el flujo existe desde el principio)
 - [ ] `NetworkGuard` en los adaptadores HTTP y de navegador: toda petición fuera de alcance se bloquea y emite un evento
+- [ ] Sandbox de Juice Shop desde su imagen fijada por digest; el token de cada run se copia al contenedor y las rutas de su verdad (`/api/Challenges`, `/api/Hints`, `/snippets/**`) quedan excluidas
 - [ ] Tests: petición a host no verificado bloqueada; ruta excluida bloqueada
 
 Hecho cuando: ningún módulo ofensivo arranca sin `ScopePolicy` verificada.
@@ -465,9 +466,9 @@ Hecho cuando: ningún módulo ofensivo arranca sin `ScopePolicy` verificada.
 - [ ] Cliente HTTP con sesiones por usuario de prueba (login como A y como B)
 - [ ] Harness de carrera: N peticiones idénticas lanzadas a la vez por código, con resultado agregado
 - [ ] Adaptador Nuclei (plantillas web) y ZAP baseline en contenedor, ambos dentro de la red del sandbox
-- [ ] Oráculos: `canaryLeak(userA, response)`, `scriptExecuted(page)` (marcador inyectado), `doubleRedeem(coupon)`, `priceMismatch(order)`
+- [ ] Oráculos: `canaryLeak(userA, response)` (cesta de A vista por B), `authenticatedAs(token, user)` (sesión sin su contraseña), `scriptExecuted(page)` (marcador inyectado), `priceMismatch(order)` (total negativo o que no cuadra) y `duplicateEffect` (la carrera)
 
-Hecho cuando: cada oráculo detecta su vulnerabilidad sembrada ejecutando el exploit a mano desde un test.
+Hecho cuando: cada oráculo detecta su vulnerabilidad de Juice Shop ejecutando el exploit a mano desde un test, y su veredicto coincide con el reto "resuelto" del propio Juice Shop (leído solo por el orquestador).
 
 ### F3.3 · Agente Red Team — L (14–20 h)
 
@@ -480,13 +481,13 @@ Sub-entrega A: IDOR y bypass de auth
 Sub-entrega B: XSS y lógica de negocio
 
 - [ ] XSS almacenado verificado abriendo la página con otro usuario y comprobando el marcador
-- [ ] Manipulación de precio y cupón doble con el harness de carrera
+- [ ] Cantidad negativa en la cesta y la carrera de likes con el harness de carrera
 
 Sub-entrega C: registro
 
 - [ ] Cada intento emite eventos; cada éxito, `finding.created` con la evidencia del oráculo
 
-Hecho cuando: encuentra al menos 3 de las 4 vulnerabilidades sembradas en 3 ejecuciones seguidas.
+Hecho cuando: encuentra al menos 3 de las 4 vulnerabilidades de referencia de Juice Shop (IDOR, bypass de login, XSS, cantidad negativa) en 3 ejecuciones seguidas.
 
 ### F3.4 · Artefactos PoC — S a M (4–6 h)
 
@@ -494,29 +495,37 @@ Hecho cuando: encuentra al menos 3 de las 4 vulnerabilidades sembradas en 3 ejec
 - [ ] `PocRunner` determinista que lo ejecuta sin LLM y devuelve `exploitable: bool`
 - [ ] Regla en dominio: un `Finding` dinámico sin PoC no puede pasar a estado `confirmed`
 
-Hecho cuando: los PoC de F3.3 pasan en un CI separado contra ShopLab sin tocar la API de Anthropic.
+Hecho cuando: los PoC de F3.3 pasan en un CI separado contra el sandbox de Juice Shop sin tocar la API de Anthropic.
+
+### F3.5a · SynthLab sobre Juice Shop — M (8–12 h)
+
+- [ ] Juice Shop como objetivo de SynthLab: rutas y embudo en `config/funnels.yaml`, usuarios de prueba sintéticos registrados por run
+- [ ] Tarea "comprar un producto" con oráculo determinista: el historial de pedidos del usuario de prueba
+- [ ] Personas reutilizadas; el baseline competente completa la tarea
+
+Hecho cuando: un run de SynthLab sobre Juice Shop da tasa de éxito con intervalo y su informe, y el baseline pasa.
 
 ### F3.5 · Agente Blue Team y verificadores — L (12–16 h)
 
 Sub-entrega A: parche
 
-- [ ] Rol `blue-team`; rama `janus/fix-<findingId>`; mismas herramientas con lista blanca que el UI Engineer, pero rutas de backend permitidas
+- [ ] Rol `blue-team`; rama `janus/fix-<findingId>` sobre Juice Shop; mismas herramientas con lista blanca que el UI Engineer, pero rutas de backend permitidas
 
 Sub-entrega B: los tres verificadores (independientes del agente)
 
 - [ ] V1: el PoC original ya no es explotable
-- [ ] V2: tests de ShopLab en verde + test de regresión generado desde el PoC y añadido al parche
-- [ ] V3: SynthLab re-ejecutado; la tasa de éxito no baja más de la tolerancia fijada y la latencia p95 de los endpoints tocados sigue en presupuesto
+- [ ] V2: tests de servidor de Juice Shop en verde (imagen de herramientas construida antes, con red) + test de regresión generado desde el PoC y añadido al parche
+- [ ] V3: SynthLab sobre Juice Shop (F3.5a) re-ejecutado; la tasa de éxito no baja más de la tolerancia fijada y la latencia p95 de los endpoints tocados sigue en presupuesto
 - [ ] Máximo 3 iteraciones; si no converge, el hallazgo queda `open` con el historial
 
-Hecho cuando: IDOR y precio manipulable quedan corregidos con V1, V2 y V3 en verde.
+Hecho cuando: el IDOR de la cesta y la cantidad negativa quedan corregidos con V1, V2 y V3 en verde.
 
 ### F3.6 · Informe de compromiso — M (6–8 h)
 
-- [ ] Si V3 falla, pedir al Blue Team hasta 3 alternativas (por ejemplo, rate limiting frente a CAPTCHA frente a verificación escalonada)
+- [ ] Caso de compromiso en Juice Shop (a confirmar al empezar el paso): proteger el login contra fuerza bruta, medido con una persona que a veces se equivoca de contraseña
+- [ ] Si V3 falla, pedir al Blue Team hasta 3 alternativas (por ejemplo, bloqueo de cuenta frente a retardo progresivo frente a CAPTCHA tras N fallos)
 - [ ] Medir cada una con V1 y V3
 - [ ] Tabla de compromiso: alternativa × explotable × tasa de éxito × p95, con recomendación justificada
-- [ ] Añadir a ShopLab un caso diseñado para producir este compromiso (el cupón doble se presta)
 
 Hecho cuando: el informe muestra al menos un parche seguro que empeora la conversión y una alternativa mejor.
 
@@ -554,11 +563,10 @@ Hecho cuando: matar el proceso a mitad y relanzarlo termina el gate sin repetir 
 
 Hecho cuando: el replay del gate completo se entiende sin explicación verbal.
 
-### F3.11 · Benchmark público — M (6–10 h)
+### F3.11 · Benchmark público — S a M (4–6 h)
 
-- [ ] OWASP Juice Shop en el sandbox con su `ScopePolicy`
 - [ ] Ejecutar Red Team con alcance limitado a las clases implementadas
-- [ ] Medir recall frente a los retos conocidos de esas clases; anotar coste y tiempo
+- [ ] Medir recall frente a todos los retos de Juice Shop de esas clases (no solo las 4 de referencia) en 3 ejecuciones; anotar coste y tiempo
 - [ ] Opcional: subconjunto de la suite Argus
 
 Hecho cuando: hay una tabla de resultados reproducible con el comando exacto para obtenerla.
@@ -587,6 +595,8 @@ F4 añade la demo más vistosa (Launch Day) y responde a la pregunta de negocio.
 Hecho cuando: un run muestra que una defensa reduce ataques y su coste en legítimos bloqueados.
 
 ### F4.2 · Defensas configurables en ShopLab — S a M (4–6 h)
+
+Se queda en ShopLab: son defensas legítimas, no código inseguro, así que no contradicen el ADR 0006.
 
 - [ ] Rate limiting por IP y por cuenta, con interruptor por variable de entorno
 - [ ] Verificación escalonada en checkout activable
