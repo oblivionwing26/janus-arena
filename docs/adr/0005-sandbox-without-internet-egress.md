@@ -30,6 +30,12 @@ Janus runs target apps, headless browsers and offensive tooling. A misconfigured
 - **Negative:** targets that need external services must be stubbed; pulling images or packages happens outside the sandbox at build time.
 - **Follow-ups:** F0.8 adds the isolation test; F3.1 adds scope policy, ownership verification and the network guard; later steps never relax these rules without a new ADR.
 
+## Implementation notes (F3.1)
+
+- `NetworkGuard` (domain) decides every request of the HTTP clients and the agent browser: origin, excluded path (compared case-insensitively after decoding and resolving `..`), test type, verification and rate. Offensive tests need a `VerifiedScope`, which only `VerifiedScope.verify()` creates from the run's token served by every origin.
+- The orchestrator has no route into `janus-sbx`, so HTTP to sandboxed targets is sent by the Playwright server already on that network (its request API, no page). Targets outside the sandbox use a plain `fetch` client. Neither follows redirects.
+- The only `docker cp` into a target is the token file to `<dir>/.well-known/janus-verify.txt` of a `janus-<variant>-app` container.
+
 ## Implementation notes (F0.8)
 
 - The socket proxy (`tecnativa/docker-socket-proxy`, pinned by digest) filters by API section, not by request body: with `CONTAINERS` and `POST` open, anything that can reach it could create a privileged container. So it listens on `127.0.0.1:23750` only, never joins `janus-sbx`, and only the orchestrator's `DockerCli` uses it. `EXEC`, `VOLUMES`, `SWARM`, `SECRETS`, `PLUGINS` and the rest stay closed.

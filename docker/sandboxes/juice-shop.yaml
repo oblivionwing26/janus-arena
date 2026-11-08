@@ -1,0 +1,14 @@
+# How DockerSandbox runs OWASP Juice Shop, the security target (ADR 0006), on the janus-sbx
+# network: the published image, unmodified, pinned by digest. It keeps its data in its own
+# SQLite file, so nothing else is started.
+name: juice-shop
+image: bkimminich/juice-shop:v20.3.0@sha256:cea5a4af4aacee498c491491af0408934ec81d004035c0a02ef3e54395e3bf27
+
+app:
+  port: 3000
+  # Distroless image without a healthcheck or a shell: ready once it logs this.
+  readyLog: Server listening on port 3000
+
+# Juice Shop serves this folder at /.well-known; the run's ownership token is copied there (F3.1).
+verification:
+  dir: /juice-shop/.well-known

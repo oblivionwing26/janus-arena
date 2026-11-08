@@ -18,6 +18,11 @@ import type {
   PageErrorRecord,
   PageTelemetry,
 } from '../../domain/browser/page-telemetry.js';
+import {
+  NetworkGuard,
+  ScopeBlockedError,
+  type BlockedRequest,
+} from '../../domain/scope/network-guard.js';
 import { MASK } from './mask-secrets.js';
 
 export interface ScriptedElement {
@@ -55,6 +60,8 @@ interface Session {
   document: number;
   mutations: number;
   readonly errors: PageErrorRecord[];
+  readonly guard: NetworkGuard;
+  readonly blocked: BlockedRequest[];
   readonly typed: Map<string, string>;
   readonly selected: Map<string, string>;
 }
@@ -112,6 +119,8 @@ export class ScriptedBrowser implements BrowserPort {
     this.selectedBySession.set(id, selected);
     this.sessions.set(id, {
       baseUrl: options.baseUrl.replace(/\/$/, ''),
+      guard: NetworkGuard.forOrigin('variant', options.baseUrl),
+      blocked: [],
       path: '/',
       history: [],
       document: 0,
@@ -127,7 +136,15 @@ export class ScriptedBrowser implements BrowserPort {
 
   goto(sessionId: string, url: string): Promise<void> {
     return this.act(() => {
-      this.navigate(this.session(sessionId), new URL(url).pathname);
+      const session = this.session(sessionId);
+      const request = { method: 'GET', url, testType: 'browse' } as const;
+      const decision = session.guard.check(request);
+      if (!decision.allowed) {
+        const blocked = session.guard.describe(request, decision.reason);
+        session.blocked.push(blocked);
+        throw new ScopeBlockedError(blocked);
+      }
+      this.navigate(session, new URL(url).pathname);
     });
   }
 
@@ -261,6 +278,7 @@ export class ScriptedBrowser implements BrowserPort {
       const vitals = this.page(session).vitals;
       return {
         errors: session.errors.splice(0),
+        blocked: session.blocked.splice(0),
         vitals: vitals === undefined ? null : { url: this.url(session), ...vitals },
       };
     });

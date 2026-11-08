@@ -233,7 +233,10 @@ export class NavigatorSession {
     });
   }
 
-  /** page.error for each technical error since the last step, page.vitals when measured. */
+  /**
+   * page.error for each technical error since the last step, scope.blocked for each request the
+   * browser's guard refused, page.vitals when measured.
+   */
   private async recordTelemetry(
     session: string,
     recorder: RunEventRecorder,
@@ -248,6 +251,9 @@ export class NavigatorSession {
         message: error.message,
         ...(error.status === undefined ? {} : { status: error.status }),
       });
+    }
+    for (const blocked of telemetry.blocked ?? []) {
+      await recorder.record('scope.blocked', { ...blocked });
     }
     const { vitals } = telemetry;
     if (vitals === null) return;

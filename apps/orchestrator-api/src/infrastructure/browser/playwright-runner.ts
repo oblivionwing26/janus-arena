@@ -27,6 +27,11 @@ import type {
   PageErrorRecord,
   PageTelemetry,
 } from '../../domain/browser/page-telemetry.js';
+import {
+  NetworkGuard,
+  ScopeBlockedError,
+  type BlockedRequest,
+} from '../../domain/scope/network-guard.js';
 import { actionFailureOf } from './action-failure.js';
 import {
   instrumentationScript,
@@ -61,6 +66,9 @@ interface Session {
   /** Technical errors seen since the last drainTelemetry(). */
   readonly errors: PageErrorRecord[];
   readonly network: NetworkQuiet;
+  readonly guard: NetworkGuard;
+  /** Requests the guard refused since the last drainTelemetry(). */
+  readonly blocked: BlockedRequest[];
 }
 
 export interface PlaywrightRunnerOptions {
@@ -88,29 +96,45 @@ export class PlaywrightRunner implements BrowserPort {
   }
 
   async newSession(options: BrowserSessionOptions): Promise<string> {
-    const origin = new URL(options.baseUrl).origin;
+    const guard = NetworkGuard.forOrigin('variant', options.baseUrl);
+    const blocked: BlockedRequest[] = [];
     this.browser ??= await chromium.connect(this.wsEndpoint);
     const context = await this.browser.newContext({
       locale: 'es-ES',
       ...(options.device === 'mobile' ? MOBILE_CONTEXT : {}),
     });
-    await context.route('**/*', (route) =>
-      new URL(route.request().url()).origin === origin
-        ? route.continue()
-        : route.abort('blockedbyclient'),
-    );
+    await context.route('**/*', (route) => {
+      const request = {
+        method: route.request().method(),
+        url: route.request().url(),
+        testType: 'browse',
+      } as const;
+      const decision = guard.check(request);
+      if (decision.allowed) return route.continue();
+      blocked.push(guard.describe(request, decision.reason));
+      return route.abort('blockedbyclient');
+    });
     await context.addInitScript({ content: (this.script ??= instrumentationScript()) });
     const page = await context.newPage();
     page.setDefaultTimeout(this.actionTimeoutMs);
     const errors = watchPageErrors(page);
     const network = new NetworkQuiet(page);
     const id = `pw-${String(this.nextId++)}`;
-    this.sessions.set(id, { context, page, errors, network });
+    this.sessions.set(id, { context, page, errors, network, guard, blocked });
     return id;
   }
 
   async goto(sessionId: string, url: string): Promise<void> {
-    await this.session(sessionId).page.goto(url, { waitUntil: 'domcontentloaded' });
+    const session = this.session(sessionId);
+    // Checked here too, so an off-scope navigation fails the same way as in the fakes.
+    const request = { method: 'GET', url, testType: 'browse' } as const;
+    const decision = session.guard.check(request);
+    if (!decision.allowed) {
+      const blocked = session.guard.describe(request, decision.reason);
+      session.blocked.push(blocked);
+      throw new ScopeBlockedError(blocked);
+    }
+    await session.page.goto(url, { waitUntil: 'domcontentloaded' });
   }
 
   async click(sessionId: string, target: ElementTarget): Promise<void> {
@@ -211,11 +235,15 @@ export class PlaywrightRunner implements BrowserPort {
   }
 
   async drainTelemetry(sessionId: string): Promise<PageTelemetry> {
-    const { page, errors } = this.session(sessionId);
+    const { page, errors, blocked } = this.session(sessionId);
     const drained = errors.splice(0);
     const vitals = (await this.instrumentation(sessionId))?.vitals ?? {};
     const measured = Object.values(vitals).some((value) => value !== undefined);
-    return { errors: drained, vitals: measured ? { url: page.url(), ...vitals } : null };
+    return {
+      errors: drained,
+      vitals: measured ? { url: page.url(), ...vitals } : null,
+      blocked: blocked.splice(0),
+    };
   }
 
   async screenshot(sessionId: string): Promise<Uint8Array> {

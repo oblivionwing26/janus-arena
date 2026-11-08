@@ -61,6 +61,16 @@ export {
   sessionStartedEventSchema,
   type SessionStartedEvent,
 } from './events/v1/session-started.js';
+export { scopeBlockedEventSchema, type ScopeBlockedEvent } from './events/v1/scope-blocked.js';
+export { scopeVerifiedEventSchema, type ScopeVerifiedEvent } from './events/v1/scope-verified.js';
+export {
+  BLOCK_REASONS,
+  blockReasonSchema,
+  TEST_TYPES,
+  testTypeSchema,
+  type BlockReason,
+  type TestType,
+} from './scope/scope-vocabulary.js';
 export { surfaceMappedEventSchema, type SurfaceMappedEvent } from './events/v1/surface-mapped.js';
 export { taskVerifiedEventSchema, type TaskVerifiedEvent } from './events/v1/task-verified.js';
 export {

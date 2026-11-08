@@ -49,6 +49,14 @@ const invalidEvents: Record<JanusEventType, [string, Record<string, unknown>]> =
   ],
   'page.vitals': ['a negative CLS', withPayload('page.vitals', { cls: -0.1 })],
   'session.ended': ['an unknown outcome', withPayload('session.ended', { outcome: 'crashed' })],
+  'scope.verified': [
+    'an unknown test type',
+    withPayload('scope.verified', { allowedTests: ['ddos'] }),
+  ],
+  'scope.blocked': [
+    'a reason the guard never gives',
+    withPayload('scope.blocked', { reason: 'felt-like-it' }),
+  ],
   'surface.mapped': [
     'an owner check that is neither boolean nor unknown',
     withPayload('surface.mapped', {
@@ -100,6 +108,8 @@ describe('v1 event schemas', () => {
         'task.verified',
         'audit.completed',
         'surface.mapped',
+        'scope.verified',
+        'scope.blocked',
       ].sort(),
     );
   });

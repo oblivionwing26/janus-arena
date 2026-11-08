@@ -41,3 +41,16 @@ is OWASP Juice Shop, run unmodified inside the sandbox with its own `ScopePolicy
   stack differ from ShopLab, so static-analysis and Blue Team adapters must handle both.
 - **Follow-ups:** rewrite F3.1, F3.3, F3.4, F3.6 and F4.2 against Juice Shop when phases are
   re-estimated after F2; F0.8 and F2.2 exclude `UX_FLAWS.md` from anything agents read.
+
+## Replanning (after F2)
+
+- F3 was rewritten against Juice Shop v20.3.0. The four reference vulnerabilities are real Juice
+  Shop challenges: basket IDOR, SQL-injection login bypass, DOM XSS in search and negative basket
+  quantity; the "Multiple Likes" race is an extra.
+- Juice Shop ships its own ground truth (`/api/Challenges`, `/api/Hints`, `/snippets/**`). It is
+  excluded from every agent's scope (F3.1); only the orchestrator reads it, to validate oracles
+  (F3.2) and to score the benchmark (F3.11).
+- The Blue Team's UX check needs SynthLab on Juice Shop, added as step F3.5a. The trade-off demo
+  (F3.6) moves to Juice Shop's login (brute-force protection against a persona that mistypes).
+- F4.2 stays on ShopLab: rate limiting and step-up verification are legitimate defences, not
+  insecure code.

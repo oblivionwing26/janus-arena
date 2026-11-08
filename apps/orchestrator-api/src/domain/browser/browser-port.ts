@@ -31,7 +31,10 @@ export interface PageSnapshot {
 }
 
 export interface BrowserSessionOptions {
-  /** The variant under test. Requests to any other origin are blocked. */
+  /**
+   * The variant under test. Every request goes through a browse-only NetworkGuard for its
+   * origin (F3.1): anything else is blocked and reported in drainTelemetry().
+   */
   readonly baseUrl: string;
   /** `mobile` gets a phone-sized touch viewport. Defaults to desktop. */
   readonly device?: 'desktop' | 'mobile';
@@ -43,6 +46,7 @@ export interface BrowserSessionOptions {
  */
 export interface BrowserPort {
   newSession(options: BrowserSessionOptions): Promise<string>;
+  /** ScopeBlockedError, reported in drainTelemetry(), when the URL is outside the variant. */
   goto(sessionId: string, url: string): Promise<void>;
   click(sessionId: string, target: ElementTarget): Promise<void>;
   type(sessionId: string, target: ElementTarget, text: string): Promise<void>;

@@ -141,6 +141,20 @@ function describe(event: JanusEvent): { label: string; tone: Tone } {
         tone: outcome === 'success' ? 'ok' : outcome === 'budget_exhausted' ? 'error' : 'warning',
       };
     }
+    case 'scope.verified': {
+      const { target, origins } = event.payload;
+      return {
+        label: `Propiedad de ${target} verificada en ${origins.join(', ')}`,
+        tone: 'neutral',
+      };
+    }
+    case 'scope.blocked': {
+      const { method, origin, path, testType, reason } = event.payload;
+      return {
+        label: `Bloqueada por el alcance (${reason}, ${testType}): ${method} ${origin}${path}`,
+        tone: 'warning',
+      };
+    }
     case 'surface.mapped': {
       const { side, ref, endpoints } = event.payload;
       const leads = endpoints.filter((e) => e.auth && e.ownerCheck === false).length;

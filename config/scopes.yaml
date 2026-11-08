@@ -1,0 +1,24 @@
+# What Janus may do to each target (F3.1, ADR 0005). The origins are not listed: they are the
+# sandboxed variant's own, known only once it is up. Offensive tests (anything but browse and
+# http-probe) also need the target's ownership verified with a token at
+# /.well-known/janus-verify.txt.
+
+targets:
+  # The UX target: personas browse it and checks read it. No security tests (ADR 0006).
+  shoplab:
+    allowedTests: [browse, http-probe]
+    excludedPaths: []
+    maxRequestsPerSecond: 200
+
+  # The security target (ADR 0006). Its own ground truth (which challenges exist, hints, the
+  # vulnerable snippets and fixes, saved progress) stays out of every agent's reach.
+  juice-shop:
+    allowedTests: [browse, http-probe, idor, auth-bypass, xss, business-logic, race]
+    excludedPaths:
+      - /api/Challenges/**
+      - /api/Hints/**
+      - /snippets/**
+      - /rest/continue-code*
+      - /rest/repeat-notification
+      - /rest/admin/application-configuration
+    maxRequestsPerSecond: 20

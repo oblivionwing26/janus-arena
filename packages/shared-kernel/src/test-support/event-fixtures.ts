@@ -79,6 +79,20 @@ export const validEvents: Record<JanusEventType, Record<string, unknown>> = {
       },
     ],
   }),
+  'scope.verified': envelope('scope.verified', {
+    target: 'juice-shop',
+    origins: ['http://janus-juice-shop-app:3000'],
+    excludedPaths: ['/api/Challenges', '/snippets/**'],
+    allowedTests: ['http-probe', 'idor'],
+    maxRequestsPerSecond: 20,
+  }),
+  'scope.blocked': envelope('scope.blocked', {
+    method: 'GET',
+    origin: 'http://janus-juice-shop-app:3000',
+    path: '/api/Challenges',
+    testType: 'idor',
+    reason: 'excluded-path',
+  }),
   'audit.completed': envelope('audit.completed', {
     base: { ref: 'main', sha: 'a'.repeat(40) },
     variant: { ref: 'janus/variant-01JBZ7Q8K5V4W3X2Y1Z0ABCDEF', sha: 'b'.repeat(40) },
