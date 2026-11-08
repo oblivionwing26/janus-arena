@@ -15,6 +15,7 @@ import { RunEventRecorder } from '../../application/run-event-recorder.js';
 import { VerifyOwnership } from '../../application/scope/verify-ownership.js';
 import { ORCHESTRATOR_ACTOR } from '../../application/start-run.js';
 import { Budget } from '../../domain/llm/budget.js';
+import { FileArtifactStore } from '../../infrastructure/artifacts/file-artifact-store.js';
 import { SemgrepAnalysis } from '../../infrastructure/analysis/semgrep-analysis.js';
 import { JuiceShopBusinessLogic } from '../../infrastructure/attack/juice-shop-business-logic.js';
 import { JuiceShopTestUsers } from '../../infrastructure/attack/juice-shop-test-users.js';
@@ -136,6 +137,7 @@ try {
       businessLogic: new JuiceShopBusinessLogic(client, at),
     }),
     browser,
+    artifacts: new FileArtifactStore(),
   }).execute({
     runId,
     scope,
@@ -159,6 +161,10 @@ try {
       `  ${finding.testType} at ${finding.endpoint} (#${String(finding.attempt)}): ${finding.evidence}`,
     );
   }
+  console.log(
+    `PoCs replayed with fresh users: ${String(result.confirmed.length)} confirmed, ${String(result.unconfirmed.length)} not reproduced (saved under .artifacts/${runId}/poc/)`,
+  );
+  for (const each of result.unconfirmed) console.log(`  still suspected: ${each.reason}`);
   const missing = classes.filter((each) => !result.findings.some((f) => f.testType === each));
   outcome = 'success';
   reason = missing.length === 0 ? '' : `no finding for ${missing.join(', ')}`;

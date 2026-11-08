@@ -7,6 +7,7 @@ import { attackAttemptEventSchema } from './v1/attack-attempt.js';
 import { attackVerdictEventSchema } from './v1/attack-verdict.js';
 import { auditCompletedEventSchema } from './v1/audit-completed.js';
 import { budgetThresholdEventSchema } from './v1/budget-threshold.js';
+import { findingConfirmedEventSchema } from './v1/finding-confirmed.js';
 import { findingCreatedEventSchema } from './v1/finding-created.js';
 import { frictionSignalEventSchema } from './v1/friction-signal.js';
 import { llmCallEventSchema } from './v1/llm-call.js';
@@ -48,6 +49,7 @@ const knownEventSchemas = [
   scopeBlockedEventSchema,
   attackAttemptEventSchema,
   attackVerdictEventSchema,
+  findingConfirmedEventSchema,
 ] as const;
 
 export const janusEventSchema = z.discriminatedUnion('type', knownEventSchemas);

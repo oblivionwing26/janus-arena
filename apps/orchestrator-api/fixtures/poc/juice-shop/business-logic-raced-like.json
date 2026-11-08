@@ -1,0 +1,11 @@
+{
+  "version": 1,
+  "target": "juice-shop",
+  "class": "business-logic",
+  "oracle": "duplicate-effect",
+  "endpoint": "POST /rest/products/reviews",
+  "steps": {
+    "kind": "once-effect-race",
+    "size": 6
+  }
+}

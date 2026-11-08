@@ -38,6 +38,33 @@ const finding = (severity: string, extra: Record<string, unknown> = {}) =>
     ...extra,
   });
 
+describe('findingRows and confirmations (F3.4)', () => {
+  it('shows a finding as confirmed once a finding.confirmed names it', () => {
+    const id = newUlid();
+    const suspected = finding('high', {
+      findingId: id,
+      kind: 'dynamic',
+      tool: 'red-team',
+      rule: 'idor',
+    });
+    const other = finding('high', { kind: 'dynamic', tool: 'red-team', rule: 'xss' });
+    const rows = findingRows([
+      suspected,
+      other,
+      event('finding.confirmed', {
+        findingId: id,
+        pocRef: `poc/${id.toLowerCase()}.json`,
+        evidence: 'leaked again',
+      }),
+    ]);
+
+    expect(rows.map((row) => [row.rule, row.status])).toEqual([
+      ['idor', 'confirmed'],
+      ['xss', 'suspected'],
+    ]);
+  });
+});
+
 describe('findingRows and filterFindings', () => {
   const rows = findingRows([
     finding('medium', { tool: 'semgrep', rule: 'janus.dom-inner-html', file: 'src/a.ts', line: 3 }),

@@ -16,6 +16,7 @@
     "postinstall": "prisma generate",
     "llm:record-fixture": "pnpm run build && node dist/interface/cli/record-fixture.js",
     "test:sandbox": "vitest run --config vitest.sandbox.config.ts",
+    "test:poc": "vitest run --config vitest.poc.config.ts",
     "observation:capture-fixtures": "pnpm run build && node dist/interface/cli/capture-observation-fixtures.js"
   },
   "dependencies": {

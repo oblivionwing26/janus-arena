@@ -156,6 +156,13 @@ function describe(event: JanusEvent): { label: string; tone: Tone } {
         tone: exploitable ? 'error' : 'neutral',
       };
     }
+    case 'finding.confirmed': {
+      const { pocRef, evidence } = event.payload;
+      return {
+        label: `Hallazgo confirmado: su PoC (${pocRef}) se repitió con usuarios nuevos · ${evidence}`,
+        tone: 'error',
+      };
+    }
     case 'scope.verified': {
       const { target, origins } = event.payload;
       return {

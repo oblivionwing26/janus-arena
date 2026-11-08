@@ -1,0 +1,82 @@
+name: PoC replay
+
+# F3.4: replays the saved Red Team PoCs (apps/orchestrator-api/fixtures/poc/) against a fresh
+# OWASP Juice Shop sandbox, with fresh test users and a newly verified scope. Separate from CI
+# because it starts Docker, the agent browser and Juice Shop. No API key: no LLM is called.
+on:
+  workflow_dispatch:
+  pull_request:
+    paths:
+      - 'apps/orchestrator-api/src/application/attack/**'
+      - 'apps/orchestrator-api/src/application/red-team/**'
+      - 'apps/orchestrator-api/src/application/scope/**'
+      - 'apps/orchestrator-api/src/domain/attack/**'
+      - 'apps/orchestrator-api/src/domain/oracles/**'
+      - 'apps/orchestrator-api/src/domain/scope/**'
+      - 'apps/orchestrator-api/src/infrastructure/attack/**'
+      - 'apps/orchestrator-api/src/infrastructure/sandbox/**'
+      - 'apps/orchestrator-api/src/infrastructure/scope/**'
+      - 'apps/orchestrator-api/fixtures/poc/**'
+      - 'apps/orchestrator-api/vitest.poc.config.ts'
+      - 'config/scopes.yaml'
+      - 'docker/sandboxes/juice-shop.yaml'
+      - 'docker/browser/**'
+      - 'docker-compose.yml'
+      - '.github/workflows/poc.yml'
+
+concurrency:
+  group: poc-${{ github.ref }}
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+
+jobs:
+  poc:
+    name: PoC replay (Juice Shop sandbox)
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    env:
+      # The orchestrator only talks to Docker through the socket proxy (ADR 0005).
+      DOCKER_HOST: tcp://127.0.0.1:23750
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version-file: .nvmrc
+          cache: pnpm
+
+      - name: Install
+        run: pnpm install --frozen-lockfile
+
+      - name: Build the orchestrator and its packages
+        run: pnpm exec turbo run build --filter=@janus/orchestrator-api...
+
+      - name: Start the socket proxy and the agent browser (janus-sbx, internal)
+        # The runner's own Docker, not the proxy, starts the development services.
+        env:
+          DOCKER_HOST: ''
+        run: docker compose up -d --wait docker-proxy browser browser-relay
+
+      - name: Pull Juice Shop, pinned by digest
+        env:
+          DOCKER_HOST: ''
+        run: docker pull "$(grep '^image:' docker/sandboxes/juice-shop.yaml | cut -d' ' -f2)"
+
+      - name: Replay the PoCs
+        run: pnpm test:poc
+
+      - name: Sandbox logs on failure
+        if: failure()
+        env:
+          DOCKER_HOST: ''
+        run: |
+          docker ps -a
+          docker compose logs --tail 100 browser browser-relay docker-proxy
+          for c in $(docker ps -aq --filter label=janus.variant); do docker logs --tail 50 "$c"; done

@@ -54,6 +54,10 @@ const invalidEvents: Record<JanusEventType, [string, Record<string, unknown>]> =
     'an oracle that does not exist',
     withPayload('attack.verdict', { oracle: 'llm-opinion' }),
   ],
+  'finding.confirmed': [
+    'a confirmation without its PoC',
+    withPayload('finding.confirmed', { pocRef: '' }),
+  ],
   'scope.verified': [
     'an unknown test type',
     withPayload('scope.verified', { allowedTests: ['ddos'] }),
@@ -117,6 +121,7 @@ describe('v1 event schemas', () => {
         'scope.blocked',
         'attack.attempt',
         'attack.verdict',
+        'finding.confirmed',
       ].sort(),
     );
   });

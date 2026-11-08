@@ -72,6 +72,19 @@ export {
   sessionStartedEventSchema,
   type SessionStartedEvent,
 } from './events/v1/session-started.js';
+export {
+  ORACLES,
+  oracleSchema,
+  pocStepsSchema,
+  proofOfConceptSchema,
+  type OracleName,
+  type PocSteps,
+  type ProofOfConcept,
+} from './attack/proof-of-concept.js';
+export {
+  findingConfirmedEventSchema,
+  type FindingConfirmedEvent,
+} from './events/v1/finding-confirmed.js';
 export { attackAttemptEventSchema, type AttackAttemptEvent } from './events/v1/attack-attempt.js';
 export { attackVerdictEventSchema, type AttackVerdictEvent } from './events/v1/attack-verdict.js';
 export { scopeBlockedEventSchema, type ScopeBlockedEvent } from './events/v1/scope-blocked.js';
