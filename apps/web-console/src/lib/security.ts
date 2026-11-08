@@ -21,10 +21,16 @@ export interface FindingRow {
   readonly title: string;
 }
 
-/** The findings of a run, most severe first, then by tool and place. */
+/**
+ * The findings of a run, most severe first, then by tool and place. A finding is `confirmed`
+ * when it was created so or a later `finding.confirmed` names it (F3.4): events never change.
+ */
 export function findingRows(events: readonly ConsoleEvent[]): FindingRow[] {
-  return events
-    .filter(isKnownEvent)
+  const known = events.filter(isKnownEvent);
+  const confirmed = new Set(
+    known.flatMap((event) => (event.type === 'finding.confirmed' ? [event.payload.findingId] : [])),
+  );
+  return known
     .flatMap((event) => {
       if (event.type !== 'finding.created') return [];
       const { payload } = event;
@@ -32,7 +38,7 @@ export function findingRows(events: readonly ConsoleEvent[]): FindingRow[] {
         {
           id: payload.findingId,
           severity: payload.severity,
-          status: payload.status,
+          status: confirmed.has(payload.findingId) ? 'confirmed' : payload.status,
           tool: payload.tool ?? '—',
           rule: payload.rule ?? '—',
           where:

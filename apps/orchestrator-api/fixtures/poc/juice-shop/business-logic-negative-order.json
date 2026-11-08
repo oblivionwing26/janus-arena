@@ -1,0 +1,11 @@
+{
+  "version": 1,
+  "target": "juice-shop",
+  "class": "business-logic",
+  "oracle": "price-mismatch",
+  "endpoint": "PUT /api/BasketItems/:id",
+  "steps": {
+    "kind": "order-quantity",
+    "quantity": -1
+  }
+}

@@ -14,7 +14,7 @@ More context: `docs/VISION.md` (product), `docs/adr/` (decisions), `docs/ROADMAP
 
 ## Current step
 
-**F3.4 — PoC artefacts.** Read this step in `docs/ROADMAP.md` before starting. Do not build features from later steps.
+**F3.5a — SynthLab on Juice Shop.** Read this step in `docs/ROADMAP.md` before starting. Do not build features from later steps.
 
 (Update this line every time a step is closed.)
 
@@ -31,6 +31,7 @@ pnpm typecheck
 pnpm test                     # unit + contract tests, no network, no API keys
 pnpm test:integration         # needs docker compose up
 pnpm test:sandbox             # local only: Docker + socket proxy + ShopLab clone (DockerSandbox)
+pnpm test:poc                 # replay the saved PoCs on a fresh Juice Shop sandbox (also .github/workflows/poc.yml)
 pnpm check:arch               # dependency-cruiser architecture rules
 pnpm db:migrate
 pnpm run:replay <runId|file>  # replay a run from DB or exported JSON, never calls an LLM
@@ -42,6 +43,7 @@ pnpm run:surface <target>     # HTTP surface map of a target, read from its code
 pnpm run:audit-diff <target> --a <ref> --b <ref>  # what variant B introduces; exits 1 if the gate blocks it
 pnpm run:scope <target>       # sandbox the target, verify ownership, probe the scope (no LLM, no attack)
 pnpm run:red-team <target>    # deterministic attack engine: IDOR, login bypass, XSS, business logic (no LLM)
+pnpm run:poc <runId|folder>   # replay a run's PoCs on a fresh sandbox; exits 1 if one no longer reproduces
 ```
 
 ## Repository map

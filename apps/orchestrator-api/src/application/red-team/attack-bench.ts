@@ -1,7 +1,9 @@
 import {
   newUlid,
-  type AttackVerdictEvent,
   type BlockReason,
+  type OracleName,
+  type PocSteps,
+  type ProofOfConcept,
   type RedTeamClass,
 } from '@janus/shared-kernel';
 
@@ -17,7 +19,7 @@ import type { ScopedHttpClient, ScopedReply } from '../../domain/scope/scoped-ht
 import { asSession } from '../attack/session-client.js';
 import type { RunEventRecorder } from '../run-event-recorder.js';
 
-export type OracleName = AttackVerdictEvent['payload']['oracle'];
+export type { OracleName } from '@janus/shared-kernel';
 
 const JWT = /eyJ[\w-]{4,}\.eyJ[\w-]{4,}\.[\w-]*/;
 
@@ -70,6 +72,8 @@ export interface RedTeamFinding {
   readonly endpoint: string;
   readonly attempt: number;
   readonly evidence: string;
+  /** How to reproduce it in any run (F3.4). */
+  readonly poc: ProofOfConcept;
 }
 
 export interface AttackBenchDeps {
@@ -81,7 +85,13 @@ export interface AttackBenchDeps {
   readonly limits: AttemptLimits;
   readonly orchestrator: RunEventRecorder;
   readonly agent: RunEventRecorder;
+  /** The target's name, written into each PoC. */
+  readonly targetName: string;
+  /** False when replaying PoCs: verdicts are recorded, findings are not (F3.4). */
+  readonly recordFindings?: boolean;
 }
+
+const PARAM = /:[A-Za-z][\w-]*/;
 
 /** The submitted login read from an attempt's JSON body; empty strings when there is none. */
 function submittedLogin(body: string | undefined): { email: string; password: string } {
@@ -240,7 +250,7 @@ export class AttackBench {
         viewer: { userId: attempt.as === 'b' ? this.attacker.user.userId : -1 },
         response: reply,
       });
-      await this.conclude(attempt, 'canary-leak', verdict);
+      await this.conclude(attempt, 'canary-leak', verdict, this.idorSteps(attempt, request.path));
       return verdict;
     }
     if (attempt.class === 'auth-bypass') {
@@ -250,14 +260,27 @@ export class AttackBench {
         submitted: submittedLogin(request.body),
         known: this.known,
       });
-      await this.conclude(attempt, 'authenticated-as', verdict);
+      await this.conclude(attempt, 'authenticated-as', verdict, {
+        kind: 'auth-bypass',
+        method: 'POST',
+        path: request.path,
+        body: request.body ?? '',
+      });
       return verdict;
     }
     return null;
   }
 
-  /** Records an oracle's verdict on an attempt and, when exploitable and new, a finding. */
-  async conclude(attempt: SentAttempt, oracle: OracleName, verdict: OracleVerdict): Promise<void> {
+  /**
+   * Records an oracle's verdict on an attempt and, when exploitable and new for that endpoint, a
+   * finding with the PoC that reproduces it.
+   */
+  async conclude(
+    attempt: SentAttempt,
+    oracle: OracleName,
+    verdict: OracleVerdict,
+    steps: PocSteps,
+  ): Promise<void> {
     await this.deps.orchestrator.record('attack.verdict', {
       attemptId: attempt.id,
       testType: attempt.class,
@@ -268,7 +291,7 @@ export class AttackBench {
     const already = this.findingList.some(
       (each) => each.testType === attempt.class && each.endpoint === attempt.endpoint,
     );
-    if (!verdict.exploitable || already) return;
+    if (!verdict.exploitable || already || this.deps.recordFindings === false) return;
     const findingId = newUlid();
     await this.deps.orchestrator.record('finding.created', {
       findingId,
@@ -285,7 +308,32 @@ export class AttackBench {
       endpoint: attempt.endpoint,
       attempt: attempt.number,
       evidence: verdict.evidence,
+      poc: {
+        version: 1,
+        target: this.deps.targetName,
+        class: attempt.class,
+        oracle,
+        endpoint: attempt.endpoint,
+        steps,
+      },
     });
+  }
+
+  /**
+   * An IDOR as replayable steps: the route, and which object of the victim filled its id. A run's
+   * own ids never go into a PoC; another run binds them to its own users.
+   */
+  private idorSteps(attempt: SentAttempt, path: string): PocSteps {
+    const route = attempt.endpoint.replace(/^GET /, '');
+    const index = route.split('/').findIndex((part) => PARAM.test(part));
+    const id = Number(path.split('?')[0]?.split('/')[index]);
+    const bind =
+      id === this.victim.basketId
+        ? { victim: 'basketId' as const }
+        : id === this.victim.user.userId
+          ? { victim: 'userId' as const }
+          : { offsetFromAttackerBasket: id - (this.attacker.basketId ?? 0) };
+    return { kind: 'idor', method: 'GET', route, bind };
   }
 
   private async log(

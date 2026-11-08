@@ -1,5 +1,6 @@
 import { z } from 'zod';
 
+import { oracleSchema } from '../../attack/proof-of-concept.js';
 import { testTypeSchema } from '../../scope/scope-vocabulary.js';
 import { defineEventSchema } from '../event-envelope.js';
 
@@ -11,13 +12,7 @@ export const attackVerdictEventSchema = defineEventSchema(
   z.object({
     attemptId: z.ulid(),
     testType: testTypeSchema,
-    oracle: z.enum([
-      'canary-leak',
-      'authenticated-as',
-      'script-executed',
-      'price-mismatch',
-      'duplicate-effect',
-    ]),
+    oracle: oracleSchema,
     exploitable: z.boolean(),
     evidence: z.string().max(500),
   }),

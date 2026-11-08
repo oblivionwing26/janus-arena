@@ -1,4 +1,4 @@
-import { isKnownEvent, type RedTeamClass } from '@janus/shared-kernel';
+import { isKnownEvent, proofOfConceptSchema, type RedTeamClass } from '@janus/shared-kernel';
 import { describe, expect, it } from 'vitest';
 
 import type { StaticFinding } from '../../domain/analysis/static-finding.js';
@@ -11,10 +11,11 @@ import { VerifiedScope } from '../../domain/scope/verified-scope.js';
 import type { Endpoint } from '../../domain/surface/endpoint.js';
 import { InMemoryBrowserAttack } from '../../infrastructure/attack/in-memory-browser-attack.js';
 import { InMemoryTestUsers } from '../../infrastructure/attack/in-memory-test-users.js';
+import { InMemoryArtifactStore } from '../../infrastructure/artifacts/in-memory-artifact-store.js';
 import { InMemoryEventStore } from '../../infrastructure/event-store/in-memory-event-store.js';
 import { InMemoryScopedHttp } from '../../infrastructure/scope/in-memory-scoped-http.js';
 import { ScriptedGateway, type ScriptedReply } from '../../test-support/scripted-gateway.js';
-import { RunRedTeam, type RedTeamEngine } from './run-red-team.js';
+import { pocKey, RunRedTeam, type RedTeamEngine } from './run-red-team.js';
 
 const RUN_ID = '01JC0F28CNS0000000000000AA';
 const ORIGIN = 'http://janus-red-app:3000';
@@ -84,7 +85,14 @@ class FakeShop {
   private readonly byToken = new Map<string, number>();
   private readonly emails = new Map<string, string>();
 
-  constructor(private readonly secure = false) {}
+  /**
+   * `fixedOnReplay`: the shop becomes secure once the replay's fresh users register, as if a fix
+   * had shipped between the attack and the PoC replay.
+   */
+  constructor(
+    private secure = false,
+    private readonly fixedOnReplay = false,
+  ) {}
 
   private basketOf(request: ScopedRequest): number | null {
     const token = request.headers?.authorization?.replace('Bearer ', '');
@@ -134,10 +142,14 @@ class FakeShop {
   }
 
   target(): AttackTarget {
-    const { users, baskets, byToken, emails, likedBy, secure } = this;
+    const { users, baskets, byToken, emails, likedBy } = this;
+    const secure = () => this.secure;
     return {
       users: {
-        register: (label) => users.register(label),
+        register: (label) => {
+          if (this.fixedOnReplay && users.accounts.size >= 2) this.secure = true;
+          return users.register(label);
+        },
         login: async (user) => {
           const session = await users.login(user);
           byToken.set(session.token, session.basketId ?? 0);
@@ -155,7 +167,7 @@ class FakeShop {
       businessLogic: {
         orderWithQuantity: (_session, quantity) =>
           Promise.resolve(
-            secure && quantity <= 0
+            secure() && quantity <= 0
               ? { step: { method: 'PUT', path: '/api/BasketItems/1', status: 400 }, order: null }
               : {
                   step: { method: 'PUT', path: '/api/BasketItems/1', status: 200 },
@@ -191,6 +203,7 @@ interface RunOptions {
   readonly limits?: { perEndpoint: number; total: number };
   readonly surface?: Endpoint[];
   readonly classes?: RedTeamClass[];
+  readonly artifacts?: InMemoryArtifactStore;
 }
 
 async function run(options: RunOptions = {}) {
@@ -206,6 +219,7 @@ async function run(options: RunOptions = {}) {
     http,
     target: () => shop.target(),
     browser: shop.browser(),
+    ...(options.artifacts === undefined ? {} : { artifacts: options.artifacts }),
   }).execute({
     runId: RUN_ID,
     scope,
@@ -346,6 +360,63 @@ describe('RunRedTeam deterministic engine', () => {
     expect(shop.users.accounts.size).toBe(2);
     for (const user of shop.users.accounts.values()) expect(recorded).not.toContain(user.password);
     expect(recorded).not.toMatch(/"password"/);
+  });
+});
+
+describe('RunRedTeam PoC confirmation (F3.4)', () => {
+  const ALL: RedTeamClass[] = ['idor', 'auth-bypass', 'xss', 'business-logic'];
+
+  it('saves each finding’s PoC, replays it with fresh users and confirms it', async () => {
+    const artifacts = new InMemoryArtifactStore();
+    const { result, events, shop } = await run({ classes: ALL, artifacts });
+
+    expect(result.findings).toHaveLength(5);
+    expect([...result.confirmed].sort()).toEqual(result.findings.map((f) => f.findingId).sort());
+    expect(result.unconfirmed).toEqual([]);
+    // The replay registered its own victim and attacker.
+    expect(shop.users.accounts.size).toBe(4);
+    const confirmations = events.flatMap((e) =>
+      e.type === 'finding.confirmed' ? [e.payload] : [],
+    );
+    expect(confirmations.map((c) => c.pocRef).sort()).toEqual(
+      result.findings.map((f) => pocKey(f.findingId)).sort(),
+    );
+    // The replay records attempts and verdicts, never a second finding.
+    expect(events.filter((e) => e.type === 'finding.created')).toHaveLength(5);
+
+    for (const finding of result.findings) {
+      const bytes = await artifacts.get(RUN_ID, pocKey(finding.findingId));
+      const text = new TextDecoder().decode(bytes);
+      const poc = proofOfConceptSchema.parse(JSON.parse(text));
+      expect(poc).toMatchObject({ target: 'juice-shop', class: finding.testType });
+      // A PoC never carries a run's marker, a password or a token.
+      expect(text).not.toContain(RUN_ID);
+      expect(text).not.toContain(STOLEN_JWT);
+      for (const user of shop.users.accounts.values()) expect(text).not.toContain(user.password);
+    }
+    const idor = result.findings.find((f) => f.testType === 'idor')?.poc.steps;
+    expect(idor).toEqual({
+      kind: 'idor',
+      method: 'GET',
+      route: '/rest/basket/:id',
+      bind: { victim: 'basketId' },
+    });
+  });
+
+  it('leaves a finding suspected when its PoC no longer reproduces', async () => {
+    const { result, events } = await run({
+      shop: new FakeShop(false, true),
+      classes: ['idor', 'business-logic'],
+      artifacts: new InMemoryArtifactStore(),
+    });
+
+    expect(result.findings.length).toBeGreaterThan(0);
+    expect(result.confirmed).toEqual([]);
+    expect(result.unconfirmed.map((u) => u.findingId).sort()).toEqual(
+      result.findings.map((f) => f.findingId).sort(),
+    );
+    expect(result.unconfirmed[0]?.reason).toContain('did not reproduce');
+    expect(events.filter((e) => e.type === 'finding.confirmed')).toEqual([]);
   });
 });
 
