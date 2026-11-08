@@ -3,6 +3,8 @@ import { z } from 'zod';
 import { agentActionEventSchema } from './v1/agent-action.js';
 import { agentStepEventSchema } from './v1/agent-step.js';
 import { agentThoughtEventSchema } from './v1/agent-thought.js';
+import { attackAttemptEventSchema } from './v1/attack-attempt.js';
+import { attackVerdictEventSchema } from './v1/attack-verdict.js';
 import { auditCompletedEventSchema } from './v1/audit-completed.js';
 import { budgetThresholdEventSchema } from './v1/budget-threshold.js';
 import { findingCreatedEventSchema } from './v1/finding-created.js';
@@ -44,6 +46,8 @@ const knownEventSchemas = [
   surfaceMappedEventSchema,
   scopeVerifiedEventSchema,
   scopeBlockedEventSchema,
+  attackAttemptEventSchema,
+  attackVerdictEventSchema,
 ] as const;
 
 export const janusEventSchema = z.discriminatedUnion('type', knownEventSchemas);

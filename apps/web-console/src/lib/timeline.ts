@@ -141,6 +141,21 @@ function describe(event: JanusEvent): { label: string; tone: Tone } {
         tone: outcome === 'success' ? 'ok' : outcome === 'budget_exhausted' ? 'error' : 'warning',
       };
     }
+    case 'attack.attempt': {
+      const { number, testType, as, method, path, status, blocked } = event.payload;
+      const who = as === 'anonymous' ? 'sin sesión' : `como ${as.toUpperCase()}`;
+      return {
+        label: `Intento #${String(number)} (${testType}, ${who}): ${method} ${path} → ${blocked === undefined ? String(status ?? '?') : `bloqueado (${blocked})`}`,
+        tone: blocked === undefined ? 'neutral' : 'warning',
+      };
+    }
+    case 'attack.verdict': {
+      const { testType, oracle, exploitable, evidence } = event.payload;
+      return {
+        label: `Oráculo ${oracle} (${testType}): ${exploitable ? 'EXPLOTABLE' : 'no explotable'} · ${evidence}`,
+        tone: exploitable ? 'error' : 'neutral',
+      };
+    }
     case 'scope.verified': {
       const { target, origins } = event.payload;
       return {

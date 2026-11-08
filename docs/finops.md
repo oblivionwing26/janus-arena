@@ -31,6 +31,7 @@ history). The measure is ~2,850, at the low end: the observation builder keeps p
 | F1.11 A/B, baseline (Sonnet)                    |        4 |            13.0 |         0.032 |
 | F2.3 UI Engineer (Sonnet), per seeded flaw      |        3 |             4.0 |         0.037 |
 | F2.4 automatic A/B, whole command (coupon task) |       29 |               — |  0.59 (total) |
+| F3.3 Red Team agent, declined by the provider   |        1 |             1.0 |         0.013 |
 
 Steps per session dominate the bill. In F1.9 three sessions took 53–60 steps because the
 baseline bounced between cart and checkout (see the F1.9 note in the ROADMAP); without them the
