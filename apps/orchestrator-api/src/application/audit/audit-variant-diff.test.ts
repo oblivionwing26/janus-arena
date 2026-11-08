@@ -94,6 +94,14 @@ describe('AuditVariantDiff', () => {
     const created = events.flatMap((event) =>
       event.type === 'finding.created' ? [event.payload.title] : [],
     );
+    expect(
+      events.flatMap((event) =>
+        event.type === 'finding.created' ? [[event.payload.tool, event.payload.rule]] : [],
+      ),
+    ).toEqual([
+      ['semgrep', 'janus.eval'],
+      ['surface-map', 'new-idor-lead'],
+    ]);
     expect(created).toEqual([
       'B introduces semgrep: janus.eval at src/app.ts:4',
       'B introduces GET /api/orders/:id/invoice: new endpoint with a session but no owner check (IDOR lead)',
@@ -107,13 +115,24 @@ describe('AuditVariantDiff', () => {
     });
   });
 
-  it('lets a harmless B pass, with nothing recorded but the verdict', async () => {
+  it('lets a harmless B pass, with nothing recorded but both surfaces and the verdict', async () => {
     const { result, events } = await audit({
       'src/app.ts': 'export const a = 2;\nconst legacy = eval(code);\n',
       'routes.txt': 'GET /api/orders/:id yes yes\n',
     });
 
     expect(result.verdict).toEqual({ blocked: false, high: 0, critical: 0, reasons: [] });
-    expect(events.map((event) => event.type)).toEqual(['audit.completed']);
+    expect(events.map((event) => event.type)).toEqual([
+      'surface.mapped',
+      'surface.mapped',
+      'audit.completed',
+    ]);
+    const surfaces = events.flatMap((event) =>
+      event.type === 'surface.mapped' ? [event.payload] : [],
+    );
+    expect(surfaces.map((surface) => [surface.side, surface.endpoints.length])).toEqual([
+      ['base', 1],
+      ['variant', 1],
+    ]);
   });
 });

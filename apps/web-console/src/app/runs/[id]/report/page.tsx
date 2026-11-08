@@ -6,6 +6,9 @@ import { useEffect, useState } from 'react';
 
 import { FunnelView } from '@/components/funnel-view';
 import { HeatmapView } from '@/components/heatmap-view';
+import { useRunEvents } from '@/components/use-run-events';
+import { VariantPatches } from '@/components/variant-patches';
+import { variantPatches, variantRunOf } from '@/lib/variant';
 import { synthlabReportSchema, type SynthlabReport } from '@janus/shared-kernel';
 
 const eur = new Intl.NumberFormat('es-ES', {
@@ -68,6 +71,25 @@ function Success({ success }: { success: SynthlabReport['success'] }) {
           </strong>
         </p>
       )}
+    </>
+  );
+}
+
+/** The generated variant B behind an A/B run (F2.8): the UI Engineer run named by B's branch. */
+function GeneratedVariant({ runId }: { runId: string }) {
+  const { events } = useRunEvents(runId);
+  const variantRun = events === null ? null : variantRunOf(events);
+  const variant = useRunEvents(variantRun);
+  if (variantRun === null) return null;
+  return (
+    <>
+      <h2>Variante B</h2>
+      <p className="muted">
+        B la generó el UI Engineer en el run{' '}
+        <Link href={`/runs/${variantRun}/variant`}>{variantRun}</Link>.
+      </p>
+      {variant.error !== null && <p role="alert">{variant.error}</p>}
+      {variant.events !== null && <VariantPatches patches={variantPatches(variant.events)} />}
     </>
   );
 }
@@ -166,6 +188,8 @@ export default function RunReportPage() {
 
           <h2>Embudo por variante</h2>
           <FunnelView funnel={report.funnel} />
+
+          <GeneratedVariant runId={id} />
 
           <h2>Coste</h2>
           <p>

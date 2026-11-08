@@ -438,10 +438,12 @@ Nota F2.7: `AuditVariantDiff` clona A y B (B puede venir de un clon local `file:
 
 ### F2.8 · Consola: diff y hallazgos — M (5–7 h)
 
-- [ ] Vista del diff de la Variante B junto al A/B
-- [ ] Lista de hallazgos estáticos filtrable por herramienta y severidad
-- [ ] Vista del mapa de superficie como tabla
-- [ ] Etiqueta `v0.3.0` y `Current step` a F3.1
+- [x] Vista del diff de la Variante B junto al A/B
+- [x] Lista de hallazgos estáticos filtrable por herramienta y severidad
+- [x] Vista del mapa de superficie como tabla
+- [x] Etiqueta `v0.3.0` y `Current step` a F3.1
+
+Nota F2.8: dos páginas nuevas en la consola, que leen los eventos del run (el mismo flujo `?replay=1` del replay) y los convierten en filas con funciones puras de `lib/` con sus tests. **`/runs/<id>/variant`** muestra los parches del UI Engineer con el diff coloreado por líneas y números de línea, sus `verification.result` y el resumen del agente, marcado como texto del agente y no como evidencia (`patch.proposed` gana el campo opcional `summary`; los runs anteriores no lo tienen). **`/runs/<id>/security`** muestra el veredicto de la auditoría diferencial con sus motivos, los hallazgos filtrables por herramienta y severidad (`finding.created` gana `tool`, `rule`, `file` y `line`, opcionales) y el mapa de superficie como tabla, con A y B en pestañas, filtros por sesión y propietario y las pistas de IDOR primero y resaltadas. Para eso la auditoría registra un evento nuevo, `surface.mapped`, por lado. El informe A/B enlaza el diff cuando B es una rama `janus/variant-<runId>`: `run.started` registra ahora las variantes (`key`, `ref`, `repo`), así que solo funciona en runs nuevos; está cubierto por tests. La página del run enlaza "Variante B" y "Seguridad" solo cuando tiene sus datos. **Hecho cuando**, comprobado en el navegador: el diff del run del UI Engineer `01M6VCWFPZ9D0E17ZSRQCN63NQ` (cupón, `build-checks` en verde) y la auditoría `01M6WD3T8R22GERT0HX1ZSPRK3` de ShopLab `main` contra una rama local con `GET /api/orders/[id]/invoice` inyectado: B bloqueada, 1 hallazgo `surface-map/new-idor-lead` (high), A con 12 endpoints y 0 pistas, B con 13 y la pista primero. Sin gasto de API. La etiqueta `v0.3.0` se crea tras el merge y cierra F2.
 
 ## F3 · Red Team, Blue Team y gate (85–120 h)
 

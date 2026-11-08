@@ -49,6 +49,22 @@ const invalidEvents: Record<JanusEventType, [string, Record<string, unknown>]> =
   ],
   'page.vitals': ['a negative CLS', withPayload('page.vitals', { cls: -0.1 })],
   'session.ended': ['an unknown outcome', withPayload('session.ended', { outcome: 'crashed' })],
+  'surface.mapped': [
+    'an owner check that is neither boolean nor unknown',
+    withPayload('surface.mapped', {
+      endpoints: [
+        {
+          method: 'GET',
+          route: '/x',
+          auth: true,
+          ownerCheck: 'maybe',
+          params: [],
+          file: 'a.ts',
+          line: 1,
+        },
+      ],
+    }),
+  ],
   'audit.completed': [
     'a sha that is not a full git sha',
     withPayload('audit.completed', { variant: { ref: 'main', sha: 'abc' } }),
@@ -83,6 +99,7 @@ describe('v1 event schemas', () => {
         'session.started',
         'task.verified',
         'audit.completed',
+        'surface.mapped',
       ].sort(),
     );
   });

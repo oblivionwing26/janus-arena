@@ -14,6 +14,8 @@ export const patchProposedEventSchema = defineEventSchema(
     findingId: z.ulid().optional(),
     branch: janusBranch,
     diff: z.string().min(1),
+    // The agent's own account of the change (F2.8): agent text for humans, never evidence.
+    summary: z.string().max(2000).optional(),
   }),
 );
 

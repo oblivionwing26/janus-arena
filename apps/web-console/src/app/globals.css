@@ -433,3 +433,172 @@ input {
   margin-left: auto;
   font-variant-numeric: tabular-nums;
 }
+
+/* Variant diff and security pages (F2.8) */
+.patch {
+  margin: 12px 0 24px;
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  overflow: hidden;
+}
+
+.patch header {
+  padding: 8px 12px;
+  background: var(--surface);
+  border-bottom: 1px solid var(--border);
+}
+
+.checks {
+  margin: 6px 0 0;
+  padding: 0;
+  list-style: none;
+  font-size: 0.85rem;
+}
+
+.checks .ok {
+  color: var(--ok);
+}
+
+.checks .error {
+  color: var(--error);
+}
+
+.diff {
+  width: 100%;
+  border-collapse: collapse;
+  font-family: ui-monospace, monospace;
+  font-size: 0.8rem;
+}
+
+.diff td {
+  padding: 0 8px;
+  white-space: pre-wrap;
+  word-break: break-all;
+  border: none;
+}
+
+.diff .num {
+  width: 1%;
+  color: var(--muted);
+  text-align: right;
+  user-select: none;
+}
+
+.diff .sign {
+  display: inline-block;
+  width: 1.2em;
+  user-select: none;
+}
+
+.diff-file td {
+  padding: 6px 8px;
+  font-weight: 600;
+  background: var(--surface);
+}
+
+.diff-hunk td {
+  color: var(--accent);
+  background: color-mix(in srgb, var(--accent) 8%, transparent);
+}
+
+.diff-add td {
+  background: color-mix(in srgb, var(--ok) 15%, transparent);
+}
+
+.diff-remove td {
+  background: color-mix(in srgb, var(--error) 15%, transparent);
+}
+
+.agent-text {
+  margin: 12px 0 0;
+  padding: 8px 12px;
+  border-left: 3px solid var(--muted);
+  font-style: italic;
+  white-space: pre-wrap;
+}
+
+.agent-label {
+  display: block;
+  margin-bottom: 4px;
+  font-size: 0.75rem;
+  font-style: normal;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+
+.verdict {
+  padding: 8px 12px;
+  border-radius: 6px;
+}
+
+.verdict-block {
+  border: 1px solid var(--error);
+  background: color-mix(in srgb, var(--error) 10%, transparent);
+}
+
+.verdict-pass {
+  border: 1px solid var(--ok);
+  background: color-mix(in srgb, var(--ok) 10%, transparent);
+}
+
+.filters {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 4px 14px;
+  margin: 8px 0;
+  border: none;
+  padding: 0;
+}
+
+.filters legend {
+  float: left;
+  margin-right: 8px;
+  font-weight: 600;
+}
+
+.severity {
+  padding: 1px 6px;
+  border-radius: 4px;
+  font-size: 0.8rem;
+}
+
+.severity-critical,
+.severity-high {
+  color: var(--error);
+  border: 1px solid var(--error);
+}
+
+.severity-medium {
+  color: var(--warning);
+  border: 1px solid var(--warning);
+}
+
+.severity-low,
+.severity-info {
+  color: var(--muted);
+  border: 1px solid var(--border);
+}
+
+.tabs {
+  display: flex;
+  gap: 4px;
+  margin: 8px 0;
+}
+
+.tabs [aria-selected='true'] {
+  border-color: var(--accent);
+  font-weight: 600;
+}
+
+.idor-lead td {
+  background: color-mix(in srgb, var(--warning) 14%, transparent);
+}
+
+.idor-lead td:first-child {
+  box-shadow: inset 3px 0 0 var(--warning);
+}
+
+.table-scroll {
+  overflow-x: auto;
+}

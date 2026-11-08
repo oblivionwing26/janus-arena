@@ -5,6 +5,7 @@ import { useParams } from 'next/navigation';
 import { useMemo } from 'react';
 
 import { ExportActions } from '@/components/export-actions';
+import { RunLinks } from '@/components/run-links';
 import { RunViewer } from '@/components/run-viewer';
 import { LiveSource } from '@/lib/sources';
 
@@ -22,7 +23,12 @@ export default function RunPage() {
         key={id}
         source={source}
         mode="live"
-        actions={(events) => <ExportActions runId={id} events={events} />}
+        actions={(events) => (
+          <>
+            <RunLinks runId={id} events={events} />
+            <ExportActions runId={id} events={events} />
+          </>
+        )}
       />
     </>
   );

@@ -16,6 +16,7 @@ import { runCompletedEventSchema } from './v1/run-completed.js';
 import { runStartedEventSchema } from './v1/run-started.js';
 import { sessionEndedEventSchema } from './v1/session-ended.js';
 import { sessionStartedEventSchema } from './v1/session-started.js';
+import { surfaceMappedEventSchema } from './v1/surface-mapped.js';
 import { taskVerifiedEventSchema } from './v1/task-verified.js';
 import { verificationResultEventSchema } from './v1/verification-result.js';
 
@@ -38,6 +39,7 @@ const knownEventSchemas = [
   sessionStartedEventSchema,
   taskVerifiedEventSchema,
   auditCompletedEventSchema,
+  surfaceMappedEventSchema,
 ] as const;
 
 export const janusEventSchema = z.discriminatedUnion('type', knownEventSchemas);
