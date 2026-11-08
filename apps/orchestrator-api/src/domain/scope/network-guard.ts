@@ -79,6 +79,16 @@ export class NetworkGuard {
     return { allowed: true };
   }
 
+  /** How long until one more request fits in the policy's rate; 0 when it fits now. */
+  waitMs(): number {
+    const now = this.now();
+    this.prune(now);
+    const oldest = this.sent[0];
+    return this.sent.length < this.policy.maxRequestsPerSecond || oldest === undefined
+      ? 0
+      : Math.max(0, oldest + WINDOW_MS - now);
+  }
+
   /** The blocked request as it may be recorded: origin and path only. */
   describe(request: GuardedRequest, reason: BlockReason): BlockedRequest {
     let origin = 'invalid-url';
@@ -113,9 +123,12 @@ export class NetworkGuard {
     }
     if (!this.policy.allowedTests.includes(request.testType)) return 'test-not-allowed';
     if (isOffensive(request.testType) && !this.verified) return 'not-verified';
-    const now = this.now();
-    while (this.sent.length > 0 && (this.sent[0] ?? 0) <= now - WINDOW_MS) this.sent.shift();
+    this.prune(this.now());
     if (this.sent.length >= this.policy.maxRequestsPerSecond) return 'rate-limited';
     return null;
+  }
+
+  private prune(now: number): void {
+    while (this.sent.length > 0 && (this.sent[0] ?? 0) <= now - WINDOW_MS) this.sent.shift();
   }
 }

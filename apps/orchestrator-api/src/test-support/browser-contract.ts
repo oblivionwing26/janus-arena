@@ -167,6 +167,8 @@ export function describeBrowserContract(name: string, harness: BrowserContractHa
 
         const first = await browser.drainTelemetry(session);
         expect(Array.isArray(first.errors)).toBe(true);
+        // An ordinary page opens no dialog: the XSS oracle sees only injected script.
+        expect(first.dialogs).toEqual([]);
         expect((await browser.drainTelemetry(session)).errors).toEqual([]);
       } finally {
         await browser.close(session);

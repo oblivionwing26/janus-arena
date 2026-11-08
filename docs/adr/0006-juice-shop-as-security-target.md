@@ -54,3 +54,7 @@ is OWASP Juice Shop, run unmodified inside the sandbox with its own `ScopePolicy
   (F3.6) moves to Juice Shop's login (brute-force protection against a persona that mistypes).
 - F4.2 stays on ShopLab: rate limiting and step-up verification are legitimate defences, not
   insecure code.
+- F3.2: `JuiceShopChallenges` is the only reader of that ground truth. It lives in
+  infrastructure, uses its own guard for `/api/Challenges` alone and is never wired to an agent.
+  Nuclei and ZAP were moved to F3.11 as optional, because their crawlers ignore the guard and
+  would read the ground truth.
