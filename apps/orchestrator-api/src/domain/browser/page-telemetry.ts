@@ -22,9 +22,19 @@ export interface PageVitalsRecord {
   readonly inpMs?: number | undefined;
 }
 
+/** A dialog the page opened (alert, confirm, prompt...); dismissed at once (F3.2). */
+export interface PageDialogRecord {
+  readonly kind: string;
+  /** At most 200 characters. */
+  readonly message: string;
+  readonly url: string;
+}
+
 export interface PageTelemetry {
   readonly errors: readonly PageErrorRecord[];
   readonly vitals: PageVitalsRecord | null;
   /** Requests the network guard refused since the last drain (F3.1); absent on old tapes. */
   readonly blocked?: readonly BlockedRequest[];
+  /** Dialogs since the last drain, for the XSS oracle (F3.2); absent on old tapes. */
+  readonly dialogs?: readonly PageDialogRecord[];
 }

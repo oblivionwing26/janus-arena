@@ -465,12 +465,13 @@ Nota F3.1: en dominio, `ScopePolicy` (orígenes exactos, rutas excluidas con `*`
 
 ### F3.2 · Herramientas de ataque — M (8–10 h)
 
-- [ ] Cliente HTTP con sesiones por usuario de prueba (login como A y como B)
-- [ ] Harness de carrera: N peticiones idénticas lanzadas a la vez por código, con resultado agregado
-- [ ] Adaptador Nuclei (plantillas web) y ZAP baseline en contenedor, ambos dentro de la red del sandbox
-- [ ] Oráculos: `canaryLeak(userA, response)` (cesta de A vista por B), `authenticatedAs(token, user)` (sesión sin su contraseña), `scriptExecuted(page)` (marcador inyectado), `priceMismatch(order)` (total negativo o que no cuadra) y `duplicateEffect` (la carrera)
+- [x] Cliente HTTP con sesiones por usuario de prueba (login como A y como B)
+- [x] Harness de carrera: N peticiones idénticas lanzadas a la vez por código, con resultado agregado
+- [x] Oráculos: `canaryLeak(userA, response)` (cesta de A vista por B), `authenticatedAs(token, user)` (sesión sin su contraseña), `scriptExecuted(page)` (marcador inyectado), `priceMismatch(order)` (total negativo o que no cuadra) y `duplicateEffect` (la carrera)
 
 Hecho cuando: cada oráculo detecta su vulnerabilidad de Juice Shop ejecutando el exploit a mano desde un test, y su veredicto coincide con el reto "resuelto" del propio Juice Shop (leído solo por el orquestador).
+
+Nota F3.2: Nuclei y ZAP salieron del paso (quedan como opcionales en F3.11): son dependencias pesadas y sus rastreadores no respetan el guard, así que leerían la verdad de Juice Shop. **Usuarios de prueba:** `TestUserPort` registra cuentas sintéticas por run (`janus-<rol>-<ulid>@janus.test`, contraseña aleatoria que no se registra en ningún evento) y las conecta; `asSession` envía cada petición del cliente con guard como ese usuario. **Carrera:** `race()` lanza N peticiones idénticas a la vez (2 a 50) y agrega estados, cuerpos distintos, bloqueos y fallos; cada petición pasa el guard como `race`, así que nunca supera el ritmo del alcance. Para que los flujos secuenciales no choquen con ese ritmo, las peticiones normales esperan hueco en la ventana (hasta 2 s) en lugar de fallar; las de carrera no esperan nunca. **Oráculos** (funciones puras en `domain/oracles`, con su caso positivo, negativo y falso positivo típico): `canaryLeak` (B recibe un registro de A con un canario de A; una cesta vacía de otro no es fuga), `authenticatedAs` (se abre la sesión de una cuenta cuyas credenciales no se presentaron; la evidencia nunca lleva la contraseña), `scriptExecuted` (un diálogo con el marcador único del run; el navegador ahora registra y cierra los diálogos en su telemetría), `priceMismatch` (total negativo, cantidad no positiva o total que no cuadra con precio × cantidad + envío − descuento) y `duplicateEffect` (el mismo actor más veces de las permitidas). La verdad de Juice Shop la lee `JuiceShopChallenges`, solo desde el orquestador y con su propio guard; ningún agente la recibe. **Hecho cuando**, en `pnpm test:sandbox` contra la imagen real (3 ejecuciones seguidas en verde): con el alcance verificado de F3.1, cada exploit hecho a mano da `exploitable` y Juice Shop marca su reto como resuelto (`basketAccessChallenge`, `loginAdminChallenge`, `localXssChallenge`, `negativeOrderChallenge`, `timingAttackChallenge`); cada control (B leyendo su cesta, un login correcto, una búsqueda normal, un pedido honrado, un solo like) da `no explotable` y deja el reto sin resolver. El XSS lleva la carga canónica de Juice Shop y otra con nuestro marcador, cada iframe cerrado (sin cerrar, el segundo era texto de reserva del primero y no se ejecutaba). Sin gasto de API.
 
 ### F3.3 · Agente Red Team — L (14–20 h)
 
@@ -570,6 +571,7 @@ Hecho cuando: el replay del gate completo se entiende sin explicación verbal.
 - [ ] Ejecutar Red Team con alcance limitado a las clases implementadas
 - [ ] Medir recall frente a todos los retos de Juice Shop de esas clases (no solo las 4 de referencia) en 3 ejecuciones; anotar coste y tiempo
 - [ ] Opcional: subconjunto de la suite Argus
+- [ ] Opcional (movido desde F3.2): Nuclei y ZAP baseline en contenedor dentro del sandbox, solo si sus rastreadores pueden excluir la verdad de Juice Shop (`/api/Challenges`, `/snippets/**`) y se aprueban las dependencias
 
 Hecho cuando: hay una tabla de resultados reproducible con el comando exacto para obtenerla.
 

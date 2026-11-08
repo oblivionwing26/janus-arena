@@ -24,6 +24,7 @@ import type {
 } from '../../domain/browser/browser-port.js';
 import type {
   PageActivity,
+  PageDialogRecord,
   PageErrorRecord,
   PageTelemetry,
 } from '../../domain/browser/page-telemetry.js';
@@ -69,6 +70,8 @@ interface Session {
   readonly guard: NetworkGuard;
   /** Requests the guard refused since the last drainTelemetry(). */
   readonly blocked: BlockedRequest[];
+  /** Dialogs the page opened since the last drainTelemetry(); each is dismissed at once. */
+  readonly dialogs: PageDialogRecord[];
 }
 
 export interface PlaywrightRunnerOptions {
@@ -118,9 +121,18 @@ export class PlaywrightRunner implements BrowserPort {
     const page = await context.newPage();
     page.setDefaultTimeout(this.actionTimeoutMs);
     const errors = watchPageErrors(page);
+    const dialogs: PageDialogRecord[] = [];
+    page.on('dialog', (dialog) => {
+      dialogs.push({
+        kind: dialog.type(),
+        message: dialog.message().slice(0, 200),
+        url: page.url(),
+      });
+      void dialog.dismiss().catch(() => undefined);
+    });
     const network = new NetworkQuiet(page);
     const id = `pw-${String(this.nextId++)}`;
-    this.sessions.set(id, { context, page, errors, network, guard, blocked });
+    this.sessions.set(id, { context, page, errors, network, guard, blocked, dialogs });
     return id;
   }
 
@@ -235,7 +247,7 @@ export class PlaywrightRunner implements BrowserPort {
   }
 
   async drainTelemetry(sessionId: string): Promise<PageTelemetry> {
-    const { page, errors, blocked } = this.session(sessionId);
+    const { page, errors, blocked, dialogs } = this.session(sessionId);
     const drained = errors.splice(0);
     const vitals = (await this.instrumentation(sessionId))?.vitals ?? {};
     const measured = Object.values(vitals).some((value) => value !== undefined);
@@ -243,6 +255,7 @@ export class PlaywrightRunner implements BrowserPort {
       errors: drained,
       vitals: measured ? { url: page.url(), ...vitals } : null,
       blocked: blocked.splice(0),
+      dialogs: dialogs.splice(0),
     };
   }
 

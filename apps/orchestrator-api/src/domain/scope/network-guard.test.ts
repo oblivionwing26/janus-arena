@@ -77,6 +77,21 @@ describe('NetworkGuard', () => {
     expect(probe()).toEqual({ allowed: true });
   });
 
+  it('says how long until the next request fits the rate', () => {
+    let now = 10_000;
+    const guard = new NetworkGuard(verified(), () => now);
+    const probe = () => guard.check({ method: 'GET', url: `${ORIGIN}/`, testType: 'idor' });
+
+    expect(guard.waitMs()).toBe(0);
+    probe();
+    now += 200;
+    probe();
+    probe();
+    expect(guard.waitMs()).toBe(800);
+    now += 800;
+    expect(guard.waitMs()).toBe(0);
+  });
+
   it('describes a blocked request without its query string', () => {
     const guard = new NetworkGuard(policy);
 

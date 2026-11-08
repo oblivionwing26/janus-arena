@@ -279,6 +279,8 @@ export class ScriptedBrowser implements BrowserPort {
       return {
         errors: session.errors.splice(0),
         blocked: session.blocked.splice(0),
+        // Scripted pages run no script, so they never open a dialog.
+        dialogs: [],
         vitals: vitals === undefined ? null : { url: this.url(session), ...vitals },
       };
     });
