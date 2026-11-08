@@ -73,6 +73,10 @@ export class AuditVariantDiff {
         severity: finding.severity,
         title: `B introduces ${finding.tool}: ${finding.rule} at ${finding.file}${finding.line > 0 ? `:${String(finding.line)}` : ''}`,
         status: 'suspected',
+        tool: finding.tool,
+        rule: finding.rule,
+        file: finding.file,
+        line: finding.line,
       });
     }
     for (const change of endpoints) {
@@ -82,6 +86,29 @@ export class AuditVariantDiff {
         severity: change.severity,
         title: `B introduces ${change.endpoint.method} ${change.endpoint.route}: ${change.reason}`,
         status: 'suspected',
+        tool: 'surface-map',
+        rule: change.change,
+        file: change.endpoint.declaredAt.file,
+        line: change.endpoint.declaredAt.line,
+      });
+    }
+    for (const [side, scanned, ref] of [
+      ['base', base, input.base.ref],
+      ['variant', variant, input.variant.ref],
+    ] as const) {
+      await recorder.record('surface.mapped', {
+        side,
+        ref,
+        sha: scanned.sha,
+        endpoints: scanned.endpoints.slice(0, 1000).map((endpoint) => ({
+          method: endpoint.method,
+          route: endpoint.route.slice(0, 300),
+          auth: endpoint.auth,
+          ownerCheck: endpoint.ownerCheck,
+          params: endpoint.params.slice(0, 50).map((param) => param.slice(0, 100)),
+          file: (endpoint.handler ?? endpoint.declaredAt).file,
+          line: (endpoint.handler ?? endpoint.declaredAt).line,
+        })),
       });
     }
     const result = {

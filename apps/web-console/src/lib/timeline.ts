@@ -141,6 +141,14 @@ function describe(event: JanusEvent): { label: string; tone: Tone } {
         tone: outcome === 'success' ? 'ok' : outcome === 'budget_exhausted' ? 'error' : 'warning',
       };
     }
+    case 'surface.mapped': {
+      const { side, ref, endpoints } = event.payload;
+      const leads = endpoints.filter((e) => e.auth && e.ownerCheck === false).length;
+      return {
+        label: `Superficie de ${side === 'base' ? 'A' : 'B'} (${ref}): ${String(endpoints.length)} endpoints, ${String(leads)} pistas de IDOR`,
+        tone: leads > 0 ? 'warning' : 'neutral',
+      };
+    }
     case 'audit.completed': {
       const { introduced, blocked } = event.payload;
       return {

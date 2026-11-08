@@ -120,7 +120,14 @@ export class StartRun {
       variantKeys: variants.map((variant) => variant.key),
       ...(input.concurrency === undefined ? {} : { concurrency: input.concurrency }),
     });
-    await recorder.record('run.started', { budget: input.budget });
+    await recorder.record('run.started', {
+      budget: input.budget,
+      variants: input.variants.map(({ key, ref, repo }) => ({
+        key,
+        ref,
+        ...(repo === undefined ? {} : { repo }),
+      })),
+    });
 
     const launched = this.launch(runId, variants, input, recorder);
     return { runId, launched };

@@ -107,7 +107,11 @@ describe('GenerateVariantPatch', () => {
       .find((event) => event.type === 'patch.proposed');
     expect(proposed).toMatchObject({
       actor: { agentId: 'ui-engineer-z1', role: 'ui-engineer' },
-      payload: { author: 'ui-engineer', branch: `janus/variant-${RUN_ID}` },
+      payload: {
+        author: 'ui-engineer',
+        branch: `janus/variant-${RUN_ID}`,
+        summary: 'Coupon field in sight.',
+      },
     });
     expect(
       result.status === 'proposed' && proposed?.type === 'patch.proposed' && proposed.payload.diff,

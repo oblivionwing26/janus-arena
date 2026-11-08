@@ -61,6 +61,7 @@ export {
   sessionStartedEventSchema,
   type SessionStartedEvent,
 } from './events/v1/session-started.js';
+export { surfaceMappedEventSchema, type SurfaceMappedEvent } from './events/v1/surface-mapped.js';
 export { taskVerifiedEventSchema, type TaskVerifiedEvent } from './events/v1/task-verified.js';
 export {
   verificationResultEventSchema,

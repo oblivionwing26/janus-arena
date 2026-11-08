@@ -63,6 +63,22 @@ export const validEvents: Record<JanusEventType, Record<string, unknown>> = {
     { role: 'navigator', model: 'claude-haiku-5-5', durationMs: 900, requestHash: 'sha256:abc' },
     { actor: { agentId: 'persona-ana-1', role: 'navigator' }, cost: sampleCost },
   ),
+  'surface.mapped': envelope('surface.mapped', {
+    side: 'variant',
+    ref: 'janus/variant-01JBZ7Q8K5V4W3X2Y1Z0ABCDEF',
+    sha: 'b'.repeat(40),
+    endpoints: [
+      {
+        method: 'GET',
+        route: '/api/orders/:id',
+        auth: true,
+        ownerCheck: true,
+        params: ['id'],
+        file: 'src/app/api/orders/[id]/route.ts',
+        line: 12,
+      },
+    ],
+  }),
   'audit.completed': envelope('audit.completed', {
     base: { ref: 'main', sha: 'a'.repeat(40) },
     variant: { ref: 'janus/variant-01JBZ7Q8K5V4W3X2Y1Z0ABCDEF', sha: 'b'.repeat(40) },

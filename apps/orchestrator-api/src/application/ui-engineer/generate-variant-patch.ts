@@ -154,7 +154,13 @@ export class GenerateVariantPatch {
     const patchId = newUlid();
     await new RunEventRecorder(store, input.runId, { agentId, role: 'ui-engineer' }).record(
       'patch.proposed',
-      { patchId, author: 'ui-engineer', branch, diff },
+      {
+        patchId,
+        author: 'ui-engineer',
+        branch,
+        diff,
+        ...(result.summary === '' ? {} : { summary: result.summary.slice(0, 2000) }),
+      },
     );
     return {
       status: 'proposed',

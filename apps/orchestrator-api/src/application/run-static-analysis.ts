@@ -47,6 +47,10 @@ export class RunStaticAnalysis {
         severity: finding.severity,
         title: `${finding.tool}: ${finding.rule} at ${finding.file}${finding.line > 0 ? `:${String(finding.line)}` : ''}`,
         status: 'suspected',
+        tool: finding.tool,
+        rule: finding.rule,
+        file: finding.file,
+        line: finding.line,
       });
     }
     return findings;

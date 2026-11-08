@@ -72,7 +72,12 @@ describe('POST /runs with a run config', () => {
 
     expect(response.statusCode).toBe(202);
     const { runId } = response.json<{ runId: string }>();
-    expect((await adapters.eventStore.readRun(runId))[0]?.type).toBe('run.started');
+    const [started] = await adapters.eventStore.readRun(runId);
+    expect(started?.type).toBe('run.started');
+    // F2.8: the variants are on the record, so the console can find a generated B.
+    expect(started?.payload).toMatchObject({
+      variants: config.variants.map(({ id, ref }) => ({ key: id, ref })),
+    });
   });
 
   it.each([
