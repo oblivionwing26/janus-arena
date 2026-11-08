@@ -14,7 +14,7 @@ More context: `docs/VISION.md` (product), `docs/adr/` (decisions), `docs/ROADMAP
 
 ## Current step
 
-**F2.7 — Differential audit.** Read this step in `docs/ROADMAP.md` before starting. Do not build features from later steps.
+**F2.8 — Console: diff and findings.** Read this step in `docs/ROADMAP.md` before starting. Do not build features from later steps.
 
 (Update this line every time a step is closed.)
 
@@ -39,6 +39,7 @@ pnpm run:report <runId|file>  # SynthLab report (heatmap zones, funnel, success,
 pnpm run:ui-engineer <runId|file> --zone <rank>  # UI Engineer patch + checks + commit (calls the API)
 pnpm run:ab-auto <runs/x.yaml>  # discovery on A, generated B, paired A/B report (needs pnpm dev; calls the API)
 pnpm run:surface <target>     # HTTP surface map of a target, read from its code (no LLM)
+pnpm run:audit-diff <target> --a <ref> --b <ref>  # what variant B introduces; exits 1 if the gate blocks it
 ```
 
 ## Repository map

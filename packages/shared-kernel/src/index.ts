@@ -31,6 +31,10 @@ export { agentActionEventSchema, type AgentActionEvent } from './events/v1/agent
 export { agentStepEventSchema, type AgentStepEvent } from './events/v1/agent-step.js';
 export { agentThoughtEventSchema, type AgentThoughtEvent } from './events/v1/agent-thought.js';
 export {
+  auditCompletedEventSchema,
+  type AuditCompletedEvent,
+} from './events/v1/audit-completed.js';
+export {
   budgetThresholdEventSchema,
   type BudgetThresholdEvent,
 } from './events/v1/budget-threshold.js';

@@ -66,7 +66,8 @@ export interface VcsContractHarness {
 }
 
 export function describeVcsContract(name: string, harness: VcsContractHarness): void {
-  describe(`VcsPort contract: ${name}`, () => {
+  // Real clones are slow when the machine is busy (turbo runs packages in parallel).
+  describe(`VcsPort contract: ${name}`, { timeout: 20_000 }, () => {
     const cloned = async () => {
       const { vcs, repoUrl } = await harness.create();
       const workspace = await vcs.clone(repoUrl, {

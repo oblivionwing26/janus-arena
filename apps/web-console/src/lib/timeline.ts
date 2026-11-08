@@ -141,6 +141,13 @@ function describe(event: JanusEvent): { label: string; tone: Tone } {
         tone: outcome === 'success' ? 'ok' : outcome === 'budget_exhausted' ? 'error' : 'warning',
       };
     }
+    case 'audit.completed': {
+      const { introduced, blocked } = event.payload;
+      return {
+        label: `Auditoría diferencial: ${blocked ? 'B bloqueada' : 'B pasa'} (${String(introduced.findings)} hallazgos y ${String(introduced.endpoints)} endpoints nuevos; ${String(introduced.high + introduced.critical)} altos o críticos)`,
+        tone: blocked ? 'error' : 'ok',
+      };
+    }
     case 'verification.result':
       return {
         label: `Verificación ${event.payload.verifier}: ${event.payload.passed ? 'ok' : 'falla'}`,
