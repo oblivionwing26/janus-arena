@@ -1,0 +1,22 @@
+# F3.5a smoke run: the competent baseline alone, once, buying on Juice Shop. Checks the whole
+# path (sandbox, quiet mode, shopper details, the order oracle) before spending on personas.
+#   pnpm run:start runs/juice-shop-smoke.yaml
+
+target: juice-shop
+variants:
+  - { id: a, ref: image }
+personas: []
+seeds: [1]
+tasks:
+  - id: buy-apple-juice
+    # A returning customer: Juice Shop never asks an anonymous shopper to sign in (its basket just
+    # stays blank), so the scenario starts from the shopper's own intention to use their account.
+    goal: Sign in to your account, then buy one "Apple Juice (1000ml)" and have it delivered to your home address.
+    expect:
+      items: [{ product: Apple Juice (1000ml), quantity: 1 }]
+# Juice Shop's checkout is long: account, address, delivery, card.
+maxSteps: 70
+budget:
+  maxTokens: 1500000
+  maxEur: 0.4
+concurrency: 1

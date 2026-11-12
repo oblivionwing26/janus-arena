@@ -961,7 +961,38 @@
     }
   },
   {
+    "method": "pageActivity",
+    "result": {
+      "documentId": "5ptee2okaif",
+      "mutations": 149
+    }
+  },
+  {
     "method": "click"
+  },
+  {
+    "method": "settle"
+  },
+  {
+    "method": "pageActivity",
+    "result": {
+      "documentId": "5ptee2okaif",
+      "mutations": 162
+    }
+  },
+  {
+    "method": "drainTelemetry",
+    "result": {
+      "errors": [],
+      "vitals": {
+        "url": "http://janus-f14-app:3100/products/taza-ceramica",
+        "lcpMs": 200,
+        "cls": 0,
+        "inpMs": 16
+      },
+      "blocked": [],
+      "dialogs": []
+    }
   },
   {
     "method": "settle"
@@ -1341,7 +1372,38 @@
     }
   },
   {
+    "method": "pageActivity",
+    "result": {
+      "documentId": "5ptee2okaif",
+      "mutations": 162
+    }
+  },
+  {
     "method": "click"
+  },
+  {
+    "method": "settle"
+  },
+  {
+    "method": "pageActivity",
+    "result": {
+      "documentId": "5ptee2okaif",
+      "mutations": 176
+    }
+  },
+  {
+    "method": "drainTelemetry",
+    "result": {
+      "errors": [],
+      "vitals": {
+        "url": "http://janus-f14-app:3100/register",
+        "lcpMs": 200,
+        "cls": 0,
+        "inpMs": 16
+      },
+      "blocked": [],
+      "dialogs": []
+    }
   },
   {
     "method": "settle"
@@ -1713,6 +1775,20 @@
   },
   {
     "method": "type"
+  },
+  {
+    "method": "drainTelemetry",
+    "result": {
+      "errors": [],
+      "vitals": {
+        "url": "http://janus-f14-app:3100/register",
+        "lcpMs": 200,
+        "cls": 0,
+        "inpMs": 16
+      },
+      "blocked": [],
+      "dialogs": []
+    }
   },
   {
     "method": "settle"
@@ -2087,6 +2163,20 @@
     "method": "type"
   },
   {
+    "method": "drainTelemetry",
+    "result": {
+      "errors": [],
+      "vitals": {
+        "url": "http://janus-f14-app:3100/register",
+        "lcpMs": 200,
+        "cls": 0,
+        "inpMs": 16
+      },
+      "blocked": [],
+      "dialogs": []
+    }
+  },
+  {
     "method": "settle"
   },
   {
@@ -2458,6 +2548,20 @@
   },
   {
     "method": "type"
+  },
+  {
+    "method": "drainTelemetry",
+    "result": {
+      "errors": [],
+      "vitals": {
+        "url": "http://janus-f14-app:3100/register",
+        "lcpMs": 200,
+        "cls": 0,
+        "inpMs": 16
+      },
+      "blocked": [],
+      "dialogs": []
+    }
   },
   {
     "method": "settle"
@@ -2834,6 +2938,20 @@
     "method": "type"
   },
   {
+    "method": "drainTelemetry",
+    "result": {
+      "errors": [],
+      "vitals": {
+        "url": "http://janus-f14-app:3100/register",
+        "lcpMs": 200,
+        "cls": 0,
+        "inpMs": 16
+      },
+      "blocked": [],
+      "dialogs": []
+    }
+  },
+  {
     "method": "settle"
   },
   {
@@ -3206,370 +3324,37 @@
     }
   },
   {
+    "method": "pageActivity",
+    "result": {
+      "documentId": "5ptee2okaif",
+      "mutations": 184
+    }
+  },
+  {
     "method": "click"
   },
   {
     "method": "settle"
   },
   {
-    "method": "snapshot",
+    "method": "pageActivity",
     "result": {
-      "url": "http://janus-f14-app:3100/register",
-      "title": "ShopLab",
-      "aria": "- banner:\n  - link \"ShopLab\":\n    - /url: /\n  - navigation \"Principal\":\n    - list:\n      - listitem:\n        - link \"Tienda\":\n          - /url: /\n      - listitem:\n        - link \"Carrito\":\n          - /url: /cart\n  - link \"Entrar\":\n    - /url: /login\n  - link \"Crear cuenta\":\n    - /url: /register\n- main:\n  - heading \"Crear cuenta\" [level=1]\n  - text: Nombre\n  - textbox \"Nombre\": Carmen Sintética\n  - text: Email\n  - textbox \"Email\": carmen-f14@shoplab.test\n  - text: Contraseña (mínimo 8 caracteres)\n  - textbox \"Contraseña (mínimo 8 caracteres)\": ••••••••\n  - text: Dirección de envío\n  - textbox \"Dirección de envío\": Calle Sintética 1, 28001 Madrid\n  - button \"Crear cuenta\" [disabled]\n  - paragraph:\n    - text: ¿Ya tienes cuenta?\n    - link \"Entra\":\n      - /url: /login\n- contentinfo: Tienda de demostración. Los productos, usuarios y pagos son ficticios.\n- alert",
-      "tree": [
-        {
-          "role": "generic",
-          "active": true,
-          "ref": "e1",
-          "box": {
-            "x": 0,
-            "y": 0,
-            "width": 1280,
-            "height": 743
-          },
-          "children": [
-            {
-              "role": "banner",
-              "ref": "e2",
-              "box": {
-                "x": 0,
-                "y": 0,
-                "width": 1280,
-                "height": 55
-              },
-              "children": [
-                {
-                  "role": "link",
-                  "name": "ShopLab",
-                  "ref": "e3",
-                  "cursor": "pointer",
-                  "box": {
-                    "x": 16,
-                    "y": 12,
-                    "width": 76,
-                    "height": 30
-                  },
-                  "url": "/"
-                },
-                {
-                  "role": "navigation",
-                  "name": "Principal",
-                  "ref": "e4",
-                  "box": {
-                    "x": 552,
-                    "y": 15,
-                    "width": 109,
-                    "height": 24
-                  },
-                  "children": [
-                    {
-                      "role": "list",
-                      "ref": "e5",
-                      "box": {
-                        "x": 552,
-                        "y": 15,
-                        "width": 109,
-                        "height": 24
-                      },
-                      "children": [
-                        {
-                          "role": "listitem",
-                          "ref": "e6",
-                          "box": {
-                            "x": 552,
-                            "y": 15,
-                            "width": 46,
-                            "height": 24
-                          },
-                          "children": [
-                            {
-                              "role": "link",
-                              "name": "Tienda",
-                              "ref": "e7",
-                              "cursor": "pointer",
-                              "box": {
-                                "x": 552,
-                                "y": 17,
-                                "width": 46,
-                                "height": 20
-                              },
-                              "url": "/"
-                            }
-                          ]
-                        },
-                        {
-                          "role": "listitem",
-                          "ref": "e8",
-                          "box": {
-                            "x": 615,
-                            "y": 15,
-                            "width": 46,
-                            "height": 24
-                          },
-                          "children": [
-                            {
-                              "role": "link",
-                              "name": "Carrito",
-                              "ref": "e9",
-                              "cursor": "pointer",
-                              "box": {
-                                "x": 615,
-                                "y": 17,
-                                "width": 46,
-                                "height": 20
-                              },
-                              "url": "/cart"
-                            }
-                          ]
-                        }
-                      ]
-                    }
-                  ]
-                },
-                {
-                  "role": "generic",
-                  "ref": "e10",
-                  "box": {
-                    "x": 1121,
-                    "y": 15,
-                    "width": 143,
-                    "height": 24
-                  },
-                  "children": [
-                    {
-                      "role": "link",
-                      "name": "Entrar",
-                      "ref": "e11",
-                      "cursor": "pointer",
-                      "box": {
-                        "x": 1121,
-                        "y": 15,
-                        "width": 42,
-                        "height": 24
-                      },
-                      "url": "/login"
-                    },
-                    {
-                      "role": "link",
-                      "name": "Crear cuenta",
-                      "ref": "e12",
-                      "cursor": "pointer",
-                      "box": {
-                        "x": 1175,
-                        "y": 15,
-                        "width": 89,
-                        "height": 24
-                      },
-                      "url": "/register"
-                    }
-                  ]
-                }
-              ]
-            },
-            {
-              "role": "main",
-              "ref": "e13",
-              "box": {
-                "x": 160,
-                "y": 55,
-                "width": 960,
-                "height": 635
-              },
-              "children": [
-                {
-                  "role": "heading",
-                  "name": "Crear cuenta",
-                  "level": 1,
-                  "ref": "e92",
-                  "box": {
-                    "x": 176,
-                    "y": 100,
-                    "width": 928,
-                    "height": 48
-                  }
-                },
-                {
-                  "role": "generic",
-                  "ref": "e93",
-                  "box": {
-                    "x": 176,
-                    "y": 170,
-                    "width": 480,
-                    "height": 416
-                  },
-                  "children": [
-                    {
-                      "role": "generic",
-                      "ref": "e94",
-                      "box": {
-                        "x": 176,
-                        "y": 170,
-                        "width": 480,
-                        "height": 70
-                      },
-                      "children": [
-                        "Nombre",
-                        {
-                          "role": "textbox",
-                          "name": "Nombre",
-                          "ref": "e95",
-                          "box": {
-                            "x": 176,
-                            "y": 198,
-                            "width": 480,
-                            "height": 42
-                          },
-                          "text": "Carmen Sintética"
-                        }
-                      ]
-                    },
-                    {
-                      "role": "generic",
-                      "ref": "e96",
-                      "box": {
-                        "x": 176,
-                        "y": 252,
-                        "width": 480,
-                        "height": 70
-                      },
-                      "children": [
-                        "Email",
-                        {
-                          "role": "textbox",
-                          "name": "Email",
-                          "ref": "e97",
-                          "box": {
-                            "x": 176,
-                            "y": 280,
-                            "width": 480,
-                            "height": 42
-                          },
-                          "text": "carmen-f14@shoplab.test"
-                        }
-                      ]
-                    },
-                    {
-                      "role": "generic",
-                      "ref": "e98",
-                      "box": {
-                        "x": 176,
-                        "y": 334,
-                        "width": 480,
-                        "height": 70
-                      },
-                      "children": [
-                        "Contraseña (mínimo 8 caracteres)",
-                        {
-                          "role": "textbox",
-                          "name": "Contraseña (mínimo 8 caracteres)",
-                          "ref": "e99",
-                          "box": {
-                            "x": 176,
-                            "y": 362,
-                            "width": 480,
-                            "height": 42
-                          },
-                          "text": "••••••••"
-                        }
-                      ]
-                    },
-                    {
-                      "role": "generic",
-                      "ref": "e100",
-                      "box": {
-                        "x": 176,
-                        "y": 416,
-                        "width": 480,
-                        "height": 118
-                      },
-                      "children": [
-                        "Dirección de envío",
-                        {
-                          "role": "textbox",
-                          "name": "Dirección de envío",
-                          "ref": "e101",
-                          "box": {
-                            "x": 176,
-                            "y": 444,
-                            "width": 480,
-                            "height": 90
-                          },
-                          "text": "Calle Sintética 1, 28001 Madrid"
-                        }
-                      ]
-                    },
-                    {
-                      "role": "button",
-                      "name": "Crear cuenta",
-                      "disabled": true,
-                      "ref": "e102",
-                      "cursor": "pointer",
-                      "box": {
-                        "x": 176,
-                        "y": 546,
-                        "width": 121,
-                        "height": 40
-                      }
-                    }
-                  ]
-                },
-                {
-                  "role": "paragraph",
-                  "ref": "e103",
-                  "box": {
-                    "x": 176,
-                    "y": 602,
-                    "width": 928,
-                    "height": 24
-                  },
-                  "children": [
-                    "¿Ya tienes cuenta?",
-                    {
-                      "role": "link",
-                      "name": "Entra",
-                      "ref": "e104",
-                      "cursor": "pointer",
-                      "box": {
-                        "x": 316,
-                        "y": 604,
-                        "width": 36,
-                        "height": 20
-                      },
-                      "url": "/login"
-                    }
-                  ]
-                }
-              ]
-            },
-            {
-              "role": "contentinfo",
-              "ref": "e76",
-              "box": {
-                "x": 0,
-                "y": 690,
-                "width": 1280,
-                "height": 53
-              },
-              "text": "Tienda de demostración. Los productos, usuarios y pagos son ficticios."
-            },
-            {
-              "role": "alert",
-              "ref": "e77",
-              "box": {
-                "x": -1,
-                "y": 742,
-                "width": 1,
-                "height": 1
-              }
-            }
-          ]
-        }
-      ],
-      "viewport": {
-        "width": 1280,
-        "height": 720
-      }
+      "documentId": "5ptee2okaif",
+      "mutations": 206
+    }
+  },
+  {
+    "method": "drainTelemetry",
+    "result": {
+      "errors": [],
+      "vitals": {
+        "url": "http://janus-f14-app:3100/",
+        "lcpMs": 200,
+        "cls": 0,
+        "inpMs": 16
+      },
+      "blocked": [],
+      "dialogs": []
     }
   },
   {
@@ -4550,7 +4335,38 @@
     }
   },
   {
+    "method": "pageActivity",
+    "result": {
+      "documentId": "5ptee2okaif",
+      "mutations": 206
+    }
+  },
+  {
     "method": "click"
+  },
+  {
+    "method": "settle"
+  },
+  {
+    "method": "pageActivity",
+    "result": {
+      "documentId": "5ptee2okaif",
+      "mutations": 219
+    }
+  },
+  {
+    "method": "drainTelemetry",
+    "result": {
+      "errors": [],
+      "vitals": {
+        "url": "http://janus-f14-app:3100/products/taza-ceramica",
+        "lcpMs": 200,
+        "cls": 0,
+        "inpMs": 16
+      },
+      "blocked": [],
+      "dialogs": []
+    }
   },
   {
     "method": "settle"
@@ -5203,648 +5019,37 @@
     }
   },
   {
+    "method": "pageActivity",
+    "result": {
+      "documentId": "5ptee2okaif",
+      "mutations": 219
+    }
+  },
+  {
     "method": "click"
   },
   {
     "method": "settle"
   },
   {
-    "method": "snapshot",
+    "method": "pageActivity",
     "result": {
-      "url": "http://janus-f14-app:3100/products/taza-ceramica",
-      "title": "ShopLab",
-      "aria": "- banner:\n  - link \"ShopLab\":\n    - /url: /\n  - navigation \"Principal\":\n    - list:\n      - listitem:\n        - link \"Tienda\":\n          - /url: /\n      - listitem:\n        - link \"Carrito\":\n          - /url: /cart\n      - listitem:\n        - link \"Mis pedidos\":\n          - /url: /orders\n  - text: Hola, Carmen Sintética\n  - button \"Salir\"\n- main:\n  - article:\n    - heading \"Taza de cerámica\" [level=1]\n    - paragraph: Taza de 350 ml apta para lavavajillas.\n    - paragraph:\n      - strong: 12,90 €\n    - text: Cantidad\n    - combobox \"Cantidad\":\n      - option \"1\" [selected]\n      - option \"2\"\n      - option \"3\"\n      - option \"4\"\n      - option \"5\"\n      - option \"6\"\n      - option \"7\"\n      - option \"8\"\n      - option \"9\"\n      - option \"10\"\n    - button \"Añadir al carrito\" [disabled]\n    - region \"Reseñas\":\n      - heading \"Reseñas\" [level=2]\n      - list:\n        - listitem:\n          - paragraph:\n            - strong: Ana Prueba\n            - text: · 4/5\n          - paragraph: Muy contento con la compra. — Ana Prueba\n      - text: Nota\n      - combobox \"Nota\":\n        - option \"5\" [selected]\n        - option \"4\"\n        - option \"3\"\n        - option \"2\"\n        - option \"1\"\n      - text: Tu reseña\n      - textbox \"Tu reseña\"\n      - button \"Publicar reseña\"\n- contentinfo: Tienda de demostración. Los productos, usuarios y pagos son ficticios.\n- alert: ShopLab",
-      "tree": [
-        {
-          "role": "generic",
-          "active": true,
-          "ref": "e1",
-          "box": {
-            "x": 0,
-            "y": -13,
-            "width": 1280,
-            "height": 887
-          },
-          "children": [
-            {
-              "role": "banner",
-              "ref": "e2",
-              "box": {
-                "x": 0,
-                "y": -13,
-                "width": 1280,
-                "height": 65
-              },
-              "children": [
-                {
-                  "role": "link",
-                  "name": "ShopLab",
-                  "ref": "e3",
-                  "cursor": "pointer",
-                  "box": {
-                    "x": 16,
-                    "y": 4,
-                    "width": 76,
-                    "height": 30
-                  },
-                  "url": "/"
-                },
-                {
-                  "role": "navigation",
-                  "name": "Principal",
-                  "ref": "e4",
-                  "box": {
-                    "x": 455,
-                    "y": 7,
-                    "width": 210,
-                    "height": 24
-                  },
-                  "children": [
-                    {
-                      "role": "list",
-                      "ref": "e5",
-                      "box": {
-                        "x": 455,
-                        "y": 7,
-                        "width": 210,
-                        "height": 24
-                      },
-                      "children": [
-                        {
-                          "role": "listitem",
-                          "ref": "e6",
-                          "box": {
-                            "x": 455,
-                            "y": 7,
-                            "width": 46,
-                            "height": 24
-                          },
-                          "children": [
-                            {
-                              "role": "link",
-                              "name": "Tienda",
-                              "ref": "e7",
-                              "cursor": "pointer",
-                              "box": {
-                                "x": 455,
-                                "y": 9,
-                                "width": 46,
-                                "height": 20
-                              },
-                              "url": "/"
-                            }
-                          ]
-                        },
-                        {
-                          "role": "listitem",
-                          "ref": "e8",
-                          "box": {
-                            "x": 517,
-                            "y": 7,
-                            "width": 46,
-                            "height": 24
-                          },
-                          "children": [
-                            {
-                              "role": "link",
-                              "name": "Carrito",
-                              "ref": "e9",
-                              "cursor": "pointer",
-                              "box": {
-                                "x": 517,
-                                "y": 9,
-                                "width": 46,
-                                "height": 20
-                              },
-                              "url": "/cart"
-                            }
-                          ]
-                        },
-                        {
-                          "role": "listitem",
-                          "ref": "e105",
-                          "box": {
-                            "x": 580,
-                            "y": 7,
-                            "width": 85,
-                            "height": 24
-                          },
-                          "children": [
-                            {
-                              "role": "link",
-                              "name": "Mis pedidos",
-                              "ref": "e106",
-                              "cursor": "pointer",
-                              "box": {
-                                "x": 580,
-                                "y": 9,
-                                "width": 85,
-                                "height": 20
-                              },
-                              "url": "/orders"
-                            }
-                          ]
-                        }
-                      ]
-                    }
-                  ]
-                },
-                {
-                  "role": "generic",
-                  "ref": "e10",
-                  "box": {
-                    "x": 1027,
-                    "y": -1,
-                    "width": 237,
-                    "height": 40
-                  },
-                  "children": [
-                    {
-                      "role": "generic",
-                      "ref": "e107",
-                      "box": {
-                        "x": 1027,
-                        "y": 7,
-                        "width": 161,
-                        "height": 24
-                      },
-                      "text": "Hola, Carmen Sintética"
-                    },
-                    {
-                      "role": "button",
-                      "name": "Salir",
-                      "ref": "e109",
-                      "cursor": "pointer",
-                      "box": {
-                        "x": 1201,
-                        "y": -1,
-                        "width": 63,
-                        "height": 40
-                      }
-                    }
-                  ]
-                }
-              ]
-            },
-            {
-              "role": "main",
-              "ref": "e13",
-              "box": {
-                "x": 160,
-                "y": 52,
-                "width": 960,
-                "height": 769
-              },
-              "children": [
-                {
-                  "role": "article",
-                  "ref": "e172",
-                  "box": {
-                    "x": 176,
-                    "y": 97,
-                    "width": 928,
-                    "height": 675
-                  },
-                  "children": [
-                    {
-                      "role": "heading",
-                      "name": "Taza de cerámica",
-                      "level": 1,
-                      "ref": "e173",
-                      "box": {
-                        "x": 176,
-                        "y": 97,
-                        "width": 928,
-                        "height": 48
-                      }
-                    },
-                    {
-                      "role": "paragraph",
-                      "ref": "e174",
-                      "box": {
-                        "x": 176,
-                        "y": 167,
-                        "width": 928,
-                        "height": 24
-                      },
-                      "text": "Taza de 350 ml apta para lavavajillas."
-                    },
-                    {
-                      "role": "paragraph",
-                      "ref": "e175",
-                      "box": {
-                        "x": 176,
-                        "y": 207,
-                        "width": 928,
-                        "height": 24
-                      },
-                      "children": [
-                        {
-                          "role": "strong",
-                          "ref": "e176",
-                          "box": {
-                            "x": 176,
-                            "y": 209,
-                            "width": 64,
-                            "height": 20
-                          },
-                          "text": "12,90 €"
-                        }
-                      ]
-                    },
-                    {
-                      "role": "generic",
-                      "ref": "e177",
-                      "box": {
-                        "x": 176,
-                        "y": 247,
-                        "width": 480,
-                        "height": 120
-                      },
-                      "children": [
-                        {
-                          "role": "generic",
-                          "ref": "e178",
-                          "box": {
-                            "x": 176,
-                            "y": 247,
-                            "width": 480,
-                            "height": 68
-                          },
-                          "children": [
-                            "Cantidad",
-                            {
-                              "role": "combobox",
-                              "name": "Cantidad",
-                              "ref": "e179",
-                              "box": {
-                                "x": 176,
-                                "y": 275,
-                                "width": 480,
-                                "height": 40
-                              },
-                              "children": [
-                                {
-                                  "role": "option",
-                                  "name": "1",
-                                  "selected": true,
-                                  "box": {
-                                    "x": 0,
-                                    "y": 0,
-                                    "width": 0,
-                                    "height": 0
-                                  }
-                                },
-                                {
-                                  "role": "option",
-                                  "name": "2",
-                                  "box": {
-                                    "x": 0,
-                                    "y": 0,
-                                    "width": 0,
-                                    "height": 0
-                                  }
-                                },
-                                {
-                                  "role": "option",
-                                  "name": "3",
-                                  "box": {
-                                    "x": 0,
-                                    "y": 0,
-                                    "width": 0,
-                                    "height": 0
-                                  }
-                                },
-                                {
-                                  "role": "option",
-                                  "name": "4",
-                                  "box": {
-                                    "x": 0,
-                                    "y": 0,
-                                    "width": 0,
-                                    "height": 0
-                                  }
-                                },
-                                {
-                                  "role": "option",
-                                  "name": "5",
-                                  "box": {
-                                    "x": 0,
-                                    "y": 0,
-                                    "width": 0,
-                                    "height": 0
-                                  }
-                                },
-                                {
-                                  "role": "option",
-                                  "name": "6",
-                                  "box": {
-                                    "x": 0,
-                                    "y": 0,
-                                    "width": 0,
-                                    "height": 0
-                                  }
-                                },
-                                {
-                                  "role": "option",
-                                  "name": "7",
-                                  "box": {
-                                    "x": 0,
-                                    "y": 0,
-                                    "width": 0,
-                                    "height": 0
-                                  }
-                                },
-                                {
-                                  "role": "option",
-                                  "name": "8",
-                                  "box": {
-                                    "x": 0,
-                                    "y": 0,
-                                    "width": 0,
-                                    "height": 0
-                                  }
-                                },
-                                {
-                                  "role": "option",
-                                  "name": "9",
-                                  "box": {
-                                    "x": 0,
-                                    "y": 0,
-                                    "width": 0,
-                                    "height": 0
-                                  }
-                                },
-                                {
-                                  "role": "option",
-                                  "name": "10",
-                                  "box": {
-                                    "x": 0,
-                                    "y": 0,
-                                    "width": 0,
-                                    "height": 0
-                                  }
-                                }
-                              ]
-                            }
-                          ]
-                        },
-                        {
-                          "role": "button",
-                          "name": "Añadir al carrito",
-                          "disabled": true,
-                          "ref": "e180",
-                          "cursor": "pointer",
-                          "box": {
-                            "x": 176,
-                            "y": 327,
-                            "width": 142,
-                            "height": 40
-                          }
-                        }
-                      ]
-                    },
-                    {
-                      "role": "region",
-                      "ref": "e181",
-                      "box": {
-                        "x": 176,
-                        "y": 387,
-                        "width": 928,
-                        "height": 386
-                      },
-                      "children": [
-                        {
-                          "role": "heading",
-                          "name": "Reseñas",
-                          "level": 2,
-                          "ref": "e182",
-                          "box": {
-                            "x": 176,
-                            "y": 387,
-                            "width": 928,
-                            "height": 36
-                          }
-                        },
-                        {
-                          "role": "list",
-                          "ref": "e183",
-                          "box": {
-                            "x": 176,
-                            "y": 443,
-                            "width": 928,
-                            "height": 64
-                          },
-                          "children": [
-                            {
-                              "role": "listitem",
-                              "ref": "e184",
-                              "box": {
-                                "x": 216,
-                                "y": 443,
-                                "width": 888,
-                                "height": 64
-                              },
-                              "children": [
-                                {
-                                  "role": "paragraph",
-                                  "ref": "e185",
-                                  "box": {
-                                    "x": 216,
-                                    "y": 443,
-                                    "width": 888,
-                                    "height": 24
-                                  },
-                                  "children": [
-                                    {
-                                      "role": "strong",
-                                      "ref": "e186",
-                                      "box": {
-                                        "x": 216,
-                                        "y": 445,
-                                        "width": 80,
-                                        "height": 20
-                                      },
-                                      "text": "Ana Prueba"
-                                    },
-                                    "· 4/5"
-                                  ]
-                                },
-                                {
-                                  "role": "paragraph",
-                                  "ref": "e187",
-                                  "box": {
-                                    "x": 216,
-                                    "y": 483,
-                                    "width": 888,
-                                    "height": 24
-                                  },
-                                  "text": "Muy contento con la compra. — Ana Prueba"
-                                }
-                              ]
-                            }
-                          ]
-                        },
-                        {
-                          "role": "generic",
-                          "ref": "e188",
-                          "box": {
-                            "x": 176,
-                            "y": 523,
-                            "width": 480,
-                            "height": 250
-                          },
-                          "children": [
-                            {
-                              "role": "generic",
-                              "ref": "e189",
-                              "box": {
-                                "x": 176,
-                                "y": 523,
-                                "width": 480,
-                                "height": 68
-                              },
-                              "children": [
-                                "Nota",
-                                {
-                                  "role": "combobox",
-                                  "name": "Nota",
-                                  "ref": "e190",
-                                  "box": {
-                                    "x": 176,
-                                    "y": 551,
-                                    "width": 480,
-                                    "height": 40
-                                  },
-                                  "children": [
-                                    {
-                                      "role": "option",
-                                      "name": "5",
-                                      "selected": true,
-                                      "box": {
-                                        "x": 0,
-                                        "y": 0,
-                                        "width": 0,
-                                        "height": 0
-                                      }
-                                    },
-                                    {
-                                      "role": "option",
-                                      "name": "4",
-                                      "box": {
-                                        "x": 0,
-                                        "y": 0,
-                                        "width": 0,
-                                        "height": 0
-                                      }
-                                    },
-                                    {
-                                      "role": "option",
-                                      "name": "3",
-                                      "box": {
-                                        "x": 0,
-                                        "y": 0,
-                                        "width": 0,
-                                        "height": 0
-                                      }
-                                    },
-                                    {
-                                      "role": "option",
-                                      "name": "2",
-                                      "box": {
-                                        "x": 0,
-                                        "y": 0,
-                                        "width": 0,
-                                        "height": 0
-                                      }
-                                    },
-                                    {
-                                      "role": "option",
-                                      "name": "1",
-                                      "box": {
-                                        "x": 0,
-                                        "y": 0,
-                                        "width": 0,
-                                        "height": 0
-                                      }
-                                    }
-                                  ]
-                                }
-                              ]
-                            },
-                            {
-                              "role": "generic",
-                              "ref": "e191",
-                              "box": {
-                                "x": 176,
-                                "y": 603,
-                                "width": 480,
-                                "height": 118
-                              },
-                              "children": [
-                                "Tu reseña",
-                                {
-                                  "role": "textbox",
-                                  "name": "Tu reseña",
-                                  "ref": "e192",
-                                  "box": {
-                                    "x": 176,
-                                    "y": 631,
-                                    "width": 480,
-                                    "height": 90
-                                  }
-                                }
-                              ]
-                            },
-                            {
-                              "role": "button",
-                              "name": "Publicar reseña",
-                              "ref": "e193",
-                              "cursor": "pointer",
-                              "box": {
-                                "x": 176,
-                                "y": 733,
-                                "width": 140,
-                                "height": 40
-                              }
-                            }
-                          ]
-                        }
-                      ]
-                    }
-                  ]
-                }
-              ]
-            },
-            {
-              "role": "contentinfo",
-              "ref": "e76",
-              "box": {
-                "x": 0,
-                "y": 821,
-                "width": 1280,
-                "height": 53
-              },
-              "text": "Tienda de demostración. Los productos, usuarios y pagos son ficticios."
-            },
-            {
-              "role": "alert",
-              "ref": "e77",
-              "box": {
-                "x": -1,
-                "y": 873,
-                "width": 1,
-                "height": 1
-              },
-              "text": "ShopLab"
-            }
-          ]
-        }
-      ],
-      "viewport": {
-        "width": 1280,
-        "height": 720
-      }
+      "documentId": "5ptee2okaif",
+      "mutations": 239
+    }
+  },
+  {
+    "method": "drainTelemetry",
+    "result": {
+      "errors": [],
+      "vitals": {
+        "url": "http://janus-f14-app:3100/cart",
+        "lcpMs": 200,
+        "cls": 0,
+        "inpMs": 16
+      },
+      "blocked": [],
+      "dialogs": []
     }
   },
   {
@@ -6574,7 +5779,38 @@
     }
   },
   {
+    "method": "pageActivity",
+    "result": {
+      "documentId": "5ptee2okaif",
+      "mutations": 239
+    }
+  },
+  {
     "method": "click"
+  },
+  {
+    "method": "settle"
+  },
+  {
+    "method": "pageActivity",
+    "result": {
+      "documentId": "5ptee2okaif",
+      "mutations": 257
+    }
+  },
+  {
+    "method": "drainTelemetry",
+    "result": {
+      "errors": [],
+      "vitals": {
+        "url": "http://janus-f14-app:3100/checkout",
+        "lcpMs": 200,
+        "cls": 0,
+        "inpMs": 16
+      },
+      "blocked": [],
+      "dialogs": []
+    }
   },
   {
     "method": "settle"
@@ -7083,503 +6319,37 @@
     }
   },
   {
+    "method": "pageActivity",
+    "result": {
+      "documentId": "5ptee2okaif",
+      "mutations": 257
+    }
+  },
+  {
     "method": "click"
   },
   {
     "method": "settle"
   },
   {
-    "method": "snapshot",
+    "method": "pageActivity",
     "result": {
-      "url": "http://janus-f14-app:3100/checkout",
-      "title": "ShopLab",
-      "aria": "- banner:\n  - link \"ShopLab\":\n    - /url: /\n  - navigation \"Principal\":\n    - list:\n      - listitem:\n        - link \"Tienda\":\n          - /url: /\n      - listitem:\n        - link \"Carrito\":\n          - /url: /cart\n      - listitem:\n        - link \"Mis pedidos\":\n          - /url: /orders\n  - text: Hola, Carmen Sintética\n  - button \"Salir\"\n- main:\n  - heading \"Pago\" [level=1]\n  - table \"Totales\":\n    - rowgroup:\n      - row \"Subtotal 12,90 €\":\n        - rowheader \"Subtotal\"\n        - cell \"12,90 €\"\n      - row \"Envío 4,99 €\":\n        - rowheader \"Envío\"\n        - cell \"4,99 €\"\n      - row \"Total 17,89 €\":\n        - rowheader \"Total\"\n        - cell \"17,89 €\":\n          - strong: 17,89 €\n  - text: Dirección de envío\n  - textbox \"Dirección de envío\": Calle Sintética 1, 28001 Madrid\n  - group \"Método de pago\":\n    - text: Método de pago\n    - paragraph: \"Pago simulado: no se cobra nada ni se piden datos bancarios.\"\n    - radio \"Tarjeta de prueba (simulada)\" [checked]\n    - text: Tarjeta de prueba (simulada)\n    - radio \"Transferencia de prueba (simulada)\"\n    - text: Transferencia de prueba (simulada)\n  - button \"Confirmar pedido\"\n- contentinfo: Tienda de demostración. Los productos, usuarios y pagos son ficticios.\n- alert: ShopLab",
-      "tree": [
-        {
-          "role": "generic",
-          "active": true,
-          "ref": "e1",
-          "box": {
-            "x": 0,
-            "y": 0,
-            "width": 1280,
-            "height": 770
-          },
-          "children": [
-            {
-              "role": "banner",
-              "ref": "e2",
-              "box": {
-                "x": 0,
-                "y": 0,
-                "width": 1280,
-                "height": 65
-              },
-              "children": [
-                {
-                  "role": "link",
-                  "name": "ShopLab",
-                  "ref": "e3",
-                  "cursor": "pointer",
-                  "box": {
-                    "x": 16,
-                    "y": 17,
-                    "width": 76,
-                    "height": 30
-                  },
-                  "url": "/"
-                },
-                {
-                  "role": "navigation",
-                  "name": "Principal",
-                  "ref": "e4",
-                  "box": {
-                    "x": 455,
-                    "y": 20,
-                    "width": 210,
-                    "height": 24
-                  },
-                  "children": [
-                    {
-                      "role": "list",
-                      "ref": "e5",
-                      "box": {
-                        "x": 455,
-                        "y": 20,
-                        "width": 210,
-                        "height": 24
-                      },
-                      "children": [
-                        {
-                          "role": "listitem",
-                          "ref": "e6",
-                          "box": {
-                            "x": 455,
-                            "y": 20,
-                            "width": 46,
-                            "height": 24
-                          },
-                          "children": [
-                            {
-                              "role": "link",
-                              "name": "Tienda",
-                              "ref": "e7",
-                              "cursor": "pointer",
-                              "box": {
-                                "x": 455,
-                                "y": 22,
-                                "width": 46,
-                                "height": 20
-                              },
-                              "url": "/"
-                            }
-                          ]
-                        },
-                        {
-                          "role": "listitem",
-                          "ref": "e8",
-                          "box": {
-                            "x": 517,
-                            "y": 20,
-                            "width": 46,
-                            "height": 24
-                          },
-                          "children": [
-                            {
-                              "role": "link",
-                              "name": "Carrito",
-                              "ref": "e9",
-                              "cursor": "pointer",
-                              "box": {
-                                "x": 517,
-                                "y": 22,
-                                "width": 46,
-                                "height": 20
-                              },
-                              "url": "/cart"
-                            }
-                          ]
-                        },
-                        {
-                          "role": "listitem",
-                          "ref": "e105",
-                          "box": {
-                            "x": 580,
-                            "y": 20,
-                            "width": 85,
-                            "height": 24
-                          },
-                          "children": [
-                            {
-                              "role": "link",
-                              "name": "Mis pedidos",
-                              "ref": "e106",
-                              "cursor": "pointer",
-                              "box": {
-                                "x": 580,
-                                "y": 22,
-                                "width": 85,
-                                "height": 20
-                              },
-                              "url": "/orders"
-                            }
-                          ]
-                        }
-                      ]
-                    }
-                  ]
-                },
-                {
-                  "role": "generic",
-                  "ref": "e10",
-                  "box": {
-                    "x": 1027,
-                    "y": 12,
-                    "width": 237,
-                    "height": 40
-                  },
-                  "children": [
-                    {
-                      "role": "generic",
-                      "ref": "e107",
-                      "box": {
-                        "x": 1027,
-                        "y": 20,
-                        "width": 161,
-                        "height": 24
-                      },
-                      "text": "Hola, Carmen Sintética"
-                    },
-                    {
-                      "role": "button",
-                      "name": "Salir",
-                      "ref": "e109",
-                      "cursor": "pointer",
-                      "box": {
-                        "x": 1201,
-                        "y": 12,
-                        "width": 63,
-                        "height": 40
-                      }
-                    }
-                  ]
-                }
-              ]
-            },
-            {
-              "role": "main",
-              "ref": "e13",
-              "box": {
-                "x": 160,
-                "y": 65,
-                "width": 960,
-                "height": 652
-              },
-              "children": [
-                {
-                  "role": "heading",
-                  "name": "Pago",
-                  "level": 1,
-                  "ref": "e229",
-                  "box": {
-                    "x": 176,
-                    "y": 110,
-                    "width": 928,
-                    "height": 48
-                  }
-                },
-                {
-                  "role": "table",
-                  "name": "Totales",
-                  "ref": "e230",
-                  "box": {
-                    "x": 176,
-                    "y": 180,
-                    "width": 928,
-                    "height": 123
-                  },
-                  "children": [
-                    {
-                      "role": "rowgroup",
-                      "ref": "e231",
-                      "box": {
-                        "x": 176,
-                        "y": 180,
-                        "width": 928,
-                        "height": 123
-                      },
-                      "children": [
-                        {
-                          "role": "row",
-                          "ref": "e232",
-                          "box": {
-                            "x": 176,
-                            "y": 180,
-                            "width": 928,
-                            "height": 41
-                          },
-                          "children": [
-                            {
-                              "role": "rowheader",
-                              "name": "Subtotal",
-                              "ref": "e233",
-                              "box": {
-                                "x": 176,
-                                "y": 180,
-                                "width": 447,
-                                "height": 41
-                              }
-                            },
-                            {
-                              "role": "cell",
-                              "name": "12,90 €",
-                              "ref": "e234",
-                              "box": {
-                                "x": 623,
-                                "y": 180,
-                                "width": 481,
-                                "height": 41
-                              }
-                            }
-                          ]
-                        },
-                        {
-                          "role": "row",
-                          "ref": "e235",
-                          "box": {
-                            "x": 176,
-                            "y": 220,
-                            "width": 928,
-                            "height": 41
-                          },
-                          "children": [
-                            {
-                              "role": "rowheader",
-                              "name": "Envío",
-                              "ref": "e236",
-                              "box": {
-                                "x": 176,
-                                "y": 220,
-                                "width": 447,
-                                "height": 41
-                              }
-                            },
-                            {
-                              "role": "cell",
-                              "name": "4,99 €",
-                              "ref": "e237",
-                              "box": {
-                                "x": 623,
-                                "y": 220,
-                                "width": 481,
-                                "height": 41
-                              }
-                            }
-                          ]
-                        },
-                        {
-                          "role": "row",
-                          "ref": "e238",
-                          "box": {
-                            "x": 176,
-                            "y": 261,
-                            "width": 928,
-                            "height": 41
-                          },
-                          "children": [
-                            {
-                              "role": "rowheader",
-                              "name": "Total",
-                              "ref": "e239",
-                              "box": {
-                                "x": 176,
-                                "y": 261,
-                                "width": 447,
-                                "height": 41
-                              }
-                            },
-                            {
-                              "role": "cell",
-                              "ref": "e240",
-                              "box": {
-                                "x": 623,
-                                "y": 261,
-                                "width": 481,
-                                "height": 41
-                              },
-                              "children": [
-                                {
-                                  "role": "strong",
-                                  "ref": "e241",
-                                  "box": {
-                                    "x": 631,
-                                    "y": 272,
-                                    "width": 64,
-                                    "height": 20
-                                  },
-                                  "text": "17,89 €"
-                                }
-                              ]
-                            }
-                          ]
-                        }
-                      ]
-                    }
-                  ]
-                },
-                {
-                  "role": "generic",
-                  "ref": "e242",
-                  "box": {
-                    "x": 176,
-                    "y": 303,
-                    "width": 480,
-                    "height": 367
-                  },
-                  "children": [
-                    {
-                      "role": "generic",
-                      "ref": "e243",
-                      "box": {
-                        "x": 176,
-                        "y": 303,
-                        "width": 480,
-                        "height": 118
-                      },
-                      "children": [
-                        "Dirección de envío",
-                        {
-                          "role": "textbox",
-                          "name": "Dirección de envío",
-                          "ref": "e244",
-                          "box": {
-                            "x": 176,
-                            "y": 331,
-                            "width": 480,
-                            "height": 90
-                          },
-                          "text": "Calle Sintética 1, 28001 Madrid"
-                        }
-                      ]
-                    },
-                    {
-                      "role": "group",
-                      "name": "Método de pago",
-                      "ref": "e245",
-                      "box": {
-                        "x": 178,
-                        "y": 433,
-                        "width": 476,
-                        "height": 185
-                      },
-                      "children": [
-                        {
-                          "role": "paragraph",
-                          "ref": "e247",
-                          "box": {
-                            "x": 191,
-                            "y": 478,
-                            "width": 450,
-                            "height": 24
-                          },
-                          "text": "Pago simulado: no se cobra nada ni se piden datos bancarios."
-                        },
-                        {
-                          "role": "generic",
-                          "ref": "e248",
-                          "box": {
-                            "x": 191,
-                            "y": 518,
-                            "width": 450,
-                            "height": 44
-                          },
-                          "children": [
-                            {
-                              "role": "radio",
-                              "name": "Tarjeta de prueba (simulada)",
-                              "checked": true,
-                              "ref": "e249",
-                              "box": {
-                                "x": 196,
-                                "y": 521,
-                                "width": 442,
-                                "height": 13
-                              }
-                            },
-                            "Tarjeta de prueba (simulada)"
-                          ]
-                        },
-                        {
-                          "role": "generic",
-                          "ref": "e250",
-                          "box": {
-                            "x": 191,
-                            "y": 562,
-                            "width": 450,
-                            "height": 44
-                          },
-                          "children": [
-                            {
-                              "role": "radio",
-                              "name": "Transferencia de prueba (simulada)",
-                              "ref": "e251",
-                              "box": {
-                                "x": 196,
-                                "y": 565,
-                                "width": 442,
-                                "height": 13
-                              }
-                            },
-                            "Transferencia de prueba (simulada)"
-                          ]
-                        }
-                      ]
-                    },
-                    {
-                      "role": "button",
-                      "name": "Confirmar pedido",
-                      "ref": "e252",
-                      "cursor": "pointer",
-                      "box": {
-                        "x": 176,
-                        "y": 629,
-                        "width": 151,
-                        "height": 40
-                      }
-                    }
-                  ]
-                }
-              ]
-            },
-            {
-              "role": "contentinfo",
-              "ref": "e76",
-              "box": {
-                "x": 0,
-                "y": 717,
-                "width": 1280,
-                "height": 53
-              },
-              "text": "Tienda de demostración. Los productos, usuarios y pagos son ficticios."
-            },
-            {
-              "role": "alert",
-              "ref": "e77",
-              "box": {
-                "x": -1,
-                "y": 769,
-                "width": 1,
-                "height": 1
-              },
-              "text": "ShopLab"
-            }
-          ]
-        }
-      ],
-      "viewport": {
-        "width": 1280,
-        "height": 720
-      }
+      "documentId": "5ptee2okaif",
+      "mutations": 280
+    }
+  },
+  {
+    "method": "drainTelemetry",
+    "result": {
+      "errors": [],
+      "vitals": {
+        "url": "http://janus-f14-app:3100/orders/6?placed=1",
+        "lcpMs": 200,
+        "cls": 0,
+        "inpMs": 16
+      },
+      "blocked": [],
+      "dialogs": []
     }
   },
   {
@@ -8139,6 +6909,20 @@
         "width": 1280,
         "height": 720
       }
+    }
+  },
+  {
+    "method": "drainTelemetry",
+    "result": {
+      "errors": [],
+      "vitals": {
+        "url": "http://janus-f14-app:3100/orders/6?placed=1",
+        "lcpMs": 200,
+        "cls": 0,
+        "inpMs": 16
+      },
+      "blocked": [],
+      "dialogs": []
     }
   },
   {

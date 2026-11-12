@@ -16,7 +16,7 @@ Two halves share one event log and one report.
 
 **WarRoom** audits a variant before it ships:
 
-1. Static audit (Semgrep, gitleaks, osv-scanner, dependency-cruiser, tree-sitter attack-surface map).
+1. Static audit (Semgrep, gitleaks, osv-scanner, dependency-cruiser, attack-surface map read with the TypeScript compiler).
 2. Red Team attacks the variant inside an isolated sandbox. An attack counts only if a deterministic oracle confirms it, and every finding carries a reproducible proof of concept.
 3. Blue Team proposes patches. A patch is accepted only if three independent verifiers pass: the original exploit fails, the tests pass (plus a new regression test), and SynthLab re-run shows no unacceptable drop in task success or latency.
 

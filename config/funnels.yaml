@@ -15,3 +15,20 @@ targets:
       - { name: Pedido confirmado, route: /orders/:id }
     # Zones the report keeps, most intense first.
     topZones: 10
+
+  # OWASP Juice Shop (F3.5a): a single-page app, so its routes live in the hash (`/#/basket`);
+  # the report reads them as part of the page. `/#/` is the home page. Steps follow its router.
+  juice-shop:
+    routes:
+      - /#/order-completion/:id
+      - /#/payment/:entity
+      - /#/address/edit/:addressId
+    funnel:
+      - { name: Inicio, route: / }
+      - { name: Cesta, route: /#/basket }
+      - { name: Dirección, route: /#/address/select }
+      - { name: Envío, route: /#/delivery-method }
+      - { name: Pago, route: /#/payment/:entity }
+      - { name: Resumen, route: /#/order-summary }
+      - { name: Pedido confirmado, route: /#/order-completion/:id }
+    topZones: 10

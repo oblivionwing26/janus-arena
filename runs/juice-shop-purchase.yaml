@@ -1,0 +1,23 @@
+# F3.5a "Done when": synthetic shoppers buy on OWASP Juice Shop, the security target, so the
+# Blue Team's UX verifier (F3.5) has a baseline to compare a patch with. 4 personas x 2 seeds
+# plus the competent baseline on each seed = 10 sessions, each verified by the order oracle.
+#   pnpm run:start runs/juice-shop-purchase.yaml
+
+target: juice-shop
+variants:
+  - { id: a, ref: image }
+personas: [carmen-retired, tomas-hurried, rosa-meticulous, diego-commuter]
+seeds: [1, 2]
+tasks:
+  - id: buy-apple-juice
+    # A returning customer: Juice Shop never asks an anonymous shopper to sign in (its basket just
+    # stays blank), so the scenario starts from the shopper's own intention to use their account.
+    goal: Sign in to your account, then buy one "Apple Juice (1000ml)" and have it delivered to your home address.
+    expect:
+      items: [{ product: Apple Juice (1000ml), quantity: 1 }]
+# Juice Shop's checkout is long: account, address, delivery, card.
+maxSteps: 70
+budget:
+  maxTokens: 5000000
+  maxEur: 1.2
+concurrency: 3

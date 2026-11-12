@@ -84,11 +84,18 @@ export function urlAt(session: AgentSession, stepIndex: number): string | undefi
   return session.steps.find((step) => step.payload.stepIndex === stepIndex)?.payload.url;
 }
 
-/** Path of a URL: two visits to the same page compare equal, whatever the query. */
+/**
+ * Path of a URL: two visits to the same page compare equal, whatever the query. A single-page
+ * app keeps its route in the hash (`/#/basket`), so a hash route counts as part of the page;
+ * its own query does not, and `/#/` is the home page (F3.5a).
+ */
 export function pageOf(url: string): string {
   try {
     const parsed = new URL(url);
-    return parsed.pathname;
+    const route = parsed.hash.split('?')[0] ?? '';
+    return route.length > 2 && route.startsWith('#/')
+      ? `${parsed.pathname}${route}`
+      : parsed.pathname;
   } catch {
     return url;
   }

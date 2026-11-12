@@ -11,10 +11,11 @@ export interface ActionToolDefinition {
 
 const DESCRIPTIONS: Record<AgentActionType, string> = {
   click: 'Click the element with this ref, as a person would with the mouse or a tap.',
-  type: 'Type text into the field with this ref. The field is cleared first.',
+  type: 'Type text into the field with this ref. The field is cleared first. Set submit to press Enter afterwards.',
   select: 'Choose an option, by its visible label, in the select with this ref.',
   scroll: 'Scroll the page by most of one screen to see more of it.',
   back: 'Go back to the previous page, like the browser back button.',
+  dismiss: 'Close the open menu, dialog or pop-up that covers the page, as pressing Esc does.',
   wait: 'Wait for the page to change, for example after a slow load.',
   done: 'Finish the task: success when the goal is reached, abandon when you give up.',
 };
@@ -26,6 +27,7 @@ const ORDER: readonly AgentActionType[] = [
   'select',
   'scroll',
   'back',
+  'dismiss',
   'wait',
   'done',
 ];

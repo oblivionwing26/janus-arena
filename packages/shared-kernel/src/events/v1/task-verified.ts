@@ -22,7 +22,8 @@ export const taskVerifiedEventSchema = defineEventSchema(
       )
       .max(20),
     /** The order that satisfied the task, or the newest one checked. */
-    orderId: z.int().min(1).optional(),
+    // A number in ShopLab, a string in Juice Shop (F3.5a).
+    orderId: z.union([z.int().min(1), z.string().min(1).max(100)]).optional(),
   }),
 );
 

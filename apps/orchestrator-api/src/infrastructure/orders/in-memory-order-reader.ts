@@ -11,6 +11,12 @@ export class InMemoryOrderReader implements OrderReaderPort {
   }
 
   read(sessionId: string): Promise<OrderRecord[]> {
-    return Promise.resolve([...(this.orders.get(sessionId) ?? [])].sort((a, b) => b.id - a.id));
+    const orders = [...(this.orders.get(sessionId) ?? [])];
+    // Numeric ids grow with time; string ids (Juice Shop) carry no order: newest set last.
+    return Promise.resolve(
+      orders.every((order) => typeof order.id === 'number')
+        ? orders.sort((a, b) => Number(b.id) - Number(a.id))
+        : orders.reverse(),
+    );
   }
 }

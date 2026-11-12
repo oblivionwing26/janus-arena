@@ -12,6 +12,8 @@ export interface PlannedVariant {
 /** What a run hands to the queue once its variants are up (F1.7: several, paired). */
 export interface RunPlan {
   readonly runId: string;
+  /** The run's target (`shoplab`, `juice-shop`); absent in plans queued before F3.5a. */
+  readonly target?: string;
   readonly variants: readonly PlannedVariant[];
   readonly sessions: readonly SessionSpec[];
   /** Caps every persona's patience in steps. */
@@ -22,6 +24,8 @@ export interface RunPlan {
 
 export interface SessionJob {
   readonly runId: string;
+  /** The run's target: which shopper details and order reader its sessions use (F3.5a). */
+  readonly target: string;
   readonly spec: SessionSpec;
   readonly variant: PlannedVariant;
   /** 1 on the first try, then 2, 3... after infrastructure failures. */

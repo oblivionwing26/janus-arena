@@ -7,6 +7,7 @@ import {
   describeOrderReaderContract,
 } from '../../test-support/order-reader-contract.js';
 import { InMemoryOrderReader } from './in-memory-order-reader.js';
+import { JuiceShopOrderReader } from './juice-shop-order-reader.js';
 import { ShopLabOrderReader } from './shoplab-order-reader.js';
 
 const BASE_URL = 'http://janus-test-app:3100';
@@ -67,6 +68,91 @@ describe('ShopLabOrderReader', () => {
     const session = await browser.newSession({ baseUrl: BASE_URL });
 
     await expect(new ShopLabOrderReader(browser).read(session)).rejects.toBeInstanceOf(
+      InfrastructureError,
+    );
+  });
+});
+
+/**
+ * A fake Juice Shop answering like the real one (F3.5a): the order history, oldest first, with
+ * its promotional amount in euros and an address id; then each address. Answers only reads
+ * that carry the shopper's token as a bearer header.
+ */
+function juiceShop(orders: typeof CONTRACT_ORDERS) {
+  const responses: Record<string, { status: number; body: string }> = {
+    '/rest/order-history': {
+      status: 200,
+      body: JSON.stringify({
+        status: 'success',
+        data: [...orders]
+          .sort((a, b) => Number(a.id) - Number(b.id))
+          .map((order, index) => ({
+            orderId: String(order.id),
+            totalPrice: 9.99,
+            products: order.items.map((item) => ({ ...item, price: 1.99, total: 1.99 })),
+            promotionalAmount: (order.discountCents / 100).toFixed(2),
+            addressId: index + 1,
+          })),
+      }),
+    },
+  };
+  [...orders]
+    .sort((a, b) => Number(a.id) - Number(b.id))
+    .forEach((order, index) => {
+      const [street, place] = order.shippingAddress.split(', ');
+      const [zip, ...city] = (place ?? '').split(' ');
+      responses[`/api/Addresss/${String(index + 1)}`] = {
+        status: 200,
+        body: JSON.stringify({
+          status: 'success',
+          data: { streetAddress: street, zipCode: zip, city: city.join(' '), country: 'Spain' },
+        }),
+      };
+    });
+  return new ScriptedBrowser({}, responses);
+}
+
+describeOrderReaderContract('JuiceShopOrderReader over a scripted Juice Shop', {
+  create: async () => {
+    const withBrowser = juiceShop(CONTRACT_ORDERS);
+    const emptyBrowser = juiceShop([]);
+    const withOrders = await withBrowser.newSession({ baseUrl: BASE_URL });
+    const emptySession = await emptyBrowser.newSession({ baseUrl: BASE_URL });
+    const withReader = new JuiceShopOrderReader(withBrowser);
+    const emptyReader = new JuiceShopOrderReader(emptyBrowser);
+    const reader = {
+      read: (id: string) =>
+        id.startsWith('empty:') ? emptyReader.read(id.slice(6)) : withReader.read(id),
+    };
+    return { reader, withOrders, withoutOrders: `empty:${emptySession}` };
+  },
+});
+
+describe('JuiceShopOrderReader', () => {
+  it('sends the shopper’s token cookie as a bearer header, the only way Juice Shop reads it', async () => {
+    const browser = juiceShop(CONTRACT_ORDERS);
+    const session = await browser.newSession({ baseUrl: BASE_URL });
+    await new JuiceShopOrderReader(browser).read(session);
+
+    expect(browser.fetches.length).toBeGreaterThan(0);
+    expect(browser.fetches.every((each) => each.options.bearerFromCookie === 'token')).toBe(true);
+  });
+
+  it('reads no orders for a visitor who never logged in', async () => {
+    const browser = new ScriptedBrowser(
+      {},
+      { '/rest/order-history': { status: 500, body: 'Blocked illegal activity' } },
+    );
+    const session = await browser.newSession({ baseUrl: BASE_URL });
+
+    expect(await new JuiceShopOrderReader(browser).read(session)).toEqual([]);
+  });
+
+  it('treats an unreadable history as an infrastructure failure, not a failed task', async () => {
+    const browser = new ScriptedBrowser({}, { '/rest/order-history': { status: 503, body: '' } });
+    const session = await browser.newSession({ baseUrl: BASE_URL });
+
+    await expect(new JuiceShopOrderReader(browser).read(session)).rejects.toBeInstanceOf(
       InfrastructureError,
     );
   });

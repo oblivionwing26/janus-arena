@@ -1,12 +1,15 @@
 /**
  * The route a URL belongs to, so that visits to different products or orders add up: the path
  * without query or trailing slash, matched against the target's patterns (`/products/:slug`).
- * Without a matching pattern, numeric segments become `:id`.
+ * A single-page app's hash route is part of it (`/#/order-completion/:id`, F3.5a); `/#/` is the
+ * home page. Without a matching pattern, numeric segments become `:id`.
  */
 export function routeOf(url: string, patterns: readonly string[] = []): string {
   let path: string;
   try {
-    path = new URL(url).pathname;
+    const parsed = new URL(url);
+    const hash = parsed.hash.split('?')[0] ?? '';
+    path = hash.length > 2 && hash.startsWith('#/') ? `${parsed.pathname}${hash}` : parsed.pathname;
   } catch {
     path = url.split(/[?#]/)[0] ?? url;
   }

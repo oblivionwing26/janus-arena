@@ -29,6 +29,8 @@ export const rawNodeSchema = z.looseObject({
   selected: z.boolean().optional(),
   invalid: z.union([z.boolean(), z.string()]).optional(),
   active: z.boolean().optional(),
+  /** Hidden from assistive technology (an icon, say): not part of any name or prose (F3.5a). */
+  ariaHidden: z.boolean().optional(),
   get children() {
     return z.array(z.union([z.string(), rawNodeSchema])).optional();
   },

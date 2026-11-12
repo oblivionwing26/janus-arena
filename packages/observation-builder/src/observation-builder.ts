@@ -22,10 +22,12 @@ export interface Observation {
   readonly texts: readonly string[];
 }
 
+// What the agent reads as the page's address. A single-page app keeps its route in the hash
+// (`/#/basket`), so the hash is shown too (F3.5a).
 function pathOf(url: string): string {
   try {
     const parsed = new URL(url);
-    return parsed.pathname + parsed.search;
+    return parsed.pathname + parsed.search + parsed.hash;
   } catch {
     return url;
   }

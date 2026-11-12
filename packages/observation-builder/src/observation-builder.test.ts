@@ -196,3 +196,138 @@ describe('ObservationBuilder: pruned snapshot', () => {
     expect(() => new ObservationBuilder().observe({ url: 'x' })).toThrow(InvalidCaptureError);
   });
 });
+
+describe('ObservationBuilder on a single-page app (F3.5a)', () => {
+  it('shows the hash route and sends a full page when only the hash changes', () => {
+    const builder = new ObservationBuilder();
+    const basket = builder.observe(
+      page([node('heading', { level: 1, name: 'Your Basket' })], 'http://juice.test/#/basket'),
+    );
+    const address = builder.observe(
+      page(
+        [node('heading', { level: 1, name: 'Select an address' })],
+        'http://juice.test/#/address/select',
+      ),
+    );
+
+    expect(basket.text.split('\n')[0]).toContain('page /#/basket');
+    expect(address.mode).toBe('full');
+    expect(address.text.split('\n')[0]).toContain('page /#/address/select');
+  });
+});
+
+describe('ObservationBuilder on a page without a main landmark (F3.5a)', () => {
+  // Like Juice Shop's basket: a heading, a table and a button named by its text, no `main`.
+  const basket = capture(
+    [
+      node('generic', { box: box(0) }, [
+        node('banner', { box: box(0) }, [node('button', { name: 'Show the shopping cart' })]),
+        node('heading', { level: 1, name: 'Your Basket' }),
+        node('table', { box: box(0) }, [
+          node('row', {}, [
+            node('cell', { name: 'Apple Juice (1000ml)' }),
+            node('cell', { name: '1.99¤' }),
+          ]),
+        ]),
+        node('generic', { text: 'Total Price: 1.99¤' }),
+        node('button', { box: box(0) }, ['Checkout']),
+      ]),
+    ],
+    'http://juice.test/#/basket',
+  );
+
+  it('reads the whole page as content, so headings, tables and totals reach the agent', () => {
+    const text = new ObservationBuilder().observe(basket).text;
+
+    expect(text).toContain('# Your Basket');
+    expect(text).toContain('Apple Juice (1000ml) | 1.99¤');
+    expect(text).toContain('Total Price: 1.99¤');
+  });
+
+  it('names a control by its visible text when it arrives without a name', () => {
+    const observation = new ObservationBuilder().observe(basket);
+
+    expect(observation.text).toMatch(/\[e\d+\] button "Checkout"/);
+    expect([...observation.locators.values()]).toContainEqual({
+      role: 'button',
+      name: 'Checkout',
+      nth: 0,
+    });
+  });
+});
+
+describe('ObservationBuilder and content hidden from assistive technology (F3.5a)', () => {
+  it('leaves aria-hidden icons out of a control’s name, as the browser does', () => {
+    const page = capture(
+      [
+        node('generic', { box: box(0) }, [
+          node('button', { box: box(0) }, [
+            node('generic', {}, [
+              node('img', { ariaHidden: true, text: 'cart-arrow-down' }),
+              'Checkout',
+            ]),
+          ]),
+          node('button', { box: box(0) }, [node('img', { ariaHidden: true, text: 'trash-alt' })]),
+        ]),
+      ],
+      'http://juice.test/#/basket',
+    );
+    const text = new ObservationBuilder().observe(page).text;
+
+    expect(text).toMatch(/\[e\d+\] button "Checkout"/);
+    expect(text).not.toContain('cart-arrow-down');
+    expect(text).not.toContain('trash-alt');
+  });
+});
+
+describe('ObservationBuilder and a label that hides the visible text (F3.5a)', () => {
+  // Juice Shop: every product card is a button labelled "Click for more information about the
+  // product"; the label replaces the product name a sighted shopper reads on the card.
+  const card = (product: string) =>
+    node('button', { name: 'Click for more information about the product', box: box(0) }, [
+      node('img', { name: product, box: box(0) }),
+      node('generic', { text: product, box: box(0) }),
+    ]);
+
+  it('shows the text the control shows, once, next to its accessible name', () => {
+    const text = new ObservationBuilder().observe(
+      capture(
+        [node('generic', { box: box(0) }, [card('Apple Juice (1000ml)'), card('Pineapple Juice')])],
+        'http://juice.test/#/search?q=juice',
+      ),
+    ).text;
+
+    expect(text).toMatch(
+      /\[e\d+\] button "Click for more information about the product" shows "Apple Juice \(1000ml\)"\n/,
+    );
+    expect(text).toContain('shows "Pineapple Juice"');
+  });
+
+  it('keeps the accessible name as the locator, since the browser finds it by that name', () => {
+    const observation = new ObservationBuilder().observe(
+      capture([card('Apple Juice (1000ml)')], 'http://juice.test/#/search'),
+    );
+
+    expect([...observation.locators.values()]).toEqual([
+      { role: 'button', name: 'Click for more information about the product', nth: 0 },
+    ]);
+  });
+
+  it('adds nothing when the name already says what the control shows', () => {
+    const text = new ObservationBuilder().observe(
+      capture(
+        [
+          node('button', { name: 'Add to Basket', box: box(0) }, [
+            node('generic', { text: 'Add to Basket' }),
+          ]),
+          node('link', { name: 'Apple Juice (1000ml), 1.99', box: box(0) }, [
+            'Apple Juice (1000ml)',
+          ]),
+        ],
+        'http://juice.test/#/search',
+      ),
+    ).text;
+
+    expect(text).not.toContain('shows');
+  });
+});

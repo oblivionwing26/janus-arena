@@ -17,6 +17,11 @@ export const agentActionInputs = {
   type: z.object({
     ref: refSchema,
     text: z.string().max(500).describe('Replaces the current content of the field.'),
+    // F3.5a: some fields act only on Enter (a search box with no button), as people expect.
+    submit: z
+      .boolean()
+      .optional()
+      .describe('Press Enter after typing, as a person does to search or send a form.'),
   }),
   select: z.object({
     ref: refSchema,
@@ -24,6 +29,8 @@ export const agentActionInputs = {
   }),
   scroll: z.object({ direction: z.enum(['up', 'down']) }),
   back: z.object({}),
+  // F3.5a: menus and pop-ups that cover the page close on Esc, as people expect.
+  dismiss: z.object({}),
   wait: z.object({ ms: z.int().min(0).max(10_000).describe('Milliseconds to wait.') }),
   done: z.object({
     outcome: z.enum(['success', 'abandon']),
@@ -41,6 +48,7 @@ export const agentActionSchema = z.discriminatedUnion('type', [
   agentActionInputs.select.extend({ type: z.literal('select') }),
   agentActionInputs.scroll.extend({ type: z.literal('scroll') }),
   agentActionInputs.back.extend({ type: z.literal('back') }),
+  agentActionInputs.dismiss.extend({ type: z.literal('dismiss') }),
   agentActionInputs.wait.extend({ type: z.literal('wait') }),
   agentActionInputs.done.extend({ type: z.literal('done') }),
 ]);

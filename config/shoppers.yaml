@@ -1,0 +1,30 @@
+# The synthetic details a persona types when a target's forms ask for them (F3.5a). Everything
+# here is invented; the card is the payment industry's published test number, never a real one.
+# The account email is `<persona>-<slot>-<run>@<emailDomain>`, with a password per run and slot.
+# Keys are shown to the persona as written, in alphabetical order.
+
+targets:
+  # Unchanged since F1.9, so ShopLab runs stay comparable with earlier ones.
+  shoplab:
+    emailDomain: shoplab.test
+    details:
+      address: Calle Sintética 1, 28001 Madrid
+
+  # Juice Shop never asks a shopper to sign in: an anonymous basket just stays empty. The account
+  # is created before the session and the persona is told it has one; it still signs in itself.
+  # Its address and card are saved in it, as a returning customer's are: filling in both forms
+  # takes about 20 actions, more than most personas' patience (run 01M77F0A…, 0/8).
+  juice-shop:
+    emailDomain: janus.test
+    account: preregistered
+    savedCheckout: true
+    details:
+      address: Calle Sintética 1
+      card expiry: 12/2080
+      card number: '4111111111111111'
+      city: Madrid
+      country: Spain
+      mobile number: '600000001'
+      security answer: Sintética
+      state: Madrid
+      zip code: '28001'

@@ -24,3 +24,20 @@ describe('routeOf', () => {
     expect(routeOf('http://shop.test/orders/6', PATTERNS)).toBe('/orders/:id');
   });
 });
+
+describe('routeOf on a single-page app (F3.5a)', () => {
+  const SPA = ['/#/order-completion/:id'];
+
+  it('keeps the hash route and drops its query', () => {
+    expect(routeOf('http://juice.test/#/basket', SPA)).toBe('/#/basket');
+    expect(routeOf('http://juice.test/#/search?q=apple', SPA)).toBe('/#/search');
+    expect(routeOf('http://juice.test/#/order-completion/5267-f9cd5882f54c75a3', SPA)).toBe(
+      '/#/order-completion/:id',
+    );
+  });
+
+  it('treats the hash home and an in-page anchor as no route', () => {
+    expect(routeOf('http://juice.test/#/', SPA)).toBe('/');
+    expect(routeOf('http://shop.test/cart#top', SPA)).toBe('/cart');
+  });
+});

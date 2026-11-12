@@ -59,6 +59,10 @@ const imageSandboxDefinitionSchema = z.object({
   }),
   // Where the app serves /.well-known from, for the ownership token (F3.1).
   verification: z.object({ dir: z.string().regex(/^(\/[\w.-]+)+$/) }),
+  // Environment for the app container: plain names and values, nothing a shell could read.
+  env: z
+    .record(z.string().regex(/^[A-Z][A-Z0-9_]{0,63}$/), z.string().regex(/^[\w.:/-]{0,200}$/))
+    .default({}),
 });
 
 export type ImageSandboxDefinition = z.infer<typeof imageSandboxDefinitionSchema>;

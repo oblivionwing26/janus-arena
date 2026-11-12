@@ -8,7 +8,14 @@ import { AnthropicGateway } from '../infrastructure/llm/anthropic-gateway.js';
 import { SdkAnthropicTransport } from '../infrastructure/llm/anthropic-transport.js';
 import { loadModelsConfig, repoModelsConfigPath } from '../infrastructure/llm/models-config.js';
 import { RecordedLLMAdapter } from '../infrastructure/llm/recorded-llm-adapter.js';
+import { JuiceShopOrderReader } from '../infrastructure/orders/juice-shop-order-reader.js';
 import { ShopLabOrderReader } from '../infrastructure/orders/shoplab-order-reader.js';
+import { JuiceShopShopperAccounts } from '../infrastructure/personas/juice-shop-shopper-accounts.js';
+import { PlaywrightScopedHttp } from '../infrastructure/scope/playwright-scoped-http.js';
+import {
+  loadShoppersConfig,
+  repoShoppersConfigPath,
+} from '../infrastructure/personas/shoppers-config.js';
 import { YamlPersonaCatalog } from '../infrastructure/personas/yaml-persona-catalog.js';
 import { FileArtifactStore } from '../infrastructure/artifacts/file-artifact-store.js';
 import {
@@ -63,7 +70,13 @@ const app = await createApp({
     workspacesRoot: workspacesRoot(),
   }),
   browser,
-  orders: new ShopLabOrderReader(browser),
+  orders: {
+    shoplab: new ShopLabOrderReader(browser),
+    'juice-shop': new JuiceShopOrderReader(browser),
+  },
+  shoppers: await loadShoppersConfig(repoShoppersConfigPath()),
+  // From inside janus-sbx, through the Playwright server: the orchestrator has no route there.
+  accounts: { 'juice-shop': new JuiceShopShopperAccounts(new PlaywrightScopedHttp()) },
   queue: new BullMqSessionQueue({
     redisUrl: required('REDIS_URL'),
     concurrency: Number(process.env.SESSION_CONCURRENCY ?? 2),

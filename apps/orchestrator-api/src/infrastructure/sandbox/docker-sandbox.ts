@@ -220,6 +220,7 @@ export class DockerSandbox implements SandboxPort, OwnershipTokenPort {
       `${VARIANT_LABEL}=${variant.id}`,
       '--label',
       `${TARGET_LABEL}=${definition.name}`,
+      ...Object.entries(definition.env).flatMap(([key, value]) => ['-e', `${key}=${value}`]),
       definition.image,
     ]);
     await this.waitForLog(appName(variant.id), definition.app.readyLog);

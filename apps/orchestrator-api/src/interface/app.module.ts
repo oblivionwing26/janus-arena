@@ -31,6 +31,8 @@ export class AppModule {
       artifacts,
       friction,
       orders,
+      shoppers,
+      accounts,
     } = adapters;
     const navigator =
       gateway === undefined || personas === undefined ? undefined : { gateway, personas };
@@ -68,6 +70,8 @@ export class AppModule {
                   navigator,
                   ...(artifacts === undefined ? {} : { artifacts }),
                   ...(orders === undefined ? {} : { orders }),
+                  ...(shoppers === undefined ? {} : { shoppers }),
+                  ...(accounts === undefined ? {} : { accounts }),
                 }),
           }),
         },

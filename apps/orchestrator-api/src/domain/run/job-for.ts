@@ -14,6 +14,8 @@ export function jobFor(plan: RunPlan, spec: SessionSpec, attempt: number): Sessi
   }
   return {
     runId: plan.runId,
+    // Plans queued before F3.5a were all ShopLab's.
+    target: plan.target ?? 'shoplab',
     spec,
     variant,
     attempt,

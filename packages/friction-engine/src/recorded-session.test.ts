@@ -1,5 +1,7 @@
 // The engine on a real session: Carmen's purchase recorded in F1.4 (15 steps, three waits while
 // forms submitted, no baseline in that run). A clean purchase must not produce spurious signals.
+// The navigator's replay fixture was re-recorded when its tools changed (F3.5a); these events are
+// that original session, kept for the engine because its waits are what this test is about.
 
 import { readFileSync } from 'node:fs';
 import { fileURLToPath } from 'node:url';
@@ -13,10 +15,7 @@ const events = (
   JSON.parse(
     readFileSync(
       fileURLToPath(
-        new URL(
-          '../../../recordings/fixtures/sessions/carmen-retired/events.json',
-          import.meta.url,
-        ),
+        new URL('../../../recordings/fixtures/friction/carmen-f14-events.json', import.meta.url),
       ),
       'utf8',
     ),

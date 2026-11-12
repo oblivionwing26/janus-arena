@@ -9,6 +9,13 @@ app:
   # Distroless image without a healthcheck or a shell: ready once it logs this.
   readyLog: Server listening on port 3000
 
+# Quiet mode (Juice Shop's own config/quiet.yml): no solved-challenge notifications, hints,
+# hacking instructor or welcome banner. Juice Shop's ground truth must never reach an agent, and
+# a persona that merely opens the privacy policy would otherwise see "challenge solved" (F3.5a).
+# The challenges are still tracked server-side, for the orchestrator's own checks.
+env:
+  NODE_ENV: quiet
+
 # Juice Shop serves this folder at /.well-known; the run's ownership token is copied there (F3.1).
 verification:
   dir: /juice-shop/.well-known

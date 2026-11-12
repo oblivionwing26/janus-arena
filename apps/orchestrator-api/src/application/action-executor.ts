@@ -143,7 +143,12 @@ export class ActionExecutor {
         break;
       }
       case 'type':
-        await this.browser.type(session, await located(action.ref), action.text);
+        await this.browser.type(
+          session,
+          await located(action.ref),
+          action.text,
+          action.submit === true ? { submit: true } : {},
+        );
         break;
       case 'select':
         await this.browser.select(session, await located(action.ref), action.value);
@@ -153,6 +158,9 @@ export class ActionExecutor {
         break;
       case 'back':
         await this.browser.back(session);
+        break;
+      case 'dismiss':
+        await this.browser.dismiss(session);
         break;
       case 'wait':
         await this.sleep(action.ms);

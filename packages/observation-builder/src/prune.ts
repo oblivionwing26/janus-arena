@@ -35,6 +35,11 @@ const CHOICE_ROLES = new Set(['combobox', 'listbox']);
 const NOTICE_ROLES = new Set(['alert', 'status']);
 /** Landmarks whose prose (not their controls) reaches the agent. */
 const PROSE_ROOTS = new Set(['main', 'dialog', 'alertdialog']);
+/**
+ * Page chrome: on a page without a `main` landmark (many single-page apps, Juice Shop), every
+ * prose but these reaches the agent (F3.5a).
+ */
+const CHROME = new Set(['banner', 'navigation', 'contentinfo', 'complementary']);
 /** Containers whose accessible name is useful context for the controls inside. */
 const NAMED_CONTAINERS = new Set(['alertdialog', 'dialog', 'form', 'group', 'radiogroup', 'table']);
 /** Roles whose accessible name is their visible content. */
@@ -84,8 +89,16 @@ function hasControl(node: RawNode): boolean {
   );
 }
 
+function hasRole(nodes: readonly Child[], role: string): boolean {
+  return nodes.some(
+    (child) =>
+      typeof child !== 'string' && (child.role === role || hasRole(child.children ?? [], role)),
+  );
+}
+
 function flatten(child: Child): string {
   if (typeof child === 'string') return normalise(child);
+  if (child.ariaHidden === true) return '';
   const own = NAME_IS_CONTENT.has(child.role) || child.role === 'heading' ? child.name : undefined;
   const parts = [own, child.text, ...(child.children ?? []).map(flatten)];
   return normalise(parts.filter((part) => part !== undefined && part !== '').join(' '));
@@ -112,8 +125,14 @@ export function prune(capture: RawCapture, registry: RefRegistry): PrunedPage {
     lines.push({ kind, text: clip(value, MAX_TEXT) });
   };
 
-  const element = (node: RawNode, context: Context) => {
-    const name = node.name ?? '';
+  const element = (raw: RawNode, context: Context) => {
+    // A control named by its own content ("Checkout") can arrive without a name: its visible
+    // text is its accessible name, and the one the browser finds it by (F3.5a).
+    const name =
+      raw.name !== undefined && raw.name !== ''
+        ? raw.name
+        : clip((raw.children ?? []).map(flatten).join(' ').trim(), MAX_NAME);
+    const node = name === (raw.name ?? '') ? raw : { ...raw, name };
     const key = `${node.role}\u0000${name}`;
     const nth = seen.get(key) ?? 0;
     seen.set(key, nth + 1);
@@ -121,7 +140,12 @@ export function prune(capture: RawCapture, registry: RefRegistry): PrunedPage {
     const locator = { role: node.role, name, nth };
     const ref = registry.refFor(locator);
     locators.set(ref, locator);
-    lines.push({ kind: 'element', ref, text: `[${ref}] ${describe(node)}` });
+    const shown = name === (raw.name ?? '') ? hiddenText(raw) : '';
+    lines.push({
+      kind: 'element',
+      ref,
+      text: `[${ref}] ${describe(node)}${shown === '' ? '' : ` shows ${JSON.stringify(shown)}`}`,
+    });
   };
 
   const walk = (child: Child, parent: Context) => {
@@ -131,8 +155,10 @@ export function prune(capture: RawCapture, registry: RefRegistry): PrunedPage {
       return;
     }
     const node = child;
+    // Hidden from assistive technology: a screen reader never reads it, nor does the agent.
+    if (node.ariaHidden === true) return;
     const context: Context = {
-      prose: parent.prose || PROSE_ROOTS.has(node.role),
+      prose: (parent.prose && !CHROME.has(node.role)) || PROSE_ROOTS.has(node.role),
       visible: node.box === undefined ? parent.visible : inWindow(node.box),
       labels: new Set(
         (node.children ?? []).flatMap((c) =>
@@ -181,7 +207,12 @@ export function prune(capture: RawCapture, registry: RefRegistry): PrunedPage {
     for (const grandchild of node.children ?? []) walk(grandchild, context);
   };
 
-  const root: Context = { prose: false, visible: true, labels: new Set() };
+  // Without a `main` landmark, the whole page is the content (F3.5a).
+  const root: Context = {
+    prose: !hasRole(capture.tree, 'main'),
+    visible: true,
+    labels: new Set(),
+  };
   for (const child of capture.tree) walk(child, root);
   // A route announcer (e.g. Next.js) is an alert that only repeats the title or a heading.
   headings.add(capture.title);
@@ -192,6 +223,18 @@ export function prune(capture: RawCapture, registry: RefRegistry): PrunedPage {
     .filter(([index, { role }]) => role === 'alert' && !announcers.has(index))
     .map(([, { value }]) => value);
   return { lines: lines.filter((_, index) => !announcers.has(index)), locators, alerts };
+}
+
+/**
+ * The text a control shows on screen when its label replaces it (F3.5a): Juice Shop labels each
+ * product card "Click for more information about the product", while a sighted shopper reads
+ * the product's name on it. Each distinct piece once; empty when the name already says it.
+ */
+function hiddenText(node: RawNode): string {
+  if (VALUE_ROLES.has(node.role) || CHOICE_ROLES.has(node.role)) return '';
+  const pieces = [...new Set((node.children ?? []).map(flatten).filter((piece) => piece !== ''))];
+  const shown = clip(pieces.join(' '), MAX_NAME);
+  return shown === '' || normalise(node.name ?? '').includes(shown) ? '' : shown;
 }
 
 function describe(node: RawNode): string {

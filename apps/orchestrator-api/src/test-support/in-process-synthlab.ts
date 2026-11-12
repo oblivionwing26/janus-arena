@@ -38,7 +38,7 @@ export class InProcessSynthLab implements SynthLabPort {
       browser: new ScriptedBrowser(SHOPLAB_PAGES),
       control,
       navigator: { gateway, personas },
-      orders: new InMemoryOrderReader(),
+      orders: { shoplab: new InMemoryOrderReader() },
     });
     const finishRun = new FinishRun({ store, sandbox, control });
     void queue.start({

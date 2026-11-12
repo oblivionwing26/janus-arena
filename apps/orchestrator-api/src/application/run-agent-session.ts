@@ -7,6 +7,8 @@ import { BudgetExhaustedError } from '../domain/llm/budget-exhausted-error.js';
 import type { LLMGatewayPort } from '../domain/llm/llm-gateway-port.js';
 import type { PersonaCatalogPort } from '../domain/persona/persona-catalog-port.js';
 import { InfrastructureError } from '../domain/run/run-errors.js';
+import type { ShopperAccountPort } from '../domain/task/shopper-account-port.js';
+import { SHOPLAB_SHOPPER, type ShopperProfile } from '../domain/task/shopper-profile.js';
 import type { SessionJob, SessionResult } from '../domain/run/session-queue-port.js';
 import { NavigatorSession } from './navigator-session.js';
 import type { RunControl } from './run-control.js';
@@ -21,8 +23,15 @@ export interface RunAgentSessionDeps {
   readonly navigator?: { readonly gateway: LLMGatewayPort; readonly personas: PersonaCatalogPort };
   /** Screenshots when friction appears (F1.6). */
   readonly artifacts?: ArtifactStorePort;
-  /** Reads the target after a task (F1.9 oracle). Without it, tasks are not verified. */
-  readonly orders?: OrderReaderPort;
+  /**
+   * Reads each target after a task (F1.9 oracle), by target name. A target without a reader
+   * leaves its tasks unverified.
+   */
+  readonly orders?: Readonly<Record<string, OrderReaderPort>>;
+  /** Each target's synthetic shopper details (F3.5a); ShopLab's when a target has none. */
+  readonly shoppers?: Readonly<Record<string, ShopperProfile>>;
+  /** Creates accounts before a session, for targets whose profile is `preregistered`. */
+  readonly accounts?: Readonly<Record<string, ShopperAccountPort>>;
 }
 
 /**
@@ -75,11 +84,17 @@ export class RunAgentSession {
     const task = job.taskNumber === undefined ? '' : `t${String(job.taskNumber)}-`;
     const slot = `${task}s${String(spec.seed)}-a${String(attempt)}`;
     const run = runId.slice(-8).toLowerCase();
+    const shopper = this.shopper(job);
     return {
       agentId: `${who}-${spec.variant}-${slot}`,
-      email: `${who}-${slot}-${run}@shoplab.test`,
+      email: `${who}-${slot}-${run}@${shopper.emailDomain}`,
       password: `pw-${run}-${slot}`,
     };
+  }
+
+  /** The target's synthetic shopper details; ShopLab's, as before F3.5a, when it has none. */
+  private shopper(job: SessionJob): ShopperProfile {
+    return this.deps.shoppers?.[job.target] ?? SHOPLAB_SHOPPER;
   }
 
   private async started(job: SessionJob, recorder: RunEventRecorder): Promise<void> {
@@ -132,6 +147,23 @@ export class RunAgentSession {
       job,
       new RunEventRecorder(this.deps.store, job.runId, { agentId, role: persona.modelRole }),
     );
+    const orders = this.deps.orders?.[job.target];
+    const shopper = this.shopper(job);
+    const name = `${persona.name} Sintética`;
+    const preregistered = shopper.account === 'preregistered';
+    if (preregistered) {
+      const accounts = this.deps.accounts?.[job.target];
+      if (accounts === undefined) {
+        throw new InfrastructureError(`No way to create shopper accounts on ${job.target}`);
+      }
+      await accounts.create(job.variant.baseUrl, {
+        name,
+        email,
+        password,
+        details: shopper.details,
+        saveCheckout: shopper.savedCheckout,
+      });
+    }
     const session = new NavigatorSession({
       browser: this.deps.browser,
       gateway: navigator.gateway,
@@ -145,18 +177,14 @@ export class RunAgentSession {
       persona,
       budget,
       signal,
-      ...(job.task === undefined || this.deps.orders === undefined
+      ...(job.task === undefined || orders === undefined
         ? {}
-        : { verify: { task: job.task, orders: this.deps.orders } }),
+        : { verify: { task: job.task, orders } }),
       task: {
-        hasAccount: false,
+        hasAccount: preregistered,
+        savedCheckout: preregistered && shopper.savedCheckout === true,
         ...(job.task === undefined ? {} : { goal: job.task.goal }),
-        details: {
-          name: `${persona.name} Sintética`,
-          email,
-          password,
-          address: 'Calle Sintética 1, 28001 Madrid',
-        },
+        details: { ...shopper.details, name, email, password },
       },
     });
     const { sessionIndex } = job.spec;

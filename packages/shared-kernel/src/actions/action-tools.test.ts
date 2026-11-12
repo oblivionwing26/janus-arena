@@ -13,6 +13,7 @@ describe('actionToolDefinitions', () => {
       'select',
       'scroll',
       'back',
+      'dismiss',
       'wait',
       'done',
     ]);
