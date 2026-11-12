@@ -163,6 +163,14 @@ function describe(event: JanusEvent): { label: string; tone: Tone } {
         tone: 'error',
       };
     }
+    case 'page.requests': {
+      const { requests } = event.payload;
+      const slowest = Math.max(...requests.map((request) => request.ms));
+      return {
+        label: `${String(requests.length)} petición(es) a la API · la más lenta ${String(Math.round(slowest))} ms`,
+        tone: 'neutral',
+      };
+    }
     case 'finding.remediated': {
       const { status, iterations, branch, reason } = event.payload;
       return status === 'fixed'

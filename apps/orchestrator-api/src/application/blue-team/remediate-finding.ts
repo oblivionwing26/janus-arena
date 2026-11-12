@@ -70,6 +70,7 @@ export class RemediateFinding {
         repo: input.workspace.url,
         base: input.workspace.baseSha,
         head: built.sha,
+        changedFiles: built.stats.files.map((file) => file.path),
         variantId: built.variantId,
         baseUrl: built.baseUrl,
       };

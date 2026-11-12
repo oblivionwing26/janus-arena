@@ -89,6 +89,7 @@ export {
   findingRemediatedEventSchema,
   type FindingRemediatedEvent,
 } from './events/v1/finding-remediated.js';
+export { pageRequestsEventSchema, type PageRequestsEvent } from './events/v1/page-requests.js';
 export { attackAttemptEventSchema, type AttackAttemptEvent } from './events/v1/attack-attempt.js';
 export { attackVerdictEventSchema, type AttackVerdictEvent } from './events/v1/attack-verdict.js';
 export { scopeBlockedEventSchema, type ScopeBlockedEvent } from './events/v1/scope-blocked.js';

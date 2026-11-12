@@ -28,6 +28,7 @@ import type {
   PageActivity,
   PageDialogRecord,
   PageErrorRecord,
+  PageRequestRecord,
   PageTelemetry,
 } from '../../domain/browser/page-telemetry.js';
 import {
@@ -42,6 +43,7 @@ import {
   READ_INSTRUMENTATION,
 } from './page-instrumentation.js';
 import { NetworkQuiet } from './network-quiet.js';
+import { watchApiRequests } from './watch-api-requests.js';
 import { watchPageErrors } from './watch-page-errors.js';
 import { maskSecrets } from './mask-secrets.js';
 
@@ -68,6 +70,8 @@ interface Session {
   readonly page: Page;
   /** Technical errors seen since the last drainTelemetry(). */
   readonly errors: PageErrorRecord[];
+  /** API requests since the last drainTelemetry() (F3.5). */
+  readonly requests: PageRequestRecord[];
   readonly network: NetworkQuiet;
   readonly guard: NetworkGuard;
   /** Requests the guard refused since the last drainTelemetry(). */
@@ -123,6 +127,7 @@ export class PlaywrightRunner implements BrowserPort {
     const page = await context.newPage();
     page.setDefaultTimeout(this.actionTimeoutMs);
     const errors = watchPageErrors(page);
+    const requests = watchApiRequests(page);
     const dialogs: PageDialogRecord[] = [];
     page.on('dialog', (dialog) => {
       dialogs.push({
@@ -134,7 +139,7 @@ export class PlaywrightRunner implements BrowserPort {
     });
     const network = new NetworkQuiet(page);
     const id = `pw-${String(this.nextId++)}`;
-    this.sessions.set(id, { context, page, errors, network, guard, blocked, dialogs });
+    this.sessions.set(id, { context, page, errors, requests, network, guard, blocked, dialogs });
     return id;
   }
 
@@ -261,7 +266,7 @@ export class PlaywrightRunner implements BrowserPort {
   }
 
   async drainTelemetry(sessionId: string): Promise<PageTelemetry> {
-    const { page, errors, blocked, dialogs } = this.session(sessionId);
+    const { page, errors, requests, blocked, dialogs } = this.session(sessionId);
     const drained = errors.splice(0);
     const vitals = (await this.instrumentation(sessionId))?.vitals ?? {};
     const measured = Object.values(vitals).some((value) => value !== undefined);
@@ -270,6 +275,7 @@ export class PlaywrightRunner implements BrowserPort {
       vitals: measured ? { url: page.url(), ...vitals } : null,
       blocked: blocked.splice(0),
       dialogs: dialogs.splice(0),
+      requests: requests.splice(0),
     };
   }
 

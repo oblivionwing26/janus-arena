@@ -36,6 +36,14 @@ describe('run config', () => {
       },
     ],
     ['a variant key that is not short', { variants: [{ key: 'variant-b', ref: 'main' }] }],
+    [
+      'a patch base that is not a commit',
+      { variants: [{ key: 'b', ref: 'x', repo: 'file:///w', base: 'main' }] },
+    ],
+    [
+      'a patch base without its clone',
+      { variants: [{ key: 'b', ref: 'x', base: 'c'.repeat(40) }] },
+    ],
     ['a task without items', { tasks: [{ id: 't', goal: 'Buy', expect: { items: [] } }] }],
     [
       'repeated task ids',

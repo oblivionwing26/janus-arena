@@ -18,6 +18,7 @@ import type {
 import type {
   PageActivity,
   PageErrorRecord,
+  PageRequestRecord,
   PageTelemetry,
 } from '../../domain/browser/page-telemetry.js';
 import {
@@ -52,6 +53,8 @@ export interface ScriptedPage {
   readonly elements: readonly ScriptedElement[];
   /** Technical errors the page reports every time it is shown. */
   readonly errors?: readonly PageErrorRecord[];
+  /** API requests the page makes every time it is shown (F3.5). */
+  readonly requests?: readonly PageRequestRecord[];
   /** Web vitals the page reports once shown. */
   readonly vitals?: { readonly lcpMs?: number; readonly cls?: number; readonly inpMs?: number };
   /** Texts of `alert` notices shown on the page, such as validation errors. */
@@ -67,6 +70,7 @@ interface Session {
   document: number;
   mutations: number;
   readonly errors: PageErrorRecord[];
+  readonly requests: PageRequestRecord[];
   readonly guard: NetworkGuard;
   readonly blocked: BlockedRequest[];
   readonly typed: Map<string, string>;
@@ -133,6 +137,7 @@ export class ScriptedBrowser implements BrowserPort {
       document: 0,
       mutations: 0,
       errors: [],
+      requests: [],
       scrollY: 0,
       viewport: options.device === 'mobile' ? MOBILE_VIEWPORT : VIEWPORT,
       typed,
@@ -300,6 +305,7 @@ export class ScriptedBrowser implements BrowserPort {
       const vitals = this.page(session).vitals;
       return {
         errors: session.errors.splice(0),
+        requests: session.requests.splice(0),
         blocked: session.blocked.splice(0),
         // Scripted pages run no script, so they never open a dialog.
         dialogs: [],
@@ -352,6 +358,7 @@ export class ScriptedBrowser implements BrowserPort {
     session.document += 1;
     session.mutations = 0;
     session.errors.push(...(this.page(session).errors ?? []));
+    session.requests.push(...(this.page(session).requests ?? []));
     session.scrollY = 0;
   }
 

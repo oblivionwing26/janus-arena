@@ -36,6 +36,11 @@ export const runConfigBodySchema = z.strictObject({
           .string()
           .regex(/^file:\/\/\S{1,400}$/)
           .optional(),
+        /** A patched image variant's base commit in that clone (F3.5). */
+        base: z
+          .string()
+          .regex(/^[0-9a-f]{40}$/)
+          .optional(),
       }),
     )
     .min(1)
@@ -79,10 +84,11 @@ export type RunConfigBody = z.infer<typeof runConfigBodySchema>;
 export function runConfigFromBody(body: RunConfigBody): RunConfig {
   return {
     target: body.target,
-    variants: body.variants.map(({ id, ref: variantRef, repo }) => ({
+    variants: body.variants.map(({ id, ref: variantRef, repo, base }) => ({
       key: id,
       ref: variantRef,
       ...(repo === undefined ? {} : { repo }),
+      ...(base === undefined ? {} : { base }),
     })),
     personas: body.personas,
     seeds: body.seeds,

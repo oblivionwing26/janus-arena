@@ -1,9 +1,10 @@
-// `pnpm run:blue-team <poc.json | runId --finding <findingId>> [--max-eur 0.5] [--record <dir>]`
-// (F3.5): takes a confirmed finding's PoC, clones the target's source without its ground truth
-// (ADR 0012) and runs the Blue Team loop: a fix on janus/fix-<findingId>, its patched variant
-// built in the sandbox, then V1 (the PoC no longer works) and V2 (the target's tests and a
-// regression test, base against fix), at most 3 iterations. Every event goes to a new run, so
-// its cost shows in the console. Calls the real API: it spends money.
+// `pnpm run:blue-team <poc.json | runId --finding <findingId>> [--max-eur 0.5] [--record <dir>]
+//  [--run-file runs/juice-shop-purchase.yaml]` (F3.5): takes a confirmed finding's PoC, clones
+// the target's source without its ground truth (ADR 0012) and runs the Blue Team loop: a fix on
+// janus/fix-<findingId>, its patched variant built in the sandbox, then V1 (the PoC no longer
+// works), V2 (the target's tests and a regression test, base against fix) and V3 (a paired
+// SynthLab run, original against fix, on the running orchestrator: needs `pnpm dev`), at most 3
+// iterations. Every event goes to a run, so its cost shows in the console. Calls the real API.
 
 import { existsSync } from 'node:fs';
 import { readFile } from 'node:fs/promises';
@@ -11,6 +12,7 @@ import { resolve } from 'node:path';
 import { fileURLToPath } from 'node:url';
 
 import { isKnownEvent, newUlid, proofOfConceptSchema } from '@janus/shared-kernel';
+import { parse } from 'yaml';
 
 import {
   PocReplayVerifier,
@@ -18,6 +20,7 @@ import {
 } from '../../application/blue-team/poc-replay-verifier.js';
 import { RegressionTestsVerifier } from '../../application/blue-team/regression-tests-verifier.js';
 import { RemediateFinding } from '../../application/blue-team/remediate-finding.js';
+import { SynthlabRerunVerifier } from '../../application/blue-team/synthlab-rerun-verifier.js';
 import { LlmEventObserver } from '../../application/llm-event-observer.js';
 import { RunEventRecorder } from '../../application/run-event-recorder.js';
 import { ORCHESTRATOR_ACTOR } from '../../application/start-run.js';
@@ -39,6 +42,11 @@ import { AnthropicGateway } from '../../infrastructure/llm/anthropic-gateway.js'
 import { SdkAnthropicTransport } from '../../infrastructure/llm/anthropic-transport.js';
 import { loadModelsConfig, repoModelsConfigPath } from '../../infrastructure/llm/models-config.js';
 import { RecordedLLMAdapter } from '../../infrastructure/llm/recorded-llm-adapter.js';
+import {
+  loadFunnelsConfig,
+  repoFunnelsConfigPath,
+} from '../../infrastructure/report/funnels-config.js';
+import { HttpSynthLab } from '../../infrastructure/run/http-synthlab.js';
 import { DockerCli } from '../../infrastructure/sandbox/docker-cli.js';
 import { DockerSandbox } from '../../infrastructure/sandbox/docker-sandbox.js';
 import {
@@ -58,6 +66,7 @@ import {
 } from '../../infrastructure/surface/surface-config.js';
 import { TypeScriptAttackSurface } from '../../infrastructure/surface/typescript-attack-surface.js';
 import { LocalGitAdapter } from '../../infrastructure/vcs/local-git-adapter.js';
+import { runConfigBodySchema, runConfigFromBody } from '../http/start-run-body.js';
 
 const envFile = fileURLToPath(new URL('../../../../../.env', import.meta.url));
 if (existsSync(envFile)) process.loadEnvFile(envFile);
@@ -109,6 +118,13 @@ const { patch } = definition;
 const surfaceTarget = (await loadSurfaceConfig(repoSurfaceConfigPath()))[poc.target];
 if (surfaceTarget === undefined) throw new Error(`config/surface.yaml has no ${poc.target}`);
 const scopes = await loadScopeConfig(repoScopeConfigPath());
+// V3's SynthLab run: the target's run file, its variants replaced by the original and the fix.
+const runFile = resolve(cwd, option('run-file') ?? `runs/${poc.target}-purchase.yaml`);
+const synthlabConfig = runConfigFromBody(
+  runConfigBodySchema.parse(parse(await readFile(runFile, 'utf8'))),
+);
+const report = (await loadFunnelsConfig(repoFunnelsConfigPath()))[poc.target];
+if (report === undefined) throw new Error(`config/funnels.yaml has no ${poc.target}`);
 
 const store = await PostgresEventStore.connect(required('DATABASE_URL'));
 const docker = new DockerCli(required('DOCKER_HOST'));
@@ -168,12 +184,25 @@ try {
     }),
   });
 
+  const v3 = new SynthlabRerunVerifier({
+    synthlab: new HttpSynthLab(store, process.env.ORCHESTRATOR_URL ?? 'http://127.0.0.1:3011'),
+    config: synthlabConfig,
+    report,
+    // The endpoints whose handler or declaration lives in a file the fix changed.
+    touched: (files) =>
+      endpoints.filter(
+        (each) =>
+          files.includes(each.declaredAt.file) ||
+          (each.handler !== null && files.includes(each.handler.file)),
+      ),
+  });
+
   const result = await new RemediateFinding({
     gateway,
     vcs,
     store,
     sandbox,
-    verifiers: [v1, v2],
+    verifiers: [v1, v2, v3],
     regressionTest: (fix) => v2.regressionTest(fix),
   }).execute({
     runId,

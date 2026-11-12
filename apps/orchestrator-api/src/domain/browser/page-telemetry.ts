@@ -22,6 +22,16 @@ export interface PageVitalsRecord {
   readonly inpMs?: number | undefined;
 }
 
+/** An API request the page made (fetch or XHR) and how long it took (F3.5, V3). */
+export interface PageRequestRecord {
+  readonly method: 'GET' | 'POST' | 'PUT' | 'PATCH' | 'DELETE';
+  /** Path only: never the query string. */
+  readonly path: string;
+  /** 0 when no response came. */
+  readonly status: number;
+  readonly ms: number;
+}
+
 /** A dialog the page opened (alert, confirm, prompt...); dismissed at once (F3.2). */
 export interface PageDialogRecord {
   readonly kind: string;
@@ -37,4 +47,6 @@ export interface PageTelemetry {
   readonly blocked?: readonly BlockedRequest[];
   /** Dialogs since the last drain, for the XSS oracle (F3.2); absent on old tapes. */
   readonly dialogs?: readonly PageDialogRecord[];
+  /** API requests since the last drain (F3.5); absent on old tapes. */
+  readonly requests?: readonly PageRequestRecord[];
 }
