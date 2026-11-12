@@ -76,6 +76,8 @@ const BIASES: Record<PersonaBias, string> = {
   'double-checks': 'You review what you entered before confirming anything.',
   'low-tolerance-for-waits':
     'You lose patience quickly when a page is slow or nothing seems to happen.',
+  'forgets-password':
+    'You never remember which password you used in this shop: you try your old passwords first, in the order listed in your details, and only then the right one.',
 };
 
 function patienceOf(persona: Persona): string {

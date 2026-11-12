@@ -26,7 +26,15 @@ const policy: ScopePolicy = {
   target: 'juice-shop',
   origins: [ORIGIN],
   excludedPaths: ['/api/Challenges/**'],
-  allowedTests: ['http-probe', 'idor', 'auth-bypass', 'xss', 'business-logic', 'race'],
+  allowedTests: [
+    'http-probe',
+    'idor',
+    'auth-bypass',
+    'xss',
+    'business-logic',
+    'brute-force',
+    'race',
+  ],
   maxRequestsPerSecond: 100,
 };
 const scope = VerifiedScope.verify(policy, TOKEN, new Map([[ORIGIN, TOKEN]]), 'now');
@@ -82,6 +90,8 @@ class FakeShop {
   readonly users = new InMemoryTestUsers();
   readonly baskets = new Map<number, string[]>();
   readonly likedBy: string[] = [];
+  /** Wrong passwords per account, for the secure shop's throttling (F3.6). */
+  private readonly failures = new Map<string, number>();
   private readonly byToken = new Map<string, number>();
   private readonly emails = new Map<string, string>();
 
@@ -128,9 +138,22 @@ class FakeShop {
     }
     if (pathname === '/rest/user/login' && request.method === 'POST') {
       const injected = (request.body ?? '').includes("'");
-      return injected && !this.secure
-        ? reply(200, JSON.stringify({ authentication: { token: STOLEN_JWT, bid: 1 } }))
-        : reply(401, 'Invalid email or password.');
+      if (injected && !this.secure) {
+        return reply(200, JSON.stringify({ authentication: { token: STOLEN_JWT, bid: 1 } }));
+      }
+      // A real login; the secure shop throttles an account after 5 wrong passwords (F3.6).
+      const { email, password } = JSON.parse(request.body ?? '{}') as {
+        email?: string;
+        password?: string;
+      };
+      const failures = this.failures.get(email ?? '') ?? 0;
+      if (this.secure && failures >= 5) return reply(429, 'Too many requests');
+      const account = email === undefined ? undefined : this.users.accounts.get(email);
+      if (account !== undefined && account.password === password) {
+        return reply(200, JSON.stringify({ authentication: { token: 'session', bid: 9 } }));
+      }
+      this.failures.set(email ?? '', failures + 1);
+      return reply(401, 'Invalid email or password.');
     }
     return reply(404, 'Not found');
   }
@@ -348,6 +371,30 @@ describe('RunRedTeam deterministic engine', () => {
     );
     expect(blocked.length).toBeGreaterThan(0);
     expect(events.filter((e) => e.type === 'scope.blocked').length).toBe(blocked.length);
+  });
+
+  it('finds brute force on a login that never limits guesses, with its PoC (F3.6)', async () => {
+    const { result, events, shop } = await run({ classes: ['brute-force'] });
+
+    expect(result.findings).toMatchObject([
+      {
+        testType: 'brute-force',
+        endpoint: 'POST /rest/user/login',
+        poc: {
+          class: 'brute-force',
+          oracle: 'unthrottled-guessing',
+          steps: { kind: 'login-guessing', path: '/rest/user/login', guesses: 20 },
+        },
+      },
+    ]);
+    const recorded = JSON.stringify(events);
+    for (const user of shop.users.accounts.values()) expect(recorded).not.toContain(user.password);
+  });
+
+  it('finds no brute force on a login that throttles an account (F3.6)', async () => {
+    const { result } = await run({ shop: new FakeShop(true), classes: ['brute-force'] });
+
+    expect(result.findings).toEqual([]);
   });
 
   it('records no password, token, owner id or response body', async () => {

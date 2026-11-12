@@ -40,6 +40,7 @@ history). The measure is ~2,850, at the low end: the observation builder keeps p
 | F3.5 Blue Team loop, negative qty (2 iterations) |        1 |               — |         0.049 |
 | F3.5 V3 SynthLab re-run, A/B (per fix)           |       20 |               — |         0.025 |
 | F3.5 full loop V1–V3, one fix (1 iteration)      |        1 |               — |  0.54 (total) |
+| F3.6a smoke, Inés on Juice Shop (+ baseline)     |        2 |               — |         0.035 |
 
 Steps per session dominate the bill. In F1.9 three sessions took 53–60 steps because the
 baseline bounced between cart and checkout (see the F1.9 note in the ROADMAP); without them the

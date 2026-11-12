@@ -9,6 +9,7 @@ export const ORACLES = [
   'script-executed',
   'price-mismatch',
   'duplicate-effect',
+  'unthrottled-guessing',
 ] as const;
 export const oracleSchema = z.enum(ORACLES);
 export type OracleName = z.infer<typeof oracleSchema>;
@@ -48,6 +49,16 @@ export const pocStepsSchema = z.discriminatedUnion('kind', [
   }),
   z.object({ kind: z.literal('order-quantity'), quantity: z.number() }),
   z.object({ kind: z.literal('once-effect-race'), size: z.int().min(2).max(50) }),
+  z.object({
+    kind: z.literal('login-guessing'),
+    method: z.literal('POST'),
+    path,
+    /** The login's identity and password fields, as the surface map names them. */
+    identity: z.string().regex(/^[A-Za-z_]\w{0,39}$/),
+    password: z.string().regex(/^[A-Za-z_]\w{0,39}$/),
+    /** Wrong passwords sent to one fresh test account before the right one (F3.6). */
+    guesses: z.int().min(5).max(50),
+  }),
 ]);
 export type PocSteps = z.infer<typeof pocStepsSchema>;
 

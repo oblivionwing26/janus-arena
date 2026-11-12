@@ -23,6 +23,8 @@ const CLASSES: Readonly<Record<ProofOfConcept['class'], string>> = {
   xss: "Cross-site scripting: input reaches the page as HTML and runs script in the shopper's browser.",
   'business-logic':
     'Business-logic flaw: the shop accepts values honest shoppers never send, and they change prices or records.',
+  'brute-force':
+    "Brute force: an account's password can be guessed at, many attempts in a row, with no limit or slowdown.",
 };
 
 const ORACLES: Readonly<Record<OracleName, string>> = {
@@ -32,6 +34,8 @@ const ORACLES: Readonly<Record<OracleName, string>> = {
   'script-executed': 'a script injected through the input runs in the browser',
   'price-mismatch': "an order's total is negative or does not match its items",
   'duplicate-effect': 'an action that counts once per user takes effect more than once',
+  'unthrottled-guessing':
+    'many wrong passwords sent to one account are all refused quickly, none throttled, and the right one still signs in',
 };
 
 /** What the proof shows, per kind of step: the relation, never a payload. */
@@ -47,6 +51,8 @@ function proofLine(poc: ProofOfConcept): string {
       return `A basket item with quantity ${String(poc.steps.quantity)} is accepted and checked out.`;
     case 'once-effect-race':
       return `${String(poc.steps.size)} identical requests sent at once all take effect.`;
+    case 'login-guessing':
+      return `${String(poc.steps.guesses)} wrong passwords sent to one account at ${poc.steps.method} ${poc.steps.path} are refused quickly, then the right one signs in.`;
   }
 }
 

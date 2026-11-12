@@ -1,10 +1,12 @@
 import type { AttackRequest } from '../../domain/attack/attack-request.js';
 import type { BrowserAttackPort } from '../../domain/attack/browser-attack-port.js';
+import type { LoginForm } from '../../domain/attack/login-bypass-candidates.js';
 import { xssPayloads } from '../../domain/attack/xss-candidates.js';
 import { duplicateEffect } from '../../domain/oracles/duplicate-effect.js';
 import { verdict, type OracleVerdict } from '../../domain/oracles/oracle-verdict.js';
 import { priceMismatch } from '../../domain/oracles/price-mismatch.js';
 import { scriptExecuted } from '../../domain/oracles/script-executed.js';
+import { unthrottledGuessing } from '../../domain/oracles/unthrottled-guessing.js';
 import { race } from '../attack/race.js';
 import type { AttackBench } from './attack-bench.js';
 
@@ -137,6 +139,72 @@ export async function tryRace(bench: AttackBench, size: number): Promise<MoveRes
   await bench.conclude(recorded.attempt, 'duplicate-effect', judged, {
     kind: 'once-effect-race',
     size,
+  });
+  return { admitted: true, verdict: judged };
+}
+
+/** Wrong passwords a brute-force move sends before the right one (F3.6). */
+export const GUESSES = 20;
+
+/**
+ * Brute force (F3.6): `guesses` wrong passwords to the victim's fresh test account through a
+ * login of the surface map, one after another as an anonymous visitor, then its right password;
+ * judged by unthrottled guessing. One attempt is recorded for the whole run of guesses, and no
+ * password ever reaches an event.
+ */
+export async function tryGuessing(
+  bench: AttackBench,
+  form: LoginForm,
+  guesses: number,
+): Promise<MoveResult> {
+  if (bench.budgetLeft === 0) return { admitted: false, limit: 'run' };
+  const url = new URL(form.route, bench.origin).href;
+  const { email, password } = bench.victim.user;
+  const login = async (secret: string) => {
+    const started = Date.now();
+    try {
+      const reply = await bench.anonymous.send({
+        method: 'POST',
+        url,
+        testType: 'brute-force',
+        headers: { 'content-type': 'application/json' },
+        body: JSON.stringify({ [form.identity]: email, [form.password]: secret }),
+      });
+      return { status: reply.status, ms: Date.now() - started, body: reply.body };
+    } catch {
+      return { status: null, ms: Date.now() - started, body: '' };
+    }
+  };
+  const tried: { status: number | null; ms: number }[] = [];
+  for (let guess = 0; guess < guesses; guess++) {
+    const { status, ms } = await login(`janus-wrong-guess-${String(guess)}`);
+    tried.push({ status, ms });
+    if (status === null || status === 423 || status === 429) break;
+  }
+  const right = await login(password);
+  const recorded = await bench.record({
+    class: 'brute-force',
+    as: 'anonymous',
+    method: 'POST',
+    path: form.route,
+    status: right.status,
+  });
+  if (!recorded.admitted) {
+    return recorded.limit === undefined
+      ? { admitted: false }
+      : { admitted: false, limit: recorded.limit };
+  }
+  const judged = unthrottledGuessing({
+    guesses: tried,
+    rightAfter: { signedIn: right.status === 200 && right.body.includes('"token"') },
+  });
+  await bench.conclude(recorded.attempt, 'unthrottled-guessing', judged, {
+    kind: 'login-guessing',
+    method: 'POST',
+    path: form.route,
+    identity: form.identity,
+    password: form.password,
+    guesses,
   });
   return { admitted: true, verdict: judged };
 }

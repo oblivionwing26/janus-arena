@@ -28,12 +28,14 @@ const SEVERITY: Readonly<Record<RedTeamClass, 'high' | 'critical'>> = {
   'auth-bypass': 'critical',
   xss: 'high',
   'business-logic': 'high',
+  'brute-force': 'high',
 };
 const TITLE: Readonly<Record<RedTeamClass, string>> = {
   idor: 'Another user’s data is reachable (IDOR)',
   'auth-bypass': 'A session opens without the right credentials',
   xss: 'Injected script runs in the page (XSS)',
   'business-logic': 'The shop accepts a request it should refuse',
+  'brute-force': 'An account’s password can be guessed without limit',
 };
 
 /** One recorded attempt: an HTTP request, a browser visit or the step that carried a flow. */
@@ -148,6 +150,11 @@ export class AttackBench {
 
   get target(): AttackTarget {
     return this.deps.target;
+  }
+
+  /** The run's guarded client, with no session: an anonymous visitor (F3.6). */
+  get anonymous(): ScopedHttpClient {
+    return this.deps.client;
   }
 
   /** The run's guarded client, sending as the attacker. */

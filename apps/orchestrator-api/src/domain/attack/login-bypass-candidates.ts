@@ -41,21 +41,35 @@ const hasRepeat = (params: readonly string[]): boolean =>
  * session it should not have.
  */
 export function loginBypassCandidates(endpoints: readonly Endpoint[]): AttackRequest[] {
-  const candidates: AttackRequest[] = [];
-  for (const endpoint of endpoints) {
-    if (endpoint.method !== 'POST' || hasRepeat(endpoint.params)) continue;
+  return loginForms(endpoints).flatMap(({ route, identity, password }) =>
+    SQL_LOGIN_PAYLOADS.map((payload): AttackRequest => ({
+      class: 'auth-bypass',
+      as: 'anonymous',
+      method: 'POST',
+      path: route,
+      body: JSON.stringify({ [identity]: payload, [password]: PLACEHOLDER_PASSWORD }),
+    })),
+  );
+}
+
+/** A login the surface map shows: where it posts, and its identity and password fields. */
+export interface LoginForm {
+  readonly route: string;
+  readonly identity: string;
+  readonly password: string;
+}
+
+/**
+ * The logins of the surface map (F3.3, F3.6): endpoints that post an identity field and a
+ * password but no password-repeat (a login, not a registration).
+ */
+export function loginForms(endpoints: readonly Endpoint[]): LoginForm[] {
+  return endpoints.flatMap((endpoint) => {
+    if (endpoint.method !== 'POST' || hasRepeat(endpoint.params)) return [];
     const identity = fieldFor(endpoint.params, IDENTITY_KEYS);
     const password = fieldFor(endpoint.params, PASSWORD_KEYS);
-    if (identity === undefined || password === undefined) continue;
-    for (const payload of SQL_LOGIN_PAYLOADS) {
-      candidates.push({
-        class: 'auth-bypass',
-        as: 'anonymous',
-        method: 'POST',
-        path: endpoint.route,
-        body: JSON.stringify({ [identity]: payload, [password]: PLACEHOLDER_PASSWORD }),
-      });
-    }
-  }
-  return candidates;
+    return identity === undefined || password === undefined
+      ? []
+      : [{ route: endpoint.route, identity, password }];
+  });
 }

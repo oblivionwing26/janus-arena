@@ -45,6 +45,31 @@ describe('juiceShopRegressionTest (F3.5, V2)', () => {
     expect(source).toContain('assert.ok(stored > 0');
   });
 
+  it('turns the brute force into a test that guessing an account gets stopped (F3.6)', () => {
+    const guessing: ProofOfConcept = {
+      version: 1,
+      target: 'juice-shop',
+      class: 'brute-force',
+      oracle: 'unthrottled-guessing',
+      endpoint: 'POST /rest/user/login',
+      steps: {
+        kind: 'login-guessing',
+        method: 'POST',
+        path: '/rest/user/login',
+        identity: 'email',
+        password: 'password',
+        guesses: 20,
+      },
+    };
+    const test = juiceShopRegressionTest(guessing, FINDING);
+    const source = test?.source ?? '';
+
+    expect(test?.name).toContain("POST /rest/user/login > stops guessing at an account's password");
+    expect(source).toContain('for (let guess = 0; guess < 20; guess++)');
+    expect(source).toContain(".post('/rest/user/login')");
+    expect(source).toContain('assert.ok(!unthrottled');
+  });
+
   it('has no generated test for the other kinds of PoC yet', () => {
     expect(
       juiceShopRegressionTest({ ...IDOR, steps: { kind: 'once-effect-race', size: 5 } }, FINDING),
