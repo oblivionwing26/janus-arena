@@ -15,6 +15,8 @@ export function patchedSources(nameStatus: string, policy: EditPolicy): string[]
   for (let index = 0; index < fields.length; index += 2) {
     const kind = fields[index] ?? '';
     const path = fields[index + 1] ?? '';
+    // The regression test a fix keeps (F3.5, V2) runs in the tests stage, never in the image.
+    if (kind === 'A' && /^test\/[\w./-]+\.ts$/.test(path)) continue;
     if (!(kind === 'A' || kind === 'M') || !SOURCE.test(path) || !policy.canEdit(path)) {
       throw new Error(`The patch cannot be built: ${kind} ${path}`);
     }

@@ -34,3 +34,10 @@ patch:
   blueTeam:
     allow: ['routes/**/*.ts', 'lib/**/*.ts', 'models/**/*.ts']
     deny: ['lib/startup/**', 'lib/challengeUtils.ts']
+  # Juice Shop's own tests (V2), each file in its own process so its results carry its name.
+  # No --test-force-exit: it ends a file before all its tests register, so counts vary by run.
+  # Some assert Juice Shop's vulnerabilities: config/vulnerability-tests.yaml lists them.
+  tests:
+    files: ['test/api/*.test.ts', 'test/server/*.unit.test.ts']
+    command:
+      [node, --import, ./test/api/helpers/test-env.mjs, --import, tsx, --test, --test-reporter=tap]

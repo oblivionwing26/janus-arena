@@ -163,6 +163,18 @@ function describe(event: JanusEvent): { label: string; tone: Tone } {
         tone: 'error',
       };
     }
+    case 'finding.remediated': {
+      const { status, iterations, branch, reason } = event.payload;
+      return status === 'fixed'
+        ? {
+            label: `Hallazgo corregido en ${branch ?? 'su rama'} tras ${String(iterations)} iteración(es): los verificadores pasaron`,
+            tone: 'neutral',
+          }
+        : {
+            label: `Hallazgo sigue abierto tras ${String(iterations)} iteración(es) · ${reason ?? ''}`,
+            tone: 'error',
+          };
+    }
     case 'scope.verified': {
       const { target, origins } = event.payload;
       return {
