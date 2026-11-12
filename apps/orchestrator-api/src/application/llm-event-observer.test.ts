@@ -4,7 +4,7 @@ import { describe, expect, it } from 'vitest';
 import { InMemoryEventStore } from '../infrastructure/event-store/in-memory-event-store.js';
 import { LlmEventObserver } from './llm-event-observer.js';
 
-const RUN_ID = '01JC0F14LLM0000000000000AA';
+const RUN_ID = '01JC0F14XYM0000000000000AA';
 const cost = {
   inputTokens: 900,
   outputTokens: 40,

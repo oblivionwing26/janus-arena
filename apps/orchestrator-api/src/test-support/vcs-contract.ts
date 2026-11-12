@@ -30,6 +30,17 @@ export const CONTRACT_FILES: Readonly<Record<string, string>> = {
     '',
   ].join('\n'),
   'UX_FLAWS.md': '# Ground truth\n',
+  // Ground truth kept inside the code, as Juice Shop does (ADR 0012): a folder of fixes and a
+  // comment on the vulnerable line.
+  'fixes/basket_1_correct.ts': 'export const fixed = true;\n',
+  'fixes/basket_2.ts': 'export const fixed = false;\n',
+  'routes/basket.ts': [
+    'export function basket(id: string) {',
+    '  // vuln-code-snippet start basketAccessChallenge',
+    '  return id; // vuln-code-snippet vuln-line basketAccessChallenge',
+    '}',
+    '',
+  ].join('\n'),
 };
 
 /** Renames the link: one line removed, one added. */
@@ -97,13 +108,56 @@ export function describeVcsContract(name: string, harness: VcsContractHarness): 
     it('lists the files of the working tree, new ones included and hidden ones never', async () => {
       const { vcs, workspace } = await cloned();
 
-      expect(await vcs.listFiles(workspace)).toEqual(['README.md', 'src/app/cart/page.tsx']);
-      await vcs.applyPatch(workspace, NEW_FILE_PATCH);
       expect(await vcs.listFiles(workspace)).toEqual([
         'README.md',
+        'fixes/basket_1_correct.ts',
+        'fixes/basket_2.ts',
+        'routes/basket.ts',
         'src/app/cart/page.tsx',
-        'src/components/coupon.tsx',
       ]);
+      await vcs.applyPatch(workspace, NEW_FILE_PATCH);
+      expect(await vcs.listFiles(workspace)).toContain('src/components/coupon.tsx');
+    });
+
+    it('hides a ground-truth folder and strips marker lines, as part of the base (F3.5)', async () => {
+      const { vcs, repoUrl } = await harness.create();
+      const workspace = await vcs.clone(repoUrl, {
+        runId: CONTRACT_RUN,
+        ref: 'main',
+        excludeFiles: ['UX_FLAWS.md', 'fixes'],
+        stripComments: ['vuln-code-snippet'],
+      });
+
+      expect(await vcs.listFiles(workspace)).toEqual([
+        'README.md',
+        'routes/basket.ts',
+        'src/app/cart/page.tsx',
+      ]);
+      await expect(vcs.readFile(workspace, 'fixes/basket_2.ts')).rejects.toThrow(
+        FileNotInWorkspaceError,
+      );
+      expect(await vcs.readFile(workspace, 'routes/basket.ts')).toBe(
+        'export function basket(id: string) {\n  return id;\n}\n',
+      );
+      // Stripping is the base: nothing is pending, and a patch is measured without it.
+      expect((await vcs.diffStats(workspace)).filesChanged).toBe(0);
+      expect((await vcs.head(workspace)).sha).toBe(workspace.baseSha);
+
+      await vcs.branch(workspace, JanusBranch.fix(CONTRACT_RUN));
+      await vcs.applyPatch(workspace, CONTRACT_PATCH);
+      await vcs.commit(workspace, 'fix: change the link');
+      expect((await vcs.diffStats(workspace)).files.map((file) => file.path)).toEqual([
+        'src/app/cart/page.tsx',
+      ]);
+      const touchingFix = [
+        '--- a/fixes/basket_2.ts',
+        '+++ b/fixes/basket_2.ts',
+        '@@ -1 +1 @@',
+        '-export const fixed = false;',
+        '+export const fixed = 1;',
+        '',
+      ].join('\n');
+      await expect(vcs.applyPatch(workspace, touchingFix)).rejects.toThrow(PatchRejectedError);
     });
 
     it('refuses repository URLs other than https:// and file://, and unknown refs', async () => {

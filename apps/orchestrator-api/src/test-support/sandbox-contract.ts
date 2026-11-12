@@ -68,6 +68,10 @@ export function describeSandboxContract(name: string, harness: SandboxContractHa
       await expect(
         sandbox.up({ ...harness.variant('x'), ref: '--upload-pack=x' }),
       ).rejects.toBeInstanceOf(InvalidVariantError);
+      // A patch's base is a full commit id, never a ref or an option (F3.5).
+      await expect(
+        sandbox.up({ ...harness.variant('x'), base: '--output=x' }),
+      ).rejects.toBeInstanceOf(InvalidVariantError);
     });
   });
 }

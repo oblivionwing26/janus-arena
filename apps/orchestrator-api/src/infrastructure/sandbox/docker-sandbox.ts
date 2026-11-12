@@ -10,15 +10,18 @@ import {
 import type { RunningVariant, SandboxPort } from '../../domain/sandbox/sandbox-port.js';
 import type { OwnershipTokenPort } from '../../domain/scope/ownership-token-port.js';
 import { assertValidVariant, type VariantSpec } from '../../domain/sandbox/variant-spec.js';
-import type { DockerCli } from './docker-cli.js';
+import { EditPolicy } from '../../domain/vcs/edit-policy.js';
+import { DockerCommandError, type DockerCli } from './docker-cli.js';
+import { patchedSources } from './patched-sources.js';
 import {
   isImageDefinition,
   loadAnySandboxDefinition,
   type AnySandboxDefinition,
   type ImageSandboxDefinition,
   type SandboxDefinition,
+  sandboxDefinitionsDir,
 } from './sandbox-definition.js';
-import { assertLocalRepo, prepareWorkspace, removeWorkspace } from './workspace.js';
+import { assertLocalRepo, git, prepareWorkspace, removeWorkspace } from './workspace.js';
 
 export const SANDBOX_NETWORK = 'janus-sbx';
 const VARIANT_LABEL = 'janus.variant';
@@ -34,7 +37,7 @@ export interface DockerSandboxOptions {
 /**
  * Runs each variant as a shallow clone of its target, built into images and started on the
  * internal janus-sbx network next to its own throwaway Postgres (ADR 0005); or, for an image
- * definition (Juice Shop), the pinned image as it is. Every container carries a janus.variant
+ * definition (Juice Shop), the pinned image as it is, or patched (ADR 0012). Every container carries a janus.variant
  * label so down() removes them all, even after a failed start.
  */
 export class DockerSandbox implements SandboxPort, OwnershipTokenPort {
@@ -208,6 +211,8 @@ export class DockerSandbox implements SandboxPort, OwnershipTokenPort {
     variant: VariantSpec,
     definition: ImageSandboxDefinition,
   ): Promise<RunningVariant> {
+    const image =
+      variant.ref === 'image' ? definition.image : await this.patched(variant, definition);
     await this.ensureInternalNetwork();
     await this.docker.run([
       'run',
@@ -221,10 +226,61 @@ export class DockerSandbox implements SandboxPort, OwnershipTokenPort {
       '--label',
       `${TARGET_LABEL}=${definition.name}`,
       ...Object.entries(definition.env).flatMap(([key, value]) => ['-e', `${key}=${value}`]),
-      definition.image,
+      image,
     ]);
     await this.waitForLog(appName(variant.id), definition.app.readyLog);
     return { baseUrl: `http://${appName(variant.id)}:${String(definition.app.port)}` };
+  }
+
+  /**
+   * A patched variant of an image target (F3.5, ADR 0012): the image plus the recompiled
+   * sources the patch changed since its base, built from Janus's own Dockerfile.
+   */
+  private async patched(variant: VariantSpec, definition: ImageSandboxDefinition): Promise<string> {
+    const { patch } = definition;
+    if (patch === undefined) throw new Error(`${definition.name} cannot be patched`);
+    if (variant.repo === undefined || variant.base === undefined) {
+      throw new Error(`Patched variant ${variant.id} needs its local repo and base commit`);
+    }
+    const root = this.options.workspacesRoot;
+    const dir = await prepareWorkspace({
+      root,
+      variantId: variant.id,
+      repo: assertLocalRepo(variant.repo, root),
+      ref: variant.ref,
+      excludeFiles: [],
+      history: true,
+    });
+    const changes = await git(
+      ['diff', '--name-status', '-z', '--no-renames', variant.base, 'HEAD', '--'],
+      dir,
+    );
+    const sources = patchedSources(changes, new EditPolicy(patch.blueTeam));
+    const tag = `janus/${definition.name}-${variant.id}:app`;
+    await this.docker
+      .run([
+        'build',
+        '-f',
+        join(sandboxDefinitionsDir(), patch.dockerfile),
+        '--build-arg',
+        `BASE_IMAGE=${definition.image}`,
+        '--build-arg',
+        `CHANGED=${sources.join(' ')}`,
+        '--target',
+        'runner',
+        '-t',
+        tag,
+        dir,
+      ])
+      .catch((error: unknown) => {
+        // The type errors are what an agent needs to correct its patch; the rest is build noise.
+        if (!(error instanceof DockerCommandError)) throw error;
+        const errors = error.stdout.split('\n').filter((line) => /error TS\d+/.test(line));
+        throw errors.length === 0
+          ? error
+          : new Error(`the patch does not compile:\n${errors.slice(0, 20).join('\n')}`);
+      });
+    return tag;
   }
 
   private async waitForLog(container: string, line: string): Promise<void> {

@@ -17,7 +17,7 @@ import {
   type ScriptIntent,
 } from './scripted-decider.js';
 
-const RUN_ID = '01JC0F16INS0000000000000AA';
+const RUN_ID = '01JC0F16N5S0000000000000AA';
 const BASE_URL = 'http://janus-test-app:3100';
 
 const PAGES: Record<string, ScriptedPage> = {

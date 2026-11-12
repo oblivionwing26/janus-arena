@@ -19,3 +19,18 @@ env:
 # Juice Shop serves this folder at /.well-known; the run's ownership token is copied there (F3.1).
 verification:
   dir: /juice-shop/.well-known
+
+# How the Blue Team's fixes run (F3.5, ADR 0012): this image plus the recompiled backend files of
+# a patch to Juice Shop's source at the image's tag. The source reaches the agent without its
+# ground truth: the challenge fixes are hidden and the lines marking vulnerable code removed.
+patch:
+  repo: https://github.com/juice-shop/juice-shop.git
+  ref: v20.3.0
+  dockerfile: juice-shop.patch.Dockerfile
+  excludeFiles: [data/static/codefixes]
+  stripComments: [vuln-code-snippet]
+  # Backend sources only: compiled into build/ and copied over the image. Startup and the
+  # challenge bookkeeping stay as published, since the orchestrator reads challenges as truth.
+  blueTeam:
+    allow: ['routes/**/*.ts', 'lib/**/*.ts', 'models/**/*.ts']
+    deny: ['lib/startup/**', 'lib/challengeUtils.ts']

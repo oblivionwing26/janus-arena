@@ -35,6 +35,7 @@ history). The measure is ~2,850, at the low end: the observation builder keeps p
 | F3.5a Juice Shop, before saved checkout         |        8 |            25.5 |        0.0052 |
 | F3.5a Juice Shop, personas (Haiku)              |        8 |            20.8 |        0.0038 |
 | F3.5a Juice Shop, baseline (Sonnet)             |        2 |            22.0 |         0.066 |
+| F3.5 Blue Team (Sonnet), basket IDOR fix        |        1 |             3.0 |         0.026 |
 
 Steps per session dominate the bill. In F1.9 three sessions took 53–60 steps because the
 baseline bounced between cart and checkout (see the F1.9 note in the ROADMAP); without them the

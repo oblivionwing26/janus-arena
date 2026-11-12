@@ -34,6 +34,8 @@ export class PostgresEventStore implements EventStorePort {
 
   async append(events: readonly StoredEvent[]): Promise<void> {
     if (events.length === 0) return;
+    // What readRun would reject never gets in: one bad envelope made a whole run unreadable.
+    events.forEach((event) => parseEvent(event));
     const duplicate = findDuplicateSeq(events);
     if (duplicate !== undefined) throw new DuplicateEventSeqError(duplicate.runId, duplicate.seq);
 

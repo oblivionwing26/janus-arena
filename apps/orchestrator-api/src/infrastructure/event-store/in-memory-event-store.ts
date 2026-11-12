@@ -1,3 +1,5 @@
+import { parseEvent } from '@janus/shared-kernel';
+
 import { DuplicateEventSeqError } from '../../domain/event-store/duplicate-event-seq-error.js';
 import type {
   EventStorePort,
@@ -14,6 +16,12 @@ export class InMemoryEventStore implements EventStorePort {
   private readonly watchers = new Map<string, Set<() => void>>();
 
   append(events: readonly StoredEvent[]): Promise<void> {
+    try {
+      // What a read would reject never gets in.
+      events.forEach((event) => parseEvent(event));
+    } catch (error) {
+      return Promise.reject(error instanceof Error ? error : new Error(String(error)));
+    }
     const duplicate =
       findDuplicateSeq(events) ??
       events.find((event) => this.runs.get(event.runId)?.has(event.seq) === true);

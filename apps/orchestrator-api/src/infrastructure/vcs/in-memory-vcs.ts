@@ -10,6 +10,7 @@ import {
   VcsCommandError,
 } from '../../domain/vcs/vcs-errors.js';
 import type { CloneOptions, DiffStats, VcsPort, VcsWorkspace } from '../../domain/vcs/vcs-port.js';
+import { stripComments } from './strip-comments.js';
 
 type Files = Readonly<Record<string, string>>;
 
@@ -94,6 +95,11 @@ function applyUnifiedDiff(files: Files, diff: string): Record<string, string> {
   return result;
 }
 
+/** A hidden file, or a file under a hidden folder. */
+function isHidden(hidden: ReadonlySet<string>, path: string): boolean {
+  return [...hidden].some((entry) => path === entry || path.startsWith(`${entry}/`));
+}
+
 /** Fake VcsPort for tests: repositories are maps of files per branch. */
 export class InMemoryVcs implements VcsPort {
   private readonly workspaces = new Map<string, State>();
@@ -115,23 +121,41 @@ export class InMemoryVcs implements VcsPort {
         commits.set(sha, content);
         refs.set(name, sha);
       }
-      const sha = refs.get(options.ref) ?? '';
       const hidden = new Set(options.excludeFiles ?? []);
       const state: State = {
         commits,
         branches: refs,
         branch: options.ref,
-        sha,
+        sha: refs.get(options.ref) ?? '',
         tree: this.visible(files, hidden),
         hidden,
       };
       this.workspaces.set(options.runId, state);
-      return {
+      const workspace = {
         id: options.runId,
         path: `memory://${options.runId}`,
         url: `file:///memory/${options.runId}`,
-        baseSha: sha,
+        baseSha: state.sha,
       };
+      // Marker lines are stripped and committed as the base, as LocalGitAdapter does.
+      const markers = options.stripComments ?? [];
+      let changed = false;
+      for (const [path, text] of Object.entries(state.tree)) {
+        const stripped = stripComments(text, markers);
+        if (stripped === text) continue;
+        state.tree[path] = stripped;
+        changed = true;
+      }
+      if (!changed) return workspace;
+      const committed = { ...state.tree };
+      for (const [path, text] of Object.entries(files)) {
+        if (isHidden(hidden, path)) committed[path] = text;
+      }
+      const base = this.shaOf(`${state.sha}\njanus: hide the ground truth`, committed);
+      state.commits.set(base, committed);
+      state.sha = base;
+      state.branches.set(options.ref, base);
+      return { ...workspace, baseSha: base };
     });
   }
 
@@ -162,7 +186,9 @@ export class InMemoryVcs implements VcsPort {
     return this.run(() => {
       const state = this.state(workspace);
       for (const path of patchPaths(diff)) {
-        if (state.hidden.has(path)) throw new PatchRejectedError(`${path} is not in the workspace`);
+        if (isHidden(state.hidden, path)) {
+          throw new PatchRejectedError(`${path} is not in the workspace`);
+        }
       }
       state.tree = applyUnifiedDiff(state.tree, diff);
     });
@@ -173,9 +199,8 @@ export class InMemoryVcs implements VcsPort {
       const state = this.state(workspace);
       const previous = state.commits.get(state.sha) ?? {};
       const files: Record<string, string> = { ...state.tree };
-      for (const path of state.hidden) {
-        const kept = previous[path];
-        if (kept !== undefined) files[path] = kept;
+      for (const [path, kept] of Object.entries(previous)) {
+        if (isHidden(state.hidden, path)) files[path] = kept;
       }
       const sha = this.shaOf(`${state.sha}\n${message}`, files);
       state.commits.set(sha, files);
@@ -229,7 +254,7 @@ export class InMemoryVcs implements VcsPort {
   }
 
   private visible(files: Files, hidden: ReadonlySet<string>): Record<string, string> {
-    return Object.fromEntries(Object.entries(files).filter(([path]) => !hidden.has(path)));
+    return Object.fromEntries(Object.entries(files).filter(([path]) => !isHidden(hidden, path)));
   }
 
   private shaOf(seed: string, files: Files): string {

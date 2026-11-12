@@ -63,6 +63,23 @@ const imageSandboxDefinitionSchema = z.object({
   env: z
     .record(z.string().regex(/^[A-Z][A-Z0-9_]{0,63}$/), z.string().regex(/^[\w.:/-]{0,200}$/))
     .default({}),
+  // How a patched variant is built (F3.5, ADR 0012): the image plus the recompiled files of a
+  // patch to this source. Absent: the image cannot be patched.
+  patch: z
+    .object({
+      repo: z.string().regex(/^https:\/\//, 'repo must be an https:// URL'),
+      ref: z.string().regex(/^[\w.-]+$/),
+      // A file of docker/sandboxes, never a path out of it.
+      dockerfile: z.string().regex(/^[\w.-]+\.Dockerfile$/),
+      excludeFiles: z.array(z.string().regex(/^[\w.-]+(\/[\w.-]+)*$/)).default([]),
+      stripComments: z.array(z.string().regex(/^[\w -]{1,60}$/)).default([]),
+      // What the Blue Team may edit: backend sources only (EditPolicy adds its own denials).
+      blueTeam: z.object({
+        allow: z.array(z.string().regex(/^[\w*.[\]/-]+$/)).min(1),
+        deny: z.array(z.string().regex(/^[\w*.[\]/-]+$/)).default([]),
+      }),
+    })
+    .optional(),
 });
 
 export type ImageSandboxDefinition = z.infer<typeof imageSandboxDefinitionSchema>;

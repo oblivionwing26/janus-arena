@@ -2,6 +2,8 @@ import type { DiffStats } from './vcs-port.js';
 
 /** The UI Engineer's hard limits (CLAUDE.md): at most 5 files and 200 changed lines. */
 export const UI_ENGINEER_LIMITS = { maxFiles: 5, maxChangedLines: 200 } as const;
+/** The Blue Team's limits (F3.5): the same, so a fix stays small enough to review. */
+export const BLUE_TEAM_LIMITS = { maxFiles: 5, maxChangedLines: 200 } as const;
 
 /** Why a change breaks the limits, or null when it fits. Changed lines = added + removed. */
 export function exceedsLimits(
