@@ -21,6 +21,20 @@ export interface FixUnderTest {
 export interface FixVerification {
   readonly passed: boolean;
   readonly details: string;
+  /** What V3 measured (F3.6): the trade-off table compares alternatives by these numbers. */
+  readonly measured?: UxMeasurement;
+}
+
+export interface UxMeasurement {
+  /** The paired SynthLab run. */
+  readonly runId: string;
+  readonly a: { readonly successes: number; readonly n: number } | null;
+  readonly b: { readonly successes: number; readonly n: number } | null;
+  readonly latency: readonly {
+    readonly endpoint: string;
+    readonly a: number | null;
+    readonly b: number | null;
+  }[];
 }
 
 /**

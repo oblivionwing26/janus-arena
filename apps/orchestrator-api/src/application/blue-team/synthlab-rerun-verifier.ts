@@ -43,16 +43,26 @@ export class SynthlabRerunVerifier implements FixVerifier {
     const { success } = buildSynthlabReport(run.runId, run.events, this.deps.report);
     const personas = (key: string) =>
       success.variants.find((variant) => variant.variant === key)?.personas ?? null;
-    const verdict = judgeUx({
-      a: personas('a'),
-      b: personas('b'),
-      difference: success.comparison?.difference ?? null,
+    const count = (key: string) => {
+      const rate = personas(key);
+      return rate === null ? null : { successes: rate.successes, n: rate.n };
+    };
+    const measured = {
+      runId: run.runId,
+      a: count('a'),
+      b: count('b'),
       latency: this.deps.touched(fix.changedFiles).map((endpoint) => ({
         endpoint: `${endpoint.method} ${endpoint.route}`,
         a: endpointP95(run.events, 'a', endpoint),
         b: endpointP95(run.events, 'b', endpoint),
       })),
+    };
+    const verdict = judgeUx({
+      a: measured.a,
+      b: measured.b,
+      difference: success.comparison?.difference ?? null,
+      latency: measured.latency,
     });
-    return { passed: verdict.passed, details: `run ${run.runId}: ${verdict.details}` };
+    return { passed: verdict.passed, details: `run ${run.runId}: ${verdict.details}`, measured };
   }
 }
