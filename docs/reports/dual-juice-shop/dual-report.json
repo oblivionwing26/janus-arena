@@ -1,0 +1,406 @@
+{
+  "format": "janus-dual-report",
+  "version": 1,
+  "target": "juice-shop",
+  "janusCommit": "6c6234b0af2f5f09e3afc91c2c4ee2daaf326b81",
+  "ux": {
+    "runId": "01M781YMZD2X6JQ89Y8K43HSTP",
+    "variants": [
+      {
+        "variant": "a",
+        "personas": {
+          "successes": 4,
+          "n": 8
+        },
+        "baseline": {
+          "successes": 2,
+          "n": 2
+        }
+      },
+      {
+        "variant": "b",
+        "personas": {
+          "successes": 4,
+          "n": 8
+        },
+        "baseline": {
+          "successes": 2,
+          "n": 2
+        }
+      }
+    ],
+    "difference": {
+      "mean": 0,
+      "low": 0,
+      "high": 0
+    },
+    "verdict": "no-detectable-difference"
+  },
+  "findings": [
+    {
+      "findingId": "01M6XY97AFNYP24BD9Z32WBJGR",
+      "runId": "01M6XY7CMV28T3236RFQABWD53",
+      "kind": "dynamic",
+      "severity": "high",
+      "title": "Another user’s data is reachable (IDOR): GET /rest/basket/:id (user 26 received a record of user 25 holding \"Apple Juice (1000ml)\")",
+      "status": "confirmed",
+      "where": "GET /rest/basket/:id",
+      "tool": "red-team"
+    },
+    {
+      "findingId": "01M6XY97R01E48GA1C82VD6TBP",
+      "runId": "01M6XY7CMV28T3236RFQABWD53",
+      "kind": "dynamic",
+      "severity": "critical",
+      "title": "A session opens without the right credentials: POST /rest/user/login (a session for admin@juice-sh.op was opened without its credentials)",
+      "status": "confirmed",
+      "where": "POST /rest/user/login",
+      "tool": "red-team"
+    },
+    {
+      "findingId": "01M6XY9F3FGDXWQ6B1Y0FMNTKA",
+      "runId": "01M6XY7CMV28T3236RFQABWD53",
+      "kind": "dynamic",
+      "severity": "high",
+      "title": "Injected script runs in the page (XSS): GET /#/search (a dialog (alert) showed the marker janus-01M6XY7CMV28T3236RFQABWD53 on http://janus-red-fqabwd53-app:3000/#/search)",
+      "status": "confirmed",
+      "where": "GET /#/search",
+      "tool": "red-team"
+    },
+    {
+      "findingId": "01M6XY9FAQSTC6XYYJ2P2Z6EQR",
+      "runId": "01M6XY7CMV28T3236RFQABWD53",
+      "kind": "dynamic",
+      "severity": "high",
+      "title": "The shop accepts a request it should refuse: PUT /api/BasketItems/:id (the order total is negative: -1.99)",
+      "status": "confirmed",
+      "where": "PUT /api/BasketItems/:id",
+      "tool": "red-team"
+    },
+    {
+      "findingId": "01M6XY9GP7PSV2DG4Z9XZVCNWG",
+      "runId": "01M6XY7CMV28T3236RFQABWD53",
+      "kind": "dynamic",
+      "severity": "high",
+      "title": "The shop accepts a request it should refuse: POST /rest/products/reviews (janus-b-01m6xy96s812ebgx2tevvhw93h@janus.test appears 6 times where at most 1 is allowed)",
+      "status": "confirmed",
+      "where": "POST /rest/products/reviews",
+      "tool": "red-team"
+    },
+    {
+      "findingId": "01M7856AVSGMCRPZFDF9JQ0YYN",
+      "runId": "01M7853NTYZMW0QNB6SZVHY57D",
+      "kind": "dynamic",
+      "severity": "high",
+      "title": "An account’s password can be guessed without limit: POST /rest/user/login (20 wrong passwords were refused in 49 ms each on average, none throttled, and the right one still signed in)",
+      "status": "confirmed",
+      "where": "POST /rest/user/login",
+      "tool": "red-team"
+    }
+  ],
+  "pocs": [
+    {
+      "findingId": "01M6XY97AFNYP24BD9Z32WBJGR",
+      "poc": {
+        "version": 1,
+        "target": "juice-shop",
+        "class": "idor",
+        "oracle": "canary-leak",
+        "endpoint": "GET /rest/basket/:id",
+        "steps": {
+          "kind": "idor",
+          "method": "GET",
+          "route": "/rest/basket/:id",
+          "bind": {
+            "victim": "basketId"
+          }
+        }
+      }
+    },
+    {
+      "findingId": "01M6XY97R01E48GA1C82VD6TBP",
+      "poc": {
+        "version": 1,
+        "target": "juice-shop",
+        "class": "auth-bypass",
+        "oracle": "authenticated-as",
+        "endpoint": "POST /rest/user/login",
+        "steps": {
+          "kind": "auth-bypass",
+          "method": "POST",
+          "path": "/rest/user/login",
+          "body": "{\"email\":\"' OR 1=1--\",\"password\":\"janus-not-the-password\"}"
+        }
+      }
+    },
+    {
+      "findingId": "01M6XY9F3FGDXWQ6B1Y0FMNTKA",
+      "poc": {
+        "version": 1,
+        "target": "juice-shop",
+        "class": "xss",
+        "oracle": "script-executed",
+        "endpoint": "GET /#/search",
+        "steps": {
+          "kind": "xss",
+          "template": "/#/search?q={payload}",
+          "payload": 0
+        }
+      }
+    },
+    {
+      "findingId": "01M6XY9FAQSTC6XYYJ2P2Z6EQR",
+      "poc": {
+        "version": 1,
+        "target": "juice-shop",
+        "class": "business-logic",
+        "oracle": "price-mismatch",
+        "endpoint": "PUT /api/BasketItems/:id",
+        "steps": {
+          "kind": "order-quantity",
+          "quantity": -1
+        }
+      }
+    },
+    {
+      "findingId": "01M6XY9GP7PSV2DG4Z9XZVCNWG",
+      "poc": {
+        "version": 1,
+        "target": "juice-shop",
+        "class": "business-logic",
+        "oracle": "duplicate-effect",
+        "endpoint": "POST /rest/products/reviews",
+        "steps": {
+          "kind": "once-effect-race",
+          "size": 6
+        }
+      }
+    },
+    {
+      "findingId": "01M7856AVSGMCRPZFDF9JQ0YYN",
+      "poc": {
+        "version": 1,
+        "target": "juice-shop",
+        "class": "brute-force",
+        "oracle": "unthrottled-guessing",
+        "endpoint": "POST /rest/user/login",
+        "steps": {
+          "kind": "login-guessing",
+          "method": "POST",
+          "path": "/rest/user/login",
+          "identity": "email",
+          "password": "password",
+          "guesses": 20
+        }
+      }
+    }
+  ],
+  "fixes": [
+    {
+      "runId": "01M781JQAW1AXVR90RJ50BV1RZ",
+      "findingId": "01M781JQ9QN8YSC89FPJX0XTT0",
+      "status": "fixed",
+      "iterations": 1,
+      "branch": "janus/fix-01M781JQ9QN8YSC89FPJX0XTT0",
+      "patchId": "01M781KQQSPE8NJPENPKBM0P46",
+      "diff": "diff --git a/routes/basket.ts b/routes/basket.ts\n--- a/routes/basket.ts\n+++ b/routes/basket.ts\n@@ -16,7 +16,16 @@\n   return async (req: Request, res: Response, next: NextFunction) => {\n     try {\n       const id = req.params.id\n+      const user = security.authenticatedUsers.from(req)\n+      if (!user?.data?.id) {\n+        res.status(401).json({ status: 'error', message: 'Authentication required' })\n+        return\n+      }\n       const basket = await BasketModel.findOne({ where: { id }, include: [{ model: ProductModel, paranoid: false, as: 'Products' }] })\n+      if (basket != null && basket.UserId !== user.data.id) {\n+        res.status(403).json({ status: 'error', message: 'Forbidden' })\n+        return\n+      }\n       /* jshint eqeqeq:false */\n       challengeUtils.solveIf(challenges.basketAccessChallenge, () => {\n         const user = security.authenticatedUsers.from(req)\n",
+      "verifications": [
+        {
+          "verifier": "build-checks",
+          "passed": true,
+          "details": "the patched variant compiles (tsc) and starts"
+        },
+        {
+          "verifier": "poc-replay",
+          "passed": true,
+          "details": "the PoC no longer works: status 403"
+        },
+        {
+          "verifier": "regression-tests",
+          "passed": true,
+          "details": "the regression test fails on the base and passes on the fix; 937 tests pass, 3 tests asserted the flaw"
+        },
+        {
+          "verifier": "synthlab-rerun",
+          "passed": true,
+          "details": "run 01M781YMZD2X6JQ89Y8K43HSTP: success A 4/8, B 4/8; GET /rest/basket/:id p95 83 → 86 ms (budget 133 ms)"
+        }
+      ]
+    },
+    {
+      "runId": "01M782Q7RM5RG63STZT959G7KQ",
+      "findingId": "01M782Q7Q6T2RBCV11RZH3ZR4Z",
+      "status": "fixed",
+      "iterations": 2,
+      "branch": "janus/fix-01M782Q7Q6T2RBCV11RZH3ZR4Z",
+      "patchId": "01M7832ZF6K7JV93EHSDMK23H1",
+      "diff": "diff --git a/routes/basketItems.ts b/routes/basketItems.ts\n--- a/routes/basketItems.ts\n+++ b/routes/basketItems.ts\n@@ -72,6 +72,11 @@\n         if (item == null) {\n           throw new Error('No such item found!')\n         }\n+        const newQuantity = Number(req.body.quantity)\n+        if (!Number.isInteger(newQuantity) || newQuantity < 1) {\n+          res.status(400).json({ error: 'Invalid quantity' })\n+          return\n+        }\n         void quantityCheck(req, res, next, item.ProductId, req.body.quantity).catch((error: Error) => {\n           next(error)\n         })\n",
+      "verifications": [
+        {
+          "verifier": "build-checks",
+          "passed": true,
+          "details": "the patched variant compiles (tsc) and starts"
+        },
+        {
+          "verifier": "poc-replay",
+          "passed": true,
+          "details": "the PoC no longer works: the shop refused an order with quantity -1"
+        },
+        {
+          "verifier": "regression-tests",
+          "passed": true,
+          "details": "the regression test fails on the base and passes on the fix; 940 tests pass, 0 tests asserted the flaw"
+        },
+        {
+          "verifier": "synthlab-rerun",
+          "passed": true,
+          "details": "run 01M7838V45QPDBGQ5RP5NWGD8J: success A 4/8, B 4/8; PUT /api/BasketItems/:id not measured on both variants; POST /api/BasketItems p95 24 → 20 ms (budget 74 ms)"
+        }
+      ]
+    }
+  ],
+  "tradeoffs": [
+    {
+      "findingId": "01M786YYJN2NDQHVQT1HGGNY93",
+      "rows": [
+        {
+          "label": "free fix",
+          "strategy": null,
+          "patchId": "01M7870CP2BJQ9XFRV5QW7Q59N",
+          "exploitable": false,
+          "ux": {
+            "runId": "01M7872J0PTG23PXJ1VN4589ZQ",
+            "a": {
+              "successes": 4,
+              "n": 6
+            },
+            "b": {
+              "successes": 5,
+              "n": 6
+            },
+            "latency": [
+              {
+                "endpoint": "POST /rest/user/login",
+                "a": 50.12000000000001,
+                "b": 89.89999999999985
+              }
+            ]
+          },
+          "uxPassed": true,
+          "note": "the PoC no longer works: the shop throttled at guess 11 (429); run 01M7872J0PTG23PXJ1VN4589ZQ: success A 4/6, B 5/6; POST /rest/user/login p95 50 → 90 ms (budget 100 ms)"
+        },
+        {
+          "label": "account lockout",
+          "strategy": "account-lockout",
+          "patchId": "01M788AKKMXZFAR69F5W0SRRX9",
+          "exploitable": false,
+          "ux": {
+            "runId": "01M788C3X8H7J2Z34B1BJDW5FC",
+            "a": {
+              "successes": 4,
+              "n": 6
+            },
+            "b": {
+              "successes": 3,
+              "n": 6
+            },
+            "latency": [
+              {
+                "endpoint": "POST /rest/user/login",
+                "a": 45.779999999999994,
+                "b": 40.85999999999999
+              }
+            ]
+          },
+          "uxPassed": true,
+          "note": "the PoC no longer works: the shop throttled at guess 6 (429); run 01M788C3X8H7J2Z34B1BJDW5FC: success A 4/6, B 3/6; POST /rest/user/login p95 46 → 41 ms (budget 96 ms); Inés was refused with 429 in both sessions on B and never completed her purchase there"
+        },
+        {
+          "label": "progressive delay",
+          "strategy": "progressive-delay",
+          "patchId": null,
+          "exploitable": null,
+          "ux": null,
+          "uxPassed": null,
+          "note": "Not measured: the Anthropic API credit ran out before the Blue Team wrote this alternative (run 01M7889HSW72AV01GWCTXFYT3C)."
+        }
+      ],
+      "recommendation": {
+        "label": "free fix",
+        "reason": "free fix closes the attack and 5/6 shoppers succeed (4/6 on the original); the other safe alternatives keep fewer or answer slower (account lockout: 3/6)"
+      }
+    }
+  ],
+  "cost": {
+    "runs": [
+      {
+        "runId": "01M781YMZD2X6JQ89Y8K43HSTP",
+        "role": "ux",
+        "eur": 0.4930595172000002
+      },
+      {
+        "runId": "01M6XY7CMV28T3236RFQABWD53",
+        "role": "red-team",
+        "eur": 0
+      },
+      {
+        "runId": "01M7853NTYZMW0QNB6SZVHY57D",
+        "role": "red-team",
+        "eur": 0
+      },
+      {
+        "runId": "01M781JQAW1AXVR90RJ50BV1RZ",
+        "role": "blue-team",
+        "eur": 0.04308944
+      },
+      {
+        "runId": "01M782Q7RM5RG63STZT959G7KQ",
+        "role": "blue-team",
+        "eur": 0.043805991999999995
+      },
+      {
+        "runId": "01M7838V45QPDBGQ5RP5NWGD8J",
+        "role": "v3",
+        "eur": 0.5247192905999999
+      }
+    ],
+    "totalEur": 1.1046742398
+  },
+  "eventLogs": [
+    {
+      "runId": "01M781YMZD2X6JQ89Y8K43HSTP",
+      "sha256": "620c50d769ee7e780dfce68068d9a571a87f63f15934e7145147b9f4d1b8ae5b"
+    },
+    {
+      "runId": "01M6XY7CMV28T3236RFQABWD53",
+      "sha256": "ab5f652305ddf148882f9aa9c3b7f2a4dba6acc63c954f566e234ef5baa4dccd"
+    },
+    {
+      "runId": "01M7853NTYZMW0QNB6SZVHY57D",
+      "sha256": "cf9aad05d57ab45b83af28fb2c2faf7163579fed6a3c9c41b97cfb1a566ed08b"
+    },
+    {
+      "runId": "01M781JQAW1AXVR90RJ50BV1RZ",
+      "sha256": "a96df8a7faa35a2c97898cadd436dac2def68db8bfc9f94423ea63131b18be55"
+    },
+    {
+      "runId": "01M782Q7RM5RG63STZT959G7KQ",
+      "sha256": "36f3e38260dfaf4ad31b1d865b2817bdc406a23643e7a9a0adfff4d0dc9da27f"
+    },
+    {
+      "runId": "01M7838V45QPDBGQ5RP5NWGD8J",
+      "sha256": "765b9adb3983b8e16897c22180c9cecb70125efa03c33b7b2cb0bae6eb0b14f0"
+    }
+  ],
+  "tools": {
+    "node": "v24.12.0",
+    "janus": "6c6234b0af2f5f09e3afc91c2c4ee2daaf326b81",
+    "juice-shop image": "bkimminich/juice-shop:v20.3.0@sha256:cea5a4af4aacee498c491491af0408934ec81d004035c0a02ef3e54395e3bf27",
+    "model navigator": "claude-haiku-5-5",
+    "model competent-baseline": "claude-sonnet-5-5",
+    "model ui-engineer": "claude-sonnet-5-5",
+    "model red-team": "claude-sonnet-5-5",
+    "model blue-team": "claude-sonnet-5-5",
+    "model architect": "claude-opus-5-5"
+  }
+}

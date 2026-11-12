@@ -553,12 +553,14 @@ Nota F3.6 (parte b): `ExploreTradeoffs` mide el arreglo libre del Blue Team y, s
 
 ### F3.7 · Informe dual y firma — M (5–7 h)
 
-- [ ] Informe en JSON + Markdown: A/B, hallazgos estáticos y dinámicos, PoC, diffs, verificadores, compromisos, coste total
-- [ ] Hash del event log del run
-- [ ] Firma con cosign (`sign-blob`) y atestación in-toto con sujeto = SHA del commit + hash del informe + hash del event log + versiones de herramientas
-- [ ] Comando `janus verify <informe>` que comprueba firma y hashes
+- [x] Informe en JSON + Markdown: A/B, hallazgos estáticos y dinámicos, PoC, diffs, verificadores, compromisos, coste total
+- [x] Hash del event log del run
+- [x] Firma con cosign (`sign-blob`) y atestación in-toto con sujeto = SHA del commit + hash del informe + hash del event log + versiones de herramientas
+- [x] Comando `janus verify <informe>` que comprueba firma y hashes
 
 Hecho cuando: alterar un byte del informe hace fallar `janus verify`.
+
+Nota F3.7: **informe:** `buildDualReport` (aplicación, puro) lo arma por código a partir de los event logs de los runs que se le dan por papel (`ux`, `audit`, `red-team`, `blue-team`, `v3`): el A/B como éxito sintético con su intervalo, los hallazgos con su estado tras la confirmación y su PoC, cada arreglo con sus verificadores y su diff, los informes de compromiso, el coste de cada run y el SHA-256 de cada event log (`eventLogHash`: JSON canónico, eventos por `seq`). Lo escribe `pnpm janus report` como `dual-report.json` (la fuente firmada) y `dual-report.md` (su lectura para el PR). **Firma** ([ADR 0014](adr/0014-report-signature.md)): con `node:crypto` y en los formatos de cosign, en vez del binario. Una clave ECDSA P-256 (`pnpm janus keygen`: privada en `.janus/keys/`, ignorada por git; pública en `keys/janus.pub`); `dual-report.json.sig` es lo que imprime `cosign sign-blob`, y `dual-report.intoto.json` una declaración in-toto v1 en un sobre DSSE, con sujetos = el informe, cada event log, el commit de Janus y el del objetivo, y las versiones de las herramientas como predicado. Sin Rekor: los informes son privados y Janus trabaja sin red. `pnpm janus verify <carpeta>` comprueba la firma, el sobre, que la declaración nombra ese informe y cada event log y, con la base de datos a mano, que cada event log sigue dando el mismo hash; sale con 1 si algo falla. **Hecho cuando**, verificado con el informe de Juice Shop en [docs/reports/dual-juice-shop](reports/dual-juice-shop/dual-report.md) (6 hallazgos confirmados, los 2 arreglos con V1, V2 y V3, el informe de compromiso, 6 event logs, 1,10 € de coste acumulado): `pnpm janus verify` lo acepta y, con un solo byte cambiado en una copia, falla con "the signature does not match the report" y "the attestation names another report". `pnpm test:sandbox` comprueba con el cosign real (imagen fijada por digest, sin red) que `verify-blob` y `verify-blob-attestation` aceptan lo que firma Janus y lo rechazan tras cambiar un byte. Sin gasto de API. En Windows el permiso `600` de la clave privada no se aplica: queda protegida por estar fuera del repositorio.
 
 ### F3.8 · Pull Request — S a M (4–6 h)
 

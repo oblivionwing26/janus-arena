@@ -14,7 +14,7 @@ More context: `docs/VISION.md` (product), `docs/adr/` (decisions), `docs/ROADMAP
 
 ## Current step
 
-**F3.7 — Dual report and signature.** Read this step in `docs/ROADMAP.md` before starting. Do not build features from later steps.
+**F3.8 — Pull Request.** Read this step in `docs/ROADMAP.md` before starting. Do not build features from later steps.
 
 (Update this line every time a step is closed.)
 
@@ -40,6 +40,9 @@ pnpm run:report <runId|file>  # SynthLab report (heatmap zones, funnel, success,
 pnpm run:ui-engineer <runId|file> --zone <rank>  # UI Engineer patch + checks + commit (calls the API)
 pnpm run:blue-team <poc.json|runId --finding <id>>  # Blue Team loop: fix, build, V1 + V2 + V3, max 3 iterations (needs pnpm dev; calls the API)
 pnpm run:tradeoff <poc.json> [--strategies a,b]  # trade-off report: fix + alternatives, V1 + V3, recommendation (needs pnpm dev; calls the API)
+pnpm janus keygen             # report signing key pair (private in .janus/keys, public in keys/janus.pub)
+pnpm janus report --out <dir> --target <t> --run <role>:<runId>...  # signed dual report (no LLM)
+pnpm janus verify <dir>       # signature, attestation and event-log hashes; exits 1 on any problem
 pnpm run:ab-auto <runs/x.yaml>  # discovery on A, generated B, paired A/B report (needs pnpm dev; calls the API)
 pnpm run:surface <target>     # HTTP surface map of a target, read from its code (no LLM)
 pnpm run:audit-diff <target> --a <ref> --b <ref>  # what variant B introduces; exits 1 if the gate blocks it

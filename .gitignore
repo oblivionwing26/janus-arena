@@ -38,3 +38,6 @@ apps/orchestrator-api/src/infrastructure/persistence/generated/
 
 # Next.js generated types
 next-env.d.ts
+
+# Report signing keys (F3.7, ADR 0014): the private key never leaves this machine.
+.janus/

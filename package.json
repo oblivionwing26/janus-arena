@@ -28,6 +28,7 @@
     "run:ui-engineer": "node scripts/run-ui-engineer.mjs",
     "run:blue-team": "node scripts/run-blue-team.mjs",
     "run:tradeoff": "node scripts/run-tradeoff.mjs",
+    "janus": "node scripts/janus.mjs",
     "check:arch": "turbo run build && depcruise --config .dependency-cruiser.cjs apps packages",
     "format": "prettier --write .",
     "format:check": "prettier --check ."
