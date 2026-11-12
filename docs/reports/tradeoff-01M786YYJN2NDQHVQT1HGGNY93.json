@@ -1,0 +1,70 @@
+{
+  "rows": [
+    {
+      "label": "free fix",
+      "strategy": null,
+      "patchId": "01M7870CP2BJQ9XFRV5QW7Q59N",
+      "exploitable": false,
+      "ux": {
+        "runId": "01M7872J0PTG23PXJ1VN4589ZQ",
+        "a": {
+          "successes": 4,
+          "n": 6
+        },
+        "b": {
+          "successes": 5,
+          "n": 6
+        },
+        "latency": [
+          {
+            "endpoint": "POST /rest/user/login",
+            "a": 50.12000000000001,
+            "b": 89.89999999999985
+          }
+        ]
+      },
+      "uxPassed": true,
+      "note": "the PoC no longer works: the shop throttled at guess 11 (429); run 01M7872J0PTG23PXJ1VN4589ZQ: success A 4/6, B 5/6; POST /rest/user/login p95 50 → 90 ms (budget 100 ms)"
+    },
+    {
+      "label": "account lockout",
+      "strategy": "account-lockout",
+      "patchId": "01M788AKKMXZFAR69F5W0SRRX9",
+      "exploitable": false,
+      "ux": {
+        "runId": "01M788C3X8H7J2Z34B1BJDW5FC",
+        "a": {
+          "successes": 4,
+          "n": 6
+        },
+        "b": {
+          "successes": 3,
+          "n": 6
+        },
+        "latency": [
+          {
+            "endpoint": "POST /rest/user/login",
+            "a": 45.779999999999994,
+            "b": 40.85999999999999
+          }
+        ]
+      },
+      "uxPassed": true,
+      "note": "the PoC no longer works: the shop throttled at guess 6 (429); run 01M788C3X8H7J2Z34B1BJDW5FC: success A 4/6, B 3/6; POST /rest/user/login p95 46 → 41 ms (budget 96 ms); Inés was refused with 429 in both sessions on B and never completed her purchase there"
+    },
+    {
+      "label": "progressive delay",
+      "strategy": "progressive-delay",
+      "patchId": null,
+      "exploitable": null,
+      "ux": null,
+      "uxPassed": null,
+      "note": "Not measured: the Anthropic API credit ran out before the Blue Team wrote this alternative (run 01M7889HSW72AV01GWCTXFYT3C)."
+    }
+  ],
+  "diffs": {
+    "free fix": "diff --git a/routes/login.ts b/routes/login.ts\n--- a/routes/login.ts\n+++ b/routes/login.ts\n@@ -14,6 +14,28 @@\n import { type User } from '../data/types'\n import * as utils from '../lib/utils'\n \n+const MAX_LOGIN_ATTEMPTS = 10\n+const LOGIN_WINDOW_MS = 5 * 60 * 1000\n+const MAX_TRACKED_ACCOUNTS = 10000\n+const loginAttempts = new Map<string, { count: number, windowStart: number }>()\n+\n+function registerLoginAttempt (key: string): boolean {\n+  const now = Date.now()\n+  if (loginAttempts.size >= MAX_TRACKED_ACCOUNTS) {\n+    for (const [k, v] of loginAttempts) {\n+      if (now - v.windowStart >= LOGIN_WINDOW_MS) loginAttempts.delete(k)\n+    }\n+    if (loginAttempts.size >= MAX_TRACKED_ACCOUNTS) loginAttempts.clear()\n+  }\n+  let entry = loginAttempts.get(key)\n+  if (!entry || now - entry.windowStart >= LOGIN_WINDOW_MS) {\n+    entry = { count: 0, windowStart: now }\n+    loginAttempts.set(key, entry)\n+  }\n+  entry.count++\n+  return entry.count <= MAX_LOGIN_ATTEMPTS\n+}\n+\n export function login () {\n   function afterLogin (user: User, res: Response, next: NextFunction) {\n     verifyPostLoginChallenges(user)\n@@ -29,10 +51,18 @@\n   }\n \n   return (req: Request, res: Response, next: NextFunction) => {\n+    const attemptKey = String(req.body.email || '').toLowerCase()\n+    if (!registerLoginAttempt(attemptKey)) {\n+      res.status(429).send(res.__('Too many login attempts. Please try again later.'))\n+      return\n+    }\n     verifyPreLoginChallenges(req)\n     models.sequelize.query(`SELECT * FROM Users WHERE email = '${req.body.email || ''}' AND password = '${security.hash(req.body.password || '')}' AND deletedAt IS NULL`, { model: UserModel, plain: true })\n       .then((authenticatedUser) => {\n         const user = utils.queryResultToJson(authenticatedUser)\n+        if (user.data?.id) {\n+          loginAttempts.delete(attemptKey)\n+        }\n         if (user.data?.id && user.data.totpSecret !== '') {\n           res.status(401).json({\n             status: 'totp_token_required',\n",
+    "account lockout": "diff --git a/routes/login.ts b/routes/login.ts\n--- a/routes/login.ts\n+++ b/routes/login.ts\n@@ -14,6 +14,14 @@\n import { type User } from '../data/types'\n import * as utils from '../lib/utils'\n \n+const MAX_FAILED_LOGINS = 5\n+const LOCKOUT_MS = 5 * 60 * 1000\n+const failedLogins = new Map<string, { count: number, lockedUntil: number }>()\n+\n+function lockoutKey (req: Request): string {\n+  return String(req.body.email || '').trim().toLowerCase()\n+}\n+\n export function login () {\n   function afterLogin (user: User, res: Response, next: NextFunction) {\n     verifyPostLoginChallenges(user)\n@@ -29,10 +37,31 @@\n   }\n \n   return (req: Request, res: Response, next: NextFunction) => {\n+    const key = lockoutKey(req)\n+    const now = Date.now()\n+    const entry = failedLogins.get(key)\n+    if (entry && entry.lockedUntil > now) {\n+      res.setHeader('Retry-After', Math.ceil((entry.lockedUntil - now) / 1000))\n+      res.status(429).send(res.__('Too many failed login attempts. Please try again later.'))\n+      return\n+    }\n+    if (entry && entry.lockedUntil !== 0) {\n+      failedLogins.delete(key) // lock expired\n+    }\n     verifyPreLoginChallenges(req)\n     models.sequelize.query(`SELECT * FROM Users WHERE email = '${req.body.email || ''}' AND password = '${security.hash(req.body.password || '')}' AND deletedAt IS NULL`, { model: UserModel, plain: true })\n       .then((authenticatedUser) => {\n         const user = utils.queryResultToJson(authenticatedUser)\n+        if (user.data?.id) {\n+          failedLogins.delete(key)\n+        } else {\n+          const current = failedLogins.get(key) ?? { count: 0, lockedUntil: 0 }\n+          current.count++\n+          if (current.count >= MAX_FAILED_LOGINS) {\n+            current.lockedUntil = Date.now() + LOCKOUT_MS\n+          }\n+          failedLogins.set(key, current)\n+        }\n         if (user.data?.id && user.data.totpSecret !== '') {\n           res.status(401).json({\n             status: 'totp_token_required',\n"
+  },
+  "costEur": 0.9791984424000002
+}

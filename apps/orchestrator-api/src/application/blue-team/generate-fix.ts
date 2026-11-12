@@ -31,6 +31,8 @@ export interface GenerateFixInput {
   readonly budget: Budget;
   /** On a retry: the previous fix and why it was rejected (build, checks or verifiers). */
   readonly retry?: { readonly diff: string; readonly failure: string };
+  /** The strategy an alternative must follow (F3.6): another way to close the same flaw. */
+  readonly direction?: string;
 }
 
 export type GenerateFixResult =
@@ -90,6 +92,12 @@ export class GenerateFix {
     const brief: LlmContentBlock[] = [
       { type: 'text', text: 'Fix the flaw described above in the files you may edit.' },
     ];
+    if (input.direction !== undefined) {
+      brief.push({
+        type: 'text',
+        text: `Close it with this approach, and no other: ${input.direction}`,
+      });
+    }
     if (input.retry !== undefined) {
       brief.push({
         type: 'text',

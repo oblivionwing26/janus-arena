@@ -123,6 +123,13 @@ describe('SynthlabRerunVerifier (F3.5, V3)', () => {
     expect(result.passed).toBe(true);
     expect(result.details).toContain('success A 2/2, B 2/2');
     expect(result.details).toContain('GET /rest/basket/:id p95 20 → 25 ms');
+    // The numbers behind the verdict, for the trade-off table (F3.6).
+    expect(result.measured).toEqual({
+      runId: expect.stringMatching(/^[0-9A-Z]{26}$/) as string,
+      a: { successes: 2, n: 2 },
+      b: { successes: 2, n: 2 },
+      latency: [{ endpoint: 'GET /rest/basket/:id', a: 20, b: 25 }],
+    });
   });
 
   it('fails a fix that loses the shoppers', async () => {
