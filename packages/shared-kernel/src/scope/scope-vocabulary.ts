@@ -11,6 +11,7 @@ export const TEST_TYPES = [
   'auth-bypass',
   'xss',
   'business-logic',
+  'brute-force',
   'race',
   'scanner',
 ] as const;

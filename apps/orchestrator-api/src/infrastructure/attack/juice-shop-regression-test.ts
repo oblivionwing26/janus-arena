@@ -5,6 +5,7 @@ import type { GeneratedTest } from '../../domain/fix/generated-test.js';
 const IT = {
   idor: "does not give a user another user's data",
   'order-quantity': 'keeps the stored quantity of a basket item positive',
+  'login-guessing': "stops guessing at an account's password",
 } as const;
 
 /** Two fresh synthetic shoppers per test, registered and signed in through the API. */
@@ -21,14 +22,14 @@ const PRELUDE = [
   '  app = (await createTestApp()).app',
   '}, { timeout: 60000 })',
   '',
-  'async function shopper (name: string): Promise<{ token: string, bid: number }> {',
+  'async function shopper (name: string): Promise<{ token: string, bid: number, email: string, password: string }> {',
   '  const email = `${name}-${String(Date.now())}@janus.test`',
   "  const password = 'janus-regression-1'",
   "  const created = await request(app).post('/api/Users').send({ email, password, passwordRepeat: password, securityQuestion: { id: 1 }, securityAnswer: 'Sintetica' })",
   '  assert.equal(created.status, 201)',
   "  const login = await request(app).post('/rest/user/login').send({ email, password })",
   '  assert.equal(login.status, 200)',
-  '  return { token: login.body.authentication.token, bid: login.body.authentication.bid }',
+  '  return { token: login.body.authentication.token, bid: login.body.authentication.bid, email, password }',
   '}',
   '',
 ];
@@ -58,6 +59,24 @@ function body(poc: ProofOfConcept): readonly string[] | null {
       "    assert.ok(stored > 0, 'a basket item kept a quantity of ' + String(stored))",
     ];
   }
+  if (steps.kind === 'login-guessing') {
+    // The oracle's rule (unthrottledGuessing), in the target's own test: fails while guessing
+    // at an account goes unhindered (F3.6).
+    const send = (password: string) =>
+      `request(app).post(${JSON.stringify(steps.path)}).send({ ${steps.identity}: victim.email, ${steps.password}: ${password} })`;
+    return [
+      `    const victim = await shopper('victim')`,
+      '    const statuses: number[] = []',
+      '    const started = Date.now()',
+      `    for (let guess = 0; guess < ${String(steps.guesses)}; guess++) {`,
+      `      statuses.push((await ${send("'janus-wrong-guess-' + String(guess)")}).status)`,
+      '    }',
+      `    const perGuess = (Date.now() - started) / ${String(steps.guesses)}`,
+      `    const right = await ${send('victim.password')}`,
+      '    const unthrottled = statuses.every((status) => status !== 423 && status !== 429) && perGuess < 1000 && right.status === 200',
+      "    assert.ok(!unthrottled, 'an account was guessed at without being stopped or slowed down')",
+    ];
+  }
   return null;
 }
 
@@ -73,7 +92,9 @@ export function juiceShopRegressionTest(
   const lines = body(poc);
   if (lines === null) return null;
   const suite = `janus regression ${findingId}`;
-  const it = IT[poc.steps.kind === 'idor' ? 'idor' : 'order-quantity'];
+  const kind = poc.steps.kind;
+  const it =
+    kind === 'idor' || kind === 'order-quantity' || kind === 'login-guessing' ? IT[kind] : '';
   const path = `test/api/janus-regression-${findingId.toLowerCase()}.test.ts`;
   return {
     path,

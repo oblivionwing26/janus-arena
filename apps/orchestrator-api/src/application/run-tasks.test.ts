@@ -193,3 +193,57 @@ describe('a run on another target (F3.5a)', () => {
     expect(prompt).toContain('Your home address and card are already saved in that account.');
   });
 });
+
+describe('a persona who forgets their password (F3.6)', () => {
+  it('gets old passwords to try first, in order, and is told to', async () => {
+    const store = new InMemoryEventStore();
+    const sandbox = new InMemorySandbox();
+    const queue = new InMemorySessionQueue({ autoRun: true, concurrency: 1 });
+    const control = new RunControl();
+    const personas = new InMemoryPersonaCatalog([
+      samplePersona('ines-forgetful', { biases: ['forgets-password'] }),
+      samplePersona('competent-baseline', {
+        modelRole: 'competent-baseline',
+        biases: [],
+        digitalLiteracy: 5,
+      }),
+    ]);
+    const gateway = new ScriptedGateway([
+      { tool: 'done', input: { outcome: 'abandon', reason: 'Stop.' } },
+    ]);
+    const runSession = new RunAgentSession({
+      store,
+      browser: new ScriptedBrowser(SHOPLAB_PAGES),
+      control,
+      navigator: { gateway, personas },
+    });
+    const finishRun = new FinishRun({ store, sandbox, control });
+    void queue.start({
+      runSession: (job) => runSession.execute(job),
+      finishRun: (plan, results) => finishRun.execute(plan, results),
+    });
+    const { launched } = await new StartRun({ store, sandbox, queue, control, personas }).execute(
+      runInputFromConfig({
+        target: 'shoplab',
+        variants: [{ key: 'a', ref: 'main' }],
+        personas: ['ines-forgetful'],
+        seeds: [1],
+        budget: { maxTokens: 1_000_000, maxEur: 1 },
+      }),
+    );
+    await launched;
+    await queue.drain();
+
+    const prompt =
+      gateway
+        .actionRequests()
+        .map((request) => request.system.stable)
+        .find((stable) => stable.includes('forgets') || stable.includes('old passwords')) ?? '';
+    expect(prompt).toContain('you try your old passwords first, in the order listed');
+    expect(prompt).toMatch(
+      /- old passwords \(try these first, in order\): Sintetica2019!, Sintetica2020!, Sintetica2021!, Sintetica2022!, Sintetica2023!\n/,
+    );
+    // The right one is still there, last to try.
+    expect(prompt).toMatch(/- password: \S+/);
+  });
+});

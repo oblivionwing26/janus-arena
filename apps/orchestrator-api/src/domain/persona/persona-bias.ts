@@ -19,6 +19,8 @@ export const PERSONA_BIASES = [
   'double-checks',
   /** Loses patience quickly when the page is slow or nothing seems to happen. */
   'low-tolerance-for-waits',
+  /** Does not remember which password this shop has; tries old ones first (F3.6). */
+  'forgets-password',
 ] as const;
 
 export type PersonaBias = (typeof PERSONA_BIASES)[number];

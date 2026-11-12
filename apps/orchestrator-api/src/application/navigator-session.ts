@@ -59,7 +59,28 @@ export interface NavigatorSessionResult {
   readonly steps: number;
 }
 
-function describeAction(action: unknown, locators: ReadonlyMap<string, ElementLocator>): string {
+/**
+ * Which of the persona's details a typed text is, by its key and never its value (F3.6): `name`,
+ * or `old passwords #2` for an item of a comma-separated list. Null for any other text. Without
+ * it a persona told to try passwords in order cannot tell which ones it already tried.
+ */
+function detailTyped(text: string, details: Readonly<Record<string, string>>): string | null {
+  for (const [key, value] of Object.entries(details)) {
+    if (value === text) return key;
+    const items = value.split(', ');
+    const index = items.indexOf(text);
+    if (items.length > 1 && index !== -1) {
+      return `${key.replace(/ \(.*\)$/, '')} #${String(index + 1)}`;
+    }
+  }
+  return null;
+}
+
+function describeAction(
+  action: unknown,
+  locators: ReadonlyMap<string, ElementLocator>,
+  details: Readonly<Record<string, string>>,
+): string {
   const parsed = agentActionSchema.safeParse(action);
   if (!parsed.success) return 'an invalid answer';
   const element = (ref: string) => {
@@ -72,9 +93,11 @@ function describeAction(action: unknown, locators: ReadonlyMap<string, ElementLo
   switch (value.type) {
     case 'click':
       return `click ${element(value.ref)}`;
-    case 'type':
-      // Never the text itself: it may be a password.
-      return `type into ${element(value.ref)}`;
+    case 'type': {
+      // Never the text itself: it may be a password. Which detail it was, if any.
+      const typed = detailTyped(value.text, details);
+      return `type ${typed === null ? '' : `your ${typed} `}into ${element(value.ref)}`;
+    }
     case 'select':
       return `choose "${value.value}" in ${element(value.ref)}`;
     case 'scroll':
@@ -164,7 +187,7 @@ export class NavigatorSession {
         const result = await executor.execute(session, action, observation.locators, steps);
         memory.add({
           stepIndex: steps,
-          action: describeAction(action, observation.locators),
+          action: describeAction(action, observation.locators, input.task?.details ?? {}),
           result: resultOf(result),
         });
         await recorder.record('agent.step', {

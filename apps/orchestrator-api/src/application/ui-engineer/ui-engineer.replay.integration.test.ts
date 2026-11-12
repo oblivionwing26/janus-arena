@@ -94,7 +94,10 @@ describe('the recorded UI Engineer patches for the seeded flaws', () => {
 
       expect(result.status).toBe('verified');
       expect(result.status === 'verified' ? result.diff.trim() : '').toBe(
-        readFileSync(join(fixtures, flaw, 'expected.diff'), 'utf8').trim(),
+        // Line endings as stored: a Windows checkout may turn the fixture's LF into CRLF.
+        readFileSync(join(fixtures, flaw, 'expected.diff'), 'utf8')
+          .replace(/\r\n/g, '\n')
+          .trim(),
       );
       expect(result.status === 'verified' && result.stats.filesChanged).toBeLessThanOrEqual(5);
     }, 120_000);

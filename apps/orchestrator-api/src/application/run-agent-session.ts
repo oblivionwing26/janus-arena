@@ -40,6 +40,15 @@ export interface RunAgentSessionDeps {
  * What the agent does (including not finishing the task) is a result; anything else is the
  * platform failing and is thrown as InfrastructureError so the queue retries it.
  */
+/**
+ * The wrong passwords a forgetful persona tries first (F3.6): fixed and synthetic, so every run
+ * makes the same five failed logins before the right one, as a shopper who does not remember
+ * which password this shop has. Five is the usual threshold of an account lockout.
+ */
+const OLD_PASSWORDS_KEY = 'old passwords (try these first, in order)';
+const OLD_PASSWORDS =
+  'Sintetica2019!, Sintetica2020!, Sintetica2021!, Sintetica2022!, Sintetica2023!';
+
 export class RunAgentSession {
   constructor(private readonly deps: RunAgentSessionDeps) {}
 
@@ -184,7 +193,15 @@ export class RunAgentSession {
         hasAccount: preregistered,
         savedCheckout: preregistered && shopper.savedCheckout === true,
         ...(job.task === undefined ? {} : { goal: job.task.goal }),
-        details: { ...shopper.details, name, email, password },
+        details: {
+          ...shopper.details,
+          name,
+          email,
+          password,
+          ...(persona.biases.includes('forgets-password')
+            ? { [OLD_PASSWORDS_KEY]: OLD_PASSWORDS }
+            : {}),
+        },
       },
     });
     const { sessionIndex } = job.spec;

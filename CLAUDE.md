@@ -14,7 +14,7 @@ More context: `docs/VISION.md` (product), `docs/adr/` (decisions), `docs/ROADMAP
 
 ## Current step
 
-**F3.6 — Compromise report.** Read this step in `docs/ROADMAP.md` before starting. Do not build features from later steps.
+**F3.6 — Compromise report (part b: alternatives and the trade-off table).** Read this step in `docs/ROADMAP.md` before starting. Do not build features from later steps.
 
 (Update this line every time a step is closed.)
 
@@ -43,7 +43,7 @@ pnpm run:ab-auto <runs/x.yaml>  # discovery on A, generated B, paired A/B report
 pnpm run:surface <target>     # HTTP surface map of a target, read from its code (no LLM)
 pnpm run:audit-diff <target> --a <ref> --b <ref>  # what variant B introduces; exits 1 if the gate blocks it
 pnpm run:scope <target>       # sandbox the target, verify ownership, probe the scope (no LLM, no attack)
-pnpm run:red-team <target>    # deterministic attack engine: IDOR, login bypass, XSS, business logic (no LLM)
+pnpm run:red-team <target>    # deterministic attack engine: IDOR, login bypass, XSS, business logic, brute force (no LLM)
 pnpm run:poc <runId|folder>   # replay a run's PoCs on a fresh sandbox; exits 1 if one no longer reproduces
 ```
 

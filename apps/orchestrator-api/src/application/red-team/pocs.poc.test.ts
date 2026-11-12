@@ -44,11 +44,12 @@ afterAll(async () => {
   await sandbox.down(VARIANT);
 });
 
-describe('Juice Shop PoCs (F3.4)', () => {
+describe('Juice Shop PoCs (F3.4, brute force since F3.6)', () => {
   it('every saved PoC still reproduces on a fresh sandbox, with no LLM call', async () => {
     const files = await readPocDir(FIXTURES);
     expect(files.map(({ name }) => name)).toEqual([
       'auth-bypass-login.json',
+      'brute-force-login.json',
       'business-logic-negative-order.json',
       'business-logic-raced-like.json',
       'idor-basket.json',
@@ -83,6 +84,7 @@ describe('Juice Shop PoCs (F3.4)', () => {
     ]);
     expect(verdicts).toEqual([
       ['auth-bypass-login.json', 'authenticated-as', true],
+      ['brute-force-login.json', 'unthrottled-guessing', true],
       ['business-logic-negative-order.json', 'price-mismatch', true],
       ['business-logic-raced-like.json', 'duplicate-effect', true],
       ['idor-basket.json', 'canary-leak', true],

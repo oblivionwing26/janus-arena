@@ -37,7 +37,12 @@ const PURCHASE: ScriptedReply[] = [
 
 async function run(
   replies: readonly ScriptedReply[],
-  options: { maxSteps?: number; budget?: Budget; summaries?: string[] } = {},
+  options: {
+    maxSteps?: number;
+    budget?: Budget;
+    summaries?: string[];
+    details?: Record<string, string>;
+  } = {},
 ) {
   const browser = new ScriptedBrowser(SHOPLAB_PAGES);
   const store = new InMemoryEventStore();
@@ -52,7 +57,7 @@ async function run(
     persona: Persona.create(
       samplePersona('ana', { patience: { maxSteps: options.maxSteps ?? 30, maxSeconds: 600 } }),
     ),
-    task: { hasAccount: false, details: { name: 'Ana Prueba' } },
+    task: { hasAccount: false, details: options.details ?? { name: 'Ana Prueba' } },
     budget: options.budget ?? new Budget({ maxTokens: 1_000_000, maxEur: 10 }),
   });
   const events = (await store.readRun(RUN_ID)).filter(isKnownEvent);
@@ -115,6 +120,33 @@ describe('NavigatorSession', () => {
     ).toBe(1);
     expect(JSON.stringify(gateway.requests)).not.toContain(PASSWORD);
     expect(requests[1]?.messages[0]?.content).toContain('Your last action was carried out.');
+  });
+
+  it('remembers which of its details it typed, never the text (F3.6)', async () => {
+    const { gateway } = await run(
+      [
+        { tool: 'type', input: { ref: 'e1', text: 'Ana Prueba' } },
+        { tool: 'type', input: { ref: 'e3', text: 'Sintetica2020!' } },
+        { tool: 'type', input: { ref: 'e3', text: PASSWORD } },
+        { tool: 'done', input: { outcome: 'abandon', reason: 'Stop.' } },
+      ],
+      {
+        details: {
+          name: 'Ana Prueba',
+          password: PASSWORD,
+          'old passwords (try these first, in order)': 'Sintetica2019!, Sintetica2020!',
+        },
+      },
+    );
+    const last = JSON.stringify(gateway.actionRequests().at(-1)?.messages ?? []);
+
+    expect(last).toContain('type your name into e1');
+    expect(last).toContain('type your old passwords #2 into e3');
+    expect(last).toContain('type your password into e3');
+    // Only the system prompt holds the details; no step message repeats a typed value.
+    const steps = JSON.stringify(gateway.actionRequests().map((request) => request.messages));
+    expect(steps).not.toContain(PASSWORD);
+    expect(steps).not.toContain('Sintetica2020!');
   });
 
   it('ends with abandon when the persona gives up', async () => {

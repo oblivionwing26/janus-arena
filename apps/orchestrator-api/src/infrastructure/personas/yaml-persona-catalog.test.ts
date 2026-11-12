@@ -30,10 +30,10 @@ describe('persona YAML files', () => {
     expect(() => parsePersonaFile(file, source)).toThrow(InvalidPersonaError);
   });
 
-  it('loads the repository personas: 8 navigators and the competent baseline', async () => {
+  it('loads the repository personas: 9 navigators (Inés since F3.6) and the competent baseline', async () => {
     const personas = await new YamlPersonaCatalog().list();
 
-    expect(personas.filter((persona) => persona.modelRole === 'navigator')).toHaveLength(8);
+    expect(personas.filter((persona) => persona.modelRole === 'navigator')).toHaveLength(9);
     const baseline = personas.filter((persona) => persona.modelRole === 'competent-baseline');
     expect(baseline.map((persona) => persona.id)).toEqual(['competent-baseline']);
     expect(new Set(personas.map((persona) => persona.rationale)).size).toBe(personas.length);

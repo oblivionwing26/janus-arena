@@ -13,7 +13,7 @@ targets:
   # The security target (ADR 0006). Its own ground truth (which challenges exist, hints, the
   # vulnerable snippets and fixes, saved progress) stays out of every agent's reach.
   juice-shop:
-    allowedTests: [browse, http-probe, idor, auth-bypass, xss, business-logic, race]
+    allowedTests: [browse, http-probe, idor, auth-bypass, xss, business-logic, brute-force, race]
     excludedPaths:
       - /api/Challenges/**
       - /api/Hints/**

@@ -4,7 +4,13 @@ import { z } from 'zod';
 // code acts on them; the scope, the limits and the oracles live in the orchestrator.
 
 /** The attack classes the Red Team may try, a subset of the scope's test types (F3.3). */
-export const RED_TEAM_CLASSES = ['idor', 'auth-bypass', 'xss', 'business-logic'] as const;
+export const RED_TEAM_CLASSES = [
+  'idor',
+  'auth-bypass',
+  'xss',
+  'business-logic',
+  'brute-force',
+] as const;
 export const redTeamClassSchema = z.enum(RED_TEAM_CLASSES);
 export type RedTeamClass = z.infer<typeof redTeamClassSchema>;
 

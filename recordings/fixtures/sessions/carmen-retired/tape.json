@@ -963,7 +963,7 @@
   {
     "method": "pageActivity",
     "result": {
-      "documentId": "5ptee2okaif",
+      "documentId": "zy325qqgnw",
       "mutations": 149
     }
   },
@@ -976,7 +976,7 @@
   {
     "method": "pageActivity",
     "result": {
-      "documentId": "5ptee2okaif",
+      "documentId": "zy325qqgnw",
       "mutations": 162
     }
   },
@@ -986,12 +986,152 @@
       "errors": [],
       "vitals": {
         "url": "http://janus-f14-app:3100/products/taza-ceramica",
-        "lcpMs": 200,
+        "lcpMs": 268,
         "cls": 0,
         "inpMs": 16
       },
       "blocked": [],
-      "dialogs": []
+      "dialogs": [],
+      "requests": [
+        {
+          "method": "GET",
+          "path": "/cart",
+          "status": 0,
+          "ms": 47.1
+        },
+        {
+          "method": "GET",
+          "path": "/register",
+          "status": 0,
+          "ms": 48.8
+        },
+        {
+          "method": "GET",
+          "path": "/login",
+          "status": 0,
+          "ms": 55.5
+        },
+        {
+          "method": "GET",
+          "path": "/products/agenda-2027",
+          "status": 0,
+          "ms": 62.1
+        },
+        {
+          "method": "GET",
+          "path": "/products/alfombrilla-raton",
+          "status": 0,
+          "ms": 18.1
+        },
+        {
+          "method": "GET",
+          "path": "/products/auriculares-cable",
+          "status": 0,
+          "ms": 18.5
+        },
+        {
+          "method": "GET",
+          "path": "/products/boligrafo-gel",
+          "status": 0,
+          "ms": 33
+        },
+        {
+          "method": "GET",
+          "path": "/cart",
+          "status": 0,
+          "ms": 29
+        },
+        {
+          "method": "GET",
+          "path": "/login",
+          "status": 0,
+          "ms": 27.3
+        },
+        {
+          "method": "GET",
+          "path": "/register",
+          "status": 0,
+          "ms": 26.2
+        },
+        {
+          "method": "GET",
+          "path": "/products/agenda-2027",
+          "status": 0,
+          "ms": 19.7
+        },
+        {
+          "method": "GET",
+          "path": "/products/alfombrilla-raton",
+          "status": 0,
+          "ms": 16.7
+        },
+        {
+          "method": "GET",
+          "path": "/products/auriculares-cable",
+          "status": 0,
+          "ms": 16.7
+        },
+        {
+          "method": "GET",
+          "path": "/products/boligrafo-gel",
+          "status": 0,
+          "ms": 17.6
+        },
+        {
+          "method": "GET",
+          "path": "/products/botella-acero",
+          "status": 0,
+          "ms": 19.4
+        },
+        {
+          "method": "GET",
+          "path": "/products/cuaderno-a5",
+          "status": 0,
+          "ms": 19.2
+        },
+        {
+          "method": "GET",
+          "path": "/products/mochila-urbana",
+          "status": 0,
+          "ms": 18.2
+        },
+        {
+          "method": "GET",
+          "path": "/products/lampara-escritorio",
+          "status": 200,
+          "ms": 18.2
+        },
+        {
+          "method": "GET",
+          "path": "/products/planta-artificial",
+          "status": 0,
+          "ms": 20.9
+        },
+        {
+          "method": "GET",
+          "path": "/products/set-acuarelas",
+          "status": 0,
+          "ms": 21
+        },
+        {
+          "method": "GET",
+          "path": "/products/soporte-portatil",
+          "status": 0,
+          "ms": 21.2
+        },
+        {
+          "method": "GET",
+          "path": "/products/taza-ceramica",
+          "status": 0,
+          "ms": 21.3
+        },
+        {
+          "method": "GET",
+          "path": "/products/taza-ceramica",
+          "status": 0,
+          "ms": 78.2
+        }
+      ]
     }
   },
   {
@@ -1374,7 +1514,7 @@
   {
     "method": "pageActivity",
     "result": {
-      "documentId": "5ptee2okaif",
+      "documentId": "zy325qqgnw",
       "mutations": 162
     }
   },
@@ -1387,7 +1527,7 @@
   {
     "method": "pageActivity",
     "result": {
-      "documentId": "5ptee2okaif",
+      "documentId": "zy325qqgnw",
       "mutations": 176
     }
   },
@@ -1397,12 +1537,20 @@
       "errors": [],
       "vitals": {
         "url": "http://janus-f14-app:3100/register",
-        "lcpMs": 200,
+        "lcpMs": 268,
         "cls": 0,
         "inpMs": 16
       },
       "blocked": [],
-      "dialogs": []
+      "dialogs": [],
+      "requests": [
+        {
+          "method": "GET",
+          "path": "/register",
+          "status": 200,
+          "ms": 6.9
+        }
+      ]
     }
   },
   {
@@ -1782,12 +1930,13 @@
       "errors": [],
       "vitals": {
         "url": "http://janus-f14-app:3100/register",
-        "lcpMs": 200,
+        "lcpMs": 268,
         "cls": 0,
         "inpMs": 16
       },
       "blocked": [],
-      "dialogs": []
+      "dialogs": [],
+      "requests": []
     }
   },
   {
@@ -2168,12 +2317,13 @@
       "errors": [],
       "vitals": {
         "url": "http://janus-f14-app:3100/register",
-        "lcpMs": 200,
+        "lcpMs": 268,
         "cls": 0,
         "inpMs": 16
       },
       "blocked": [],
-      "dialogs": []
+      "dialogs": [],
+      "requests": []
     }
   },
   {
@@ -2555,12 +2705,13 @@
       "errors": [],
       "vitals": {
         "url": "http://janus-f14-app:3100/register",
-        "lcpMs": 200,
+        "lcpMs": 268,
         "cls": 0,
         "inpMs": 16
       },
       "blocked": [],
-      "dialogs": []
+      "dialogs": [],
+      "requests": []
     }
   },
   {
@@ -2943,12 +3094,13 @@
       "errors": [],
       "vitals": {
         "url": "http://janus-f14-app:3100/register",
-        "lcpMs": 200,
+        "lcpMs": 268,
         "cls": 0,
         "inpMs": 16
       },
       "blocked": [],
-      "dialogs": []
+      "dialogs": [],
+      "requests": []
     }
   },
   {
@@ -3326,7 +3478,7 @@
   {
     "method": "pageActivity",
     "result": {
-      "documentId": "5ptee2okaif",
+      "documentId": "zy325qqgnw",
       "mutations": 184
     }
   },
@@ -3339,7 +3491,7 @@
   {
     "method": "pageActivity",
     "result": {
-      "documentId": "5ptee2okaif",
+      "documentId": "zy325qqgnw",
       "mutations": 206
     }
   },
@@ -3349,12 +3501,134 @@
       "errors": [],
       "vitals": {
         "url": "http://janus-f14-app:3100/",
-        "lcpMs": 200,
+        "lcpMs": 268,
         "cls": 0,
         "inpMs": 16
       },
       "blocked": [],
-      "dialogs": []
+      "dialogs": [],
+      "requests": [
+        {
+          "method": "POST",
+          "path": "/api/auth/register",
+          "status": 201,
+          "ms": 132.2
+        },
+        {
+          "method": "GET",
+          "path": "/login",
+          "status": 0,
+          "ms": 40.4
+        },
+        {
+          "method": "GET",
+          "path": "/cart",
+          "status": 0,
+          "ms": 40.6
+        },
+        {
+          "method": "GET",
+          "path": "/",
+          "status": 0,
+          "ms": 42
+        },
+        {
+          "method": "GET",
+          "path": "/register",
+          "status": 0,
+          "ms": 41.7
+        },
+        {
+          "method": "GET",
+          "path": "/",
+          "status": 0,
+          "ms": 54.8
+        },
+        {
+          "method": "GET",
+          "path": "/orders",
+          "status": 0,
+          "ms": 29.8
+        },
+        {
+          "method": "GET",
+          "path": "/products/auriculares-cable",
+          "status": 0,
+          "ms": 31.2
+        },
+        {
+          "method": "GET",
+          "path": "/products/alfombrilla-raton",
+          "status": 0,
+          "ms": 31.7
+        },
+        {
+          "method": "GET",
+          "path": "/products/agenda-2027",
+          "status": 200,
+          "ms": 29.6
+        },
+        {
+          "method": "GET",
+          "path": "/products/boligrafo-gel",
+          "status": 0,
+          "ms": 16.7
+        },
+        {
+          "method": "GET",
+          "path": "/products/botella-acero",
+          "status": 0,
+          "ms": 16.3
+        },
+        {
+          "method": "GET",
+          "path": "/orders",
+          "status": 0,
+          "ms": 18.2
+        },
+        {
+          "method": "GET",
+          "path": "/products/cuaderno-a5",
+          "status": 200,
+          "ms": 14.6
+        },
+        {
+          "method": "GET",
+          "path": "/products/lampara-escritorio",
+          "status": 0,
+          "ms": 23.9
+        },
+        {
+          "method": "GET",
+          "path": "/products/mochila-urbana",
+          "status": 0,
+          "ms": 25.3
+        },
+        {
+          "method": "GET",
+          "path": "/products/planta-artificial",
+          "status": 0,
+          "ms": 25.4
+        },
+        {
+          "method": "GET",
+          "path": "/products/set-acuarelas",
+          "status": 0,
+          "ms": 25.4
+        },
+        {
+          "method": "GET",
+          "path": "/products/soporte-portatil",
+          "status": 0,
+          "ms": 17.5
+        },
+        {
+          "method": "GET",
+          "path": "/products/taza-ceramica",
+          "status": 0,
+          "ms": 17
+        }
+      ]
     }
   },
   {
@@ -4337,7 +4611,7 @@
   {
     "method": "pageActivity",
     "result": {
-      "documentId": "5ptee2okaif",
+      "documentId": "zy325qqgnw",
       "mutations": 206
     }
   },
@@ -4350,7 +4624,7 @@
   {
     "method": "pageActivity",
     "result": {
-      "documentId": "5ptee2okaif",
+      "documentId": "zy325qqgnw",
       "mutations": 219
     }
   },
@@ -4360,12 +4634,20 @@
       "errors": [],
       "vitals": {
         "url": "http://janus-f14-app:3100/products/taza-ceramica",
-        "lcpMs": 200,
+        "lcpMs": 268,
         "cls": 0,
         "inpMs": 16
       },
       "blocked": [],
-      "dialogs": []
+      "dialogs": [],
+      "requests": [
+        {
+          "method": "GET",
+          "path": "/products/taza-ceramica",
+          "status": 0,
+          "ms": 63.5
+        }
+      ]
     }
   },
   {
@@ -5021,7 +5303,7 @@
   {
     "method": "pageActivity",
     "result": {
-      "documentId": "5ptee2okaif",
+      "documentId": "zy325qqgnw",
       "mutations": 219
     }
   },
@@ -5034,7 +5316,7 @@
   {
     "method": "pageActivity",
     "result": {
-      "documentId": "5ptee2okaif",
+      "documentId": "zy325qqgnw",
       "mutations": 239
     }
   },
@@ -5044,12 +5326,62 @@
       "errors": [],
       "vitals": {
         "url": "http://janus-f14-app:3100/cart",
-        "lcpMs": 200,
+        "lcpMs": 268,
         "cls": 0,
         "inpMs": 16
       },
       "blocked": [],
-      "dialogs": []
+      "dialogs": [],
+      "requests": [
+        {
+          "method": "POST",
+          "path": "/api/cart/items",
+          "status": 201,
+          "ms": 76.9
+        },
+        {
+          "method": "GET",
+          "path": "/orders",
+          "status": 0,
+          "ms": 34.4
+        },
+        {
+          "method": "GET",
+          "path": "/",
+          "status": 0,
+          "ms": 35.4
+        },
+        {
+          "method": "GET",
+          "path": "/cart",
+          "status": 0,
+          "ms": 37.3
+        },
+        {
+          "method": "GET",
+          "path": "/cart",
+          "status": 0,
+          "ms": 44.8
+        },
+        {
+          "method": "GET",
+          "path": "/checkout",
+          "status": 0,
+          "ms": 11.4
+        },
+        {
+          "method": "GET",
+          "path": "/products/taza-ceramica",
+          "status": 0,
+          "ms": 11.8
+        },
+        {
+          "method": "GET",
+          "path": "/checkout",
+          "status": 0,
+          "ms": 54.4
+        }
+      ]
     }
   },
   {
@@ -5781,7 +6113,7 @@
   {
     "method": "pageActivity",
     "result": {
-      "documentId": "5ptee2okaif",
+      "documentId": "zy325qqgnw",
       "mutations": 239
     }
   },
@@ -5794,7 +6126,7 @@
   {
     "method": "pageActivity",
     "result": {
-      "documentId": "5ptee2okaif",
+      "documentId": "zy325qqgnw",
       "mutations": 257
     }
   },
@@ -5804,12 +6136,20 @@
       "errors": [],
       "vitals": {
         "url": "http://janus-f14-app:3100/checkout",
-        "lcpMs": 200,
+        "lcpMs": 268,
         "cls": 0,
         "inpMs": 16
       },
       "blocked": [],
-      "dialogs": []
+      "dialogs": [],
+      "requests": [
+        {
+          "method": "GET",
+          "path": "/checkout",
+          "status": 200,
+          "ms": 11.4
+        }
+      ]
     }
   },
   {
@@ -6321,7 +6661,7 @@
   {
     "method": "pageActivity",
     "result": {
-      "documentId": "5ptee2okaif",
+      "documentId": "zy325qqgnw",
       "mutations": 257
     }
   },
@@ -6334,7 +6674,7 @@
   {
     "method": "pageActivity",
     "result": {
-      "documentId": "5ptee2okaif",
+      "documentId": "zy325qqgnw",
       "mutations": 280
     }
   },
@@ -6344,12 +6684,50 @@
       "errors": [],
       "vitals": {
         "url": "http://janus-f14-app:3100/orders/6?placed=1",
-        "lcpMs": 200,
+        "lcpMs": 268,
         "cls": 0,
         "inpMs": 16
       },
       "blocked": [],
-      "dialogs": []
+      "dialogs": [],
+      "requests": [
+        {
+          "method": "POST",
+          "path": "/api/checkout",
+          "status": 201,
+          "ms": 85.7
+        },
+        {
+          "method": "GET",
+          "path": "/orders/6",
+          "status": 0,
+          "ms": 13.8
+        },
+        {
+          "method": "GET",
+          "path": "/orders",
+          "status": 0,
+          "ms": 74.5
+        },
+        {
+          "method": "GET",
+          "path": "/",
+          "status": 0,
+          "ms": 74.6
+        },
+        {
+          "method": "GET",
+          "path": "/cart",
+          "status": 0,
+          "ms": 74.7
+        },
+        {
+          "method": "GET",
+          "path": "/orders/6",
+          "status": 0,
+          "ms": 81.2
+        }
+      ]
     }
   },
   {
@@ -6360,7 +6738,7 @@
     "result": {
       "url": "http://janus-f14-app:3100/orders/6?placed=1",
       "title": "ShopLab",
-      "aria": "- banner:\n  - link \"ShopLab\":\n    - /url: /\n  - navigation \"Principal\":\n    - list:\n      - listitem:\n        - link \"Tienda\":\n          - /url: /\n      - listitem:\n        - link \"Carrito\":\n          - /url: /cart\n      - listitem:\n        - link \"Mis pedidos\":\n          - /url: /orders\n  - text: Hola, Carmen Sintética\n  - button \"Salir\"\n- main:\n  - 'heading \"Pedido #6\" [level=1]'\n  - status: ¡Gracias! Tu pedido se ha realizado correctamente.\n  - table \"Artículos del pedido\":\n    - rowgroup:\n      - row \"Producto Precio Cantidad\":\n        - columnheader \"Producto\"\n        - columnheader \"Precio\"\n        - columnheader \"Cantidad\"\n    - rowgroup:\n      - row \"Taza de cerámica 12,90 € 1\":\n        - cell \"Taza de cerámica\"\n        - cell \"12,90 €\"\n        - cell \"1\"\n  - table \"Totales\":\n    - rowgroup:\n      - row \"Subtotal 12,90 €\":\n        - rowheader \"Subtotal\"\n        - cell \"12,90 €\"\n      - row \"Envío 4,99 €\":\n        - rowheader \"Envío\"\n        - cell \"4,99 €\"\n      - row \"Total 17,89 €\":\n        - rowheader \"Total\"\n        - cell \"17,89 €\":\n          - strong: 17,89 €\n  - heading \"Envío\" [level=2]\n  - paragraph: Calle Sintética 1, 28001 Madrid\n  - heading \"Pago\" [level=2]\n  - paragraph: Tarjeta de prueba (simulada)\n- contentinfo: Tienda de demostración. Los productos, usuarios y pagos son ficticios.\n- alert: \"Pedido #6\"",
+      "aria": "- banner:\n  - link \"ShopLab\":\n    - /url: /\n  - navigation \"Principal\":\n    - list:\n      - listitem:\n        - link \"Tienda\":\n          - /url: /\n      - listitem:\n        - link \"Carrito\":\n          - /url: /cart\n      - listitem:\n        - link \"Mis pedidos\":\n          - /url: /orders\n  - text: Hola, Carmen Sintética\n  - button \"Salir\"\n- main:\n  - 'heading \"Pedido #6\" [level=1]'\n  - status: ¡Gracias! Tu pedido se ha realizado correctamente.\n  - table \"Artículos del pedido\":\n    - rowgroup:\n      - row \"Producto Precio Cantidad\":\n        - columnheader \"Producto\"\n        - columnheader \"Precio\"\n        - columnheader \"Cantidad\"\n    - rowgroup:\n      - row \"Taza de cerámica 12,90 € 1\":\n        - cell \"Taza de cerámica\"\n        - cell \"12,90 €\"\n        - cell \"1\"\n  - table \"Totales\":\n    - rowgroup:\n      - row \"Subtotal 12,90 €\":\n        - rowheader \"Subtotal\"\n        - cell \"12,90 €\"\n      - row \"Envío 4,99 €\":\n        - rowheader \"Envío\"\n        - cell \"4,99 €\"\n      - row \"Total 17,89 €\":\n        - rowheader \"Total\"\n        - cell \"17,89 €\":\n          - strong: 17,89 €\n  - heading \"Envío\" [level=2]\n  - paragraph: Calle Sintética 1, 28001 Madrid\n  - heading \"Pago\" [level=2]\n  - paragraph: Tarjeta de prueba (simulada)\n- contentinfo: Tienda de demostración. Los productos, usuarios y pagos son ficticios.\n- alert: ShopLab",
       "tree": [
         {
           "role": "generic",
@@ -6900,7 +7278,7 @@
                 "width": 1,
                 "height": 1
               },
-              "text": "Pedido #6"
+              "text": "ShopLab"
             }
           ]
         }
@@ -6917,12 +7295,13 @@
       "errors": [],
       "vitals": {
         "url": "http://janus-f14-app:3100/orders/6?placed=1",
-        "lcpMs": 200,
+        "lcpMs": 268,
         "cls": 0,
         "inpMs": 16
       },
       "blocked": [],
-      "dialogs": []
+      "dialogs": [],
+      "requests": []
     }
   },
   {

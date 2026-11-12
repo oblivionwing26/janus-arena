@@ -3,7 +3,14 @@ import { newUlid, type ProofOfConcept } from '@janus/shared-kernel';
 import type { BrowserAttackPort } from '../../domain/attack/browser-attack-port.js';
 import { verdict, type OracleVerdict } from '../../domain/oracles/oracle-verdict.js';
 import type { AttackBench } from './attack-bench.js';
-import { tryOrderQuantity, tryRace, tryRequest, tryXss, type MoveResult } from './attack-moves.js';
+import {
+  tryGuessing,
+  tryOrderQuantity,
+  tryRace,
+  tryRequest,
+  tryXss,
+  type MoveResult,
+} from './attack-moves.js';
 
 const PARAM = /:[A-Za-z][\w-]*/;
 
@@ -65,6 +72,12 @@ export class PocRunner {
         return tryOrderQuantity(bench, steps.quantity);
       case 'once-effect-race':
         return tryRace(bench, steps.size);
+      case 'login-guessing':
+        return tryGuessing(
+          bench,
+          { route: steps.path, identity: steps.identity, password: steps.password },
+          steps.guesses,
+        );
     }
   }
 }

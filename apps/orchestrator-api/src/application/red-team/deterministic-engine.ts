@@ -2,12 +2,19 @@ import type { RedTeamClass } from '@janus/shared-kernel';
 
 import type { BrowserAttackPort } from '../../domain/attack/browser-attack-port.js';
 import { DEFAULT_IDOR_CONFIG, idorCandidates } from '../../domain/attack/idor-candidates.js';
-import { loginBypassCandidates } from '../../domain/attack/login-bypass-candidates.js';
+import { loginBypassCandidates, loginForms } from '../../domain/attack/login-bypass-candidates.js';
 import { OUT_OF_RANGE_QUANTITIES, takesQuantity } from '../../domain/attack/quantity-candidates.js';
 import { xssPayloads } from '../../domain/attack/xss-candidates.js';
 import type { Endpoint } from '../../domain/surface/endpoint.js';
 import type { AttackBench } from './attack-bench.js';
-import { tryOrderQuantity, tryRace, tryRequest, tryXss } from './attack-moves.js';
+import {
+  GUESSES,
+  tryGuessing,
+  tryOrderQuantity,
+  tryRace,
+  tryRequest,
+  tryXss,
+} from './attack-moves.js';
 
 /** How many identical requests a race fires; below every scope's rate. */
 export const RACE_SIZE = 6;
@@ -39,6 +46,9 @@ export class DeterministicEngine {
       else if (cls === 'xss') {
         if (this.deps.browser === null) skipped.push('xss (no browser)');
         else await this.xss(bench, this.deps.browser, `janus-${input.runId}`);
+      } else if (cls === 'brute-force') {
+        if (!(await this.bruteForce(bench, input.endpoints)))
+          skipped.push('brute-force (no login)');
       } else if (!(await this.businessLogic(bench, input.endpoints))) {
         skipped.push('business-logic (nothing to manipulate)');
       }
@@ -54,6 +64,16 @@ export class DeterministicEngine {
           : `Confirmed ${found.length === 0 ? 'nothing' : found.join(', ')}; no finding for ${missing.join(', ')} in ${String(bench.attempts.length)} attempts.`) +
         tail,
     };
+  }
+
+  /** Brute force on each login of the surface map until one is confirmed; false without any. */
+  private async bruteForce(bench: AttackBench, endpoints: readonly Endpoint[]): Promise<boolean> {
+    const forms = loginForms(endpoints);
+    for (const form of forms) {
+      const result = await tryGuessing(bench, form, GUESSES);
+      if (!result.admitted || this.found(bench, 'brute-force')) break;
+    }
+    return forms.length > 0;
   }
 
   private found(bench: AttackBench, cls: RedTeamClass): boolean {
