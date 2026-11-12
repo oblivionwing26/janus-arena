@@ -1,5 +1,5 @@
 import { spawn } from 'node:child_process';
-import { access, mkdir, readFile, rm } from 'node:fs/promises';
+import { access, mkdir, readFile, rm, writeFile } from 'node:fs/promises';
 import { isAbsolute, join, normalize, sep } from 'node:path';
 import { pathToFileURL } from 'node:url';
 
@@ -14,6 +14,7 @@ import {
 } from '../../domain/vcs/vcs-errors.js';
 import type { CloneOptions, DiffStats, VcsPort, VcsWorkspace } from '../../domain/vcs/vcs-port.js';
 import { workspacesRoot } from '../sandbox/workspace.js';
+import { stripComments } from './strip-comments.js';
 
 const RUN_ID = /^[0-9A-HJKMNP-TV-Z]{26}$/;
 // Janus's own identity, for this workspace's commits only; the user's git config is untouched.
@@ -49,6 +50,50 @@ function git(
       else reject(new GitFailure(args, stderr || `exit code ${String(code)}`));
     });
     child.stdin.end(options.input ?? '');
+  });
+}
+
+/** A hidden file, or a file under a hidden folder. */
+function isHidden(hidden: ReadonlySet<string>, path: string): boolean {
+  return [...hidden].some((entry) => path === entry || path.startsWith(`${entry}/`));
+}
+
+/** Removes the marker comments and commits that as the base (ADR 0012). */
+async function strip(
+  dir: string,
+  markers: readonly string[],
+  hidden: ReadonlySet<string>,
+): Promise<void> {
+  if (markers.length === 0) return;
+  const found = await git(
+    [
+      '-c',
+      'core.longpaths=true',
+      'grep',
+      '-l',
+      '-z',
+      '-F',
+      ...markers.flatMap((marker) => ['-e', marker]),
+    ],
+    { cwd: dir },
+  ).catch((error: unknown) => {
+    // git grep exits with 1 when nothing matches.
+    if (error instanceof GitFailure && error.stderr === 'exit code 1') return '';
+    throw error;
+  });
+  const changed: string[] = [];
+  for (const file of found.split('\0')) {
+    if (file === '' || isHidden(hidden, file)) continue;
+    const text = await readFile(join(dir, file), 'utf8');
+    const stripped = stripComments(text, markers);
+    if (stripped === text) continue;
+    await writeFile(join(dir, file), stripped);
+    changed.push(file);
+  }
+  if (changed.length === 0) return;
+  await git(['add', '--', ...changed], { cwd: dir });
+  await git([...IDENTITY, 'commit', '--quiet', '--message', 'janus: hide the ground truth'], {
+    cwd: dir,
   });
 }
 
@@ -98,17 +143,21 @@ export class LocalGitAdapter implements VcsPort {
       throw new RefNotFoundError(ref);
     }
 
+    // A hidden entry is a file or a folder; a folder hides everything under it.
     const hidden = new Set<string>();
-    for (const file of options.excludeFiles ?? []) {
-      const path = this.relative(dir, file);
-      const tracked = await git(['ls-files', '--', path], { cwd: dir });
-      if (tracked.trim() !== '') {
-        await git(['update-index', '--skip-worktree', '--', path], { cwd: dir });
+    for (const entry of options.excludeFiles ?? []) {
+      const path = this.relative(dir, entry);
+      const tracked = (await git(['ls-files', '-z', '--', path], { cwd: dir }))
+        .split('\0')
+        .filter((file) => file !== '');
+      if (tracked.length > 0) {
+        await git(['update-index', '--skip-worktree', '--', ...tracked], { cwd: dir });
       }
-      await rm(join(dir, path), { force: true });
+      await rm(join(dir, path), { recursive: true, force: true });
       hidden.add(path);
     }
     this.hidden.set(options.runId, hidden);
+    await strip(dir, options.stripComments ?? [], hidden);
     const baseSha = (await git(['rev-parse', 'HEAD'], { cwd: dir })).trim();
     return { id: options.runId, path: dir, url: pathToFileURL(dir).href, baseSha };
   }
@@ -131,7 +180,7 @@ export class LocalGitAdapter implements VcsPort {
   async applyPatch(workspace: VcsWorkspace, diff: string): Promise<void> {
     const hidden = this.hidden.get(workspace.id) ?? new Set<string>();
     for (const path of patchPaths(diff)) {
-      if (hidden.has(path)) throw new PatchRejectedError(`${path} is not in the workspace`);
+      if (isHidden(hidden, path)) throw new PatchRejectedError(`${path} is not in the workspace`);
     }
     const patch = diff.endsWith('\n') ? diff : `${diff}\n`;
     try {
@@ -210,7 +259,7 @@ export class LocalGitAdapter implements VcsPort {
     ]);
     const present = await Promise.all(
       [...new Set(listed.split('\0'))]
-        .filter((path) => path !== '' && !hidden.has(path))
+        .filter((path) => path !== '' && !isHidden(hidden, path))
         .map(async (path) => ((await this.exists(workspace, path)) ? [path] : [])),
     );
     return present.flat().sort();
@@ -218,7 +267,7 @@ export class LocalGitAdapter implements VcsPort {
 
   async readFile(workspace: VcsWorkspace, path: string): Promise<string> {
     const relative = this.relative(workspace.path, path);
-    if (this.hidden.get(workspace.id)?.has(relative) === true) {
+    if (isHidden(this.hidden.get(workspace.id) ?? new Set(), relative)) {
       throw new FileNotInWorkspaceError(path);
     }
     try {

@@ -53,6 +53,48 @@ describe('sandbox definitions', () => {
     await expect(loadSandboxDefinition('juice-shop')).rejects.toThrow('runs an image');
   });
 
+  it('says how Juice Shop is patched, without its ground truth (F3.5, ADR 0012)', async () => {
+    const definition = await loadAnySandboxDefinition('juice-shop');
+
+    expect('patch' in definition && definition.patch).toEqual({
+      repo: 'https://github.com/juice-shop/juice-shop.git',
+      ref: 'v20.3.0',
+      dockerfile: 'juice-shop.patch.Dockerfile',
+      excludeFiles: ['data/static/codefixes'],
+      stripComments: ['vuln-code-snippet'],
+      blueTeam: {
+        allow: ['routes/**/*.ts', 'lib/**/*.ts', 'models/**/*.ts'],
+        deny: ['lib/startup/**', 'lib/challengeUtils.ts'],
+      },
+    });
+  });
+
+  it.each([
+    ['a Dockerfile outside docker/sandboxes', 'dockerfile: ../Dockerfile'],
+    ['a strip marker with a newline', "stripComments: ['a\\nb']"],
+  ])('rejects a patch section with %s', (_label, line) => {
+    const patch = [
+      'patch:',
+      '  repo: https://example.test/x.git',
+      '  ref: v1',
+      '  dockerfile: x.Dockerfile',
+      '  blueTeam: { allow: [src/**] }',
+    ];
+    const key = line.split(':')[0] ?? '';
+    const lines = [...patch.filter((each) => !each.trim().startsWith(`${key}:`)), `  ${line}`];
+    expect(() =>
+      parseAnySandboxDefinition(
+        [
+          'name: x',
+          `image: x/y:1@sha256:${'0'.repeat(64)}`,
+          'app: { port: 3000, readyLog: up }',
+          'verification: { dir: /x }',
+          ...lines,
+        ].join('\n'),
+      ),
+    ).toThrow();
+  });
+
   it('rejects an image that is not pinned by digest', () => {
     expect(() =>
       parseAnySandboxDefinition(

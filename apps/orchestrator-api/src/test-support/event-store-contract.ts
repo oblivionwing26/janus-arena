@@ -3,6 +3,7 @@
 
 import { randomBytes } from 'node:crypto';
 
+import { InvalidEventError } from '@janus/shared-kernel';
 import { describe, expect, it } from 'vitest';
 
 import { DuplicateEventSeqError } from '../domain/event-store/duplicate-event-seq-error.js';
@@ -142,6 +143,21 @@ export function describeEventStoreContract(name: string, harness: EventStoreCont
         DuplicateEventSeqError,
       );
       expect(await store.readRun(runId)).toEqual([original]);
+    });
+
+    it('rejects an event its own reads would reject, and stores none of the batch', async () => {
+      const store = await harness.create();
+      const runId = testUlid();
+      // An upper-case agent id once reached the store and made a whole run unreadable (F3.5).
+      const invalid = {
+        ...stepEvent(runId, 1),
+        actor: { agentId: 'Blue-Team', role: 'blue-team' as const },
+      };
+
+      await expect(store.append([stepEvent(runId, 0), invalid])).rejects.toBeInstanceOf(
+        InvalidEventError,
+      );
+      expect(await store.readRun(runId)).toEqual([]);
     });
 
     it('rejects a seq repeated inside one batch and stores nothing', async () => {

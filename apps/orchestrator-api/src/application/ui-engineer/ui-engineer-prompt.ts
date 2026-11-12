@@ -1,7 +1,7 @@
 import type { FrictionZone } from '@janus/shared-kernel';
 
-import type { LlmToolDefinition } from '../../domain/llm/llm-message.js';
 import { UI_ENGINEER_LIMITS } from '../../domain/vcs/change-limits.js';
+import { EDITING_TOOLS } from '../code-agent/editing-tools.js';
 import type { FrictionCode } from '../locate-friction-code/locate-friction-code.js';
 
 const RULES = `You are the UI Engineer of Janus, a pre-release gate. Synthetic shoppers used a web shop and code measured where they stumbled. Your job: make the smallest change to the presentation layer that removes that friction for real shoppers.
@@ -28,40 +28,8 @@ const DETECTORS: Readonly<Record<string, string>> = {
   performance: 'slow page',
 };
 
-export const UI_ENGINEER_TOOLS: readonly LlmToolDefinition[] = [
-  {
-    name: 'read_file',
-    description: 'Read a source file of the project.',
-    inputSchema: {
-      type: 'object',
-      properties: { path: { type: 'string', description: 'Path from the project root.' } },
-      required: ['path'],
-    },
-  },
-  {
-    name: 'edit_file',
-    description:
-      'Replace old_text with new_text in a file you may edit. old_text must appear exactly once. To create a new file, use an empty old_text.',
-    inputSchema: {
-      type: 'object',
-      properties: {
-        path: { type: 'string' },
-        old_text: { type: 'string' },
-        new_text: { type: 'string' },
-      },
-      required: ['path', 'old_text', 'new_text'],
-    },
-  },
-  {
-    name: 'done',
-    description: 'Finish: summarise what you changed and why (or why you changed nothing).',
-    inputSchema: {
-      type: 'object',
-      properties: { summary: { type: 'string' } },
-      required: ['summary'],
-    },
-  },
-];
+/** The UI Engineer's tools: the shared editing tools (F2.3). */
+export const UI_ENGINEER_TOOLS = EDITING_TOOLS;
 
 /**
  * The stable part of the UI Engineer's prompt for one zone (F2.3): rules, then the task with

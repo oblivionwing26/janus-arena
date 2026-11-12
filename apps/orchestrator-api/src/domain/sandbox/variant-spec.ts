@@ -14,6 +14,11 @@ export interface VariantSpec {
    * workspaces folder.
    */
   readonly repo?: string;
+  /**
+   * The commit a patch to an image target starts from (F3.5, ADR 0012): the image is rebuilt
+   * with only the sources changed between it and `ref`.
+   */
+  readonly base?: string;
 }
 
 const VARIANT_ID = /^[a-z0-9][a-z0-9-]{0,31}$/;
@@ -31,5 +36,8 @@ export function assertValidVariant(variant: VariantSpec): void {
   }
   if (variant.repo !== undefined && !/^file:\/\/\S+$/.test(variant.repo)) {
     throw new InvalidVariantError(`Variant ${variant.id} repo must be a local file:// clone`);
+  }
+  if (variant.base !== undefined && !/^[0-9a-f]{40}$/.test(variant.base)) {
+    throw new InvalidVariantError(`Variant ${variant.id} base must be a full commit id`);
   }
 }

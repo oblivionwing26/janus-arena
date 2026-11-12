@@ -16,8 +16,17 @@ export interface CloneOptions {
   readonly ref: string;
   /** Only the last commits (a shallow clone), for big targets read but never changed (F2.5). */
   readonly depth?: number;
-  /** Ground-truth files no agent may read (e.g. ShopLab's UX_FLAWS.md): hidden, never committed. */
+  /**
+   * Ground truth no agent may read (ShopLab's UX_FLAWS.md, Juice Shop's data/static/codefixes):
+   * files or whole folders, hidden and never committed.
+   */
   readonly excludeFiles?: readonly string[];
+  /**
+   * Markers of ground truth written in the code (Juice Shop's `vuln-code-snippet` comments, ADR
+   * 0012): every `//` comment starting with one is removed, with its line when nothing else is
+   * on it, and the result is committed as the base, so patches are measured without it.
+   */
+  readonly stripComments?: readonly string[];
 }
 
 export interface FileDiffStat {

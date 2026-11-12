@@ -9,16 +9,17 @@ export function workspacesRoot(): string {
   return fileURLToPath(new URL('../../../../../.workspaces/', import.meta.url));
 }
 
-function git(args: readonly string[]): Promise<void> {
+/** Runs git without a shell; resolves with what it printed. */
+export function git(args: readonly string[], cwd?: string): Promise<string> {
   return new Promise((resolve, reject) => {
     execFile(
       'git',
       [...args],
-      { windowsHide: true, timeout: 5 * 60_000 },
-      (error, _out, stderr) => {
+      { cwd, windowsHide: true, timeout: 5 * 60_000, maxBuffer: 16 * 1024 * 1024 },
+      (error, out, stderr) => {
         if (error)
           reject(new Error(`git ${args[0] ?? ''} failed: ${stderr.trim() || error.message}`));
-        else resolve();
+        else resolve(out);
       },
     );
   });
@@ -49,6 +50,8 @@ export interface WorkspaceRequest {
   readonly ref: string;
   /** Ground-truth files no agent may read; removed and checked after cloning. */
   readonly excludeFiles: readonly string[];
+  /** Keep the history, to compare `ref` with an earlier commit (a patch's base, F3.5). */
+  readonly history?: boolean;
 }
 
 /** Fresh shallow clone of the target at `ref` in <root>/<variantId>, without excluded files. */
@@ -59,7 +62,8 @@ export async function prepareWorkspace(request: WorkspaceRequest): Promise<strin
   const dir = join(request.root, request.variantId);
   await mkdir(request.root, { recursive: true });
   await rm(dir, { recursive: true, force: true });
-  await git(['clone', '--depth', '1', '--branch', request.ref, '--', request.repo, dir]);
+  const shallow = request.history === true ? [] : ['--depth', '1'];
+  await git(['clone', ...shallow, '--branch', request.ref, '--', request.repo, dir]);
 
   for (const file of request.excludeFiles) {
     await rm(join(dir, file), { force: true });

@@ -26,6 +26,7 @@
     "run:red-team": "node scripts/run-red-team.mjs",
     "run:poc": "node scripts/run-poc.mjs",
     "run:ui-engineer": "node scripts/run-ui-engineer.mjs",
+    "run:blue-team": "node scripts/run-blue-team.mjs",
     "check:arch": "turbo run build && depcruise --config .dependency-cruiser.cjs apps packages",
     "format": "prettier --write .",
     "format:check": "prettier --check ."
