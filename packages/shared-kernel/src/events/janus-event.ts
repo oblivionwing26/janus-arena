@@ -9,6 +9,7 @@ import { auditCompletedEventSchema } from './v1/audit-completed.js';
 import { budgetThresholdEventSchema } from './v1/budget-threshold.js';
 import { findingConfirmedEventSchema } from './v1/finding-confirmed.js';
 import { findingRemediatedEventSchema } from './v1/finding-remediated.js';
+import { pageRequestsEventSchema } from './v1/page-requests.js';
 import { findingCreatedEventSchema } from './v1/finding-created.js';
 import { frictionSignalEventSchema } from './v1/friction-signal.js';
 import { llmCallEventSchema } from './v1/llm-call.js';
@@ -52,6 +53,7 @@ const knownEventSchemas = [
   attackVerdictEventSchema,
   findingConfirmedEventSchema,
   findingRemediatedEventSchema,
+  pageRequestsEventSchema,
 ] as const;
 
 export const janusEventSchema = z.discriminatedUnion('type', knownEventSchemas);

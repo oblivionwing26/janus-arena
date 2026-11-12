@@ -1,4 +1,4 @@
-// `pnpm run:report <runId|file> [--json] [--target=shoplab]`: the SynthLab report of a run
+// `pnpm run:report <runId|file> [--json] [--target=<the run's own>]`: the SynthLab report of a run
 // (F1.10), from the event store or from an exported janus-run file. Computed from recorded
 // events only; never calls an LLM. --json prints the full report (janus-synthlab-report v1).
 
@@ -16,23 +16,17 @@ import {
 } from '../../infrastructure/report/funnels-config.js';
 import { formatReport } from './format-report.js';
 import { loadReplayRun, ReplayInputError } from './replay-input.js';
+import { runTarget } from '../../domain/run/run-target.js';
 
 const envFile = fileURLToPath(new URL('../../../../../.env', import.meta.url));
 if (existsSync(envFile)) process.loadEnvFile(envFile);
 
 const args = process.argv.slice(2);
 const json = args.includes('--json');
-const target =
-  args.find((arg) => arg.startsWith('--target='))?.slice('--target='.length) ?? 'shoplab';
+const asked = args.find((arg) => arg.startsWith('--target='))?.slice('--target='.length);
 const source = args.find((arg) => !arg.startsWith('--'));
 if (source === undefined) {
   console.error('Usage: pnpm run:report <runId|file> [--json] [--target=shoplab]');
-  process.exit(2);
-}
-
-const config = (await loadFunnelsConfig(repoFunnelsConfigPath()))[target];
-if (config === undefined) {
-  console.error(`config/funnels.yaml has no target ${target}.`);
   process.exit(2);
 }
 
@@ -55,6 +49,11 @@ try {
       return store.readRun(runId);
     },
   });
+  // The run's own target (F3.5); ShopLab for runs recorded before targets were.
+  const target = asked ?? runTarget(run.events) ?? 'shoplab';
+  const config = (await loadFunnelsConfig(repoFunnelsConfigPath()))[target];
+  if (config === undefined)
+    throw new ReplayInputError(`config/funnels.yaml has no target ${target}.`);
   const report = buildSynthlabReport(run.runId, run.events, config);
   console.log(json ? JSON.stringify(report, null, 2) : formatReport(report));
 } catch (error) {

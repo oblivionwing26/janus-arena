@@ -11,6 +11,7 @@ export function runConfigBody(config: RunConfig): Record<string, unknown> {
       id: variant.key,
       ref: variant.ref,
       ...(variant.repo === undefined ? {} : { repo: variant.repo }),
+      ...(variant.base === undefined ? {} : { base: variant.base }),
     })),
     personas: config.personas,
     ...(config.tasks === undefined ? {} : { tasks: config.tasks }),

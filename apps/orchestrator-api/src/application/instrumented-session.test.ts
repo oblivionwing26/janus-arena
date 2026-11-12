@@ -29,6 +29,10 @@ const PAGES: Record<string, ScriptedPage> = {
     ],
     errors: [{ kind: 'http', url: `${BASE_URL}/api/stock`, status: 500, message: 'boom' }],
     vitals: { lcpMs: 4200, cls: 0.01 },
+    requests: [
+      { method: 'GET', path: '/api/stock', status: 500, ms: 30 },
+      { method: 'GET', path: '/rest/basket/6', status: 200, ms: 12 },
+    ],
   },
   '/register': {
     title: 'Registro',
@@ -98,6 +102,16 @@ describe('the instrumented navigator loop', () => {
       lcpMs: 4200,
       cls: 0.01,
     });
+    // The API requests and their times, for V3's latency budget (F3.5).
+    expect(ofType('page.requests').map((event) => event.payload)).toEqual([
+      {
+        stepIndex: 0,
+        requests: [
+          { method: 'GET', path: '/api/stock', status: 500, ms: 30 },
+          { method: 'GET', path: '/rest/basket/6', status: 200, ms: 12 },
+        ],
+      },
+    ]);
   });
 
   it('takes one screenshot when a friction signal first appears, and stores it', async () => {

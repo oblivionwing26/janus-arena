@@ -105,6 +105,10 @@ export const validEvents: Record<JanusEventType, Record<string, unknown>> = {
     pocRef: `poc/${OTHER_ID}.json`,
     evidence: 'user 22 received a record of user 21 holding "Apple Juice (1000ml)"',
   }),
+  'page.requests': envelope('page.requests', {
+    stepIndex: 3,
+    requests: [{ method: 'GET', path: '/rest/basket/6', status: 200, ms: 12.5 }],
+  }),
   'finding.remediated': envelope('finding.remediated', {
     findingId: OTHER_ID,
     status: 'fixed',

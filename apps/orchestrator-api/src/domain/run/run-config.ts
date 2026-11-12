@@ -13,6 +13,8 @@ export interface RunConfig {
     readonly ref: string;
     /** A local clone (file://) holding a generated variant (F2.4); the target's repo otherwise. */
     readonly repo?: string;
+    /** The commit a patched image variant starts from (F3.5, ADR 0012); needs `repo`. */
+    readonly base?: string;
   }[];
   /**
    * Persona ids. The competent baseline is always added to each variant, never listed; an
@@ -49,6 +51,15 @@ export function assertValidRunConfig(config: RunConfig): void {
     variants.some((variant) => variant.repo !== undefined && !variant.repo.startsWith('file://'))
   ) {
     throw fail('a variant repo must be a local file:// clone');
+  }
+  if (
+    variants.some(
+      (variant) =>
+        variant.base !== undefined &&
+        (variant.repo === undefined || !/^[0-9a-f]{40}$/.test(variant.base)),
+    )
+  ) {
+    throw fail('a variant base is a full commit id of its local clone');
   }
   if (personas.length > 10 || !unique(personas)) throw fail('at most ten different personas');
   const tasks = config.tasks ?? [];

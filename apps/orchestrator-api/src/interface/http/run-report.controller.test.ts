@@ -94,6 +94,42 @@ describe('run report API', () => {
     await app.close();
   });
 
+  it('uses the target the run recorded when none is asked for (F3.5)', async () => {
+    const adapters = inMemoryAdapters();
+    const juiceRun = newUlid();
+    await adapters.eventStore.append([
+      {
+        id: newUlid(),
+        runId: juiceRun,
+        seq: 0,
+        ts: '2026-11-12T10:00:00.000Z',
+        schemaVersion: 1,
+        actor: { agentId: 'orchestrator', role: 'orchestrator' },
+        type: 'run.started',
+        payload: { budget: { maxTokens: 1, maxEur: 1 }, target: 'juice-shop' },
+      },
+    ]);
+    const juiceApp = await createApp(
+      {
+        ...adapters,
+        // Only Juice Shop: falling back to ShopLab would find no report settings.
+        reports: {
+          'juice-shop': reportConfigSchema.parse({
+            funnel: [{ name: 'Cesta', route: '/#/basket' }],
+          }),
+        },
+      },
+      { logger: false },
+    );
+    try {
+      const response = await juiceApp.inject({ method: 'GET', url: `/runs/${juiceRun}/report` });
+
+      expect(response.statusCode).toBe(200);
+    } finally {
+      await juiceApp.close();
+    }
+  });
+
   it('computes the report of a run from its events', async () => {
     const response = await app.inject({ method: 'GET', url: `/runs/${RUN_ID}/report` });
 

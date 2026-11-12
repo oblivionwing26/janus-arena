@@ -115,6 +115,40 @@ describe('run lifecycle', () => {
     await expect(sandbox.logs(variantIdFor(runId))).rejects.toBeInstanceOf(SandboxNotFoundError);
   });
 
+  it('starts a patched variant from its clone and base, and records the target (F3.5)', async () => {
+    class RecordingSandbox extends InMemorySandbox {
+      readonly specs: VariantSpec[] = [];
+      override up(variant: VariantSpec): Promise<RunningVariant> {
+        this.specs.push(variant);
+        return super.up(variant);
+      }
+    }
+    const sandbox = new RecordingSandbox();
+    const { store, queue, startRun } = setup({ sandbox });
+    const patched = {
+      key: 'b',
+      ref: 'janus/fix-01JC0F2BB7E0000000000000FF',
+      repo: 'file:///workspaces/01JC0F2BB7E0000000000000AA',
+      base: 'c'.repeat(40),
+    };
+
+    const { runId, launched } = await startRun.execute({
+      ...oneSession,
+      variants: [patched],
+      sessions: oneSession.sessions.map((spec) => ({ ...spec, variant: 'b' })),
+    });
+    await launched;
+    await queue.drain();
+
+    expect(sandbox.specs).toMatchObject([
+      { ref: patched.ref, repo: patched.repo, base: patched.base },
+    ]);
+    expect((await knownEvents(store, runId))[0]).toMatchObject({
+      type: 'run.started',
+      payload: { target: 'shoplab', variants: [patched] },
+    });
+  });
+
   it('completes with error when the sandbox cannot start', async () => {
     const { store, startRun } = setup({ sandbox: new FailingSandbox() });
 

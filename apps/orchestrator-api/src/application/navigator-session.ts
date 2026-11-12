@@ -257,6 +257,8 @@ export class NavigatorSession {
     for (const blocked of telemetry.blocked ?? []) {
       await recorder.record('scope.blocked', { ...blocked });
     }
+    const requests = (telemetry.requests ?? []).slice(0, 200);
+    if (requests.length > 0) await recorder.record('page.requests', { stepIndex, requests });
     const { vitals } = telemetry;
     if (vitals === null) return;
     await recorder.record('page.vitals', {

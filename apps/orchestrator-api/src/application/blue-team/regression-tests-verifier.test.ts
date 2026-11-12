@@ -27,6 +27,7 @@ const FIX: FixUnderTest = {
   repo: 'file:///workspaces/x',
   base: BASE,
   head: HEAD,
+  changedFiles: ['routes/basket.ts'],
   variantId: 'fix-x',
   baseUrl: 'http://janus-fix-x-app:3000',
 };

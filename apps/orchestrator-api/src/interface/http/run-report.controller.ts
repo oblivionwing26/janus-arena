@@ -22,6 +22,7 @@ import {
   type EventStorePort,
 } from '../../domain/event-store/event-store-port.js';
 import { APP_ADAPTERS, type AppAdapters } from '../app-adapters.js';
+import { runTarget } from '../../domain/run/run-target.js';
 
 const runIdSchema = z.ulid();
 // The part of the Fastify reply this controller uses (fastify is not a direct dependency).
@@ -43,16 +44,17 @@ export class RunReportController {
   ) {}
 
   @Get(':id/report')
-  async report(
-    @Param('id') id: string,
-    @Query('target') target = 'shoplab',
-  ): Promise<SynthlabReport> {
+  async report(@Param('id') id: string, @Query('target') asked?: string): Promise<SynthlabReport> {
     const runId = this.parseRunId(id);
-    if (!targetSchema.safeParse(target).success) throw new BadRequestException('Invalid target');
-    const config = this.adapters.reports?.[target];
-    if (config === undefined) throw new NotFoundException(`No report settings for ${target}`);
+    if (asked !== undefined && !targetSchema.safeParse(asked).success) {
+      throw new BadRequestException('Invalid target');
+    }
     const events = await this.store.readRun(runId);
     if (events.length === 0) throw new NotFoundException(`Run ${runId} does not exist`);
+    // The run's own target (F3.5); ShopLab for runs recorded before targets were.
+    const target = asked ?? runTarget(events) ?? 'shoplab';
+    const config = this.adapters.reports?.[target];
+    if (config === undefined) throw new NotFoundException(`No report settings for ${target}`);
     return buildSynthlabReport(runId, events, config);
   }
 

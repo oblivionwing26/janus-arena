@@ -58,6 +58,12 @@ const invalidEvents: Record<JanusEventType, [string, Record<string, unknown>]> =
     'a confirmation without its PoC',
     withPayload('finding.confirmed', { pocRef: '' }),
   ],
+  'page.requests': [
+    'a path with its query string cut off but no slash',
+    withPayload('page.requests', {
+      requests: [{ method: 'GET', path: 'rest/x', status: 200, ms: 1 }],
+    }),
+  ],
   'finding.remediated': [
     'a fix without its patch',
     withPayload('finding.remediated', { patchId: undefined }),
@@ -127,6 +133,7 @@ describe('v1 event schemas', () => {
         'attack.verdict',
         'finding.confirmed',
         'finding.remediated',
+        'page.requests',
       ].sort(),
     );
   });

@@ -22,6 +22,8 @@ export interface StartRunInput {
     readonly ref: string;
     /** A local clone (file://) holding a generated variant (F2.4); the target's repo otherwise. */
     readonly repo?: string;
+    /** The commit a patched image variant starts from (F3.5, ADR 0012); needs `repo`. */
+    readonly base?: string;
   }[];
   readonly sessions: readonly SessionSpec[];
   readonly budget: BudgetLimits;
@@ -97,12 +99,13 @@ export class StartRun {
   async execute(input: StartRunInput): Promise<{ runId: string; launched: Promise<void> }> {
     const runId = (this.deps.newRunId ?? newUlid)();
     const variants: (VariantSpec & { key: string })[] = input.variants.map(
-      ({ key, ref, repo }) => ({
+      ({ key, ref, repo, base }) => ({
         key,
         id: variantIdFor(runId, key),
         target: input.target,
         ref,
         ...(repo === undefined ? {} : { repo }),
+        ...(base === undefined ? {} : { base }),
       }),
     );
     variants.forEach(assertValidVariant);
@@ -122,10 +125,12 @@ export class StartRun {
     });
     await recorder.record('run.started', {
       budget: input.budget,
-      variants: input.variants.map(({ key, ref, repo }) => ({
+      target: input.target,
+      variants: input.variants.map(({ key, ref, repo, base }) => ({
         key,
         ref,
         ...(repo === undefined ? {} : { repo }),
+        ...(base === undefined ? {} : { base }),
       })),
     });
 

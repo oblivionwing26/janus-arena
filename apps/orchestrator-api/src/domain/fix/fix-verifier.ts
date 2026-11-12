@@ -11,6 +11,8 @@ export interface FixUnderTest {
   readonly repo: string;
   readonly base: string;
   readonly head: string;
+  /** The files the fix changed against the base (V3 measures the endpoints they serve). */
+  readonly changedFiles: readonly string[];
   /** The patched variant, up in the sandbox. */
   readonly variantId: string;
   readonly baseUrl: string;
