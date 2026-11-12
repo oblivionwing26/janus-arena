@@ -12,7 +12,6 @@ import { fileURLToPath } from 'node:url';
 
 import { newUlid, proofOfConceptSchema } from '@janus/shared-kernel';
 import { parse } from 'yaml';
-import { z } from 'zod';
 
 import { ExploreTradeoffs } from '../../application/blue-team/explore-tradeoffs.js';
 import {
@@ -60,38 +59,8 @@ import {
 import { TypeScriptAttackSurface } from '../../infrastructure/surface/typescript-attack-surface.js';
 import { LocalGitAdapter } from '../../infrastructure/vcs/local-git-adapter.js';
 import { runConfigBodySchema, runConfigFromBody } from '../http/start-run-body.js';
+import { savedTradeoffSchema } from '../../infrastructure/report/tradeoff-file.js';
 import { formatTradeoff } from './format-tradeoff.js';
-
-const count = z.object({ successes: z.int().min(0), n: z.int().min(0) }).nullable();
-/** A report's measurements, saved next to its Markdown so alternatives can be added later. */
-const savedReportSchema = z.object({
-  rows: z.array(
-    z.object({
-      label: z.string().min(1).max(100),
-      strategy: z.string().min(1).max(100).nullable(),
-      patchId: z.ulid().nullable(),
-      exploitable: z.boolean().nullable(),
-      ux: z
-        .object({
-          runId: z.ulid(),
-          a: count,
-          b: count,
-          latency: z.array(
-            z.object({
-              endpoint: z.string().min(1).max(300),
-              a: z.number().nullable(),
-              b: z.number().nullable(),
-            }),
-          ),
-        })
-        .nullable(),
-      uxPassed: z.boolean().nullable(),
-      note: z.string().max(5000),
-    }),
-  ),
-  diffs: z.record(z.string(), z.string()),
-  costEur: z.number().min(0),
-});
 
 const envFile = fileURLToPath(new URL('../../../../../.env', import.meta.url));
 if (existsSync(envFile)) process.loadEnvFile(envFile);
@@ -225,7 +194,7 @@ try {
   const strategies = option('strategies')?.split(',');
   const earlier =
     strategies !== undefined && existsSync(saved)
-      ? savedReportSchema.parse(JSON.parse(await readFile(saved, 'utf8')))
+      ? savedTradeoffSchema.parse(JSON.parse(await readFile(saved, 'utf8')))
       : undefined;
 
   const result = await new ExploreTradeoffs({ gateway, vcs, store, sandbox, v1, v3 }).execute({
