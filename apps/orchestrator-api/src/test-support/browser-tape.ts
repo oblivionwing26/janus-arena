@@ -8,7 +8,9 @@ import type {
   BrowserSessionOptions,
   ElementBox,
   ElementTarget,
+  FetchTextOptions,
   PageSnapshot,
+  TypeOptions,
 } from '../domain/browser/browser-port.js';
 import type { PageActivity, PageTelemetry } from '../domain/browser/page-telemetry.js';
 
@@ -44,8 +46,13 @@ export class RecordingBrowser implements BrowserPort {
   click(sessionId: string, target: ElementTarget): Promise<void> {
     return this.call('click', () => this.inner.click(sessionId, target));
   }
-  type(sessionId: string, target: ElementTarget, text: string): Promise<void> {
-    return this.call('type', () => this.inner.type(sessionId, target, text));
+  type(
+    sessionId: string,
+    target: ElementTarget,
+    text: string,
+    options?: TypeOptions,
+  ): Promise<void> {
+    return this.call('type', () => this.inner.type(sessionId, target, text, options));
   }
   select(sessionId: string, target: ElementTarget, option: string): Promise<void> {
     return this.call('select', () => this.inner.select(sessionId, target, option));
@@ -59,11 +66,18 @@ export class RecordingBrowser implements BrowserPort {
   back(sessionId: string): Promise<void> {
     return this.call('back', () => this.inner.back(sessionId));
   }
+  dismiss(sessionId: string): Promise<void> {
+    return this.call('dismiss', () => this.inner.dismiss(sessionId));
+  }
   settle(sessionId: string): Promise<void> {
     return this.call('settle', () => this.inner.settle(sessionId));
   }
-  fetchText(sessionId: string, path: string): Promise<{ status: number; body: string }> {
-    return this.call('fetchText', () => this.inner.fetchText(sessionId, path));
+  fetchText(
+    sessionId: string,
+    path: string,
+    options?: FetchTextOptions,
+  ): Promise<{ status: number; body: string }> {
+    return this.call('fetchText', () => this.inner.fetchText(sessionId, path, options));
   }
   pageActivity(sessionId: string): Promise<PageActivity> {
     return this.call('pageActivity', () => this.inner.pageActivity(sessionId));
@@ -135,6 +149,9 @@ export class ReplayingBrowser implements BrowserPort {
   }
   back(): Promise<void> {
     return this.replay('back');
+  }
+  dismiss(): Promise<void> {
+    return this.replay('dismiss');
   }
   settle(): Promise<void> {
     // Settling returns nothing and changes no decision; newer code settles more often.

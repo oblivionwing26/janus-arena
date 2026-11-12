@@ -81,6 +81,8 @@ function describeAction(action: unknown, locators: ReadonlyMap<string, ElementLo
       return `scroll ${value.direction}`;
     case 'back':
       return 'go back';
+    case 'dismiss':
+      return 'press Esc';
     case 'wait':
       return `wait ${String(value.ms)} ms`;
     case 'done':

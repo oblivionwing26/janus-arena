@@ -211,6 +211,19 @@ export function describeBrowserContract(name: string, harness: BrowserContractHa
       }
     });
 
+    it('presses Esc without leaving the page (F3.5a)', async () => {
+      const browser = harness.browser();
+      const session = await browser.newSession({ baseUrl: harness.baseUrl() });
+      try {
+        await browser.goto(session, `${harness.baseUrl()}${harness.page}`);
+        const before = (await browser.snapshot(session)).url;
+        await browser.dismiss(session);
+        expect((await browser.snapshot(session)).url).toBe(before);
+      } finally {
+        await browser.close(session);
+      }
+    });
+
     it('takes a PNG screenshot of the page', async () => {
       const browser = harness.browser();
       const session = await browser.newSession({ baseUrl: harness.baseUrl() });

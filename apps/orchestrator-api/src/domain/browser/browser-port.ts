@@ -30,6 +30,16 @@ export interface PageSnapshot {
   readonly viewport: { readonly width: number; readonly height: number };
 }
 
+export interface TypeOptions {
+  /** Press Enter after typing (F3.5a): fields that act only on Enter, like a search box. */
+  readonly submit?: boolean;
+}
+
+export interface FetchTextOptions {
+  /** The session cookie holding the token to send as a bearer header. */
+  readonly bearerFromCookie?: string;
+}
+
 export interface BrowserSessionOptions {
   /**
    * The variant under test. Every request goes through a browse-only NetworkGuard for its
@@ -49,7 +59,12 @@ export interface BrowserPort {
   /** ScopeBlockedError, reported in drainTelemetry(), when the URL is outside the variant. */
   goto(sessionId: string, url: string): Promise<void>;
   click(sessionId: string, target: ElementTarget): Promise<void>;
-  type(sessionId: string, target: ElementTarget, text: string): Promise<void>;
+  type(
+    sessionId: string,
+    target: ElementTarget,
+    text: string,
+    options?: TypeOptions,
+  ): Promise<void>;
   /** Picks the option whose label is `option`; OptionNotFoundError if there is none. */
   select(sessionId: string, target: ElementTarget, option: string): Promise<void>;
   /** Waits until the element is visible and returns where it is. */
@@ -58,6 +73,8 @@ export interface BrowserPort {
   scroll(sessionId: string, direction: 'up' | 'down'): Promise<void>;
   /** Goes back one entry in the session history. */
   back(sessionId: string): Promise<void>;
+  /** Presses Esc, which closes an open menu, dialog or pop-up (F3.5a). */
+  dismiss(sessionId: string): Promise<void>;
   /**
    * Waits, for a short bounded time, until the page has finished loading after an action.
    * Never fails because the page is slow: the agent then sees it as it is.
@@ -71,9 +88,15 @@ export interface BrowserPort {
   screenshot(sessionId: string): Promise<Uint8Array>;
   /**
    * GET of a path on the variant (F1.9 oracle), with the session's cookies: what the signed-in
-   * shopper would get. Read-only and same-origin; absolute URLs are refused.
+   * shopper would get. Read-only and same-origin; absolute URLs are refused. With
+   * `bearerFromCookie`, the value of that session cookie is also sent as `Authorization: Bearer`,
+   * for targets whose API reads the session token only from that header (Juice Shop, F3.5a).
    */
-  fetchText(sessionId: string, path: string): Promise<{ status: number; body: string }>;
+  fetchText(
+    sessionId: string,
+    path: string,
+    options?: FetchTextOptions,
+  ): Promise<{ status: number; body: string }>;
   /** Waits until the page URL matches, e.g. after a click that navigates. */
   waitForUrl(sessionId: string, pattern: RegExp): Promise<void>;
   snapshot(sessionId: string): Promise<PageSnapshot>;

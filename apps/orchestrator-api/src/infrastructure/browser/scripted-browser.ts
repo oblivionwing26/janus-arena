@@ -11,7 +11,9 @@ import type {
   BrowserSessionOptions,
   ElementBox,
   ElementTarget,
+  FetchTextOptions,
   PageSnapshot,
+  TypeOptions,
 } from '../../domain/browser/browser-port.js';
 import type {
   PageActivity,
@@ -38,6 +40,11 @@ export interface ScriptedElement {
   readonly secret?: boolean;
   /** Clicking it does nothing at all: no navigation, no DOM change (a dead click). */
   readonly inert?: boolean;
+  /**
+   * Where pressing Enter in this field leads (F3.5a): a path relative to the base URL, with
+   * `{value}` replaced by what was typed (URL-encoded). Without it, Enter changes nothing.
+   */
+  readonly submitsTo?: string;
 }
 
 export interface ScriptedPage {
@@ -160,13 +167,21 @@ export class ScriptedBrowser implements BrowserPort {
     });
   }
 
-  type(sessionId: string, target: ElementTarget, text: string): Promise<void> {
+  type(
+    sessionId: string,
+    target: ElementTarget,
+    text: string,
+    options: TypeOptions = {},
+  ): Promise<void> {
     return this.act(() => {
       const session = this.session(sessionId);
       const { element } = this.find(session, target);
       this.ensureUsable(session, element, target);
       session.typed.set(nameOf(target), text);
       session.mutations += 1;
+      if (options.submit === true && element.submitsTo !== undefined) {
+        this.navigate(session, element.submitsTo.replace('{value}', encodeURIComponent(text)));
+      }
     });
   }
 
@@ -199,6 +214,13 @@ export class ScriptedBrowser implements BrowserPort {
   }
 
   settle(sessionId: string): Promise<void> {
+    return this.act(() => {
+      this.session(sessionId);
+    });
+  }
+
+  /** Scripted pages have no overlays: Esc changes nothing, as on a page with none open. */
+  dismiss(sessionId: string): Promise<void> {
     return this.act(() => {
       this.session(sessionId);
     });
@@ -293,9 +315,17 @@ export class ScriptedBrowser implements BrowserPort {
     });
   }
 
-  fetchText(sessionId: string, path: string): Promise<{ status: number; body: string }> {
+  /** Every fetchText call, with its options, for assertions. */
+  readonly fetches: { readonly path: string; readonly options: FetchTextOptions }[] = [];
+
+  fetchText(
+    sessionId: string,
+    path: string,
+    options: FetchTextOptions = {},
+  ): Promise<{ status: number; body: string }> {
     return this.act(() => {
       this.session(sessionId);
+      this.fetches.push({ path, options });
       if (!path.startsWith('/') || path.startsWith('//')) {
         throw new Error(`fetchText only takes a path on the variant, not ${path}`);
       }

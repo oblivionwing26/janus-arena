@@ -47,6 +47,7 @@ function prefixHash(prompt: NavigatorPrompt): string {
 }
 
 const personas = await new YamlPersonaCatalog().list();
+const firstStep = { stepIndex: 0, observation: 'Page: /', lastResult: null };
 
 describe('NavigatorPrompt', () => {
   it.each(personas.map((persona): [string, Persona] => [persona.id, persona]))(
@@ -67,6 +68,22 @@ describe('NavigatorPrompt', () => {
       expect(prefixHash(NavigatorPrompt.forSession(persona, task))).toBe(prefixHash(prompt));
     },
   );
+
+  it('says the address and card are saved only when the account has them (F3.5a)', () => {
+    const persona = personas[0];
+    if (persona === undefined) throw new Error('no personas');
+    const saved = 'Your home address and card are already saved in that account.';
+
+    const withThem = NavigatorPrompt.forSession(persona, {
+      ...task,
+      hasAccount: true,
+      savedCheckout: true,
+    });
+    const without = NavigatorPrompt.forSession(persona, { ...task, hasAccount: true });
+
+    expect(withThem.request(firstStep).system.stable).toContain(saved);
+    expect(without.request(firstStep).system.stable).not.toContain(saved);
+  });
 
   it('never puts the page in the cached part, and always in the step message', () => {
     const [persona] = personas;

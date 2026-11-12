@@ -169,6 +169,7 @@ export class StartRun {
     try {
       await queue.enqueueRun({
         runId,
+        target: input.target,
         variants: planned,
         sessions: input.sessions,
         ...(input.maxSteps === undefined ? {} : { maxSteps: input.maxSteps }),

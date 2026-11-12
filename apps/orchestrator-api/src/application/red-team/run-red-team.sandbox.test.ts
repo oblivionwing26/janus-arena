@@ -9,6 +9,7 @@ import { rm } from 'node:fs/promises';
 import { afterAll, beforeAll, describe, expect, it } from 'vitest';
 
 import { Budget } from '../../domain/llm/budget.js';
+import { NetworkGuard } from '../../domain/scope/network-guard.js';
 import type { Endpoint } from '../../domain/surface/endpoint.js';
 import { JuiceShopBusinessLogic } from '../../infrastructure/attack/juice-shop-business-logic.js';
 import { JuiceShopChallenges } from '../../infrastructure/attack/juice-shop-challenges.js';
@@ -16,6 +17,7 @@ import { JuiceShopTestUsers } from '../../infrastructure/attack/juice-shop-test-
 import { JuiceShopVictimData } from '../../infrastructure/attack/juice-shop-victim-data.js';
 import { PlaywrightBrowserAttack } from '../../infrastructure/attack/playwright-browser-attack.js';
 import { InMemoryEventStore } from '../../infrastructure/event-store/in-memory-event-store.js';
+import { JuiceShopShopperAccounts } from '../../infrastructure/personas/juice-shop-shopper-accounts.js';
 import { DockerCli } from '../../infrastructure/sandbox/docker-cli.js';
 import { DockerSandbox } from '../../infrastructure/sandbox/docker-sandbox.js';
 import { workspacesRoot } from '../../infrastructure/sandbox/workspace.js';
@@ -32,6 +34,7 @@ import {
 import { TypeScriptAttackSurface } from '../../infrastructure/surface/typescript-attack-surface.js';
 import { LocalGitAdapter } from '../../infrastructure/vcs/local-git-adapter.js';
 import { describeBrowserAttackContract } from '../../test-support/browser-attack-contract.js';
+import { describeShopperAccountContract } from '../../test-support/shopper-account-contract.js';
 import { ScriptedGateway } from '../../test-support/scripted-gateway.js';
 import { VerifyOwnership } from '../scope/verify-ownership.js';
 import { RunRedTeam } from './run-red-team.js';
@@ -138,4 +141,77 @@ describe('F3.3 done when: deterministic Red Team on Juice Shop', () => {
 describeBrowserAttackContract('PlaywrightBrowserAttack (Juice Shop)', {
   create: () => ({ port: browser, origin }),
   timeoutMs: 120_000,
+});
+
+// SynthLab's shopper accounts (F3.5a) on the same real Juice Shop.
+describeShopperAccountContract('JuiceShopShopperAccounts (Juice Shop)', {
+  create: () => ({ accounts: new JuiceShopShopperAccounts(http), baseUrl: origin }),
+  timeoutMs: 60_000,
+});
+
+describe('JuiceShopShopperAccounts saved checkout (F3.5a)', () => {
+  it('saves the shopper’s home address and test card in the new account', async () => {
+    const email = `rosa-${newUlid().toLowerCase()}@janus.test`;
+    const password = `pw-${newUlid().toLowerCase()}`;
+    await new JuiceShopShopperAccounts(http).create(origin, {
+      name: 'Rosa Sintética',
+      email,
+      password,
+      saveCheckout: true,
+      details: {
+        address: 'Calle Sintética 1',
+        'card expiry': '12/2080',
+        'card number': '4111111111111111',
+        city: 'Madrid',
+        country: 'Spain',
+        'mobile number': '600000001',
+        state: 'Madrid',
+        'zip code': '28001',
+      },
+    });
+
+    const client = http.client(
+      new NetworkGuard({
+        target: 'juice-shop',
+        origins: [origin],
+        excludedPaths: [],
+        allowedTests: ['http-probe'],
+        maxRequestsPerSecond: 20,
+      }),
+      () => Promise.resolve(),
+    );
+    const login = await client.send({
+      method: 'POST',
+      url: `${origin}/rest/user/login`,
+      testType: 'http-probe',
+      headers: { 'content-type': 'application/json' },
+      body: JSON.stringify({ email, password }),
+    });
+    const { authentication } = JSON.parse(login.body) as { authentication: { token: string } };
+    const read = async (path: string): Promise<unknown> =>
+      (
+        JSON.parse(
+          (
+            await client.send({
+              method: 'GET',
+              url: `${origin}${path}`,
+              testType: 'http-probe',
+              headers: { authorization: `Bearer ${authentication.token}` },
+            })
+          ).body,
+        ) as { data: unknown }
+      ).data;
+
+    expect(await read('/api/Addresss')).toEqual([
+      expect.objectContaining({
+        fullName: 'Rosa Sintética',
+        streetAddress: 'Calle Sintética 1',
+        city: 'Madrid',
+        zipCode: '28001',
+      }),
+    ]);
+    expect(await read('/api/Cards')).toEqual([
+      expect.objectContaining({ fullName: 'Rosa Sintética', expMonth: 12, expYear: 2080 }),
+    ]);
+  }, 60_000);
 });

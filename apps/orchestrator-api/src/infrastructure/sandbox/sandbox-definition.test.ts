@@ -44,6 +44,8 @@ describe('sandbox definitions', () => {
     expect(definition).toMatchObject({
       name: 'juice-shop',
       verification: { dir: '/juice-shop/.well-known' },
+      // Quiet mode: no solved-challenge notifications reach a persona (F3.5a).
+      env: { NODE_ENV: 'quiet' },
     });
     expect('image' in definition && definition.image).toMatch(
       /^bkimminich\/juice-shop:v20\.3\.0@sha256:[0-9a-f]{64}$/,

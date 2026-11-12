@@ -11,7 +11,7 @@ export interface TaskVerdict {
   readonly passed: boolean;
   readonly checks: readonly TaskCheck[];
   /** The order that satisfied the task, or the newest one checked. */
-  readonly orderId?: number;
+  readonly orderId?: number | string;
 }
 
 function checksFor(order: OrderRecord, expect: TaskExpectation): TaskCheck[] {

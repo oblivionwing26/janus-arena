@@ -36,10 +36,6 @@
       "ok": true
     },
     {
-      "action": "wait",
-      "ok": true
-    },
-    {
       "action": "click",
       "ref": "e17",
       "ok": true
@@ -47,10 +43,6 @@
     {
       "action": "click",
       "ref": "e28",
-      "ok": true
-    },
-    {
-      "action": "wait",
       "ok": true
     },
     {
@@ -64,36 +56,29 @@
       "ok": true
     },
     {
-      "action": "wait",
-      "ok": true
-    },
-    {
       "action": "done",
       "ok": true
     }
   ],
   "thoughts": [
-    "Ahí está la taza de cerámica, la voy a mirar.",
-    "No tengo cuenta, así que voy a crear una para poder añadir la taza al carrito.",
-    "Creo una cuenta para poder comprar; empiezo por mi nombre.",
-    "Ahora pongo mi correo electrónico.",
-    "Ahora escribo la contraseña que me pide el formulario.",
-    "Ahora la dirección de envío, que es lo que me piden en el formulario.",
-    "Los datos están bien escritos, así que creo la cuenta.",
-    "El botón aparece desactivado; espero un momento por si el formulario todavía se está validando.",
-    "Ahora vuelvo a la taza de cerámica para comprarla.",
-    "Ya tengo cuenta y estoy en la taza. La añado al carrito.",
-    "El botón \"Añadir al carrito\" aparece desactivado; espero un poco a ver si se activa.",
-    "El carrito tiene la taza a 12,90 €. Voy a pagar.",
-    "Los datos de envío están bien y el pago es simulado; confirmo el pedido.",
-    "La pantalla sigue en el pago. Espero un momento antes de hacer nada más, para no pedir dos veces.",
-    "La página confirma el pedido con la dirección correcta, así que el objetivo está cumplido."
+    "Ahí está la Taza de cerámica, la voy a abrir.",
+    "Para añadir al carrito necesito una cuenta; no tengo, así que voy a crear una.",
+    "Voy a crear la cuenta con mis datos, empiezo por el nombre.",
+    "Ahora escribo mi correo electrónico.",
+    "Ahora la contraseña, que tiene que tener al menos 8 caracteres.",
+    "Now I fill in my shipping address, as the form asks for it.",
+    "Tengo todos mis datos escritos y revisados, así que creo la cuenta.",
+    "Account seems created and logged in now; I'll go to the mug to buy it.",
+    "Ya tengo cuenta y estoy en la taza; la añado al carrito.",
+    "El carrito tiene la taza a 12,90 €. Ahora voy a pagar.",
+    "La dirección está bien, el pago es simulado y no se cobra nada. Confirmo el pedido.",
+    "La página confirma el pedido con el envío a mi dirección, así que el objetivo está cumplido."
   ],
   "ended": [
     {
       "outcome": "success",
-      "steps": 15,
-      "reason": "El pedido #6 se ha realizado correctamente: una Taza de cerámica por 12,90 €, envío de 4,99 € y total de 17,89 €, enviada a Calle Sintética 1, 28001 Madrid."
+      "steps": 12,
+      "reason": "Mi pedido #6 se ha realizado correctamente: una Taza de cerámica como regalo, enviada a Calle Sintética 1, 28001 Madrid, con un total de 17,89 €."
     }
   ]
 }

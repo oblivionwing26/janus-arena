@@ -42,8 +42,11 @@ export function describeOrderReaderContract(
     it('reads every order of the shopper, newest first, with items, discount and address', async () => {
       const { reader, withOrders } = await harness.create();
 
-      expect(await reader.read(withOrders)).toEqual(
-        [...CONTRACT_ORDERS].sort((a, b) => b.id - a.id),
+      // Ids are the shop's own (numbers or strings): compared as text, newest first.
+      const asText = (orders: readonly OrderRecord[]) =>
+        orders.map((order) => ({ ...order, id: String(order.id) }));
+      expect(asText(await reader.read(withOrders))).toEqual(
+        asText([...CONTRACT_ORDERS].sort((a, b) => Number(b.id) - Number(a.id))),
       );
     });
 

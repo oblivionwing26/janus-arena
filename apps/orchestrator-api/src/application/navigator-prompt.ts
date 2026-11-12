@@ -15,6 +15,8 @@ export interface NavigatorTask {
    * in the prompt: left implicit, a persona tries to sign in to an account that does not exist.
    */
   readonly hasAccount: boolean;
+  /** Whether that account already holds the home address and card (F3.5a). */
+  readonly savedCheckout?: boolean;
   /** The task's goal (F1.9), in place of the persona's own goal. */
   readonly goal?: string;
 }
@@ -129,6 +131,9 @@ export class NavigatorPrompt {
       task.hasAccount
         ? 'You already have an account in this shop, with the details below.'
         : 'You do not have an account in this shop yet. If you need one, these are the details you would use.',
+      ...(task.hasAccount && task.savedCheckout === true
+        ? ['Your home address and card are already saved in that account.']
+        : []),
       ...(details.length === 0
         ? []
         : ['Your details (synthetic; type them only when a form asks for them):', ...details]),

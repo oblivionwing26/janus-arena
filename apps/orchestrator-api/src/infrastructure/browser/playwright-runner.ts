@@ -20,7 +20,9 @@ import type {
   BrowserSessionOptions,
   ElementBox,
   ElementTarget,
+  FetchTextOptions,
   PageSnapshot,
+  TypeOptions,
 } from '../../domain/browser/browser-port.js';
 import type {
   PageActivity,
@@ -154,9 +156,17 @@ export class PlaywrightRunner implements BrowserPort {
     await this.acting(sessionId, target, () => locator.click());
   }
 
-  async type(sessionId: string, target: ElementTarget, text: string): Promise<void> {
+  async type(
+    sessionId: string,
+    target: ElementTarget,
+    text: string,
+    options: TypeOptions = {},
+  ): Promise<void> {
     const locator = await this.visible(sessionId, target);
-    await this.acting(sessionId, target, () => locator.fill(text));
+    await this.acting(sessionId, target, async () => {
+      await locator.fill(text);
+      if (options.submit === true) await locator.press('Enter');
+    });
   }
 
   async select(sessionId: string, target: ElementTarget, option: string): Promise<void> {
@@ -182,6 +192,10 @@ export class PlaywrightRunner implements BrowserPort {
     const dy = Math.round(direction === 'down' ? step : -step);
     // A string expression: the orchestrator has no DOM types. `dy` is a number we computed.
     await page.evaluate(`window.scrollBy({ top: ${String(dy)}, behavior: 'instant' })`);
+  }
+
+  async dismiss(sessionId: string): Promise<void> {
+    await this.session(sessionId).page.keyboard.press('Escape');
   }
 
   async back(sessionId: string): Promise<void> {
@@ -264,14 +278,24 @@ export class PlaywrightRunner implements BrowserPort {
     return new Uint8Array(await this.session(sessionId).page.screenshot({ type: 'png' }));
   }
 
-  async fetchText(sessionId: string, path: string): Promise<{ status: number; body: string }> {
+  async fetchText(
+    sessionId: string,
+    path: string,
+    options: FetchTextOptions = {},
+  ): Promise<{ status: number; body: string }> {
     if (!path.startsWith('/') || path.startsWith('//')) {
       throw new Error(`fetchText only takes a path on the variant, not ${path}`);
     }
     const { context, page } = this.session(sessionId);
-    const response = await context.request.get(new URL(path, page.url()).toString(), {
-      maxRedirects: 0,
-    });
+    const url = new URL(path, page.url()).toString();
+    let headers: Record<string, string> = {};
+    if (options.bearerFromCookie !== undefined) {
+      const token = (await context.cookies(url)).find(
+        (cookie) => cookie.name === options.bearerFromCookie,
+      )?.value;
+      if (token !== undefined && token !== '') headers = { authorization: `Bearer ${token}` };
+    }
+    const response = await context.request.get(url, { maxRedirects: 0, headers });
     return { status: response.status(), body: await response.text() };
   }
 
