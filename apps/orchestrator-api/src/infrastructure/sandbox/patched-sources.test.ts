@@ -18,6 +18,15 @@ describe('patchedSources (ADR 0012)', () => {
     ).toEqual(['lib/owner-check.ts', 'routes/basket.ts']);
   });
 
+  it('leaves out a test the fix added (V2’s regression test): tests are not in the image', () => {
+    expect(
+      patchedSources(
+        status(['M', 'routes/basket.ts'], ['A', 'test/api/janus-regression-x.test.ts']),
+        policy,
+      ),
+    ).toEqual(['routes/basket.ts']);
+  });
+
   it('is empty when nothing changed: the variant is the published image', () => {
     expect(patchedSources('', policy)).toEqual([]);
   });

@@ -58,6 +58,10 @@ const invalidEvents: Record<JanusEventType, [string, Record<string, unknown>]> =
     'a confirmation without its PoC',
     withPayload('finding.confirmed', { pocRef: '' }),
   ],
+  'finding.remediated': [
+    'a fix without its patch',
+    withPayload('finding.remediated', { patchId: undefined }),
+  ],
   'scope.verified': [
     'an unknown test type',
     withPayload('scope.verified', { allowedTests: ['ddos'] }),
@@ -122,6 +126,7 @@ describe('v1 event schemas', () => {
         'attack.attempt',
         'attack.verdict',
         'finding.confirmed',
+        'finding.remediated',
       ].sort(),
     );
   });

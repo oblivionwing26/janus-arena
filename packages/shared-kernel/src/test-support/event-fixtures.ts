@@ -105,6 +105,13 @@ export const validEvents: Record<JanusEventType, Record<string, unknown>> = {
     pocRef: `poc/${OTHER_ID}.json`,
     evidence: 'user 22 received a record of user 21 holding "Apple Juice (1000ml)"',
   }),
+  'finding.remediated': envelope('finding.remediated', {
+    findingId: OTHER_ID,
+    status: 'fixed',
+    iterations: 1,
+    patchId: OTHER_ID,
+    branch: `janus/fix-${OTHER_ID}`,
+  }),
   'scope.verified': envelope('scope.verified', {
     target: 'juice-shop',
     origins: ['http://janus-juice-shop-app:3000'],

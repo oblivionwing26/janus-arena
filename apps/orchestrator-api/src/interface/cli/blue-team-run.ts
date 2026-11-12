@@ -1,24 +1,39 @@
 // `pnpm run:blue-team <poc.json | runId --finding <findingId>> [--max-eur 0.5] [--record <dir>]`
-// (F3.5 part A): takes a confirmed finding's PoC, clones the target's source without its ground
-// truth (ADR 0012), lets the Blue Team fix it on janus/fix-<findingId>, builds and starts the
-// patched variant in the sandbox and checks the shop still answers. Every event goes to a new
-// run, so its cost shows in the console. Calls the real API: it spends money.
+// (F3.5): takes a confirmed finding's PoC, clones the target's source without its ground truth
+// (ADR 0012) and runs the Blue Team loop: a fix on janus/fix-<findingId>, its patched variant
+// built in the sandbox, then V1 (the PoC no longer works) and V2 (the target's tests and a
+// regression test, base against fix), at most 3 iterations. Every event goes to a new run, so
+// its cost shows in the console. Calls the real API: it spends money.
 
 import { existsSync } from 'node:fs';
 import { readFile } from 'node:fs/promises';
 import { resolve } from 'node:path';
 import { fileURLToPath } from 'node:url';
 
-import { newUlid, proofOfConceptSchema } from '@janus/shared-kernel';
+import { isKnownEvent, newUlid, proofOfConceptSchema } from '@janus/shared-kernel';
 
-import { ProposeFix } from '../../application/blue-team/propose-fix.js';
+import {
+  PocReplayVerifier,
+  replayOnVariant,
+} from '../../application/blue-team/poc-replay-verifier.js';
+import { RegressionTestsVerifier } from '../../application/blue-team/regression-tests-verifier.js';
+import { RemediateFinding } from '../../application/blue-team/remediate-finding.js';
 import { LlmEventObserver } from '../../application/llm-event-observer.js';
 import { RunEventRecorder } from '../../application/run-event-recorder.js';
 import { ORCHESTRATOR_ACTOR } from '../../application/start-run.js';
 import { Budget } from '../../domain/llm/budget.js';
-import { NetworkGuard } from '../../domain/scope/network-guard.js';
 import { EditPolicy } from '../../domain/vcs/edit-policy.js';
 import { FileArtifactStore } from '../../infrastructure/artifacts/file-artifact-store.js';
+import { JuiceShopBusinessLogic } from '../../infrastructure/attack/juice-shop-business-logic.js';
+import { juiceShopRegressionTest } from '../../infrastructure/attack/juice-shop-regression-test.js';
+import { JuiceShopTestUsers } from '../../infrastructure/attack/juice-shop-test-users.js';
+import { JuiceShopVictimData } from '../../infrastructure/attack/juice-shop-victim-data.js';
+import { PlaywrightBrowserAttack } from '../../infrastructure/attack/playwright-browser-attack.js';
+import { DockerTargetTests } from '../../infrastructure/checks/docker-target-tests.js';
+import {
+  loadVulnerabilityTests,
+  repoVulnerabilityTestsPath,
+} from '../../infrastructure/checks/vulnerability-tests-config.js';
 import { PostgresEventStore } from '../../infrastructure/event-store/postgres-event-store.js';
 import { AnthropicGateway } from '../../infrastructure/llm/anthropic-gateway.js';
 import { SdkAnthropicTransport } from '../../infrastructure/llm/anthropic-transport.js';
@@ -32,6 +47,11 @@ import {
 } from '../../infrastructure/sandbox/sandbox-definition.js';
 import { workspacesRoot } from '../../infrastructure/sandbox/workspace.js';
 import { PlaywrightScopedHttp } from '../../infrastructure/scope/playwright-scoped-http.js';
+import {
+  loadScopeConfig,
+  repoScopeConfigPath,
+  scopePolicyFor,
+} from '../../infrastructure/scope/scope-config.js';
 import {
   loadSurfaceConfig,
   repoSurfaceConfigPath,
@@ -88,13 +108,13 @@ if (!isImageDefinition(definition) || definition.patch === undefined) {
 const { patch } = definition;
 const surfaceTarget = (await loadSurfaceConfig(repoSurfaceConfigPath()))[poc.target];
 if (surfaceTarget === undefined) throw new Error(`config/surface.yaml has no ${poc.target}`);
+const scopes = await loadScopeConfig(repoScopeConfigPath());
 
 const store = await PostgresEventStore.connect(required('DATABASE_URL'));
-const sandbox = new DockerSandbox({
-  docker: new DockerCli(required('DOCKER_HOST')),
-  workspacesRoot: workspacesRoot(),
-});
+const docker = new DockerCli(required('DOCKER_HOST'));
+const sandbox = new DockerSandbox({ docker, workspacesRoot: workspacesRoot() });
 const http = new PlaywrightScopedHttp();
+const browser = new PlaywrightBrowserAttack();
 try {
   const record = option('record');
   const gateway = new AnthropicGateway(
@@ -128,7 +148,34 @@ try {
   const endpoint =
     endpoints.find((each) => `${each.method} ${each.route}` === poc.endpoint) ?? null;
 
-  const result = await new ProposeFix({ gateway, vcs, store, sandbox }).execute({
+  const v2 = new RegressionTestsVerifier({
+    tests: new DockerTargetTests({ docker, workspacesRoot: workspacesRoot() }),
+    generate: juiceShopRegressionTest,
+    vulnerable: await loadVulnerabilityTests(repoVulnerabilityTestsPath()),
+  });
+  const v1 = new PocReplayVerifier({
+    replay: replayOnVariant({
+      store,
+      http,
+      tokens: sandbox,
+      browser,
+      target: (client, at) => ({
+        users: new JuiceShopTestUsers(client, at),
+        victim: new JuiceShopVictimData(client, at),
+        businessLogic: new JuiceShopBusinessLogic(client, at),
+      }),
+      policyFor: (target, origin) => scopePolicyFor(scopes, target, [origin]),
+    }),
+  });
+
+  const result = await new RemediateFinding({
+    gateway,
+    vcs,
+    store,
+    sandbox,
+    verifiers: [v1, v2],
+    regressionTest: (fix) => v2.regressionTest(fix),
+  }).execute({
     runId,
     findingId,
     target: poc.target,
@@ -140,48 +187,29 @@ try {
     budget: new Budget(budget),
   });
 
-  let answers = 'not checked';
-  if (result.status === 'built') {
-    // The shop still answers on the patched variant: a probe, never an attack.
-    const origin = new URL(result.baseUrl).origin;
-    const client = http.client(
-      new NetworkGuard({
-        target: poc.target,
-        origins: [origin],
-        excludedPaths: [],
-        allowedTests: ['http-probe'],
-        maxRequestsPerSecond: 5,
-      }),
-      () => Promise.resolve(),
-    );
-    const reply = await client.send({
-      method: 'GET',
-      url: `${origin}/rest/products/search?q=Apple`,
-      testType: 'http-probe',
-    });
-    answers = `GET /rest/products/search?q=Apple → ${String(reply.status)}, ${reply.body.includes('Apple Juice') ? 'products listed' : 'no products'}`;
-    await sandbox.down(result.variantId);
-  }
-
-  const spent = (await store.readRun(runId)).reduce(
-    (sum, event) => sum + (event.cost?.estimatedEur ?? 0),
-    0,
-  );
+  const events = (await store.readRun(runId)).filter(isKnownEvent);
+  const spent = events.reduce((sum, event) => sum + (event.cost?.estimatedEur ?? 0), 0);
   await new RunEventRecorder(store, runId, ORCHESTRATOR_ACTOR).record('run.completed', {
-    outcome: result.status === 'built' ? 'success' : 'error',
-    ...(result.status === 'built' ? {} : { reason: result.reason }),
+    outcome: result.status === 'fixed' ? 'success' : 'error',
+    ...(result.status === 'fixed' ? {} : { reason: result.reason }),
   });
-  if (result.status === 'built') {
+  for (const event of events) {
+    if (event.type === 'verification.result') {
+      const { verifier, passed, details } = event.payload;
+      console.log(`  ${passed ? 'PASS' : 'FAIL'} ${verifier}: ${details ?? ''}`);
+    }
+  }
+  if (result.status === 'fixed') {
     console.log(
-      `Built after ${String(result.attempts)} attempt(s): ${String(result.stats.filesChanged)} file(s), +${String(result.stats.added)} −${String(result.stats.removed)}, commit ${result.sha.slice(0, 10)} on janus/fix-${findingId}`,
+      `Fixed after ${String(result.iterations)} iteration(s): commit ${result.sha.slice(0, 10)} on janus/fix-${findingId}`,
     );
-    console.log(`Patched variant: ${answers}`);
     console.log(`Summary: ${result.summary}\n\n${result.diff}`);
   } else {
-    console.log(`No fix that builds after ${String(result.attempts)} attempt(s): ${result.reason}`);
+    console.log(`Still open after ${String(result.iterations)} iterations: ${result.reason}`);
   }
   console.log(`Workspace: ${workspace.path}\nCost: ${spent.toFixed(4)} €`);
 } finally {
+  await browser.close();
   await http.close();
   await store.close();
 }

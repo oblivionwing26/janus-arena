@@ -78,6 +78,14 @@ const imageSandboxDefinitionSchema = z.object({
         allow: z.array(z.string().regex(/^[\w*.[\]/-]+$/)).min(1),
         deny: z.array(z.string().regex(/^[\w*.[\]/-]+$/)).default([]),
       }),
+      // The target's own tests (F3.5, V2): file globs and the command run on each file, in the
+      // Dockerfile's `tests` stage without network. Plain words only: they reach a shell loop.
+      tests: z
+        .object({
+          files: z.array(z.string().regex(/^[\w./*-]+$/)).min(1),
+          command: z.array(z.string().regex(/^[\w./=@:-]+$/)).min(1),
+        })
+        .optional(),
     })
     .optional(),
 });

@@ -6,6 +6,7 @@ import type { DiffStats, VcsPort } from '../../domain/vcs/vcs-port.js';
 import { RunEventRecorder } from '../run-event-recorder.js';
 import { ORCHESTRATOR_ACTOR } from '../start-run.js';
 import { revertEdits } from '../ui-engineer/generate-variant-patch.js';
+import type { FileEdit } from '../code-agent/editing-agent.js';
 import { GenerateFix, type GenerateFixInput } from './generate-fix.js';
 
 export type ProposeFixResult =
@@ -16,6 +17,8 @@ export type ProposeFixResult =
       readonly diff: string;
       readonly stats: DiffStats;
       readonly summary: string;
+      /** The agent's edits, to undo the fix if a verifier rejects it. */
+      readonly edits: readonly FileEdit[];
       readonly attempts: number;
       /** The patched variant, still up: the caller probes or verifies it, then takes it down. */
       readonly variantId: string;
@@ -31,6 +34,8 @@ export type ProposeFixResult =
 export interface ProposeFixInput extends Omit<GenerateFixInput, 'retry'> {
   /** The sandbox definition the patched variant is built from (ADR 0012). */
   readonly target: string;
+  /** The previous iteration's fix and why a verifier rejected it (F3.5, the loop). */
+  readonly previous?: GenerateFixInput['retry'];
 }
 
 const MAX_ATTEMPTS = 2;
@@ -58,7 +63,7 @@ export class ProposeFix {
     const generate = new GenerateFix({ gateway, vcs, store });
     const recorder = new RunEventRecorder(store, input.runId, ORCHESTRATOR_ACTOR);
     const variantId = `fix-${input.findingId.slice(-12).toLowerCase()}`;
-    let retry: GenerateFixInput['retry'];
+    let retry = input.previous;
     let reason = 'no attempt';
 
     for (let attempt = 1; attempt <= MAX_ATTEMPTS; attempt++) {
@@ -97,6 +102,7 @@ export class ProposeFix {
           diff: proposed.diff,
           stats: proposed.stats,
           summary: proposed.summary,
+          edits: proposed.edits,
           attempts: attempt,
           variantId,
           baseUrl,

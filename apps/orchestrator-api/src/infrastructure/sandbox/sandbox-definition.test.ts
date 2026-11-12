@@ -66,7 +66,43 @@ describe('sandbox definitions', () => {
         allow: ['routes/**/*.ts', 'lib/**/*.ts', 'models/**/*.ts'],
         deny: ['lib/startup/**', 'lib/challengeUtils.ts'],
       },
+      // Juice Shop's own tests, run file by file without network (V2).
+      tests: {
+        files: ['test/api/*.test.ts', 'test/server/*.unit.test.ts'],
+        command: [
+          'node',
+          '--import',
+          './test/api/helpers/test-env.mjs',
+          '--import',
+          'tsx',
+          '--test',
+          '--test-reporter=tap',
+        ],
+      },
     });
+  });
+
+  it.each([
+    ['a test glob a shell would expand oddly', "files: ['test/*.ts; rm -rf /']"],
+    ['a command word with a quote', 'command: [node, "--eval=\'x\'"]'],
+  ])('rejects a tests section with %s', (_label, line) => {
+    const tests = ['  tests:', "    files: ['test/*.ts']", '    command: [node]'];
+    const key = line.split(':')[0] ?? '';
+    const source = [
+      'name: x',
+      `image: x/y:1@sha256:${'0'.repeat(64)}`,
+      'app: { port: 3000, readyLog: up }',
+      'verification: { dir: /x }',
+      'patch:',
+      '  repo: https://example.test/x.git',
+      '  ref: v1',
+      '  dockerfile: x.Dockerfile',
+      '  blueTeam: { allow: [src/**] }',
+      ...tests.filter((each) => !each.trim().startsWith(`${key}:`)),
+      `    ${line}`,
+    ].join('\n');
+
+    expect(() => parseAnySandboxDefinition(source)).toThrow();
   });
 
   it.each([

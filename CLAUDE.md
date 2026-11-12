@@ -14,7 +14,7 @@ More context: `docs/VISION.md` (product), `docs/adr/` (decisions), `docs/ROADMAP
 
 ## Current step
 
-**F3.5 — Blue Team agent and verifiers (part B: the three verifiers).** Read this step in `docs/ROADMAP.md` before starting. Do not build features from later steps.
+**F3.5 — Blue Team agent and verifiers (part B2: V3, the SynthLab re-run).** Read this step in `docs/ROADMAP.md` before starting. Do not build features from later steps.
 
 (Update this line every time a step is closed.)
 
@@ -38,7 +38,7 @@ pnpm run:replay <runId|file>  # replay a run from DB or exported JSON, never cal
 pnpm run:start <runs/x.yaml>  # start a run from a run file (needs pnpm dev running)
 pnpm run:report <runId|file>  # SynthLab report (heatmap zones, funnel, success, cost) from recorded events
 pnpm run:ui-engineer <runId|file> --zone <rank>  # UI Engineer patch + checks + commit (calls the API)
-pnpm run:blue-team <poc.json|runId --finding <id>>  # Blue Team fix on janus/fix-<id>, built and started in the sandbox (calls the API)
+pnpm run:blue-team <poc.json|runId --finding <id>>  # Blue Team loop: fix on janus/fix-<id>, build, V1 + V2, max 3 iterations (calls the API)
 pnpm run:ab-auto <runs/x.yaml>  # discovery on A, generated B, paired A/B report (needs pnpm dev; calls the API)
 pnpm run:surface <target>     # HTTP surface map of a target, read from its code (no LLM)
 pnpm run:audit-diff <target> --a <ref> --b <ref>  # what variant B introduces; exits 1 if the gate blocks it
@@ -70,6 +70,7 @@ config/
   funnels.yaml           report routes and purchase funnel per target
   arch/                  dependency-cruiser rules for each target's architecture
   surface.yaml           how each target declares its HTTP routes (Next.js or Express)
+  vulnerability-tests.yaml  target tests that assert a vulnerability (V2 lets a fix break them)
   scopes.yaml            what Janus may do to each target: tests, excluded paths, rate
   shoppers.yaml          each target's synthetic shopper details (address, test card...)
 personas/                persona YAML files
