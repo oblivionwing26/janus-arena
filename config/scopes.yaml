@@ -4,9 +4,11 @@
 # /.well-known/janus-verify.txt.
 
 targets:
-  # The UX target: personas browse it and checks read it. No security tests (ADR 0006).
+  # The UX target: personas browse it and checks read it. No exploitation tests (ADR 0006); since
+  # F4.1 (ADR 0020) it may also be loaded and guessed at, to measure its own defenses. Those need
+  # its ownership verified, like every test beyond browse and probe.
   shoplab:
-    allowedTests: [browse, http-probe]
+    allowedTests: [browse, http-probe, brute-force, saturation]
     excludedPaths: []
     maxRequestsPerSecond: 200
 

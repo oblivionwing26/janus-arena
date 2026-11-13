@@ -48,6 +48,11 @@ export interface BrowserSessionOptions {
   readonly baseUrl: string;
   /** `mobile` gets a phone-sized touch viewport. Defaults to desktop. */
   readonly device?: 'desktop' | 'mobile';
+  /**
+   * The address the session presents, sent as X-Forwarded-For on every request (F4.1). A
+   * simulation: a target that trusts the header sees a visitor of its own in each session.
+   */
+  readonly clientIp?: string;
 }
 
 /**

@@ -41,6 +41,8 @@ export const runConfigBodySchema = z.strictObject({
           .string()
           .regex(/^[0-9a-f]{40}$/)
           .optional(),
+        /** Settings the variant runs with, e.g. which defenses are on (F4.1). */
+        env: z.record(z.string().regex(/^[A-Z][A-Z0-9_]{0,63}$/), z.string().max(200)).optional(),
       }),
     )
     .min(1)
@@ -74,6 +76,16 @@ export const runConfigBodySchema = z.strictObject({
   maxSteps: z.int().min(1).max(200).optional(),
   budget,
   concurrency: z.int().min(1).max(10).optional(),
+  /** Launch Day (F4.1): saboteurs that load every variant while the personas shop. */
+  saboteurs: z
+    .strictObject({ count: z.int().min(1).max(5), requestsPerSecond: z.int().min(1).max(20) })
+    .optional(),
+  clientIps: z
+    .discriminatedUnion('mode', [
+      z.strictObject({ mode: z.literal('distinct') }),
+      z.strictObject({ mode: z.literal('shared'), addresses: z.int().min(1).max(50) }),
+    ])
+    .optional(),
 });
 
 /** Body of POST /runs: a run config when it has `variants`, the single-variant body otherwise. */
@@ -84,17 +96,20 @@ export type RunConfigBody = z.infer<typeof runConfigBodySchema>;
 export function runConfigFromBody(body: RunConfigBody): RunConfig {
   return {
     target: body.target,
-    variants: body.variants.map(({ id, ref: variantRef, repo, base }) => ({
+    variants: body.variants.map(({ id, ref: variantRef, repo, base, env }) => ({
       key: id,
       ref: variantRef,
       ...(repo === undefined ? {} : { repo }),
       ...(base === undefined ? {} : { base }),
+      ...(env === undefined ? {} : { env }),
     })),
     personas: body.personas,
     seeds: body.seeds,
     budget: body.budget,
     ...(body.maxSteps === undefined ? {} : { maxSteps: body.maxSteps }),
     ...(body.concurrency === undefined ? {} : { concurrency: body.concurrency }),
+    ...(body.saboteurs === undefined ? {} : { saboteurs: body.saboteurs }),
+    ...(body.clientIps === undefined ? {} : { clientIps: body.clientIps }),
     ...(body.tasks === undefined
       ? {}
       : {

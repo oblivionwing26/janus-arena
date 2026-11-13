@@ -1,4 +1,5 @@
 import { DomainError } from '../errors/domain-error.js';
+import { VARIANT_ENV_KEY, VARIANT_ENV_VALUE } from '../run/run-config.js';
 
 /** One variant of a target app to run in the sandbox. */
 export interface VariantSpec {
@@ -19,6 +20,11 @@ export interface VariantSpec {
    * with only the sources changed between it and `ref`.
    */
   readonly base?: string;
+  /**
+   * Settings the app runs with (F4.1): environment variables, only those the target's sandbox
+   * definition lists as `variantEnv`, which the sandbox checks.
+   */
+  readonly env?: Readonly<Record<string, string>>;
 }
 
 const VARIANT_ID = /^[a-z0-9][a-z0-9-]{0,31}$/;
@@ -39,5 +45,12 @@ export function assertValidVariant(variant: VariantSpec): void {
   }
   if (variant.base !== undefined && !/^[0-9a-f]{40}$/.test(variant.base)) {
     throw new InvalidVariantError(`Variant ${variant.id} base must be a full commit id`);
+  }
+  for (const [key, value] of Object.entries(variant.env ?? {})) {
+    if (!VARIANT_ENV_KEY.test(key) || !VARIANT_ENV_VALUE.test(value)) {
+      throw new InvalidVariantError(
+        `Variant ${variant.id} env ${key} must be UPPER_CASE with a plain value`,
+      );
+    }
   }
 }

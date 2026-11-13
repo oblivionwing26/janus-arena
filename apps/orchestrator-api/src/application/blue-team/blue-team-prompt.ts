@@ -36,6 +36,8 @@ const ORACLES: Readonly<Record<OracleName, string>> = {
   'duplicate-effect': 'an action that counts once per user takes effect more than once',
   'unthrottled-guessing':
     'many wrong passwords sent to one account are all refused quickly, none throttled, and the right one still signs in',
+  'unthrottled-requests':
+    'requests at a steady rate are all served, and none is answered with a throttle or a refusal',
 };
 
 /** What the proof shows, per kind of step: the relation, never a payload. */

@@ -17,6 +17,16 @@ export const sessionStartedEventSchema = defineEventSchema(
       .optional(),
     seed: z.int().min(0).max(9999),
     attempt: z.int().min(1),
+    /**
+     * Who the session is in a Launch Day run (F4.1): a legitimate shopper, or a saboteur. Only the
+     * event log knows: the target never sees it. Absent in every earlier run, meaning legitimate.
+     */
+    role: z.enum(['legitimate', 'saboteur']).optional(),
+    /** The address the session presents (X-Forwarded-For, simulated), when the run gives one. */
+    client: z
+      .string()
+      .regex(/^[0-9a-fA-F:.]{1,64}$/)
+      .optional(),
     /** The task the session plays (F1.9); absent when it plays the persona's own goal. */
     task: z
       .string()

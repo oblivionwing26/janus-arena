@@ -41,6 +41,14 @@ const sandboxDefinitionSchema = z.object({
     port: z.int().min(1).max(65535),
     healthPath: z.string().startsWith('/'),
   }),
+  // Where the app serves the ownership token from (F3.1, F4.1): a file Janus copies there.
+  verification: z.object({ dir: z.string().regex(/^(\/[\w.-]+)+$/) }).optional(),
+  // Environment the app container always gets: plain names and values.
+  env: z
+    .record(z.string().regex(/^[A-Z][A-Z0-9_]{0,63}$/), z.string().regex(/^[\w.:/-]{0,200}$/))
+    .default({}),
+  // The keys a variant may add to that environment (F4.1), e.g. which defenses are on.
+  variantEnv: z.array(z.string().regex(/^[A-Z][A-Z0-9_]{0,63}$/)).default([]),
 });
 
 export type SandboxDefinition = z.infer<typeof sandboxDefinitionSchema>;

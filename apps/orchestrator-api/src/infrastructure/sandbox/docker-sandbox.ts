@@ -21,6 +21,7 @@ import {
   type SandboxDefinition,
   sandboxDefinitionsDir,
 } from './sandbox-definition.js';
+import { appEnvironment } from './app-environment.js';
 import { assertLocalRepo, git, prepareWorkspace, removeWorkspace } from './workspace.js';
 
 export const SANDBOX_NETWORK = 'janus-sbx';
@@ -77,7 +78,7 @@ export class DockerSandbox implements SandboxPort, OwnershipTokenPort {
 
   /**
    * Copies the run's ownership token into the variant's app, where it serves /.well-known
-   * (F3.1). Only image targets that declare a verification folder support it.
+   * (F3.1). Only targets that declare a verification folder support it.
    */
   async place(variantId: string, token: string): Promise<void> {
     if (!(await this.isUp(variantId))) throw new SandboxNotFoundError(variantId);
@@ -88,7 +89,8 @@ export class DockerSandbox implements SandboxPort, OwnershipTokenPort {
       appName(variantId),
     ]);
     const definition = await this.loadDefinition(stdout.trim());
-    if (!isImageDefinition(definition)) {
+    const verification = definition.verification;
+    if (verification === undefined) {
       throw new Error(`${definition.name} does not support ownership verification`);
     }
     const dir = join(this.options.workspacesRoot, variantId);
@@ -98,7 +100,7 @@ export class DockerSandbox implements SandboxPort, OwnershipTokenPort {
     await this.docker.run([
       'cp',
       file,
-      `${appName(variantId)}:${definition.verification.dir}/janus-verify.txt`,
+      `${appName(variantId)}:${verification.dir}/janus-verify.txt`,
     ]);
   }
 
@@ -200,6 +202,10 @@ export class DockerSandbox implements SandboxPort, OwnershipTokenPort {
       `${TARGET_LABEL}=${definition.name}`,
       '-e',
       `DATABASE_URL=${databaseUrl}`,
+      ...Object.entries(appEnvironment(definition, variant)).flatMap(([key, value]) => [
+        '-e',
+        `${key}=${value}`,
+      ]),
       `${image}:app`,
     ]);
     await this.waitHealthy(appName(variant.id));
@@ -225,7 +231,10 @@ export class DockerSandbox implements SandboxPort, OwnershipTokenPort {
       `${VARIANT_LABEL}=${variant.id}`,
       '--label',
       `${TARGET_LABEL}=${definition.name}`,
-      ...Object.entries(definition.env).flatMap(([key, value]) => ['-e', `${key}=${value}`]),
+      ...Object.entries(appEnvironment(definition, variant)).flatMap(([key, value]) => [
+        '-e',
+        `${key}=${value}`,
+      ]),
       image,
     ]);
     await this.waitForLog(appName(variant.id), definition.app.readyLog);

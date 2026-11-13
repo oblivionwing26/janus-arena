@@ -13,4 +13,9 @@ export interface SessionSpec {
   readonly seed: number;
   /** Task id the slot plays (F1.9); absent when it plays the persona's goal. */
   readonly task?: string;
+  /**
+   * The address the session presents to the target (X-Forwarded-For, simulated, F4.1). A pair
+   * presents the same one on both variants: the address belongs to the slot.
+   */
+  readonly clientIp?: string;
 }

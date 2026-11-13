@@ -15,6 +15,11 @@ export interface RunConfig {
     readonly repo?: string;
     /** The commit a patched image variant starts from (F3.5, ADR 0012); needs `repo`. */
     readonly base?: string;
+    /**
+     * Settings the variant runs with, e.g. which defenses are on (F4.1). Only the keys its target's
+     * sandbox definition lists (`variantEnv`) are accepted, and they are recorded in the run.
+     */
+    readonly env?: Readonly<Record<string, string>>;
   }[];
   /**
    * Persona ids. The competent baseline is always added to each variant, never listed; an
@@ -29,7 +34,23 @@ export interface RunConfig {
   readonly budget: BudgetLimits;
   /** Sessions of this run playing at the same time. */
   readonly concurrency?: number;
+  /** Launch Day (F4.1, ADR 0020): saboteurs that load every variant while the personas shop. */
+  readonly saboteurs?: {
+    readonly count: number;
+    /** Requests per second each one sends. */
+    readonly requestsPerSecond: number;
+  };
+  /**
+   * Which address each legitimate session presents to the target, as a simulated
+   * X-Forwarded-For (F4.1): one of its own (`distinct`), or a few shared among all of them
+   * (`shared`: an office or a university behind one NAT).
+   */
+  readonly clientIps?:
+    { readonly mode: 'distinct' } | { readonly mode: 'shared'; readonly addresses: number };
 }
+
+export const VARIANT_ENV_KEY = /^[A-Z][A-Z0-9_]{0,63}$/;
+export const VARIANT_ENV_VALUE = /^[\w./:|, -]{0,200}$/;
 
 const VARIANT_KEY = /^[a-z][a-z0-9]{0,3}$/;
 const MAX_SESSIONS = 100;
@@ -60,6 +81,31 @@ export function assertValidRunConfig(config: RunConfig): void {
     )
   ) {
     throw fail('a variant base is a full commit id of its local clone');
+  }
+  for (const variant of variants) {
+    for (const [key, value] of Object.entries(variant.env ?? {})) {
+      if (!VARIANT_ENV_KEY.test(key) || !VARIANT_ENV_VALUE.test(value)) {
+        throw fail(`variant ${variant.key} env ${key} must be UPPER_CASE with a plain value`);
+      }
+    }
+  }
+  const { saboteurs, clientIps } = config;
+  if (
+    saboteurs !== undefined &&
+    (!Number.isInteger(saboteurs.count) ||
+      saboteurs.count < 1 ||
+      saboteurs.count > 5 ||
+      !Number.isInteger(saboteurs.requestsPerSecond) ||
+      saboteurs.requestsPerSecond < 1 ||
+      saboteurs.requestsPerSecond > 20)
+  ) {
+    throw fail('saboteurs: one to five, each at one to twenty requests per second');
+  }
+  if (
+    clientIps?.mode === 'shared' &&
+    (!Number.isInteger(clientIps.addresses) || clientIps.addresses < 1 || clientIps.addresses > 50)
+  ) {
+    throw fail('clientIps shared: one to fifty addresses');
   }
   if (personas.length > 10 || !unique(personas)) throw fail('at most ten different personas');
   const tasks = config.tasks ?? [];

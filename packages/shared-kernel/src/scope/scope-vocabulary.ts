@@ -14,6 +14,8 @@ export const TEST_TYPES = [
   'brute-force',
   'race',
   'scanner',
+  /** Traffic at a rate a defense should notice, to measure it (F4.1, ADR 0020). */
+  'saturation',
 ] as const;
 export const testTypeSchema = z.enum(TEST_TYPES);
 export type TestType = z.infer<typeof testTypeSchema>;

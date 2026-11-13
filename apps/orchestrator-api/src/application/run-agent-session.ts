@@ -115,6 +115,8 @@ export class RunAgentSession {
       attempt,
       ...(spec.persona === undefined ? {} : { persona: spec.persona }),
       ...(spec.task === undefined ? {} : { task: spec.task }),
+      // A Launch Day run (F4.1) gives every session an address and says they are legitimate.
+      ...(spec.clientIp === undefined ? {} : { role: 'legitimate', client: spec.clientIp }),
     });
   }
 
@@ -186,6 +188,7 @@ export class RunAgentSession {
       persona,
       budget,
       signal,
+      ...(job.spec.clientIp === undefined ? {} : { clientIp: job.spec.clientIp }),
       ...(job.task === undefined || orders === undefined
         ? {}
         : { verify: { task: job.task, orders } }),
