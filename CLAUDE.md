@@ -14,7 +14,7 @@ More context: `docs/VISION.md` (product), `docs/adr/` (decisions), `docs/ROADMAP
 
 ## Current step
 
-**F3.12 — Puerta G2: demo completa** (the code and docs are done; deploying, the video, publishing and the tag are the owner's). Read this step in `docs/ROADMAP.md` before starting. Do not build features from later steps.
+**F4.1 — Modo Launch Day.** Read this step in `docs/ROADMAP.md` before starting. Do not build features from later steps.
 
 (Update this line every time a step is closed.)
 

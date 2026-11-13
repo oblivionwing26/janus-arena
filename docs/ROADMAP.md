@@ -663,11 +663,11 @@ Nota F3.11 ([ADR 0018](adr/0018-benchmark-scoring.md)):
 
 ### F3.12 · Puerta G2: demo completa — L (8–12 h)
 
-- [ ] Consola en modo demo desplegada (por ejemplo en Vercel) cargando runs exportados en JSON, sin backend ni claves
-- [ ] Vídeo de 3 minutos del ciclo completo
-- [ ] README del repo con arquitectura, cómo ejecutar y enlace a la demo
-- [ ] Artículo 1 publicado en inglés
-- [ ] Repo público, etiqueta `v1.0.0`, `Current step` a F4.1
+- [x] Consola en modo demo desplegada (por ejemplo en Vercel) cargando runs exportados en JSON, sin backend ni claves
+- [x] Vídeo de 3 minutos del ciclo completo
+- [x] README del repo con arquitectura, cómo ejecutar y enlace a la demo
+- [x] Artículo 1 publicado en inglés
+- [x] Repo público, etiqueta `v1.0.0`, `Current step` a F4.1 (la etiqueta se crea sobre el merge de este PR)
 
 Nota F3.12 (lo que ya está hecho y lo que falta; el paso sigue abierto hasta que se publique):
 
@@ -687,7 +687,9 @@ Nota F3.12 (lo que ya está hecho y lo que falta; el paso sigue abierto hasta qu
 - **Vídeo:** subido a <https://youtu.be/rH7XLE4Ujks> (3 min 15 s), enlazado desde el README.
 - **Repos públicos:** `janus-arena` (licencia MIT) y `janus-shoplab`.
 - **CI en `main`:** al hacerse público salió a la luz que fallaba el paso de formato (seis informes generados en `docs/reports/`, que ahora `.prettierignore` excluye: se generan por código y los firmados se verifican byte a byte) y las pruebas de integración, que clonan `janus-shoplab` y no podían mientras era privado.
-- **Falta:** publicar el artículo en dev.to (en borrador) y enlazarlo; la etiqueta `v1.0.0` tras el merge de este PR con CI en verde; pasar `Current step` a F4.1.
+- **Artículo:** publicado en dev.to el 13 de noviembre (<https://dev.to/oblivionwing26/janus-arena-development-1ce>), con el texto de `docs/articles/what-synthetic-users-measure.md`; enlazado desde el README.
+- **El CI no estaba verde y se corrigió:** además del formato, fallaban los tests y las pruebas de integración con el mismo error, que solo se veía en Linux. Todos los tests pasaban, pero el proceso salía con 1 por un `write EPIPE` sin manejar en `child.stdin` del ayudante de git (`git grep` y `git status` salen sin leer su entrada y cierran la tubería; en Windows el mismo fallo es `EOF`). Se ignoran ambos códigos, porque el código de salida de git dice cómo fue, y un test lo reproduce. Se reprodujo en un contenedor Linux con `pnpm test` y con `pnpm test:integration` contra Postgres y Redis (también con una base nueva y vacía y con `CI=true`) y, tras el arreglo, los dos terminan con 0. El log de un job no se puede leer sin iniciar sesión, pero las anotaciones del job sí son públicas: de ahí salió el `EPIPE`.
+- **Falta:** la etiqueta `v1.0.0` tras el merge de este PR con CI en verde.
 - **Gasto:** 0 €.
 
 ## F4 · Fusión y validación (40–60 h)
