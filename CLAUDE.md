@@ -14,7 +14,7 @@ More context: `docs/VISION.md` (product), `docs/adr/` (decisions), `docs/ROADMAP
 
 ## Current step
 
-**F3.12 — Puerta G2: demo completa.** Read this step in `docs/ROADMAP.md` before starting. Do not build features from later steps.
+**F3.12 — Puerta G2: demo completa** (the code and docs are done; deploying, the video, publishing and the tag are the owner's). Read this step in `docs/ROADMAP.md` before starting. Do not build features from later steps.
 
 (Update this line every time a step is closed.)
 
@@ -46,6 +46,8 @@ pnpm janus verify <dir>       # signature, attestation and event-log hashes; exi
 pnpm run:gate <gates/x.yaml> [--resume <gateRunId>]  # the whole gate, stage by stage; resumes from its event log (needs pnpm dev; calls the API)
 pnpm janus pr --workspace <clone> --branch <janus/...> --report <dir>  # push the branch, add the signed report, open the PR as the GitHub App (never merges)
 pnpm run:benchmark juice-shop [--runs 3]  # the public benchmark: recall on Juice Shop's challenges, control + N fresh rounds, no LLM (needs Docker)
+pnpm demo:export             # write the public demo's runs (config/demo.yaml) from the event log to apps/web-console/public/demo; refuses if a file carries a secret
+pnpm demo:build              # the console as a self-contained demo (NEXT_PUBLIC_DEMO=1), no backend
 pnpm run:ab-auto <runs/x.yaml>  # discovery on A, generated B, paired A/B report (needs pnpm dev; calls the API)
 pnpm run:surface <target>     # HTTP surface map of a target, read from its code (no LLM)
 pnpm run:audit-diff <target> --a <ref> --b <ref>  # what variant B introduces; exits 1 if the gate blocks it
@@ -85,7 +87,7 @@ gates/                   gate files: target, run file, budget split by stage, st
 personas/                persona YAML files
 rules/semgrep/           Janus's own Semgrep rules, each with its `semgrep --test` cases
 docker/sandboxes/        sandbox definitions
-docs/                    VISION.md, ROADMAP.md, adr/, finops.md, reports/, articles/
+docs/                    VISION.md, ROADMAP.md, adr/, finops.md, reports/, articles/, demo/ (video script, deploy guide)
 recordings/              recorded LLM responses (gitignored except fixtures)
 .workspaces/             cloned target repos per run (gitignored)
 ```

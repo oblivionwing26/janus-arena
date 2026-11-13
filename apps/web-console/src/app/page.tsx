@@ -3,30 +3,27 @@
 import Link from 'next/link';
 import { useEffect, useState } from 'react';
 
-interface RunRow {
-  runId: string;
-  startedAt: string;
-  eventCount: number;
-  status: 'running' | 'completed';
-  outcome: string | null;
-  reason: string | null;
-}
+import { DEMO } from '@/lib/demo';
+import { fetchDemoIndex, listRuns, type FeaturedRun, type RunRow } from '@/lib/backend';
 
 const dateTime = new Intl.DateTimeFormat('es-ES', { dateStyle: 'short', timeStyle: 'medium' });
 
 export default function RunsPage() {
   const [runs, setRuns] = useState<RunRow[] | null>(null);
+  const [featured, setFeatured] = useState<readonly FeaturedRun[]>([]);
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
     let cancelled = false;
     const load = async () => {
       try {
-        const response = await fetch('/api/orchestrator/runs', { cache: 'no-store' });
-        if (!response.ok) throw new Error(`El orquestador respondió ${String(response.status)}`);
-        const body = (await response.json()) as { runs: RunRow[] };
+        const loaded = await listRuns();
+        if (DEMO) {
+          const index = await fetchDemoIndex();
+          if (!cancelled) setFeatured(index.featured);
+        }
         if (!cancelled) {
-          setRuns(body.runs);
+          setRuns(loaded);
           setError(null);
         }
       } catch (caught) {
@@ -34,19 +31,41 @@ export default function RunsPage() {
       }
     };
     void load();
-    const timer = setInterval(() => void load(), 3000);
+    // A demo is recorded once; a live backend is polled.
+    const timer = DEMO ? null : setInterval(() => void load(), 3000);
     return () => {
       cancelled = true;
-      clearInterval(timer);
+      if (timer !== null) clearInterval(timer);
     };
   }, []);
 
   return (
     <>
-      <h1>Runs</h1>
+      <h1>{DEMO ? 'Janus Arena · demo' : 'Runs'}</h1>
+      {featured.length > 0 && (
+        <section aria-label="Featured runs">
+          <h2>Start here</h2>
+          <div className="featured">
+            {featured.map((story) => (
+              <article key={story.runId}>
+                <h3>{story.title}</h3>
+                <p>{story.summary}</p>
+                <ul>
+                  {story.links.map((link) => (
+                    <li key={link.href}>
+                      <Link href={link.href}>{link.label}</Link>
+                    </li>
+                  ))}
+                </ul>
+              </article>
+            ))}
+          </div>
+          <h2>All recorded runs</h2>
+        </section>
+      )}
       {error !== null && (
         <p role="alert" className="error">
-          No se puede contactar con el orquestador ({error}). Puedes{' '}
+          {DEMO ? error : `No se puede contactar con el orquestador (${error}).`} Puedes{' '}
           <Link href="/replay">reproducir un run exportado</Link> sin backend.
         </p>
       )}

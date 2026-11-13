@@ -1,0 +1,1 @@
+{"version":1,"target":"juice-shop","class":"xss","oracle":"script-executed","endpoint":"GET /#/search","steps":{"kind":"xss","template":"/#/search?q={payload}","payload":0}}

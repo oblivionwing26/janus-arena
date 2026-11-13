@@ -1,0 +1,1 @@
+{"version":1,"target":"juice-shop","class":"brute-force","oracle":"unthrottled-guessing","endpoint":"POST /rest/user/login","steps":{"kind":"login-guessing","method":"POST","path":"/rest/user/login","identity":"email","password":"password","guesses":20}}

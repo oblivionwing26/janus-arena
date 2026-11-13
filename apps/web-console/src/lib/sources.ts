@@ -1,6 +1,7 @@
 import { InvalidEventError, parseEvent } from '@janus/shared-kernel';
 
 import type { ConsoleEvent } from './console-event';
+import { fetchRunEvents } from './run-events';
 import { SseParser } from './sse';
 
 export interface SourceHandlers {
@@ -76,5 +77,30 @@ export class LiveSource implements RunEventSource {
       if (events.length > 0) handlers.onEvents(events);
     }
     handlers.onEnd?.();
+  }
+}
+
+/** A recorded run read from the demo folder (F3.12), played like any other recording. */
+export class DemoRunSource implements RunEventSource {
+  constructor(
+    private readonly runId: string,
+    private readonly load: typeof fetchRunEvents = fetchRunEvents,
+  ) {}
+
+  start(handlers: SourceHandlers): () => void {
+    let stopped = false;
+    this.load(this.runId, undefined, { demo: true }).then(
+      (events) => {
+        if (stopped) return;
+        handlers.onEvents([...events]);
+        handlers.onEnd?.();
+      },
+      (error: unknown) => {
+        if (!stopped) handlers.onError?.(error instanceof Error ? error.message : String(error));
+      },
+    );
+    return () => {
+      stopped = true;
+    };
   }
 }

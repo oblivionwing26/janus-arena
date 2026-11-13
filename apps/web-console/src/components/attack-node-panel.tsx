@@ -8,6 +8,7 @@ import {
   type FindingView,
   type GraphNode,
 } from '@/lib/attack-graph';
+import { fetchPoc } from '@/lib/backend';
 
 import { DiffView } from './diff-view';
 
@@ -20,11 +21,9 @@ function PocView({ finding }: { finding: FindingView }) {
   useEffect(() => {
     if (pocRunId === null) return;
     let cancelled = false;
-    fetch(`/api/orchestrator/runs/${pocRunId}/pocs/${findingId}`).then(
-      async (response) => {
-        if (!response.ok) throw new Error(`El orquestador respondió ${String(response.status)}`);
-        const text = JSON.stringify(await response.json(), null, 2);
-        if (!cancelled) setPoc(text);
+    fetchPoc(pocRunId, findingId).then(
+      (loaded) => {
+        if (!cancelled) setPoc(JSON.stringify(loaded, null, 2));
       },
       (caught: unknown) => {
         if (!cancelled) setError(caught instanceof Error ? caught.message : String(caught));

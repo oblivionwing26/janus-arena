@@ -9,7 +9,9 @@ import { HeatmapView } from '@/components/heatmap-view';
 import { useRunEvents } from '@/components/use-run-events';
 import { VariantPatches } from '@/components/variant-patches';
 import { variantPatches, variantRunOf } from '@/lib/variant';
-import { synthlabReportSchema, type SynthlabReport } from '@janus/shared-kernel';
+import type { SynthlabReport } from '@janus/shared-kernel';
+
+import { fetchReport } from '@/lib/backend';
 
 const eur = new Intl.NumberFormat('es-ES', {
   style: 'currency',
@@ -100,22 +102,17 @@ export default function RunReportPage() {
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
-    const controller = new AbortController();
-    void (async () => {
-      try {
-        const response = await fetch(`/api/orchestrator/runs/${id}/report`, {
-          signal: controller.signal,
-        });
-        if (!response.ok) throw new Error(`El orquestador respondió ${String(response.status)}`);
-        setReport(synthlabReportSchema.parse(await response.json()));
-      } catch (caught) {
-        if (!controller.signal.aborted) {
-          setError(caught instanceof Error ? caught.message : String(caught));
-        }
-      }
-    })();
+    let cancelled = false;
+    fetchReport(id).then(
+      (loaded) => {
+        if (!cancelled) setReport(loaded);
+      },
+      (caught: unknown) => {
+        if (!cancelled) setError(caught instanceof Error ? caught.message : String(caught));
+      },
+    );
     return () => {
-      controller.abort();
+      cancelled = true;
     };
   }, [id]);
 
