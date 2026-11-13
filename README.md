@@ -21,8 +21,10 @@ legitimate users. Janus measures that trade-off before release.
 
 ## Try it without keys, a backend or a model
 
+**Live demo: <https://janus-arena.vercel.app>**
+
 The console has a demo build that replays recorded runs in your browser: three real stories (11
-runs, 5 MB of JSON) and nothing to start.
+runs, 5 MB of JSON) and nothing to start. To run the same build yourself:
 
 ```bash
 pnpm install
@@ -35,7 +37,7 @@ Blue Team fixes the basket IDOR, and the endpoint goes red, then amber, then gre
 independent verifiers agree. (The console's labels are in Spanish; the demo's explanations are
 in English.)
 
-<!-- The hosted demo link goes here once it is deployed (docs/demo/DEPLOY.md). -->
+<!-- The 3-minute video link goes here once it is uploaded. -->
 
 ## What it found, with the numbers
 
