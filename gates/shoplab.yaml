@@ -1,0 +1,12 @@
+# F3.9: the Janus gate on the UX target. SynthLab finds the friction on A, the UI Engineer
+# patches the most intense zones into variant B, the paired A/B measures it, the differential
+# audit checks what B introduces, and the signed dual report goes to a pull request. ShopLab's
+# scope allows no attacks (ADR 0006), so the Red Team and the Blue Team are skipped.
+#   pnpm run:gate gates/shoplab.yaml             (needs pnpm dev running)
+
+target: shoplab
+runFile: runs/ab-auto.yaml
+budget:
+  maxEur: 1.2
+  shares: { synthlab-a: 0.3, variant-b: 0.2, ab: 0.5 }
+variant: { zones: 2 }

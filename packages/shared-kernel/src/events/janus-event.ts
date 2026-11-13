@@ -12,6 +12,7 @@ import { findingRemediatedEventSchema } from './v1/finding-remediated.js';
 import { pageRequestsEventSchema } from './v1/page-requests.js';
 import { findingCreatedEventSchema } from './v1/finding-created.js';
 import { frictionSignalEventSchema } from './v1/friction-signal.js';
+import { gateStageEventSchema } from './v1/gate-stage.js';
 import { llmCallEventSchema } from './v1/llm-call.js';
 import { pageErrorEventSchema } from './v1/page-error.js';
 import { pageScreenshotEventSchema } from './v1/page-screenshot.js';
@@ -54,6 +55,7 @@ const knownEventSchemas = [
   findingConfirmedEventSchema,
   findingRemediatedEventSchema,
   pageRequestsEventSchema,
+  gateStageEventSchema,
 ] as const;
 
 export const janusEventSchema = z.discriminatedUnion('type', knownEventSchemas);

@@ -9,7 +9,7 @@ import type { RunConfig } from '../domain/run/run-config.js';
 import type { CompletedRun, SynthLabPort } from '../domain/run/synthlab-port.js';
 import type { EditPolicy } from '../domain/vcs/edit-policy.js';
 import { JanusBranch } from '../domain/vcs/janus-branch.js';
-import type { VcsPort } from '../domain/vcs/vcs-port.js';
+import type { VcsPort, VcsWorkspace } from '../domain/vcs/vcs-port.js';
 import { RunEventRecorder } from './run-event-recorder.js';
 import { ORCHESTRATOR_ACTOR } from './start-run.js';
 import { ProposeVariant, type ProposeVariantResult } from './ui-engineer/propose-variant.js';
@@ -76,7 +76,7 @@ export class GenerateAndCompareVariant {
   ) {}
 
   async execute(input: GenerateAndCompareInput): Promise<GenerateAndCompareResult> {
-    const { synthlab, vcs, store } = this.deps;
+    const { synthlab, store } = this.deps;
     const [a] = input.config.variants;
     if (a === undefined) throw new Error('The run file needs a variant A');
 
@@ -84,6 +84,47 @@ export class GenerateAndCompareVariant {
       input.fromRunId === undefined
         ? await synthlab.runAndWait({ ...input.config, variants: [{ key: 'a', ref: a.ref }] })
         : { runId: input.fromRunId, events: await store.readRun(input.fromRunId) };
+    const { variantRunId, attempts, workspace, branch } = await this.variant(input, discovery);
+    if (branch === null) {
+      return { status: 'no-variant', discoveryRunId: discovery.runId, variantRunId, attempts };
+    }
+
+    const ab = await synthlab.runAndWait({
+      ...input.config,
+      variants: [
+        { key: 'a', ref: a.ref },
+        { key: 'b', ref: branch, repo: workspace.url },
+      ],
+    });
+    return {
+      status: 'compared',
+      discoveryRunId: discovery.runId,
+      variantRunId,
+      abRunId: ab.runId,
+      branch,
+      attempts,
+      report: buildSynthlabReport(ab.runId, ab.events, input.report),
+    };
+  }
+
+  /**
+   * The UI Engineer's half (F2.4, alone in the gate's variant-b stage since F3.9): the most
+   * intense zones of the discovery run, each patched on janus/variant-<runId> and verified by
+   * the target's checks. `branch` is null when no patch was verified.
+   */
+  async variant(
+    input: Omit<GenerateAndCompareInput, 'fromRunId'>,
+    discovery: CompletedRun,
+    options: { readonly onRun?: (runId: string) => Promise<void> } = {},
+  ): Promise<{
+    readonly variantRunId: string;
+    readonly attempts: readonly { readonly zone: number; readonly result: ProposeVariantResult }[];
+    readonly workspace: VcsWorkspace;
+    readonly branch: string | null;
+  }> {
+    const { vcs, store } = this.deps;
+    const [a] = input.config.variants;
+    if (a === undefined) throw new Error('The run file needs a variant A');
     const zones = frictionZones(discovery.events, {
       routes: input.report.routes,
       top: input.zones,
@@ -93,6 +134,7 @@ export class GenerateAndCompareVariant {
     const budget = input.engineerBudget;
     const recorder = new RunEventRecorder(store, variantRunId, ORCHESTRATOR_ACTOR);
     await recorder.record('run.started', { budget });
+    await options.onRun?.(variantRunId);
     const workspace = await vcs.clone(input.target.repo, {
       runId: variantRunId,
       ref: a.ref,
@@ -124,26 +166,11 @@ export class GenerateAndCompareVariant {
       outcome: verified > 0 ? 'success' : 'error',
       ...(verified > 0 ? {} : { reason: 'no verified patch' }),
     });
-    if (verified === 0) {
-      return { status: 'no-variant', discoveryRunId: discovery.runId, variantRunId, attempts };
-    }
-
-    const branch = JanusBranch.variant(variantRunId);
-    const ab = await synthlab.runAndWait({
-      ...input.config,
-      variants: [
-        { key: 'a', ref: a.ref },
-        { key: 'b', ref: branch, repo: workspace.url },
-      ],
-    });
     return {
-      status: 'compared',
-      discoveryRunId: discovery.runId,
       variantRunId,
-      abRunId: ab.runId,
-      branch,
       attempts,
-      report: buildSynthlabReport(ab.runId, ab.events, input.report),
+      workspace,
+      branch: verified > 0 ? JanusBranch.variant(variantRunId) : null,
     };
   }
 }

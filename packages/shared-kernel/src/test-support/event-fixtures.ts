@@ -109,6 +109,12 @@ export const validEvents: Record<JanusEventType, Record<string, unknown>> = {
     stepIndex: 3,
     requests: [{ method: 'GET', path: '/rest/basket/6', status: 200, ms: 12.5 }],
   }),
+  'gate.stage': envelope('gate.stage', {
+    stage: 'red-team',
+    status: 'completed',
+    output: { runId: OTHER_ID, confirmed: [OTHER_ID] },
+    spentEur: 0,
+  }),
   'finding.remediated': envelope('finding.remediated', {
     findingId: OTHER_ID,
     status: 'fixed',

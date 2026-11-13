@@ -64,6 +64,10 @@ const invalidEvents: Record<JanusEventType, [string, Record<string, unknown>]> =
       requests: [{ method: 'GET', path: 'rest/x', status: 200, ms: 1 }],
     }),
   ],
+  'gate.stage': [
+    'a skipped stage that does not say why',
+    withPayload('gate.stage', { status: 'skipped', output: undefined }),
+  ],
   'finding.remediated': [
     'a fix without its patch',
     withPayload('finding.remediated', { patchId: undefined }),
@@ -134,6 +138,7 @@ describe('v1 event schemas', () => {
         'finding.confirmed',
         'finding.remediated',
         'page.requests',
+        'gate.stage',
       ].sort(),
     );
   });

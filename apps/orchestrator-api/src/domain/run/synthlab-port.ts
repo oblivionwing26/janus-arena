@@ -13,7 +13,16 @@ export interface CompletedRun {
  * src/test-support/synthlab-contract.ts.
  */
 export interface SynthLabPort {
-  runAndWait(config: RunConfig, options?: { readonly signal?: AbortSignal }): Promise<CompletedRun>;
+  /** `onStarted` hears the run id as soon as the run exists, before the wait (F3.9). */
+  runAndWait(
+    config: RunConfig,
+    options?: {
+      readonly signal?: AbortSignal;
+      readonly onStarted?: (runId: string) => Promise<void>;
+    },
+  ): Promise<CompletedRun>;
+  /** Wait for a run started earlier, maybe by another process, to complete (F3.9). */
+  waitFor(runId: string, options?: { readonly signal?: AbortSignal }): Promise<CompletedRun>;
 }
 
 export const SYNTHLAB_PORT = Symbol('SynthLabPort');
