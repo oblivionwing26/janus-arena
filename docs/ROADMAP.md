@@ -711,11 +711,23 @@ Hecho cuando: un run muestra que una defensa reduce ataques y su coste en legít
 
 Se queda en ShopLab: son defensas legítimas, no código inseguro, así que no contradicen el ADR 0006.
 
-- [ ] Rate limiting por IP y por cuenta, con interruptor por variable de entorno
-- [ ] Verificación escalonada en checkout activable
+- [x] Rate limiting por IP y por cuenta, con interruptor por variable de entorno
+- [x] Verificación escalonada en checkout activable
 - [ ] Escenario de IP compartida entre legítimos para provocar falsos positivos
 
 Hecho cuando: las tres curvas cambian de forma medible al activar cada defensa.
+
+Nota F4.2 (primera parte, en el repo `janus-shoplab`, PR `step/f4-2-defenses`): F4.1 y F4.2 se hacen juntos, porque el "hecho cuando" de cada uno necesita al otro. Orden: F4.2 (esta parte), F4.1a (roles, saboteadores y canarios), F4.1b (curvas y lienzo) y F4.1c (la ejecución real, que cierra los dos).
+
+- **Defensas, todas apagadas por defecto** (sin ninguna variable, ShopLab se comporta como antes, y `UX_FLAWS.md` no cambia):
+  - `SHOPLAB_RATE_LIMIT_IP=<n>/<s>`: límite por cliente en toda la API. Pasado el límite, `429` con `Retry-After`.
+  - `SHOPLAB_RATE_LIMIT_ACCOUNT=<n>/<s>`: límite de intentos de inicio de sesión por cuenta. `429` incluso con la contraseña correcta.
+  - `SHOPLAB_STEP_UP_CHECKOUT=new-accounts|all`: el checkout pide un código de cuatro cifras que enseña la página. Sin él, `403`. `new-accounts` solo lo pide a cuentas más jóvenes que `SHOPLAB_STEP_UP_ACCOUNT_AGE_SECONDS`. Es el coste en UX de esta defensa.
+  - `SHOPLAB_TRUST_FORWARDED_FOR=1`: el cliente sale de `X-Forwarded-For`. Sin ella, todas las peticiones cuentan como un solo cliente.
+  - Todas las peticiones cuentan, también las rechazadas, así que quien insiste sigue bloqueado hasta que para una ventana.
+- **Verificado:** 21 tests unitarios y 29 de integración con base de datos real (9 nuevos). Y una sonda sobre la imagen de producción: con las tres activas, 20 peticiones de un cliente pasan y la 21 da `429` con `Retry-After: 29` (otro cliente pasa); tres contraseñas erróneas bloquean la cuenta aunque la cuarta sea la buena y venga de otro cliente; una cuenta nueva ve el código en `/checkout`, el pedido sin código o con uno falso da `403` y con el de la página, `201`. Con ninguna variable, 50 peticiones de un cliente y 10 intentos de inicio de sesión no se bloquean.
+- **Falta de F4.2:** el escenario de IP compartida entre legítimos. No es de ShopLab sino del fichero de run (`clientIps: shared`) y va en F4.1a. Y el "hecho cuando" se verifica en F4.1c, con las curvas.
+- **Gasto:** 0 €.
 
 ### F4.3 · Clon de Timbra (solo con permiso escrito) — M a L (8–12 h)
 
