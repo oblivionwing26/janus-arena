@@ -169,6 +169,7 @@ export function redTeamStage(deps: GateDeps): GateStage {
           ref: surface.ref ?? 'main',
           depth: 1,
         });
+        const mapped = { ref: surface.ref ?? 'main', sha: workspace.baseSha };
         let endpoints;
         let findings;
         try {
@@ -203,6 +204,7 @@ export function redTeamStage(deps: GateDeps): GateStage {
           origin,
           classes,
           endpoints,
+          surface: mapped,
           findings,
           engine: 'deterministic',
           budget: new Budget(budget),

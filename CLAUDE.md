@@ -14,7 +14,7 @@ More context: `docs/VISION.md` (product), `docs/adr/` (decisions), `docs/ROADMAP
 
 ## Current step
 
-**F3.10 — Grafo de ataque (React Flow).** Read this step in `docs/ROADMAP.md` before starting. Do not build features from later steps.
+**F3.11 — Benchmark público.** Read this step in `docs/ROADMAP.md` before starting. Do not build features from later steps.
 
 (Update this line every time a step is closed.)
 

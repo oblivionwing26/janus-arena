@@ -249,6 +249,7 @@ async function run(options: RunOptions = {}) {
     origin: ORIGIN,
     classes: options.classes ?? ['idor', 'auth-bypass'],
     endpoints: options.surface ?? endpoints,
+    surface: { ref: 'main', sha: 'c'.repeat(40) },
     findings: leads,
     budget: new Budget({ maxTokens: 1_000_000, maxEur: 1 }),
     ...(options.engine === undefined ? {} : { engine: options.engine }),
@@ -335,6 +336,26 @@ describe('RunRedTeam deterministic engine', () => {
     expect(events.filter((e) => e.type === 'attack.verdict').length).toBe(
       events.filter((e) => e.type === 'attack.attempt').length,
     );
+  });
+
+  it('records the surface it attacks and the endpoint of every attempt and finding (F3.10)', async () => {
+    const { events } = await run();
+
+    const mapped = events.flatMap((e) => (e.type === 'surface.mapped' ? [e.payload] : []));
+    expect(mapped).toHaveLength(1);
+    expect(mapped[0]).toMatchObject({ side: 'variant', ref: 'main', sha: 'c'.repeat(40) });
+    const routes = mapped[0]?.endpoints.map((e) => `${e.method} ${e.route}`) ?? [];
+    expect(routes).toContain('GET /rest/basket/:id');
+
+    const attempts = events.flatMap((e) => (e.type === 'attack.attempt' ? [e.payload] : []));
+    expect(attempts.length).toBeGreaterThan(0);
+    expect(attempts.every((a) => a.endpoint !== undefined)).toBe(true);
+    const findings = events.flatMap((e) => (e.type === 'finding.created' ? [e.payload] : []));
+    for (const finding of findings) {
+      const attempt = attempts.find((a) => a.attemptId === finding.attemptId);
+      expect(finding.endpoint).toBeDefined();
+      expect(attempt?.endpoint).toBe(finding.endpoint);
+    }
   });
 
   it('finds nothing against a shop that filters by the owner and rejects the injection', async () => {

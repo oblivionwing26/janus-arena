@@ -308,6 +308,8 @@ export class AttackBench {
       status: 'suspected',
       tool: 'red-team',
       rule: attempt.class,
+      endpoint: attempt.endpoint.slice(0, 300),
+      attemptId: attempt.id,
     });
     this.findingList.push({
       findingId,
@@ -365,6 +367,7 @@ export class AttackBench {
       as: step.as,
       method: step.method,
       path: step.path.split('?')[0]?.slice(0, 300) ?? '',
+      endpoint: endpoint.slice(0, 300),
       status: step.status,
       bytes: step.bytes ?? 0,
       ...(step.blocked === undefined ? {} : { blocked: step.blocked }),
