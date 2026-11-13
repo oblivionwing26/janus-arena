@@ -14,7 +14,7 @@ More context: `docs/VISION.md` (product), `docs/adr/` (decisions), `docs/ROADMAP
 
 ## Current step
 
-**F3.11 — Benchmark público.** Read this step in `docs/ROADMAP.md` before starting. Do not build features from later steps.
+**F3.12 — Puerta G2: demo completa.** Read this step in `docs/ROADMAP.md` before starting. Do not build features from later steps.
 
 (Update this line every time a step is closed.)
 
@@ -45,6 +45,7 @@ pnpm janus report --out <dir> --target <t> --run <role>:<runId>...  # signed dua
 pnpm janus verify <dir>       # signature, attestation and event-log hashes; exits 1 on any problem
 pnpm run:gate <gates/x.yaml> [--resume <gateRunId>]  # the whole gate, stage by stage; resumes from its event log (needs pnpm dev; calls the API)
 pnpm janus pr --workspace <clone> --branch <janus/...> --report <dir>  # push the branch, add the signed report, open the PR as the GitHub App (never merges)
+pnpm run:benchmark juice-shop [--runs 3]  # the public benchmark: recall on Juice Shop's challenges, control + N fresh rounds, no LLM (needs Docker)
 pnpm run:ab-auto <runs/x.yaml>  # discovery on A, generated B, paired A/B report (needs pnpm dev; calls the API)
 pnpm run:surface <target>     # HTTP surface map of a target, read from its code (no LLM)
 pnpm run:audit-diff <target> --a <ref> --b <ref>  # what variant B introduces; exits 1 if the gate blocks it
@@ -78,6 +79,7 @@ config/
   surface.yaml           how each target declares its HTTP routes (Next.js or Express)
   vulnerability-tests.yaml  target tests that assert a vulnerability (V2 lets a fix break them)
   scopes.yaml            what Janus may do to each target: tests, excluded paths, rate
+  benchmarks.yaml        which challenges of a target count in its benchmark (orchestrator only, ground truth)
   shoppers.yaml          each target's synthetic shopper details (address, test card...)
 gates/                   gate files: target, run file, budget split by stage, stage options
 personas/                persona YAML files

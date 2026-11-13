@@ -29,6 +29,7 @@
     "run:blue-team": "node scripts/run-blue-team.mjs",
     "run:tradeoff": "node scripts/run-tradeoff.mjs",
     "run:gate": "node scripts/run-gate.mjs",
+    "run:benchmark": "node scripts/run-benchmark.mjs",
     "janus": "node scripts/janus.mjs",
     "check:arch": "turbo run build && depcruise --config .dependency-cruiser.cjs apps packages",
     "format": "prettier --write .",

@@ -1,0 +1,1001 @@
+{
+  "command": "pnpm run:benchmark juice-shop --runs 3",
+  "target": "juice-shop",
+  "image": "bkimminich/juice-shop:v20.3.0@sha256:cea5a4af4aacee498c491491af0408934ec81d004035c0a02ef3e54395e3bf27",
+  "janusCommit": "194330d0d8e21432138a5ea219b0ff1568a8573c",
+  "generatedAt": "2026-11-13T09:13:14.972Z",
+  "spec": {
+    "target": "juice-shop",
+    "categories": {
+      "Broken Access Control": [
+        "idor"
+      ],
+      "Injection": [
+        "auth-bypass"
+      ],
+      "XSS": [
+        "xss"
+      ],
+      "Improper Input Validation": [
+        "business-logic"
+      ],
+      "Broken Anti Automation": [
+        "business-logic",
+        "brute-force"
+      ],
+      "Broken Authentication": [
+        "auth-bypass",
+        "brute-force"
+      ]
+    },
+    "reference": [
+      "basketAccessChallenge",
+      "loginAdminChallenge",
+      "localXssChallenge",
+      "negativeOrderChallenge",
+      "timingAttackChallenge"
+    ],
+    "sideEffects": {
+      "passwordRepeatChallenge": "The surface map lists POST /api/Users with no password-repeat parameter, so the auth-bypass generator probes it as if it were a login, and registers accounts without a repeated password. Juice Shop solves this challenge on exactly that (passwordRepeat is not the password), so it is solved by a probe aimed at something else."
+    }
+  },
+  "inScope": 60,
+  "control": {
+    "runId": "01M7A2V6EBKQ1FCZ58C6ZM20GJ",
+    "durationMs": 6406,
+    "solved": []
+  },
+  "rounds": [
+    {
+      "runId": "01M7A2VD4JBQH9SZ40WAZA857Y",
+      "findings": [
+        "idor",
+        "auth-bypass",
+        "xss",
+        "business-logic",
+        "business-logic",
+        "brute-force"
+      ],
+      "durationMs": 21428,
+      "costEur": 0,
+      "solved": 6,
+      "solvedOnPurpose": 5,
+      "referenceSolved": 5,
+      "interval": {
+        "rate": 0.1,
+        "low": 0.046642834473884176,
+        "high": 0.2014946472397877,
+        "successes": 6,
+        "n": 60
+      }
+    },
+    {
+      "runId": "01M7A2W2H0PYN0NPKA7Y52YGFP",
+      "findings": [
+        "idor",
+        "auth-bypass",
+        "xss",
+        "business-logic",
+        "business-logic",
+        "brute-force"
+      ],
+      "durationMs": 23058,
+      "costEur": 0,
+      "solved": 6,
+      "solvedOnPurpose": 5,
+      "referenceSolved": 5,
+      "interval": {
+        "rate": 0.1,
+        "low": 0.046642834473884176,
+        "high": 0.2014946472397877,
+        "successes": 6,
+        "n": 60
+      }
+    },
+    {
+      "runId": "01M7A2WSGX6C0Q11YNHHYST16E",
+      "findings": [
+        "idor",
+        "auth-bypass",
+        "xss",
+        "business-logic",
+        "business-logic",
+        "brute-force"
+      ],
+      "durationMs": 21323,
+      "costEur": 0,
+      "solved": 6,
+      "solvedOnPurpose": 5,
+      "referenceSolved": 5,
+      "interval": {
+        "rate": 0.1,
+        "low": 0.046642834473884176,
+        "high": 0.2014946472397877,
+        "successes": 6,
+        "n": 60
+      }
+    }
+  ],
+  "categories": [
+    {
+      "category": "Broken Access Control",
+      "classes": [
+        "idor"
+      ],
+      "total": 12,
+      "solvedAny": 1,
+      "solvedAll": 1
+    },
+    {
+      "category": "Injection",
+      "classes": [
+        "auth-bypass"
+      ],
+      "total": 14,
+      "solvedAny": 1,
+      "solvedAll": 1
+    },
+    {
+      "category": "XSS",
+      "classes": [
+        "xss"
+      ],
+      "total": 9,
+      "solvedAny": 1,
+      "solvedAll": 1
+    },
+    {
+      "category": "Improper Input Validation",
+      "classes": [
+        "business-logic"
+      ],
+      "total": 12,
+      "solvedAny": 2,
+      "solvedAll": 2
+    },
+    {
+      "category": "Broken Anti Automation",
+      "classes": [
+        "business-logic",
+        "brute-force"
+      ],
+      "total": 4,
+      "solvedAny": 1,
+      "solvedAll": 1
+    },
+    {
+      "category": "Broken Authentication",
+      "classes": [
+        "auth-bypass",
+        "brute-force"
+      ],
+      "total": 9,
+      "solvedAny": 0,
+      "solvedAll": 0
+    }
+  ],
+  "reference": [
+    {
+      "key": "basketAccessChallenge",
+      "name": "View Basket",
+      "solvedRounds": 3
+    },
+    {
+      "key": "loginAdminChallenge",
+      "name": "Login Admin",
+      "solvedRounds": 3
+    },
+    {
+      "key": "localXssChallenge",
+      "name": "DOM XSS",
+      "solvedRounds": 3
+    },
+    {
+      "key": "negativeOrderChallenge",
+      "name": "Payback Time",
+      "solvedRounds": 3
+    },
+    {
+      "key": "timingAttackChallenge",
+      "name": "Multiple Likes",
+      "solvedRounds": 3
+    }
+  ],
+  "challenges": [
+    {
+      "key": "restfulXssChallenge",
+      "name": "API-only XSS",
+      "category": "XSS",
+      "difficulty": 3,
+      "classes": [
+        "xss"
+      ],
+      "reference": false,
+      "solvedRounds": 0,
+      "incidental": false,
+      "sideEffect": null
+    },
+    {
+      "key": "registerAdminChallenge",
+      "name": "Admin Registration",
+      "category": "Improper Input Validation",
+      "difficulty": 3,
+      "classes": [
+        "business-logic"
+      ],
+      "reference": false,
+      "solvedRounds": 0,
+      "incidental": false,
+      "sideEffect": null
+    },
+    {
+      "key": "adminSectionChallenge",
+      "name": "Admin Section",
+      "category": "Broken Access Control",
+      "difficulty": 2,
+      "classes": [
+        "idor"
+      ],
+      "reference": false,
+      "solvedRounds": 0,
+      "incidental": false,
+      "sideEffect": null
+    },
+    {
+      "key": "resetPasswordBjoernOwaspChallenge",
+      "name": "Bjoern's Favorite Pet",
+      "category": "Broken Authentication",
+      "difficulty": 3,
+      "classes": [
+        "auth-bypass",
+        "brute-force"
+      ],
+      "reference": false,
+      "solvedRounds": 0,
+      "incidental": false,
+      "sideEffect": null
+    },
+    {
+      "key": "nftMintChallenge",
+      "name": "Mint the Honey Pot",
+      "category": "Improper Input Validation",
+      "difficulty": 3,
+      "classes": [
+        "business-logic"
+      ],
+      "reference": false,
+      "solvedRounds": 0,
+      "incidental": false,
+      "sideEffect": null
+    },
+    {
+      "key": "web3SandboxChallenge",
+      "name": "Web3 Sandbox",
+      "category": "Broken Access Control",
+      "difficulty": 1,
+      "classes": [
+        "idor"
+      ],
+      "reference": false,
+      "solvedRounds": 0,
+      "incidental": false,
+      "sideEffect": null
+    },
+    {
+      "key": "captchaBypassChallenge",
+      "name": "CAPTCHA Bypass",
+      "category": "Broken Anti Automation",
+      "difficulty": 3,
+      "classes": [
+        "business-logic",
+        "brute-force"
+      ],
+      "reference": false,
+      "solvedRounds": 0,
+      "incidental": false,
+      "sideEffect": null
+    },
+    {
+      "key": "changePasswordBenderChallenge",
+      "name": "Change Bender's Password",
+      "category": "Broken Authentication",
+      "difficulty": 5,
+      "classes": [
+        "auth-bypass",
+        "brute-force"
+      ],
+      "reference": false,
+      "solvedRounds": 0,
+      "incidental": false,
+      "sideEffect": null
+    },
+    {
+      "key": "christmasSpecialChallenge",
+      "name": "Christmas Special",
+      "category": "Injection",
+      "difficulty": 4,
+      "classes": [
+        "auth-bypass"
+      ],
+      "reference": false,
+      "solvedRounds": 0,
+      "incidental": false,
+      "sideEffect": null
+    },
+    {
+      "key": "usernameXssChallenge",
+      "name": "CSP Bypass",
+      "category": "XSS",
+      "difficulty": 4,
+      "classes": [
+        "xss"
+      ],
+      "reference": false,
+      "solvedRounds": 0,
+      "incidental": false,
+      "sideEffect": null
+    },
+    {
+      "key": "persistedXssUserChallenge",
+      "name": "Client-side XSS Protection",
+      "category": "XSS",
+      "difficulty": 3,
+      "classes": [
+        "xss"
+      ],
+      "reference": false,
+      "solvedRounds": 0,
+      "incidental": false,
+      "sideEffect": null
+    },
+    {
+      "key": "localXssChallenge",
+      "name": "DOM XSS",
+      "category": "XSS",
+      "difficulty": 1,
+      "classes": [
+        "xss"
+      ],
+      "reference": true,
+      "solvedRounds": 3,
+      "incidental": false,
+      "sideEffect": null
+    },
+    {
+      "key": "dbSchemaChallenge",
+      "name": "Database Schema",
+      "category": "Injection",
+      "difficulty": 3,
+      "classes": [
+        "auth-bypass"
+      ],
+      "reference": false,
+      "solvedRounds": 0,
+      "incidental": false,
+      "sideEffect": null
+    },
+    {
+      "key": "easterEggLevelOneChallenge",
+      "name": "Easter Egg",
+      "category": "Broken Access Control",
+      "difficulty": 4,
+      "classes": [
+        "idor"
+      ],
+      "reference": false,
+      "solvedRounds": 0,
+      "incidental": false,
+      "sideEffect": null
+    },
+    {
+      "key": "emptyUserRegistration",
+      "name": "Empty User Registration",
+      "category": "Improper Input Validation",
+      "difficulty": 2,
+      "classes": [
+        "business-logic"
+      ],
+      "reference": false,
+      "solvedRounds": 0,
+      "incidental": false,
+      "sideEffect": null
+    },
+    {
+      "key": "ephemeralAccountantChallenge",
+      "name": "Ephemeral Accountant",
+      "category": "Injection",
+      "difficulty": 4,
+      "classes": [
+        "auth-bypass"
+      ],
+      "reference": false,
+      "solvedRounds": 0,
+      "incidental": false,
+      "sideEffect": null
+    },
+    {
+      "key": "manipulateClockChallenge",
+      "name": "Expired Coupon",
+      "category": "Improper Input Validation",
+      "difficulty": 4,
+      "classes": [
+        "business-logic"
+      ],
+      "reference": false,
+      "solvedRounds": 0,
+      "incidental": false,
+      "sideEffect": null
+    },
+    {
+      "key": "extraLanguageChallenge",
+      "name": "Extra Language",
+      "category": "Broken Anti Automation",
+      "difficulty": 5,
+      "classes": [
+        "business-logic",
+        "brute-force"
+      ],
+      "reference": false,
+      "solvedRounds": 0,
+      "incidental": false,
+      "sideEffect": null
+    },
+    {
+      "key": "feedbackChallenge",
+      "name": "Five-Star Feedback",
+      "category": "Broken Access Control",
+      "difficulty": 2,
+      "classes": [
+        "idor"
+      ],
+      "reference": false,
+      "solvedRounds": 0,
+      "incidental": false,
+      "sideEffect": null
+    },
+    {
+      "key": "forgedFeedbackChallenge",
+      "name": "Forged Feedback",
+      "category": "Broken Access Control",
+      "difficulty": 3,
+      "classes": [
+        "idor"
+      ],
+      "reference": false,
+      "solvedRounds": 0,
+      "incidental": false,
+      "sideEffect": null
+    },
+    {
+      "key": "forgedReviewChallenge",
+      "name": "Forged Review",
+      "category": "Broken Access Control",
+      "difficulty": 3,
+      "classes": [
+        "idor"
+      ],
+      "reference": false,
+      "solvedRounds": 0,
+      "incidental": false,
+      "sideEffect": null
+    },
+    {
+      "key": "ghostLoginChallenge",
+      "name": "GDPR Data Erasure",
+      "category": "Broken Authentication",
+      "difficulty": 3,
+      "classes": [
+        "auth-bypass",
+        "brute-force"
+      ],
+      "reference": false,
+      "solvedRounds": 0,
+      "incidental": false,
+      "sideEffect": null
+    },
+    {
+      "key": "httpHeaderXssChallenge",
+      "name": "HTTP-Header XSS",
+      "category": "XSS",
+      "difficulty": 4,
+      "classes": [
+        "xss"
+      ],
+      "reference": false,
+      "solvedRounds": 0,
+      "incidental": false,
+      "sideEffect": null
+    },
+    {
+      "key": "loginAdminChallenge",
+      "name": "Login Admin",
+      "category": "Injection",
+      "difficulty": 2,
+      "classes": [
+        "auth-bypass"
+      ],
+      "reference": true,
+      "solvedRounds": 3,
+      "incidental": false,
+      "sideEffect": null
+    },
+    {
+      "key": "loginBenderChallenge",
+      "name": "Login Bender",
+      "category": "Injection",
+      "difficulty": 3,
+      "classes": [
+        "auth-bypass"
+      ],
+      "reference": false,
+      "solvedRounds": 0,
+      "incidental": false,
+      "sideEffect": null
+    },
+    {
+      "key": "oauthUserPasswordChallenge",
+      "name": "Login Bjoern",
+      "category": "Broken Authentication",
+      "difficulty": 4,
+      "classes": [
+        "auth-bypass",
+        "brute-force"
+      ],
+      "reference": false,
+      "solvedRounds": 0,
+      "incidental": false,
+      "sideEffect": null
+    },
+    {
+      "key": "loginJimChallenge",
+      "name": "Login Jim",
+      "category": "Injection",
+      "difficulty": 3,
+      "classes": [
+        "auth-bypass"
+      ],
+      "reference": false,
+      "solvedRounds": 0,
+      "incidental": false,
+      "sideEffect": null
+    },
+    {
+      "key": "basketManipulateChallenge",
+      "name": "Manipulate Basket",
+      "category": "Broken Access Control",
+      "difficulty": 3,
+      "classes": [
+        "idor"
+      ],
+      "reference": false,
+      "solvedRounds": 0,
+      "incidental": false,
+      "sideEffect": null
+    },
+    {
+      "key": "timingAttackChallenge",
+      "name": "Multiple Likes",
+      "category": "Broken Anti Automation",
+      "difficulty": 6,
+      "classes": [
+        "business-logic",
+        "brute-force"
+      ],
+      "reference": true,
+      "solvedRounds": 3,
+      "incidental": false,
+      "sideEffect": null
+    },
+    {
+      "key": "noSqlCommandChallenge",
+      "name": "NoSQL DoS",
+      "category": "Injection",
+      "difficulty": 4,
+      "classes": [
+        "auth-bypass"
+      ],
+      "reference": false,
+      "solvedRounds": 0,
+      "incidental": false,
+      "sideEffect": null
+    },
+    {
+      "key": "noSqlOrdersChallenge",
+      "name": "NoSQL Exfiltration",
+      "category": "Injection",
+      "difficulty": 5,
+      "classes": [
+        "auth-bypass"
+      ],
+      "reference": false,
+      "solvedRounds": 0,
+      "incidental": false,
+      "sideEffect": null
+    },
+    {
+      "key": "noSqlReviewsChallenge",
+      "name": "NoSQL Manipulation",
+      "category": "Injection",
+      "difficulty": 4,
+      "classes": [
+        "auth-bypass"
+      ],
+      "reference": false,
+      "solvedRounds": 0,
+      "incidental": false,
+      "sideEffect": null
+    },
+    {
+      "key": "weakPasswordChallenge",
+      "name": "Password Strength",
+      "category": "Broken Authentication",
+      "difficulty": 2,
+      "classes": [
+        "auth-bypass",
+        "brute-force"
+      ],
+      "reference": false,
+      "solvedRounds": 0,
+      "incidental": false,
+      "sideEffect": null
+    },
+    {
+      "key": "negativeOrderChallenge",
+      "name": "Payback Time",
+      "category": "Improper Input Validation",
+      "difficulty": 3,
+      "classes": [
+        "business-logic"
+      ],
+      "reference": true,
+      "solvedRounds": 3,
+      "incidental": false,
+      "sideEffect": null
+    },
+    {
+      "key": "changeProductChallenge",
+      "name": "Product Tampering",
+      "category": "Broken Access Control",
+      "difficulty": 3,
+      "classes": [
+        "idor"
+      ],
+      "reference": false,
+      "solvedRounds": 0,
+      "incidental": false,
+      "sideEffect": null
+    },
+    {
+      "key": "reflectedXssChallenge",
+      "name": "Reflected XSS",
+      "category": "XSS",
+      "difficulty": 2,
+      "classes": [
+        "xss"
+      ],
+      "reference": false,
+      "solvedRounds": 0,
+      "incidental": false,
+      "sideEffect": null
+    },
+    {
+      "key": "passwordRepeatChallenge",
+      "name": "Repetitive Registration",
+      "category": "Improper Input Validation",
+      "difficulty": 1,
+      "classes": [
+        "business-logic"
+      ],
+      "reference": false,
+      "solvedRounds": 3,
+      "incidental": false,
+      "sideEffect": "The surface map lists POST /api/Users with no password-repeat parameter, so the auth-bypass generator probes it as if it were a login, and registers accounts without a repeated password. Juice Shop solves this challenge on exactly that (passwordRepeat is not the password), so it is solved by a probe aimed at something else."
+    },
+    {
+      "key": "resetPasswordBenderChallenge",
+      "name": "Reset Bender's Password",
+      "category": "Broken Authentication",
+      "difficulty": 4,
+      "classes": [
+        "auth-bypass",
+        "brute-force"
+      ],
+      "reference": false,
+      "solvedRounds": 0,
+      "incidental": false,
+      "sideEffect": null
+    },
+    {
+      "key": "resetPasswordBjoernChallenge",
+      "name": "Reset Bjoern's Password",
+      "category": "Broken Authentication",
+      "difficulty": 5,
+      "classes": [
+        "auth-bypass",
+        "brute-force"
+      ],
+      "reference": false,
+      "solvedRounds": 0,
+      "incidental": false,
+      "sideEffect": null
+    },
+    {
+      "key": "resetPasswordJimChallenge",
+      "name": "Reset Jim's Password",
+      "category": "Broken Authentication",
+      "difficulty": 3,
+      "classes": [
+        "auth-bypass",
+        "brute-force"
+      ],
+      "reference": false,
+      "solvedRounds": 0,
+      "incidental": false,
+      "sideEffect": null
+    },
+    {
+      "key": "resetPasswordMortyChallenge",
+      "name": "Reset Morty's Password",
+      "category": "Broken Anti Automation",
+      "difficulty": 5,
+      "classes": [
+        "business-logic",
+        "brute-force"
+      ],
+      "reference": false,
+      "solvedRounds": 0,
+      "incidental": false,
+      "sideEffect": null
+    },
+    {
+      "key": "ssrfChallenge",
+      "name": "SSRF",
+      "category": "Broken Access Control",
+      "difficulty": 6,
+      "classes": [
+        "idor"
+      ],
+      "reference": false,
+      "solvedRounds": 0,
+      "incidental": false,
+      "sideEffect": null
+    },
+    {
+      "key": "sstiChallenge",
+      "name": "SSTi",
+      "category": "Injection",
+      "difficulty": 6,
+      "classes": [
+        "auth-bypass"
+      ],
+      "reference": false,
+      "solvedRounds": 0,
+      "incidental": false,
+      "sideEffect": null
+    },
+    {
+      "key": "persistedXssFeedbackChallenge",
+      "name": "Server-side XSS Protection",
+      "category": "XSS",
+      "difficulty": 4,
+      "classes": [
+        "xss"
+      ],
+      "reference": false,
+      "solvedRounds": 0,
+      "incidental": false,
+      "sideEffect": null
+    },
+    {
+      "key": "twoFactorAuthUnsafeSecretStorageChallenge",
+      "name": "Two Factor Authentication",
+      "category": "Broken Authentication",
+      "difficulty": 5,
+      "classes": [
+        "auth-bypass",
+        "brute-force"
+      ],
+      "reference": false,
+      "solvedRounds": 0,
+      "incidental": false,
+      "sideEffect": null
+    },
+    {
+      "key": "uploadSizeChallenge",
+      "name": "Upload Size",
+      "category": "Improper Input Validation",
+      "difficulty": 3,
+      "classes": [
+        "business-logic"
+      ],
+      "reference": false,
+      "solvedRounds": 0,
+      "incidental": false,
+      "sideEffect": null
+    },
+    {
+      "key": "uploadTypeChallenge",
+      "name": "Upload Type",
+      "category": "Improper Input Validation",
+      "difficulty": 3,
+      "classes": [
+        "business-logic"
+      ],
+      "reference": false,
+      "solvedRounds": 0,
+      "incidental": false,
+      "sideEffect": null
+    },
+    {
+      "key": "unionSqlInjectionChallenge",
+      "name": "User Credentials",
+      "category": "Injection",
+      "difficulty": 4,
+      "classes": [
+        "auth-bypass"
+      ],
+      "reference": false,
+      "solvedRounds": 0,
+      "incidental": false,
+      "sideEffect": null
+    },
+    {
+      "key": "videoXssChallenge",
+      "name": "Video XSS",
+      "category": "XSS",
+      "difficulty": 6,
+      "classes": [
+        "xss"
+      ],
+      "reference": false,
+      "solvedRounds": 0,
+      "incidental": false,
+      "sideEffect": null
+    },
+    {
+      "key": "basketAccessChallenge",
+      "name": "View Basket",
+      "category": "Broken Access Control",
+      "difficulty": 2,
+      "classes": [
+        "idor"
+      ],
+      "reference": true,
+      "solvedRounds": 3,
+      "incidental": false,
+      "sideEffect": null
+    },
+    {
+      "key": "zeroStarsChallenge",
+      "name": "Zero Stars",
+      "category": "Improper Input Validation",
+      "difficulty": 1,
+      "classes": [
+        "business-logic"
+      ],
+      "reference": false,
+      "solvedRounds": 0,
+      "incidental": false,
+      "sideEffect": null
+    },
+    {
+      "key": "missingEncodingChallenge",
+      "name": "Missing Encoding",
+      "category": "Improper Input Validation",
+      "difficulty": 1,
+      "classes": [
+        "business-logic"
+      ],
+      "reference": false,
+      "solvedRounds": 0,
+      "incidental": false,
+      "sideEffect": null
+    },
+    {
+      "key": "freeDeluxeChallenge",
+      "name": "Deluxe Fraud",
+      "category": "Improper Input Validation",
+      "difficulty": 3,
+      "classes": [
+        "business-logic"
+      ],
+      "reference": false,
+      "solvedRounds": 0,
+      "incidental": false,
+      "sideEffect": null
+    },
+    {
+      "key": "csrfChallenge",
+      "name": "CSRF",
+      "category": "Broken Access Control",
+      "difficulty": 3,
+      "classes": [
+        "idor"
+      ],
+      "reference": false,
+      "solvedRounds": 0,
+      "incidental": false,
+      "sideEffect": null
+    },
+    {
+      "key": "xssBonusChallenge",
+      "name": "Bonus Payload",
+      "category": "XSS",
+      "difficulty": 1,
+      "classes": [
+        "xss"
+      ],
+      "reference": false,
+      "solvedRounds": 0,
+      "incidental": false,
+      "sideEffect": null
+    },
+    {
+      "key": "nullByteChallenge",
+      "name": "Poison Null Byte",
+      "category": "Improper Input Validation",
+      "difficulty": 4,
+      "classes": [
+        "business-logic"
+      ],
+      "reference": false,
+      "solvedRounds": 0,
+      "incidental": false,
+      "sideEffect": null
+    },
+    {
+      "key": "chatbotPromptInjectionChallenge",
+      "name": "Chatbot Prompt Injection",
+      "category": "Injection",
+      "difficulty": 2,
+      "classes": [
+        "auth-bypass"
+      ],
+      "reference": false,
+      "solvedRounds": 0,
+      "incidental": false,
+      "sideEffect": null
+    },
+    {
+      "key": "chatbotGreedyInjectionChallenge",
+      "name": "Greedy Chatbot Manipulation",
+      "category": "Injection",
+      "difficulty": 3,
+      "classes": [
+        "auth-bypass"
+      ],
+      "reference": false,
+      "solvedRounds": 0,
+      "incidental": false,
+      "sideEffect": null
+    },
+    {
+      "key": "aiDebuggingChallenge",
+      "name": "AI Debugging",
+      "category": "Broken Access Control",
+      "difficulty": 2,
+      "classes": [
+        "idor"
+      ],
+      "reference": false,
+      "solvedRounds": 0,
+      "incidental": false,
+      "sideEffect": null
+    },
+    {
+      "key": "systemPromptExtractionChallenge",
+      "name": "System Prompt Extraction",
+      "category": "Injection",
+      "difficulty": 3,
+      "classes": [
+        "auth-bypass"
+      ],
+      "reference": false,
+      "solvedRounds": 0,
+      "incidental": false,
+      "sideEffect": null
+    }
+  ],
+  "outside": [],
+  "incidental": []
+}
