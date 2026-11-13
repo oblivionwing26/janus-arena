@@ -37,7 +37,7 @@ Blue Team fixes the basket IDOR, and the endpoint goes red, then amber, then gre
 independent verifiers agree. (The console's labels are in Spanish; the demo's explanations are
 in English.)
 
-<!-- The 3-minute video link goes here once it is uploaded. -->
+**Watch the 3-minute video: <https://youtu.be/rH7XLE4Ujks>**
 
 ## What it found, with the numbers
 

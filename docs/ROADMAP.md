@@ -683,8 +683,11 @@ Nota F3.12 (lo que ya está hecho y lo que falta; el paso sigue abierto hasta qu
     - `pnpm demo:build` lo compila. **Verificado a mano**, con la API parada: la portada con las tres historias, el grafo de ataque del gate de Juice Shop (replay hasta el arreglo verificado y la PoC en el panel) y el informe del A/B de ShopLab calculado en el navegador (B − A = +0,50 [0,17; 0,83]). El navegador no hizo ninguna petición al orquestador.
   - **README** en inglés y **artículo 1** en inglés ([what-synthetic-users-measure.md](articles/what-synthetic-users-measure.md)), adaptado del borrador de G1: cada cifra se contrastó con las notas de F1 y con los informes. Se añadió el A/B con tarea y oráculo (1/6 → 5/7).
   - **Guion del vídeo** y **guía de despliegue** en [docs/demo](demo/VIDEO.md).
-- **Desplegada:** la demo está en <https://janus-arena.vercel.app> (comprobado: la portada con las tres historias, `/demo/index.json` con 3 historias y 11 runs, una página de run y el grafo de ataque responden 200, y `/api/orchestrator` da 404: no hay backend). La URL ya está en el README. El vídeo está grabado (3 min 15 s).
-- **Falta, y es tuyo:** subir el vídeo y poner su enlace en el README; publicar el artículo; hacer público el repo; crear la etiqueta `v1.0.0` y pasar `Current step` a F4.1.
+- **Desplegada:** la demo está en <https://janus-arena.vercel.app> (comprobado: la portada con las tres historias, `/demo/index.json` con 3 historias y 11 runs, una página de run y el grafo de ataque responden 200, y `/api/orchestrator` da 404: no hay backend). La URL ya está en el README.
+- **Vídeo:** subido a <https://youtu.be/rH7XLE4Ujks> (3 min 15 s), enlazado desde el README.
+- **Repos públicos:** `janus-arena` (licencia MIT) y `janus-shoplab`.
+- **CI en `main`:** al hacerse público salió a la luz que fallaba el paso de formato (seis informes generados en `docs/reports/`, que ahora `.prettierignore` excluye: se generan por código y los firmados se verifican byte a byte) y las pruebas de integración, que clonan `janus-shoplab` y no podían mientras era privado.
+- **Falta:** publicar el artículo en dev.to (en borrador) y enlazarlo; la etiqueta `v1.0.0` tras el merge de este PR con CI en verde; pasar `Current step` a F4.1.
 - **Gasto:** 0 €.
 
 ## F4 · Fusión y validación (40–60 h)
