@@ -564,11 +564,27 @@ Nota F3.7: **informe:** `buildDualReport` (aplicación, puro) lo arma por códig
 
 ### F3.8 · Pull Request — S a M (4–6 h)
 
-- [ ] GitHub App propia con permisos mínimos (contenido y pull requests, solo del repo de ShopLab)
-- [ ] Adaptador `GitHubVcsAdapter` (Octokit): push de rama y PR con el informe dual en el cuerpo y adjuntos
-- [ ] Sin merge automático, sin aprobar su propio PR
+- [x] GitHub App propia con permisos mínimos (contenido y pull requests, solo del repo de ShopLab)
+- [x] Adaptador `GitHubVcsAdapter` (Octokit): push de rama y PR con el informe dual en el cuerpo y adjuntos
+- [x] Sin merge automático, sin aprobar su propio PR
 
 Hecho cuando: aparece en GitHub un PR de ShopLab con el informe y la firma verificable.
+
+Nota F3.8 ([ADR 0015](adr/0015-github-app-without-octokit.md)):
+
+- **Sin Octokit:**
+  - el adaptador es `GitHubPullRequests`, detrás del puerto nuevo `PullRequestPort`, con `fetch` y `node:crypto`;
+  - la GitHub App `janus-arena-oblivionwing26` está instalada solo en `janus-shoplab`, con _Contents_ y _Pull requests_ en escritura y _Metadata_ en lectura;
+  - su JWT (RS256) compra un token de instalación limitado a ese repositorio y a esos dos permisos;
+  - el push lleva el token en una cabecera que viaja por el entorno (`GIT_CONFIG_COUNT`), nunca en la URL ni en los argumentos, y ningún error lo muestra.
+- **Puerto:** `open` sube la rama y abre el PR hacia la rama por defecto. Si ya hay uno abierto para la rama, lo devuelve sin duplicarlo. Solo acepta ramas `janus/…`. La suite de contrato, que pasan el fake y el adaptador contra un GitHub guionizado, comprueba que el puerto no tiene nada llamado merge, approve ni review. El PR se abre con `maintainer_can_modify: false`.
+- **Comando:** `pnpm janus pr --workspace <clon> --branch <janus/…> --report <carpeta>`:
+  - rechaza un informe que no verifica;
+  - añade a la rama `janus-report/` con los cuatro ficheros firmados y `janus.pub`, en un commit de Janus;
+  - abre el PR con el Markdown del informe como cuerpo y un pie que dice que Janus nunca hace merge ni aprueba.
+- **Informe:** el informe dual de ShopLab está en [docs/reports/dual-shoplab](reports/dual-shoplab/dual-report.md). Lo forman el A/B `01M6VD0MWENHQCSKST7EHK0WG1` (B − A: +50 puntos, intervalo [17, 83]) y la auditoría `01M6WCBACRGREB2TRVXS34PZAW` del commit `115ab86`. 0,28 € de coste acumulado.
+- **Hecho cuando:** el PR [oblivionwing26/janus-shoplab#4](https://github.com/oblivionwing26/janus-shoplab/pull/4) va de `janus/variant-01M6VCWFPZ9D0E17ZSRQCN63NQ` a `main`, abierto por `janus-arena-oblivionwing26[bot]` y sin merge. En un clon nuevo de la rama desde GitHub, `pnpm janus verify janus-report` da OK, y el cosign real (`verify-blob` con el `janus.pub` de la rama) dice "Verified OK".
+- **Gasto:** sin gasto de API.
 
 ### F3.9 · Pipeline del gate — M (6–8 h)
 

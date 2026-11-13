@@ -8,13 +8,17 @@
 //                                        checks the signature, the attestation and, unless
 //                                        --offline, that each event log still hashes the same;
 //                                        exits 1 on any problem
+//   pr --workspace <clone> --branch <janus/...> --report <dir> [--title <text>]  (F3.8)
+//                                        checks the report, commits it to the branch under
+//                                        janus-report/ and opens the pull request as the GitHub
+//                                        App in .env; never merges, never approves
 // No LLM is called.
 
 import { execFileSync } from 'node:child_process';
 import { existsSync } from 'node:fs';
-import { chmod, mkdir, readFile, writeFile } from 'node:fs/promises';
-import { join, resolve } from 'node:path';
-import { fileURLToPath } from 'node:url';
+import { chmod, copyFile, mkdir, readFile, writeFile } from 'node:fs/promises';
+import { basename, join, resolve } from 'node:path';
+import { fileURLToPath, pathToFileURL } from 'node:url';
 
 import { isKnownEvent } from '@janus/shared-kernel';
 import { z } from 'zod';
@@ -39,6 +43,7 @@ import {
 import { savedTradeoffSchema } from '../../infrastructure/report/tradeoff-file.js';
 import { signReport, verifyBundle } from '../../infrastructure/signing/report-bundle.js';
 import { generateSigningKeys } from '../../infrastructure/signing/report-signature.js';
+import { GitHubPullRequests } from '../../infrastructure/github/github-pull-requests.js';
 import { formatDualReport } from './format-dual-report.js';
 
 const root = fileURLToPath(new URL('../../../../../', import.meta.url));
@@ -225,8 +230,120 @@ async function verify(store: PostgresEventStore | null): Promise<void> {
   process.exitCode = 1;
 }
 
+/** What is wrong with the signed report in `dir`, empty when nothing is. */
+async function problemsOf(dir: string, store: PostgresEventStore | null): Promise<string[]> {
+  const reportBytes = new Uint8Array(await readFile(join(dir, FILES.json)));
+  const listed =
+    (JSON.parse(new TextDecoder().decode(reportBytes)) as { eventLogs?: { runId: string }[] })
+      .eventLogs ?? [];
+  const eventLogs: Record<string, string> = {};
+  if (store !== null) {
+    for (const { runId } of listed) eventLogs[runId] = eventLogHash(await store.readRun(runId));
+  }
+  return verifyBundle({
+    reportBytes,
+    signature: (await readFile(join(dir, FILES.sig), 'utf8')).trim(),
+    attestation: envelopeSchema.parse(
+      JSON.parse(await readFile(join(dir, FILES.attestation), 'utf8')),
+    ),
+    publicPem: await readFile(PUBLIC_KEY, 'utf8'),
+    ...(store === null ? {} : { eventLogs }),
+  });
+}
+
+async function pullRequest(store: PostgresEventStore | null): Promise<void> {
+  const workspace = option('workspace');
+  const branch = option('branch');
+  const reportDir = option('report');
+  if (workspace === undefined || branch === undefined || reportDir === undefined) {
+    fail(
+      'Usage: pnpm janus pr --workspace <clone> --branch <janus/...> --report <dir> [--title <text>]',
+    );
+    return;
+  }
+  const required = (name: string) => {
+    const value = process.env[name];
+    if (value === undefined || value === '')
+      fail(`${name} is not set: see the F3.8 note in docs/ROADMAP.md`);
+    return value ?? '';
+  };
+  const appId = required('JANUS_GITHUB_APP_ID');
+  const keyPath = required('JANUS_GITHUB_APP_KEY');
+  const installationId = required('JANUS_GITHUB_INSTALLATION_ID');
+
+  // Nothing leaves this machine unless the report verifies.
+  const dir = resolve(cwd, reportDir);
+  const problems = await problemsOf(dir, store);
+  if (problems.length > 0) {
+    fail(`The report does not verify, nothing was published:\n  - ${problems.join('\n  - ')}`);
+  }
+
+  const path = resolve(cwd, workspace);
+  const git = (...gitArgs: string[]) =>
+    execFileSync('git', ['-c', 'user.name=Janus', '-c', 'user.email=janus@localhost', ...gitArgs], {
+      cwd: path,
+    })
+      .toString()
+      .trim();
+  if (git('status', '--porcelain') !== '') fail(`${path} has uncommitted changes`);
+  git('checkout', '--quiet', branch);
+  const origin = /github\.com[/:]([\w.-]+)\/([\w.-]+?)(?:\.git)?$/.exec(
+    git('remote', 'get-url', 'origin'),
+  );
+  if (origin === null) {
+    fail(`${path}'s origin is not a GitHub repository`);
+    return;
+  }
+  const [, owner = '', repo = ''] = origin;
+  await mkdir(join(path, 'janus-report'), { recursive: true });
+  for (const file of Object.values(FILES)) {
+    await copyFile(join(dir, file), join(path, 'janus-report', file));
+  }
+  await copyFile(PUBLIC_KEY, join(path, 'janus-report', 'janus.pub'));
+  git('add', 'janus-report');
+  if (git('status', '--porcelain') !== '') {
+    git(
+      'commit',
+      '--quiet',
+      '-m',
+      'docs(janus): signed dual report',
+      '-m',
+      'Verify with `cosign verify-blob --key janus-report/janus.pub --signature janus-report/dual-report.json.sig --insecure-ignore-tlog janus-report/dual-report.json`.',
+    );
+  }
+
+  const markdown = await readFile(join(dir, FILES.md), 'utf8');
+  const body = `${markdown}\n---\n\nOpened by Janus. The signed report and its public key are in \`janus-report/\` on this branch. Janus never merges and never approves: a person reviews this pull request.\n`;
+  const opened = await new GitHubPullRequests({
+    appId,
+    privatePem: await readFile(keyPath, 'utf8'),
+    installationId,
+  }).open({
+    owner,
+    repo,
+    branch,
+    workspace: {
+      id: basename(path),
+      path,
+      url: pathToFileURL(path).href,
+      baseSha: git('rev-parse', 'HEAD'),
+    },
+    title: option('title') ?? `Janus: ${branch}`,
+    body,
+  });
+  console.log(`${opened.existed ? 'Already open' : 'Opened'}: ${opened.url} (into ${opened.base})`);
+}
+
 if (command === 'keygen') {
   await keygen();
+} else if (command === 'pr') {
+  const url = process.env.DATABASE_URL;
+  const store = url === undefined || url === '' ? null : await PostgresEventStore.connect(url);
+  try {
+    await pullRequest(store);
+  } finally {
+    await store?.close();
+  }
 } else if (command === 'report' || command === 'verify') {
   const url = process.env.DATABASE_URL;
   const offline =
@@ -243,5 +360,5 @@ if (command === 'keygen') {
     await store?.close();
   }
 } else {
-  fail('Usage: pnpm janus <keygen | report | verify> (see the header of this file)');
+  fail('Usage: pnpm janus <keygen | report | verify | pr> (see the header of this file)');
 }
