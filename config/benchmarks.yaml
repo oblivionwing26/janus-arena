@@ -1,0 +1,31 @@
+# F3.11: how the public benchmark counts (docs/reports/benchmark-juice-shop.md). Read only by the
+# orchestrator, never by an agent: it names Juice Shop's own challenges, which are its ground truth.
+#
+# `categories` is the denominator: every challenge Juice Shop files under a category in which one
+# of the Red Team's classes acts, whether or not that class can solve it. The classes listed are
+# the ones that act in that category. `reference` are the challenges the engine was built around
+# (F3.2): they are reported apart, not instead.
+
+targets:
+  juice-shop:
+    categories:
+      'Broken Access Control': [idor]
+      'Injection': [auth-bypass]
+      'XSS': [xss]
+      'Improper Input Validation': [business-logic]
+      'Broken Anti Automation': [business-logic, brute-force]
+      'Broken Authentication': [auth-bypass, brute-force]
+    reference:
+      - basketAccessChallenge
+      - loginAdminChallenge
+      - localXssChallenge
+      - negativeOrderChallenge
+      - timingAttackChallenge
+    # Solved by a Janus request, but not an attack the engine means to make. Still counted; the
+    # report gives the recall with and without them, and says why.
+    sideEffects:
+      passwordRepeatChallenge: >-
+        The surface map lists POST /api/Users with no password-repeat parameter, so the
+        auth-bypass generator probes it as if it were a login, and registers accounts without a
+        repeated password. Juice Shop solves this challenge on exactly that (passwordRepeat is not
+        the password), so it is solved by a probe aimed at something else.

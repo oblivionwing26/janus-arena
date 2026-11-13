@@ -1,10 +1,19 @@
 import { z } from 'zod';
 
+import type { BenchmarkChallenge } from '../../domain/benchmark/benchmark-challenge.js';
 import { NetworkGuard } from '../../domain/scope/network-guard.js';
 import type { ScopedHttpPort } from '../../domain/scope/scoped-http-port.js';
 
 const challenges = z.object({
-  data: z.array(z.object({ key: z.string(), solved: z.boolean() })),
+  data: z.array(
+    z.object({
+      key: z.string(),
+      name: z.string(),
+      category: z.string(),
+      difficulty: z.number(),
+      solved: z.boolean(),
+    }),
+  ),
 });
 
 /**
@@ -21,6 +30,14 @@ export class JuiceShopChallenges {
 
   /** Whether each challenge is solved; a key Juice Shop does not know is absent. */
   async solved(keys: readonly string[]): Promise<ReadonlyMap<string, boolean>> {
+    const all = await this.all();
+    return new Map(
+      all.filter((challenge) => keys.includes(challenge.key)).map((c) => [c.key, c.solved]),
+    );
+  }
+
+  /** Every challenge the instance knows, with its category and whether it is solved (F3.11). */
+  async all(): Promise<readonly BenchmarkChallenge[]> {
     const guard = new NetworkGuard({
       target: 'juice-shop-ground-truth',
       origins: [this.origin],
@@ -34,9 +51,6 @@ export class JuiceShopChallenges {
     if (reply.status !== 200) {
       throw new Error(`Juice Shop challenges answered ${String(reply.status)}`);
     }
-    const all = challenges.parse(JSON.parse(reply.body)).data;
-    return new Map(
-      all.filter((challenge) => keys.includes(challenge.key)).map((c) => [c.key, c.solved]),
-    );
+    return challenges.parse(JSON.parse(reply.body)).data;
   }
 }

@@ -45,6 +45,7 @@ history). The measure is ~2,850, at the low end: the observation builder keeps p
 | F3.9 gate, Juice Shop (A run + Blue Team, killed once) |        — |               — |  0.41 (total) |
 | F3.9 gate, ShopLab end to end (A, B, A/B, PR)          |        — |               — |  0.58 (total) |
 | F3.10 gate, Juice Shop (A run + a full fix V1–V3)      |        — |               — |  0.82 (total) |
+| F3.11 benchmark, control + 3 rounds (no LLM)           |        — |               — |  0.00 (total) |
 
 Steps per session dominate the bill. In F1.9 three sessions took 53–60 steps because the
 baseline bounced between cart and checkout (see the F1.9 note in the ROADMAP); without them the

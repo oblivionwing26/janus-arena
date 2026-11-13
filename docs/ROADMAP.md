@@ -639,12 +639,27 @@ Nota F3.10 ([ADR 0017](adr/0017-attack-graph-from-events.md)):
 
 ### F3.11 · Benchmark público — S a M (4–6 h)
 
-- [ ] Ejecutar Red Team con alcance limitado a las clases implementadas
-- [ ] Medir recall frente a todos los retos de Juice Shop de esas clases (no solo las 4 de referencia) en 3 ejecuciones; anotar coste y tiempo
-- [ ] Opcional: subconjunto de la suite Argus
-- [ ] Opcional (movido desde F3.2): Nuclei y ZAP baseline en contenedor dentro del sandbox, solo si sus rastreadores pueden excluir la verdad de Juice Shop (`/api/Challenges`, `/snippets/**`) y se aprueban las dependencias
+- [x] Ejecutar Red Team con alcance limitado a las clases implementadas
+- [x] Medir recall frente a todos los retos de Juice Shop de esas clases (no solo las 4 de referencia) en 3 ejecuciones; anotar coste y tiempo
+- [ ] Opcional: subconjunto de la suite Argus (no hecho)
+- [ ] Opcional (movido desde F3.2): Nuclei y ZAP baseline en contenedor dentro del sandbox, solo si sus rastreadores pueden excluir la verdad de Juice Shop (`/api/Challenges`, `/snippets/**`) y se aprueban las dependencias (no hecho)
 
 Hecho cuando: hay una tabla de resultados reproducible con el comando exacto para obtenerla.
+
+Nota F3.11 ([ADR 0018](adr/0018-benchmark-scoring.md)):
+
+- **Comando:** `pnpm run:benchmark juice-shop --runs 3` escribe [docs/reports/benchmark-juice-shop.md](reports/benchmark-juice-shop.md) y su `.json`. Sin LLM: el motor es determinista (ADR 0011), así que cuesta 0 € y cada ronda dura unos 20 segundos.
+- **Qué mide:** el recall es sobre los **60 retos** que Juice Shop v20.3.0 archiva en las seis categorías donde actúa alguna clase del Red Team (`config/benchmarks.yaml`), según el propio recuento de Juice Shop tras cada ronda. El denominador incluye retos que ninguna clase intenta; los 5 retos de referencia, para los que se hizo el motor, se dan aparte.
+- **Cómo se evita inflarlo:**
+  - Cada ronda usa una imagen nueva.
+  - Antes va una ronda de control, que levanta Juice Shop y verifica la propiedad pero no ataca; lo que ya tuviera resuelto no cuenta para nadie.
+  - Lo resuelto fuera de esas categorías se lista aparte.
+  - Se da el intervalo de Wilson al 95 % de cada ronda.
+- **Resultado:** **6 de 60 (10,0 %; intervalo [4,7 %, 20,1 %])** en las tres rondas, idéntico y sin retos resueltos en solo alguna de ellas, y los **5 de 5** retos de referencia. Por categoría: Improper Input Validation 2 de 12, Broken Anti Automation 1 de 4, Broken Access Control 1 de 12, Injection 1 de 14, XSS 1 de 9 y Broken Authentication 0 de 9.
+- **Un efecto secundario, declarado:** el sexto, _Repetitive Registration_, no es un ataque del motor. El mapa de superficie muestra `POST /api/Users` sin parámetro de repetición de contraseña, así que el generador de bypass de login lo sondea como si fuera un login y registra cuentas sin repetir la contraseña; Juice Shop lo da por resuelto con exactamente eso (`passwordRepeat` distinto de `password`). Sigue contado, porque una petición de Janus lo resolvió, pero el informe da también el recall sin él: **5 de 60 (8,3 %)**. Queda como defecto del motor por corregir (no es de este paso).
+- **Cada ronda es un run:** el informe enlaza el run de cada ronda y el del control, así que se pueden abrir en la consola (`/runs/<id>/attack` es su grafo de ataque).
+- **Hecho cuando:** un solo comando regenera la tabla; el informe empieza con ese comando, la imagen con su digest y el commit de Janus.
+- **Gasto:** 0 €. Nuclei, ZAP y Argus no se hicieron: los dos primeros rastrearían `/api/Challenges` y `/snippets/**`, que son la verdad de Juice Shop, y ninguno de los tres es una dependencia aprobada.
 
 ### F3.12 · Puerta G2: demo completa — L (8–12 h)
 
