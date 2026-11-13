@@ -728,3 +728,34 @@ input {
     grid-template-columns: minmax(0, 1fr);
   }
 }
+
+/* Demo build (F3.12) */
+.demo-banner {
+  margin: 0;
+  padding: 8px 16px;
+  border-bottom: 1px solid var(--border);
+  background: color-mix(in srgb, var(--accent) 12%, var(--surface));
+  font-size: 0.9rem;
+}
+
+.featured {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 320px), 1fr));
+  gap: 16px;
+  margin-bottom: 24px;
+}
+
+.featured article {
+  padding: 12px 16px;
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  background: var(--surface);
+}
+
+.featured h3 {
+  margin-top: 0;
+}
+
+.featured ul {
+  padding-left: 18px;
+}

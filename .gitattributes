@@ -1,2 +1,4 @@
 # Signed reports are verified byte for byte (ADR 0014): git must never rewrite their line endings.
 docs/reports/**/dual-report.* -text
+# The demo's recorded runs are data, written by `pnpm demo:export`.
+apps/web-console/public/demo/** -text linguist-generated

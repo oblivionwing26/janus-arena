@@ -6,6 +6,7 @@
   "scripts": {
     "dev": "next dev --port 3012 --hostname 127.0.0.1",
     "build": "next build",
+    "build:demo": "node scripts/build-demo.mjs",
     "start": "next start --port 3012 --hostname 127.0.0.1",
     "lint": "eslint .",
     "typecheck": "tsc --noEmit",

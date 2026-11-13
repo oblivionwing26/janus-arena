@@ -669,6 +669,23 @@ Nota F3.11 ([ADR 0018](adr/0018-benchmark-scoring.md)):
 - [ ] Artículo 1 publicado en inglés
 - [ ] Repo público, etiqueta `v1.0.0`, `Current step` a F4.1
 
+Nota F3.12 (lo que ya está hecho y lo que falta; el paso sigue abierto hasta que se publique):
+
+- **Hecho, verificado:**
+  - **Auditoría previa a hacer público el repo:** gitleaks (imagen fijada, sin red) sobre todas las ramas y el historial, con los valores redactados.
+    - 23 avisos, todos de la regla genérica y todos sintéticos: la contraseña sintética de Carmen en las grabaciones de sus sesiones, una clave falsa de pago para el test de gitleaks y contraseñas de prueba.
+    - Ninguna clave real: los `sk-ant-`, `ghs_` y `BEGIN PRIVATE KEY` que aparecen en el historial son patrones de aserciones de tests o valores de test, no hay `ghp_` ni claves de AWS, y nunca se añadió un `.env`, un `.pem` ni una clave privada.
+    - Los correos de los ficheros rastreados son de dominios sintéticos o el administrador público de Juice Shop; no hay datos personales ni rutas locales.
+  - **`LICENSE` (MIT) y `SECURITY.md`:** el segundo explica el uso responsable (el alcance verificado, el guard, el sandbox sin internet) y cómo informar de un fallo.
+  - **Modo demo de la consola** ([ADR 0019](adr/0019-demo-is-the-console-on-recorded-runs.md)):
+    - `NEXT_PUBLIC_DEMO=1` hace que la consola lea sus datos de `/demo`. Toda lectura pasa por una capa, `lib/backend.ts`, y el informe se calcula en el navegador con la misma función pura que usa el orquestador (un test comprueba que dan lo mismo).
+    - `pnpm demo:export` escribe los runs de `config/demo.yaml` (tres historias, 11 runs, 5,3 MB) y no escribe nada si algún fichero lleva una credencial o un correo fuera de los dominios sintéticos.
+    - `pnpm demo:build` lo compila. **Verificado a mano**, con la API parada: la portada con las tres historias, el grafo de ataque del gate de Juice Shop (replay hasta el arreglo verificado y la PoC en el panel) y el informe del A/B de ShopLab calculado en el navegador (B − A = +0,50 [0,17; 0,83]). El navegador no hizo ninguna petición al orquestador.
+  - **README** en inglés y **artículo 1** en inglés ([what-synthetic-users-measure.md](articles/what-synthetic-users-measure.md)), adaptado del borrador de G1: cada cifra se contrastó con las notas de F1 y con los informes. Se añadió el A/B con tarea y oráculo (1/6 → 5/7).
+  - **Guion del vídeo** y **guía de despliegue** en [docs/demo](demo/VIDEO.md).
+- **Falta, y es tuyo:** desplegar en Vercel con [docs/demo/DEPLOY.md](demo/DEPLOY.md) y poner la URL en el README; grabar y subir el vídeo; publicar el artículo; hacer público el repo; crear la etiqueta `v1.0.0` tras el merge y pasar `Current step` a F4.1.
+- **Gasto:** 0 €.
+
 ## F4 · Fusión y validación (40–60 h)
 
 F4 añade la demo más vistosa (Launch Day) y responde a la pregunta de negocio. Los pasos F4.3 y F4.4 son independientes y pueden hacerse en cualquier orden o en paralelo con los demás.

@@ -1,0 +1,1 @@
+{"version":1,"target":"juice-shop","class":"idor","oracle":"canary-leak","endpoint":"GET /rest/basket/:id","steps":{"kind":"idor","method":"GET","route":"/rest/basket/:id","bind":{"victim":"basketId"}}}

@@ -2,6 +2,7 @@
 
 import { useState } from 'react';
 
+import { DEMO } from '@/lib/demo';
 import { artifactUrl, heatColor, routeHeatmaps, type RouteHeatmap } from '@/lib/heatmap';
 import type { SynthlabReport } from '@janus/shared-kernel';
 
@@ -23,8 +24,10 @@ function RouteCard({ runId, map }: { runId: string; map: RouteHeatmap }) {
       <figcaption>
         <strong>{map.route}</strong> · intensidad {map.intensity}
       </figcaption>
-      {map.screenshot === null ? (
-        <p className="muted">Sin captura de esta página.</p>
+      {map.screenshot === null || DEMO ? (
+        <p className="muted">
+          {DEMO ? 'La demo no incluye capturas de pantalla.' : 'Sin captura de esta página.'}
+        </p>
       ) : (
         <div
           className="heatmap-shot"

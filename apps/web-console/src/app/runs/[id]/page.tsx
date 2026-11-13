@@ -7,11 +7,15 @@ import { useMemo } from 'react';
 import { ExportActions } from '@/components/export-actions';
 import { RunLinks } from '@/components/run-links';
 import { RunViewer } from '@/components/run-viewer';
-import { LiveSource } from '@/lib/sources';
+import { DEMO } from '@/lib/demo';
+import { DemoRunSource, LiveSource } from '@/lib/sources';
 
 export default function RunPage() {
   const { id } = useParams<{ id: string }>();
-  const source = useMemo(() => new LiveSource(`/api/orchestrator/runs/${id}/events`), [id]);
+  const source = useMemo(
+    () => (DEMO ? new DemoRunSource(id) : new LiveSource(`/api/orchestrator/runs/${id}/events`)),
+    [id],
+  );
 
   return (
     <>
@@ -22,7 +26,7 @@ export default function RunPage() {
       <RunViewer
         key={id}
         source={source}
-        mode="live"
+        mode={DEMO ? 'replay' : 'live'}
         actions={(events) => (
           <>
             <RunLinks runId={id} events={events} />

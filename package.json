@@ -1,5 +1,6 @@
 {
   "name": "janus-arena",
+  "license": "MIT",
   "private": true,
   "type": "module",
   "packageManager": "pnpm@10.34.9",
@@ -30,6 +31,8 @@
     "run:tradeoff": "node scripts/run-tradeoff.mjs",
     "run:gate": "node scripts/run-gate.mjs",
     "run:benchmark": "node scripts/run-benchmark.mjs",
+    "demo:export": "node scripts/demo-export.mjs",
+    "demo:build": "pnpm --filter @janus/web-console build:demo",
     "janus": "node scripts/janus.mjs",
     "check:arch": "turbo run build && depcruise --config .dependency-cruiser.cjs apps packages",
     "format": "prettier --write .",

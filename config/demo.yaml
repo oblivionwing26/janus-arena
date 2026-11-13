@@ -1,0 +1,29 @@
+# F3.12: the runs the public demo ships (apps/web-console/public/demo, `pnpm demo:export`).
+# Each story is a run of the orchestrator's event log; a gate brings along every run its stages
+# started, and an A/B run its generated variant. Summaries are written by hand from the
+# signed reports in docs/reports: a model writes none of it.
+
+stories:
+  - id: 01M6VD0MWENHQCSKST7EHK0WG1
+    kind: ab
+    title: 'ShopLab: does a generated variant B help synthetic shoppers?'
+    summary: >-
+      Eight personas and a competent baseline try to buy with a discount coupon on ShopLab. The
+      UI Engineer patches the two most intense friction zones into a variant B, verified by the
+      target's own checks, and a paired run compares both. Synthetic task success B minus A:
+      +50 points, 95 % interval [17, 83].
+  - id: 01M796CT3J5XRRXAREPJ88M525
+    kind: gate
+    title: 'The gate on ShopLab, end to end'
+    summary: >-
+      SynthLab on A, a generated variant B, the A/B (+83 points, interval [50, 100]), the
+      differential audit (B introduces nothing), the signed report and the pull request. The Red
+      Team and the Blue Team are skipped, with the reason: ShopLab's scope forbids attacks.
+  - id: 01M79YYR766FTNCYF5STGZ3ANY
+    kind: gate
+    title: 'The gate on Juice Shop: attack, fix, verify'
+    summary: >-
+      The Red Team confirms six vulnerabilities, each with a PoC replayed by code. The Blue Team
+      fixes the basket IDOR and three independent verifiers agree: the PoC no longer works, a
+      regression test fails on the base and passes on the fix, and the synthetic shoppers still
+      buy. Open the attack graph and replay it: the endpoint turns red, then amber, then green.
