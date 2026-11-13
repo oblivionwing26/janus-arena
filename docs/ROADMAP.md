@@ -596,12 +596,46 @@ Hecho cuando: matar el proceso a mitad y relanzarlo termina el gate sin repetir 
 
 ### F3.10 · Grafo de ataque (React Flow) — M a L (8–10 h)
 
-- [ ] Nodos = endpoints del mapa de superficie; aristas = intentos de ataque
-- [ ] Estados por color: probado, explotado, parcheado, verificado
-- [ ] Panel lateral con PoC, diff y verificadores del nodo seleccionado
-- [ ] Alimentado por eventos (vivo y replay)
+- [x] Nodos = endpoints del mapa de superficie; aristas = intentos de ataque
+- [x] Estados por color: probado, explotado, parcheado, verificado
+- [x] Panel lateral con PoC, diff y verificadores del nodo seleccionado
+- [x] Alimentado por eventos (vivo y replay)
 
 Hecho cuando: el replay del gate completo se entiende sin explicación verbal.
+
+Nota F3.10 ([ADR 0017](adr/0017-attack-graph-from-events.md)):
+
+- **Eventos:** el grafo no se podía dibujar solo con lo que había, así que se añaron campos opcionales (los runs antiguos siguen siendo válidos y se reproducen).
+  - `attack.attempt` lleva su `endpoint` (`GET /rest/basket/:id`).
+  - `finding.created` lleva `endpoint` y `attemptId`.
+  - El Red Team registra su mapa de superficie como `surface.mapped` (lado `variant`, sin nombres de parámetros: un run no registra campos de credenciales ni por su nombre).
+- **Grafo:** `buildAttackGraph` (consola, función pura de eventos a grafo) da un nodo por endpoint del mapa y una arista por atacante, endpoint y clase, con su número de intentos. Cada nodo tiene un estado:
+
+  | Estado     | Cuándo                                                     |
+  | ---------- | ---------------------------------------------------------- |
+  | sin probar | ningún intento                                             |
+  | probado    | algún intento, ninguno explotable                          |
+  | explotado  | un oráculo lo confirmó (o el Blue Team no pudo arreglarlo) |
+  | parcheado  | el Blue Team propuso un parche, sin veredicto final        |
+  | verificado | el hallazgo quedó `fixed` con los tres verificadores       |
+  - Las repeticiones de PoC de un run del Blue Team (V1) no se dibujan como ataques: son de los verificadores del parche.
+  - Un run antiguo, sin los campos nuevos, se dibuja igual: el endpoint de cada intento sale del mapa de superficie, si lo hay, y el de cada hallazgo, de su título.
+  - Disposición determinista: atacantes a la izquierda y, a su lado, los endpoints tocados antes que los sin probar.
+
+- **Componente:** `AttackGraphView` con React Flow (`@xyflow/react` 12.12.0, MIT, aprobada). El panel lateral muestra, del endpoint elegido:
+  - sus intentos con el veredicto del oráculo;
+  - la PoC, que sirve el endpoint nuevo `GET /runs/:id/pocs/:findingId` (valida el esquema; una PoC no lleva contraseñas, tokens ni respuestas);
+  - el diff del parche con sus verificadores.
+- **Vivo y replay:** `RunViewer` dibuja el grafo (`view="attack"`) sobre los eventos visibles del mismo reproductor. La página `/runs/<id>/attack` usa `GateEventSource`, que une el run del gate y los runs que lanzaron sus etapas en un solo flujo. Un run que no es un gate es solo sus eventos.
+  - Renumera los seq por orden de emisión, porque los de cada run chocan.
+  - Sondea mientras el gate no ha terminado; un gate terminado se reproduce desde el principio.
+  - `RunLinks` enlaza el grafo desde cualquier run con intentos o etapas.
+- **Hecho cuando**, con el gate de Juice Shop `01M79YYR766FTNCYF5STGZ3ANY` (0,82 €), el primero con un arreglo completo dentro del gate:
+  - **En vivo:** al llegar el Red Team, con el mapa real salen 99 endpoints sin probar, 3 probados y 5 explotados.
+  - **En replay:** el IDOR de `GET /rest/basket/:id` pasa de explotado a parcheado, al proponerse el parche, y a verificado, al cerrarse V3. El panel enseña sus 4 intentos, la PoC, el diff y los verificadores.
+  - **Informe:** `janus verify` da OK sobre `docs/reports/gate-01M79YYR…`: build-checks, poc-replay (403), regression-tests (937 pasan, 3 afirmaban el fallo) y synthlab-rerun (éxito A 4/8, B 2/8: el límite de 25 puntos se cumple justo).
+  - También se abre bien el gate antiguo `01M795H2…`, sin los campos nuevos, con un nodo por ruta concreta.
+- **Gasto:** 0,82 €.
 
 ### F3.11 · Benchmark público — S a M (4–6 h)
 

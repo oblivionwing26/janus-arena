@@ -8,10 +8,15 @@ import {
   Query,
   Res,
 } from '@nestjs/common';
-import type { SynthlabReport } from '@janus/shared-kernel';
+import {
+  proofOfConceptSchema,
+  type ProofOfConcept,
+  type SynthlabReport,
+} from '@janus/shared-kernel';
 import { buildSynthlabReport } from '@janus/synthlab-report';
 import { z } from 'zod';
 
+import { pocKey } from '../../application/red-team/run-red-team.js';
 import {
   ArtifactNotFoundError,
   InvalidArtifactKeyError,
@@ -77,6 +82,30 @@ export class RunReportController {
       return Buffer.from(bytes);
     } catch (error) {
       if (error instanceof InvalidArtifactKeyError) throw new BadRequestException(error.message);
+      if (error instanceof ArtifactNotFoundError) throw new NotFoundException(error.message);
+      throw error;
+    }
+  }
+
+  /**
+   * The PoC of a confirmed finding (F3.10), for the attack graph's side panel. It holds a route,
+   * the fields to fill and a payload, never a password, token or response body.
+   */
+  @Get(':id/pocs/:findingId')
+  async poc(
+    @Param('id') id: string,
+    @Param('findingId') findingId: string,
+  ): Promise<ProofOfConcept> {
+    const runId = this.parseRunId(id);
+    const finding = runIdSchema.safeParse(findingId);
+    if (!finding.success) throw new BadRequestException('Finding id must be a ULID');
+    const artifacts = this.adapters.artifacts;
+    if (artifacts === undefined)
+      throw new NotFoundException('This orchestrator stores no artifacts');
+    try {
+      const bytes = await artifacts.get(runId, pocKey(finding.data));
+      return proofOfConceptSchema.parse(JSON.parse(Buffer.from(bytes).toString('utf8')));
+    } catch (error) {
       if (error instanceof ArtifactNotFoundError) throw new NotFoundException(error.message);
       throw error;
     }

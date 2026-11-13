@@ -44,6 +44,8 @@ export interface RunRedTeamInput {
   readonly origin: string;
   readonly classes: readonly RedTeamClass[];
   readonly endpoints: readonly Endpoint[];
+  /** The commit the surface map was read from: it is recorded as `surface.mapped` (F3.10). */
+  readonly surface?: { readonly ref: string; readonly sha: string };
   readonly findings: readonly StaticFinding[];
   readonly budget: Budget;
   readonly engine?: RedTeamEngine;
@@ -91,6 +93,25 @@ export class RunRedTeam {
       agentId,
       role: 'red-team',
     });
+    if (input.surface !== undefined) {
+      // The endpoints the attack graph draws as nodes, whether or not an attempt reaches them.
+      // Parameter names stay out: the graph does not need them, and a run records no credential
+      // field, not even by name.
+      await orchestrator.record('surface.mapped', {
+        side: 'variant',
+        ref: input.surface.ref,
+        sha: input.surface.sha,
+        endpoints: input.endpoints.slice(0, 1000).map((endpoint) => ({
+          method: endpoint.method,
+          route: endpoint.route.slice(0, 300),
+          auth: endpoint.auth,
+          ownerCheck: endpoint.ownerCheck,
+          params: [],
+          file: (endpoint.handler ?? endpoint.declaredAt).file,
+          line: (endpoint.handler ?? endpoint.declaredAt).line,
+        })),
+      });
+    }
     const client = this.deps.http.client(
       new NetworkGuard(input.scope),
       recordBlocked(orchestrator),

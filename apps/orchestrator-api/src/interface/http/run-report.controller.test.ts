@@ -170,6 +170,37 @@ describe('run report API', () => {
     expect(new Uint8Array(response.rawPayload)).toEqual(PNG);
   });
 
+  it('serves the PoC of a finding for the attack graph, and refuses what is not one (F3.10)', async () => {
+    const findingId = newUlid();
+    const poc = {
+      version: 1,
+      target: 'juice-shop',
+      class: 'idor',
+      oracle: 'canary-leak',
+      endpoint: 'GET /rest/basket/:id',
+      steps: {
+        kind: 'idor',
+        method: 'GET',
+        route: '/rest/basket/:id',
+        bind: { victim: 'basketId' },
+      },
+    };
+    await artifacts.put(
+      RUN_ID,
+      `poc/${findingId.toLowerCase()}.json`,
+      new TextEncoder().encode(JSON.stringify(poc)),
+    );
+    await artifacts.put(RUN_ID, `poc/${newUlid().toLowerCase()}.json`, new Uint8Array([123]));
+
+    const found = await app.inject({ method: 'GET', url: `/runs/${RUN_ID}/pocs/${findingId}` });
+    const missing = await app.inject({ method: 'GET', url: `/runs/${RUN_ID}/pocs/${newUlid()}` });
+    const notUlid = await app.inject({ method: 'GET', url: `/runs/${RUN_ID}/pocs/..%2Fx` });
+
+    expect(found.statusCode).toBe(200);
+    expect(found.json()).toEqual(poc);
+    expect([missing.statusCode, notUlid.statusCode]).toEqual([404, 400]);
+  });
+
   it('refuses keys outside the run and anything but PNG, and 404s a missing one', async () => {
     const codes = await Promise.all(
       [

@@ -14,6 +14,7 @@ import type { RunEventSource } from '@/lib/sources';
 import { buildTimeline } from '@/lib/timeline';
 import type { ConsoleEvent } from '@/lib/console-event';
 
+import { AttackGraphView } from './attack-graph';
 import { CostPanel } from './cost-panel';
 import { SwarmCanvas } from './swarm-canvas';
 import { TimelineView } from './timeline-view';
@@ -23,13 +24,15 @@ interface RunViewerProps {
   mode: PlayerMode;
   /** Extra controls (export, open offline) that get the events received so far. */
   actions?: (events: readonly ConsoleEvent[]) => ReactNode;
+  /** What the run is drawn as: the persona swarm, or the attack graph (F3.10). */
+  view?: 'swarm' | 'attack';
 }
 
 /**
  * The only component that renders a run, whatever its source: live SSE or a recording
  * (CLAUDE.md: live view and replay use the same rendering code).
  */
-export function RunViewer({ source, mode, actions }: RunViewerProps) {
+export function RunViewer({ source, mode, actions, view = 'swarm' }: RunViewerProps) {
   const [state, dispatch] = useReducer(playerReducer, mode, initialPlayerState);
   const [status, setStatus] = useState<'loading' | 'streaming' | 'ended' | 'error'>('loading');
   const [error, setError] = useState<string | null>(null);
@@ -157,7 +160,11 @@ export function RunViewer({ source, mode, actions }: RunViewerProps) {
         ))}
       </section>
 
-      <SwarmCanvas visible={visible} known={state.events} speed={state.speed} />
+      {view === 'attack' ? (
+        <AttackGraphView events={visible} />
+      ) : (
+        <SwarmCanvas visible={visible} known={state.events} speed={state.speed} />
+      )}
 
       <div className="run-body">
         <TimelineView timeline={timeline} />

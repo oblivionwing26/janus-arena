@@ -18,6 +18,9 @@ export const findingCreatedEventSchema = defineEventSchema(
       rule: z.string().min(1).max(200).optional(),
       file: z.string().min(1).max(300).optional(),
       line: z.int().min(0).optional(),
+      /** Dynamic findings (F3.10): the endpoint attacked and the attempt that showed it. */
+      endpoint: z.string().min(1).max(300).optional(),
+      attemptId: z.ulid().optional(),
     })
     .refine((finding) => finding.status !== 'confirmed' || finding.pocRef !== undefined, {
       message: 'A confirmed finding needs a reproducible PoC (pocRef)',

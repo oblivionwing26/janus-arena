@@ -3,7 +3,8 @@ import { z } from 'zod';
 import { defineEventSchema } from '../event-envelope.js';
 
 // The HTTP surface of one side of a differential audit (F2.8), as F2.6 maps it from the code,
-// so the console can show it as a table in live runs and replays alike.
+// so the console can show it as a table in live runs and replays alike. The Red Team records the
+// surface it attacks the same way (F3.10), as side `variant`, for the attack graph.
 export const surfaceMappedEventSchema = defineEventSchema(
   'surface.mapped',
   1,

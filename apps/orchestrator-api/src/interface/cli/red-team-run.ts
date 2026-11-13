@@ -107,6 +107,7 @@ try {
     ref: surfaceTarget.ref ?? 'main',
     depth: 1,
   });
+  const mapped = { ref: surfaceTarget.ref ?? 'main', sha: workspace.baseSha };
   let endpoints;
   let findings;
   try {
@@ -144,6 +145,7 @@ try {
     origin,
     classes,
     endpoints,
+    surface: mapped,
     findings,
     engine,
     budget: new Budget(budget),

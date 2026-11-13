@@ -16,6 +16,8 @@ export const attackAttemptEventSchema = defineEventSchema(
     as: z.enum(['a', 'b', 'anonymous']),
     method: z.string().min(1).max(10),
     path: z.string().max(300),
+    /** The endpoint the attempt counts against, "GET /rest/basket/:id" (F3.10). */
+    endpoint: z.string().min(1).max(300).optional(),
     status: z.int().min(100).max(599).nullable(),
     bytes: z.int().min(0),
     blocked: blockReasonSchema.optional(),
