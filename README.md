@@ -164,6 +164,7 @@ authorised to test. See [SECURITY.md](SECURITY.md).
 - [docs/adr/](docs/adr): the architecture decisions, from the hexagonal layout to how the benchmark is scored.
 - [docs/ROADMAP.md](docs/ROADMAP.md): the step-by-step plan, in Spanish, with how each step was verified.
 - [docs/finops.md](docs/finops.md): what a session really costs.
+- [What synthetic users measure, and what they don't](https://dev.to/oblivionwing26/janus-arena-development-1ce): the article on the SynthLab half, on dev.to ([the same text](docs/articles/what-synthetic-users-measure.md) is in the repo).
 - [docs/articles/](docs/articles): write-ups of what the runs showed.
 
 ## License

@@ -29,7 +29,8 @@ class GitFailure extends Error {
   }
 }
 
-function git(
+/** Runs git and resolves with its stdout; a non-zero exit is a GitFailure with its stderr. */
+export function git(
   args: readonly string[],
   options: { cwd?: string; input?: string } = {},
 ): Promise<string> {
@@ -45,6 +46,11 @@ function git(
     child.stdout.setEncoding('utf8').on('data', (chunk: string) => (stdout += chunk));
     child.stderr.setEncoding('utf8').on('data', (chunk: string) => (stderr += chunk));
     child.on('error', reject);
+    // A git that exits without reading its input (git grep, git status) closes the pipe on us, and
+    // the write then fails with EPIPE on Linux and EOF on Windows. Its exit code says how it went.
+    child.stdin.on('error', (error: NodeJS.ErrnoException) => {
+      if (error.code !== 'EPIPE' && error.code !== 'EOF') reject(error);
+    });
     child.on('close', (code) => {
       if (code === 0) resolve(stdout);
       else reject(new GitFailure(args, stderr || `exit code ${String(code)}`));
