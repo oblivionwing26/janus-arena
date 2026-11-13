@@ -14,7 +14,7 @@ More context: `docs/VISION.md` (product), `docs/adr/` (decisions), `docs/ROADMAP
 
 ## Current step
 
-**F3.9 — Pipeline del gate.** Read this step in `docs/ROADMAP.md` before starting. Do not build features from later steps.
+**F3.10 — Grafo de ataque (React Flow).** Read this step in `docs/ROADMAP.md` before starting. Do not build features from later steps.
 
 (Update this line every time a step is closed.)
 
@@ -43,6 +43,7 @@ pnpm run:tradeoff <poc.json> [--strategies a,b]  # trade-off report: fix + alter
 pnpm janus keygen             # report signing key pair (private in .janus/keys, public in keys/janus.pub)
 pnpm janus report --out <dir> --target <t> --run <role>:<runId>...  # signed dual report (no LLM)
 pnpm janus verify <dir>       # signature, attestation and event-log hashes; exits 1 on any problem
+pnpm run:gate <gates/x.yaml> [--resume <gateRunId>]  # the whole gate, stage by stage; resumes from its event log (needs pnpm dev; calls the API)
 pnpm janus pr --workspace <clone> --branch <janus/...> --report <dir>  # push the branch, add the signed report, open the PR as the GitHub App (never merges)
 pnpm run:ab-auto <runs/x.yaml>  # discovery on A, generated B, paired A/B report (needs pnpm dev; calls the API)
 pnpm run:surface <target>     # HTTP surface map of a target, read from its code (no LLM)
@@ -78,6 +79,7 @@ config/
   vulnerability-tests.yaml  target tests that assert a vulnerability (V2 lets a fix break them)
   scopes.yaml            what Janus may do to each target: tests, excluded paths, rate
   shoppers.yaml          each target's synthetic shopper details (address, test card...)
+gates/                   gate files: target, run file, budget split by stage, stage options
 personas/                persona YAML files
 rules/semgrep/           Janus's own Semgrep rules, each with its `semgrep --test` cases
 docker/sandboxes/        sandbox definitions

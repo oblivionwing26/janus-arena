@@ -36,7 +36,10 @@ export class HttpSynthLab implements SynthLabPort {
 
   async runAndWait(
     config: RunConfig,
-    options: { readonly signal?: AbortSignal } = {},
+    options: {
+      readonly signal?: AbortSignal;
+      readonly onStarted?: (runId: string) => Promise<void>;
+    } = {},
   ): Promise<CompletedRun> {
     const response = await this.fetchImpl(`${this.baseUrl.replace(/\/$/, '')}/runs`, {
       method: 'POST',
@@ -50,7 +53,14 @@ export class HttpSynthLab implements SynthLabPort {
     }
     const { runId } = JSON.parse(text) as { runId?: unknown };
     if (typeof runId !== 'string') throw new Error(`Unexpected answer from POST /runs: ${text}`);
+    await options.onStarted?.(runId);
+    return this.waitFor(runId, options);
+  }
 
+  async waitFor(
+    runId: string,
+    options: { readonly signal?: AbortSignal } = {},
+  ): Promise<CompletedRun> {
     for await (const event of this.store.subscribe(runId, {
       ...(options.signal === undefined ? {} : { signal: options.signal }),
     })) {

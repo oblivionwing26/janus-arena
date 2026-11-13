@@ -47,6 +47,10 @@ class StubSynthLab implements SynthLabPort {
     private readonly basketMs: { a: number; b: number },
   ) {}
 
+  waitFor(): Promise<CompletedRun> {
+    return Promise.reject(new Error('not used'));
+  }
+
   runAndWait(config: RunConfig): Promise<CompletedRun> {
     this.configs.push(config);
     const runId = newUlid();

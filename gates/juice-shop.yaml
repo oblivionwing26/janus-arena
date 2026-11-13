@@ -1,0 +1,16 @@
+# F3.9: the Janus gate on the security target. SynthLab plays the purchase on A, the Red Team
+# attacks the sandboxed image (deterministic engine, no LLM), the Blue Team fixes the most severe
+# confirmed finding with V1 + V2 + V3, and the signed dual report is written. Juice Shop has no
+# UI Engineer policy, so variant B, the A/B and the differential audit are skipped.
+#   pnpm run:gate gates/juice-shop.yaml          (needs pnpm dev running)
+
+target: juice-shop
+runFile: runs/juice-shop-purchase.yaml
+budget:
+  maxEur: 1.5
+  # SynthLab on A gets a quarter; the Blue Team (its model and V3's SynthLab run) the rest.
+  shares: { synthlab-a: 0.25, blue-team: 0.75 }
+blueTeam: { maxFixes: 1 }
+pr:
+  open: false
+  reason: Juice Shop is upstream OWASP code; Janus opens pull requests only where its GitHub App is installed

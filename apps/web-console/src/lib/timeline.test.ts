@@ -163,6 +163,28 @@ describe('buildTimeline', () => {
     ]);
   });
 
+  it('labels the stages of a gate (F3.9)', () => {
+    const base = events[0];
+    if (base === undefined) throw new Error('sample run is empty');
+    const stage = (seq: number, payload: Record<string, unknown>) =>
+      ({ ...base, seq, type: 'gate.stage', payload }) as ConsoleEvent;
+    const items = buildTimeline([
+      stage(1, { stage: 'red-team', status: 'started', allowanceEur: 0.2 }),
+      stage(2, { stage: 'red-team', status: 'run', runId: '01JBZ7Q8K5V4W3X2Y1Z0ABCDEH' }),
+      stage(3, { stage: 'red-team', status: 'completed', output: { confirmed: [] }, spentEur: 0 }),
+      stage(4, { stage: 'pr', status: 'skipped', reason: 'no variant B' }),
+    ])
+      .lanes.flatMap((lane) => lane.items)
+      .map(({ label, tone }) => [label, tone]);
+
+    expect(items).toEqual([
+      ['Etapa red-team: empieza con 0.20 € de presupuesto', 'neutral'],
+      ['Etapa red-team: run 01JBZ7Q8K5V4W3X2Y1Z0ABCDEH', 'neutral'],
+      ['Etapa red-team: completada (0.00 €)', 'ok'],
+      ['Etapa pr: se salta · no variant B', 'warning'],
+    ]);
+  });
+
   it('lists every type present and filters by type', () => {
     const all = buildTimeline(events);
     expect(all.types).toEqual([

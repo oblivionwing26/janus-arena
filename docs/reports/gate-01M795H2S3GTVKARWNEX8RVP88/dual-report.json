@@ -1,0 +1,287 @@
+{
+  "format": "janus-dual-report",
+  "version": 1,
+  "target": "juice-shop",
+  "janusCommit": "a221f3b163ae7345d7cbd26193985d23d6a3b450",
+  "ux": {
+    "runId": "01M795H2WD2W08N1N6J6NZPPXR",
+    "variants": [
+      {
+        "variant": "a",
+        "personas": {
+          "successes": 4,
+          "n": 8
+        },
+        "baseline": {
+          "successes": 1,
+          "n": 2
+        }
+      }
+    ],
+    "difference": null,
+    "verdict": null
+  },
+  "findings": [
+    {
+      "findingId": "01M795XR5JFX845ZDJN41QTHXY",
+      "runId": "01M795W7YJJPMZGQTFSHPRGT13",
+      "kind": "dynamic",
+      "severity": "high",
+      "title": "Another user’s data is reachable (IDOR): GET /rest/basket/:id (user 26 received a record of user 25 holding \"Apple Juice (1000ml)\")",
+      "status": "confirmed",
+      "where": "GET /rest/basket/:id",
+      "tool": "red-team"
+    },
+    {
+      "findingId": "01M795XRHJVMMC45465NY0BPT1",
+      "runId": "01M795W7YJJPMZGQTFSHPRGT13",
+      "kind": "dynamic",
+      "severity": "critical",
+      "title": "A session opens without the right credentials: POST /rest/user/login (a session for admin@juice-sh.op was opened without its credentials)",
+      "status": "confirmed",
+      "where": "POST /rest/user/login",
+      "tool": "red-team"
+    },
+    {
+      "findingId": "01M795XYRVT5K1WRQY2M0K9RW3",
+      "runId": "01M795W7YJJPMZGQTFSHPRGT13",
+      "kind": "dynamic",
+      "severity": "high",
+      "title": "Injected script runs in the page (XSS): GET /#/search (a dialog (alert) showed the marker janus-01M795W7YJJPMZGQTFSHPRGT13 on http://janus-red-shprgt13-app:3000/#/search)",
+      "status": "confirmed",
+      "where": "GET /#/search",
+      "tool": "red-team"
+    },
+    {
+      "findingId": "01M795XYZZSSVYKNY0292K8ACK",
+      "runId": "01M795W7YJJPMZGQTFSHPRGT13",
+      "kind": "dynamic",
+      "severity": "high",
+      "title": "The shop accepts a request it should refuse: PUT /api/BasketItems/:id (the order total is negative: -1.99)",
+      "status": "confirmed",
+      "where": "PUT /api/BasketItems/:id",
+      "tool": "red-team"
+    },
+    {
+      "findingId": "01M795Y0B3MM3DT5C0XQD7Q28R",
+      "runId": "01M795W7YJJPMZGQTFSHPRGT13",
+      "kind": "dynamic",
+      "severity": "high",
+      "title": "The shop accepts a request it should refuse: POST /rest/products/reviews (janus-b-01m795xqjjrr0rt6skzfjnc1ev@janus.test appears 6 times where at most 1 is allowed)",
+      "status": "confirmed",
+      "where": "POST /rest/products/reviews",
+      "tool": "red-team"
+    },
+    {
+      "findingId": "01M795Y2D1W6TRSMABJPTJ3T4W",
+      "runId": "01M795W7YJJPMZGQTFSHPRGT13",
+      "kind": "dynamic",
+      "severity": "high",
+      "title": "An account’s password can be guessed without limit: POST /rest/user/login (20 wrong passwords were refused in 49 ms each on average, none throttled, and the right one still signed in)",
+      "status": "confirmed",
+      "where": "POST /rest/user/login",
+      "tool": "red-team"
+    }
+  ],
+  "pocs": [
+    {
+      "findingId": "01M795XR5JFX845ZDJN41QTHXY",
+      "poc": {
+        "version": 1,
+        "target": "juice-shop",
+        "class": "idor",
+        "oracle": "canary-leak",
+        "endpoint": "GET /rest/basket/:id",
+        "steps": {
+          "kind": "idor",
+          "method": "GET",
+          "route": "/rest/basket/:id",
+          "bind": {
+            "victim": "basketId"
+          }
+        }
+      }
+    },
+    {
+      "findingId": "01M795XRHJVMMC45465NY0BPT1",
+      "poc": {
+        "version": 1,
+        "target": "juice-shop",
+        "class": "auth-bypass",
+        "oracle": "authenticated-as",
+        "endpoint": "POST /rest/user/login",
+        "steps": {
+          "kind": "auth-bypass",
+          "method": "POST",
+          "path": "/rest/user/login",
+          "body": "{\"email\":\"' OR 1=1--\",\"password\":\"janus-not-the-password\"}"
+        }
+      }
+    },
+    {
+      "findingId": "01M795XYRVT5K1WRQY2M0K9RW3",
+      "poc": {
+        "version": 1,
+        "target": "juice-shop",
+        "class": "xss",
+        "oracle": "script-executed",
+        "endpoint": "GET /#/search",
+        "steps": {
+          "kind": "xss",
+          "template": "/#/search?q={payload}",
+          "payload": 0
+        }
+      }
+    },
+    {
+      "findingId": "01M795XYZZSSVYKNY0292K8ACK",
+      "poc": {
+        "version": 1,
+        "target": "juice-shop",
+        "class": "business-logic",
+        "oracle": "price-mismatch",
+        "endpoint": "PUT /api/BasketItems/:id",
+        "steps": {
+          "kind": "order-quantity",
+          "quantity": -1
+        }
+      }
+    },
+    {
+      "findingId": "01M795Y0B3MM3DT5C0XQD7Q28R",
+      "poc": {
+        "version": 1,
+        "target": "juice-shop",
+        "class": "business-logic",
+        "oracle": "duplicate-effect",
+        "endpoint": "POST /rest/products/reviews",
+        "steps": {
+          "kind": "once-effect-race",
+          "size": 6
+        }
+      }
+    },
+    {
+      "findingId": "01M795Y2D1W6TRSMABJPTJ3T4W",
+      "poc": {
+        "version": 1,
+        "target": "juice-shop",
+        "class": "brute-force",
+        "oracle": "unthrottled-guessing",
+        "endpoint": "POST /rest/user/login",
+        "steps": {
+          "kind": "login-guessing",
+          "method": "POST",
+          "path": "/rest/user/login",
+          "identity": "email",
+          "password": "password",
+          "guesses": 20
+        }
+      }
+    }
+  ],
+  "fixes": [
+    {
+      "runId": "01M79627VH9ACKKMYX1X898830",
+      "findingId": "01M795XRHJVMMC45465NY0BPT1",
+      "status": "open",
+      "iterations": 3,
+      "branch": null,
+      "patchId": null,
+      "diff": null,
+      "verifications": [
+        {
+          "verifier": "build-checks",
+          "passed": true,
+          "details": "the patched variant compiles (tsc) and starts"
+        },
+        {
+          "verifier": "poc-replay",
+          "passed": true,
+          "details": "the PoC no longer works: no session was opened"
+        },
+        {
+          "verifier": "regression-tests",
+          "passed": false,
+          "details": "no regression test can be generated from a auth-bypass PoC yet"
+        },
+        {
+          "verifier": "build-checks",
+          "passed": true,
+          "details": "the patched variant compiles (tsc) and starts"
+        },
+        {
+          "verifier": "poc-replay",
+          "passed": true,
+          "details": "the PoC no longer works: no session was opened"
+        },
+        {
+          "verifier": "regression-tests",
+          "passed": false,
+          "details": "no regression test can be generated from a auth-bypass PoC yet"
+        },
+        {
+          "verifier": "build-checks",
+          "passed": true,
+          "details": "the patched variant compiles (tsc) and starts"
+        },
+        {
+          "verifier": "poc-replay",
+          "passed": true,
+          "details": "the PoC no longer works: no session was opened"
+        },
+        {
+          "verifier": "regression-tests",
+          "passed": false,
+          "details": "no regression test can be generated from a auth-bypass PoC yet"
+        }
+      ]
+    }
+  ],
+  "tradeoffs": [],
+  "cost": {
+    "runs": [
+      {
+        "runId": "01M795H2WD2W08N1N6J6NZPPXR",
+        "role": "ux",
+        "eur": 0.29115148640000005
+      },
+      {
+        "runId": "01M795W7YJJPMZGQTFSHPRGT13",
+        "role": "red-team",
+        "eur": 0
+      },
+      {
+        "runId": "01M79627VH9ACKKMYX1X898830",
+        "role": "blue-team",
+        "eur": 0.10419588000000002
+      }
+    ],
+    "totalEur": 0.39534736640000007
+  },
+  "eventLogs": [
+    {
+      "runId": "01M795H2WD2W08N1N6J6NZPPXR",
+      "sha256": "d8d6adebe44969c3afa1c935b3eb05bdd8fdf903aa3a5ac763f80b669c08ab60"
+    },
+    {
+      "runId": "01M795W7YJJPMZGQTFSHPRGT13",
+      "sha256": "895fddd84799866bff8dfe52dd13b528bc47a4ffec743ca9949a28471d9d69bf"
+    },
+    {
+      "runId": "01M79627VH9ACKKMYX1X898830",
+      "sha256": "7f586e5d98cf1c844187dc9468e515682b8df04c8f337b7fa5d318e7a937280c"
+    }
+  ],
+  "tools": {
+    "node": "v24.12.0",
+    "janus": "a221f3b163ae7345d7cbd26193985d23d6a3b450",
+    "juice-shop image": "bkimminich/juice-shop:v20.3.0@sha256:cea5a4af4aacee498c491491af0408934ec81d004035c0a02ef3e54395e3bf27",
+    "model navigator": "claude-haiku-5-5",
+    "model competent-baseline": "claude-sonnet-5-5",
+    "model ui-engineer": "claude-sonnet-5-5",
+    "model red-team": "claude-sonnet-5-5",
+    "model blue-team": "claude-sonnet-5-5",
+    "model architect": "claude-opus-5-5"
+  }
+}

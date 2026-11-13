@@ -212,6 +212,28 @@ function describe(event: JanusEvent): { label: string; tone: Tone } {
         tone: blocked ? 'error' : 'ok',
       };
     }
+    case 'gate.stage': {
+      const { stage, status, allowanceEur, runId, spentEur, reason } = event.payload;
+      switch (status) {
+        case 'started':
+          return {
+            label: `Etapa ${stage}: empieza${allowanceEur === undefined ? '' : ` con ${allowanceEur.toFixed(2)} € de presupuesto`}`,
+            tone: 'neutral',
+          };
+        case 'run':
+          return { label: `Etapa ${stage}: run ${runId ?? ''}`, tone: 'neutral' };
+        case 'completed':
+          return {
+            label: `Etapa ${stage}: completada (${(spentEur ?? 0).toFixed(2)} €)`,
+            tone: 'ok',
+          };
+        case 'skipped':
+          return { label: `Etapa ${stage}: se salta · ${reason ?? ''}`, tone: 'warning' };
+        case 'failed':
+          return { label: `Etapa ${stage}: falla · ${reason ?? ''}`, tone: 'error' };
+      }
+      break;
+    }
     case 'verification.result':
       return {
         label: `Verificación ${event.payload.verifier}: ${event.payload.passed ? 'ok' : 'falla'}`,

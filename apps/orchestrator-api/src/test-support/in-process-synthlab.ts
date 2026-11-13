@@ -5,6 +5,7 @@ import { FinishRun } from '../application/finish-run.js';
 import { RunAgentSession } from '../application/run-agent-session.js';
 import { RunControl } from '../application/run-control.js';
 import { runInputFromConfig, StartRun } from '../application/start-run.js';
+import { isRunCompleted } from '../domain/event-store/run-summary.js';
 import type { EventStorePort } from '../domain/event-store/event-store-port.js';
 import type { LLMGatewayPort } from '../domain/llm/llm-gateway-port.js';
 import type { PersonaCatalogPort } from '../domain/persona/persona-catalog-port.js';
@@ -28,7 +29,10 @@ export class InProcessSynthLab implements SynthLabPort {
     },
   ) {}
 
-  async runAndWait(config: RunConfig): Promise<CompletedRun> {
+  async runAndWait(
+    config: RunConfig,
+    options: { readonly onStarted?: (runId: string) => Promise<void> } = {},
+  ): Promise<CompletedRun> {
     this.configs.push(config);
     const { store, sandbox, gateway, personas } = this.deps;
     const queue = new InMemorySessionQueue({ autoRun: true, concurrency: 1 });
@@ -52,8 +56,16 @@ export class InProcessSynthLab implements SynthLabPort {
       control,
       personas,
     }).execute(runInputFromConfig(config));
+    await options.onStarted?.(runId);
     await launched;
     await queue.drain();
-    return { runId, events: await store.readRun(runId) };
+    return this.waitFor(runId);
+  }
+
+  async waitFor(runId: string): Promise<CompletedRun> {
+    for await (const event of this.deps.store.subscribe(runId)) {
+      if (isRunCompleted(event)) break;
+    }
+    return { runId, events: await this.deps.store.readRun(runId) };
   }
 }

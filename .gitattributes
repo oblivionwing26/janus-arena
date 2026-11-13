@@ -1,0 +1,2 @@
+# Signed reports are verified byte for byte (ADR 0014): git must never rewrite their line endings.
+docs/reports/**/dual-report.* -text

@@ -22,6 +22,7 @@ import { RegressionTestsVerifier } from '../../application/blue-team/regression-
 import { RemediateFinding } from '../../application/blue-team/remediate-finding.js';
 import { SynthlabRerunVerifier } from '../../application/blue-team/synthlab-rerun-verifier.js';
 import { LlmEventObserver } from '../../application/llm-event-observer.js';
+import { pocKey } from '../../application/red-team/run-red-team.js';
 import { RunEventRecorder } from '../../application/run-event-recorder.js';
 import { ORCHESTRATOR_ACTOR } from '../../application/start-run.js';
 import { Budget } from '../../domain/llm/budget.js';
@@ -103,9 +104,7 @@ if (!ULID.test(findingId)) throw new Error(`--finding ${findingId} is not a ULID
 const poc = proofOfConceptSchema.parse(
   JSON.parse(
     isRun
-      ? Buffer.from(await new FileArtifactStore().get(source, `poc/${findingId}.json`)).toString(
-          'utf8',
-        )
+      ? Buffer.from(await new FileArtifactStore().get(source, pocKey(findingId))).toString('utf8')
       : await readFile(resolve(cwd, source), 'utf8'),
   ),
 );

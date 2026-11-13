@@ -28,6 +28,26 @@ export function describeSynthLabContract(
   create: () => Promise<{ synthlab: SynthLabPort; close?: () => Promise<void> }>,
 ): void {
   describe(`SynthLabPort contract: ${name}`, () => {
+    it('names the run as soon as it starts, and waits for it again later (F3.9)', async () => {
+      const { synthlab, close } = await create();
+      try {
+        const heard: string[] = [];
+        const run = await synthlab.runAndWait(CONFIG, {
+          onStarted: (runId) => {
+            heard.push(runId);
+            return Promise.resolve();
+          },
+        });
+        expect(heard).toEqual([run.runId]);
+
+        const again = await synthlab.waitFor(run.runId);
+        expect(again.runId).toBe(run.runId);
+        expect(again.events.map((event) => event.id)).toEqual(run.events.map((event) => event.id));
+      } finally {
+        await close?.();
+      }
+    });
+
     it('plays the whole run and returns it once completed', async () => {
       const { synthlab, close } = await create();
       try {

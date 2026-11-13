@@ -14,48 +14,23 @@
 //                                        App in .env; never merges, never approves
 // No LLM is called.
 
-import { execFileSync } from 'node:child_process';
 import { existsSync } from 'node:fs';
-import { chmod, copyFile, mkdir, readFile, writeFile } from 'node:fs/promises';
-import { basename, join, resolve } from 'node:path';
-import { fileURLToPath, pathToFileURL } from 'node:url';
+import { chmod, mkdir, writeFile } from 'node:fs/promises';
+import { join, resolve } from 'node:path';
 
-import { isKnownEvent } from '@janus/shared-kernel';
-import { z } from 'zod';
-
-import { buildDualReport } from '../../application/report/build-dual-report.js';
-import type { StoredEvent } from '../../domain/event-store/stored-event.js';
-import { recommend } from '../../domain/fix/tradeoff.js';
 import type { ReportRunRole } from '../../domain/report/dual-report.js';
-import { FileArtifactStore } from '../../infrastructure/artifacts/file-artifact-store.js';
-import { parsePoc } from '../../infrastructure/attack/poc-files.js';
 import { PostgresEventStore } from '../../infrastructure/event-store/postgres-event-store.js';
-import { loadModelsConfig, repoModelsConfigPath } from '../../infrastructure/llm/models-config.js';
-import { eventLogHash } from '../../infrastructure/report/event-log-hash.js';
-import {
-  loadFunnelsConfig,
-  repoFunnelsConfigPath,
-} from '../../infrastructure/report/funnels-config.js';
-import {
-  isImageDefinition,
-  loadAnySandboxDefinition,
-} from '../../infrastructure/sandbox/sandbox-definition.js';
-import { savedTradeoffSchema } from '../../infrastructure/report/tradeoff-file.js';
-import { signReport, verifyBundle } from '../../infrastructure/signing/report-bundle.js';
 import { generateSigningKeys } from '../../infrastructure/signing/report-signature.js';
-import { GitHubPullRequests } from '../../infrastructure/github/github-pull-requests.js';
-import { formatDualReport } from './format-dual-report.js';
+import {
+  openReportPullRequest,
+  PRIVATE_KEY,
+  PUBLIC_KEY,
+  REPO_ROOT as root,
+  reportProblems,
+  writeSignedReport,
+} from '../report/signed-report.js';
 
-const root = fileURLToPath(new URL('../../../../../', import.meta.url));
 if (existsSync(`${root}.env`)) process.loadEnvFile(`${root}.env`);
-const PRIVATE_KEY = `${root}.janus/keys/janus.key`;
-const PUBLIC_KEY = `${root}keys/janus.pub`;
-const FILES = {
-  json: 'dual-report.json',
-  md: 'dual-report.md',
-  sig: 'dual-report.json.sig',
-  attestation: 'dual-report.intoto.json',
-} as const;
 
 const [command, ...args] = process.argv.slice(2);
 const cwd = process.env.INIT_CWD ?? process.cwd();
@@ -72,11 +47,6 @@ const fail = (message: string): never => {
 
 const ROLES = ['ux', 'audit', 'red-team', 'blue-team', 'v3'] as const;
 const ULID = /^[0-9A-HJKMNP-TV-Z]{26}$/;
-const envelopeSchema = z.object({
-  payloadType: z.string(),
-  payload: z.string(),
-  signatures: z.array(z.object({ keyid: z.string(), sig: z.string() })).min(1),
-});
 
 async function keygen(): Promise<void> {
   if (existsSync(PRIVATE_KEY) && !args.includes('--force')) {
@@ -90,7 +60,8 @@ async function keygen(): Promise<void> {
   await writeFile(PRIVATE_KEY, keys.privatePem, { mode: 0o600 });
   await chmod(PRIVATE_KEY, 0o600);
   await writeFile(PUBLIC_KEY, keys.publicPem);
-  console.log(`Private key: ${PRIVATE_KEY} (keep it; never commit it)\nPublic key: ${PUBLIC_KEY}`);
+  console.log(`Private key: ${PRIVATE_KEY} (keep it; never commit it)
+Public key: ${PUBLIC_KEY}`);
 }
 
 async function report(store: PostgresEventStore): Promise<void> {
@@ -100,89 +71,26 @@ async function report(store: PostgresEventStore): Promise<void> {
     fail('Usage: pnpm janus report --out <dir> --target <name> --run <role>:<runId>...');
     return;
   }
-  if (!existsSync(PRIVATE_KEY)) fail('No signing key: run `pnpm janus keygen` first.');
-  const runs: { runId: string; role: ReportRunRole; events: readonly StoredEvent[] }[] = [];
-  for (const spec of options('run')) {
-    const [role, runId] = spec.split(':');
-    if (!ROLES.includes(role as ReportRunRole) || runId === undefined || !ULID.test(runId)) {
+  const runs = options('run').map((spec) => {
+    const [role = '', runId = ''] = spec.split(':');
+    if (!ROLES.includes(role as ReportRunRole) || !ULID.test(runId)) {
       fail(`--run ${spec}: expected <${ROLES.join('|')}>:<runId>`);
-      return;
     }
-    const events = await store.readRun(runId);
-    if (events.length === 0) fail(`Run ${runId} has no events`);
-    runs.push({ runId, role: role as ReportRunRole, events });
-  }
-
-  // The PoCs of the confirmed Red Team findings, from the runs' artifacts.
-  const artifacts = new FileArtifactStore();
-  const pocs = [];
-  for (const run of runs.filter((each) => each.role === 'red-team')) {
-    for (const event of run.events.filter(isKnownEvent)) {
-      if (event.type !== 'finding.confirmed') continue;
-      const bytes = await artifacts.get(run.runId, event.payload.pocRef).catch(() => null);
-      if (bytes !== null) {
-        pocs.push({
-          findingId: event.payload.findingId,
-          poc: parsePoc(new TextDecoder().decode(bytes)),
-        });
-      }
-    }
-  }
-  const tradeoffs = [];
-  for (const findingId of options('tradeoff')) {
-    const saved = savedTradeoffSchema.parse(
-      JSON.parse(await readFile(`${root}docs/reports/tradeoff-${findingId}.json`, 'utf8')),
-    );
-    tradeoffs.push({ findingId, rows: saved.rows, recommendation: recommend(saved.rows) });
-  }
-
-  const janusCommit = execFileSync('git', ['rev-parse', 'HEAD'], { cwd: root }).toString().trim();
-  const definition = await loadAnySandboxDefinition(target);
-  const models = (await loadModelsConfig(repoModelsConfigPath())).roles;
-  const tools: Record<string, string> = {
-    node: process.version,
-    janus: janusCommit,
-    ...(isImageDefinition(definition) ? { [`${target} image`]: definition.image } : {}),
-    ...Object.fromEntries(
-      Object.entries(models).map(([role, model]) => [`model ${role}`, model.model]),
-    ),
-  };
-  const funnels = await loadFunnelsConfig(repoFunnelsConfigPath());
-  const reportConfig = funnels[target];
-  if (reportConfig === undefined) {
-    fail(`config/funnels.yaml has no ${target}`);
-    return;
-  }
-  const dual = buildDualReport({
-    target,
-    janusCommit,
-    tools,
-    runs,
-    pocs,
-    tradeoffs,
-    eventLogs: Object.fromEntries(runs.map((run) => [run.runId, eventLogHash(run.events)])),
-    reportConfig,
+    return { role: role as ReportRunRole, runId };
   });
-  const commits = [
-    { name: 'janus', sha: janusCommit },
-    ...options('commit').map((spec) => {
-      const [name = '', sha = ''] = spec.split(':');
-      if (!/^[0-9a-f]{40}$/.test(sha)) fail(`--commit ${spec}: expected <name>:<40-hex sha>`);
-      return { name, sha };
-    }),
-  ];
-  const signed = signReport({
-    report: dual,
-    privatePem: await readFile(PRIVATE_KEY, 'utf8'),
-    commits,
-    predicate: { tools, runs: runs.map(({ runId, role }) => ({ runId, role })) },
+  const commits = options('commit').map((spec) => {
+    const [name = '', sha = ''] = spec.split(':');
+    if (!/^[0-9a-f]{40}$/.test(sha)) fail(`--commit ${spec}: expected <name>:<40-hex sha>`);
+    return { name, sha };
   });
   const dir = resolve(cwd, out);
-  await mkdir(dir, { recursive: true });
-  await writeFile(join(dir, FILES.json), signed.reportBytes);
-  await writeFile(join(dir, FILES.md), formatDualReport(dual));
-  await writeFile(join(dir, FILES.sig), `${signed.signature}\n`);
-  await writeFile(join(dir, FILES.attestation), `${JSON.stringify(signed.attestation, null, 2)}\n`);
+  const dual = await writeSignedReport(store, {
+    dir,
+    target,
+    runs,
+    tradeoffs: options('tradeoff'),
+    commits,
+  });
   console.log(
     `Signed dual report in ${dir}: ${String(dual.findings.length)} finding(s), ${String(dual.fixes.length)} fix(es), ${String(runs.length)} event log(s), ${dual.cost.totalEur.toFixed(2)} €`,
   );
@@ -195,60 +103,21 @@ async function verify(store: PostgresEventStore | null): Promise<void> {
     return;
   }
   const dir = resolve(cwd, target);
-  const reportBytes = new Uint8Array(await readFile(join(dir, FILES.json)));
-  const signature = (await readFile(join(dir, FILES.sig), 'utf8')).trim();
-  const attestation = envelopeSchema.parse(
-    JSON.parse(await readFile(join(dir, FILES.attestation), 'utf8')),
+  const key = option('key');
+  const problems = await reportProblems(
+    dir,
+    store,
+    key === undefined ? PUBLIC_KEY : resolve(cwd, key),
   );
-  const publicPem = await readFile(resolve(cwd, option('key') ?? PUBLIC_KEY), 'utf8');
-  let eventLogs: Record<string, string> | undefined;
-  if (store !== null) {
-    const listed =
-      (
-        JSON.parse(new TextDecoder().decode(reportBytes)) as {
-          eventLogs?: { runId: string }[];
-        }
-      ).eventLogs ?? [];
-    eventLogs = {};
-    for (const { runId } of listed) eventLogs[runId] = eventLogHash(await store.readRun(runId));
-  }
-  const problems = verifyBundle({
-    reportBytes,
-    signature,
-    attestation,
-    publicPem,
-    ...(eventLogs === undefined ? {} : { eventLogs }),
-  });
   if (problems.length === 0) {
     console.log(
-      `OK: ${dir} is signed by this key, its attestation names it${eventLogs === undefined ? '' : ', and every event log still hashes the same'}.`,
+      `OK: ${dir} is signed by this key, its attestation names it${store === null ? '' : ', and every event log still hashes the same'}.`,
     );
     return;
   }
   console.log(`NOT VERIFIED: ${dir}`);
   for (const problem of problems) console.log(`  - ${problem}`);
   process.exitCode = 1;
-}
-
-/** What is wrong with the signed report in `dir`, empty when nothing is. */
-async function problemsOf(dir: string, store: PostgresEventStore | null): Promise<string[]> {
-  const reportBytes = new Uint8Array(await readFile(join(dir, FILES.json)));
-  const listed =
-    (JSON.parse(new TextDecoder().decode(reportBytes)) as { eventLogs?: { runId: string }[] })
-      .eventLogs ?? [];
-  const eventLogs: Record<string, string> = {};
-  if (store !== null) {
-    for (const { runId } of listed) eventLogs[runId] = eventLogHash(await store.readRun(runId));
-  }
-  return verifyBundle({
-    reportBytes,
-    signature: (await readFile(join(dir, FILES.sig), 'utf8')).trim(),
-    attestation: envelopeSchema.parse(
-      JSON.parse(await readFile(join(dir, FILES.attestation), 'utf8')),
-    ),
-    publicPem: await readFile(PUBLIC_KEY, 'utf8'),
-    ...(store === null ? {} : { eventLogs }),
-  });
 }
 
 async function pullRequest(store: PostgresEventStore | null): Promise<void> {
@@ -261,76 +130,13 @@ async function pullRequest(store: PostgresEventStore | null): Promise<void> {
     );
     return;
   }
-  const required = (name: string) => {
-    const value = process.env[name];
-    if (value === undefined || value === '')
-      fail(`${name} is not set: see the F3.8 note in docs/ROADMAP.md`);
-    return value ?? '';
-  };
-  const appId = required('JANUS_GITHUB_APP_ID');
-  const keyPath = required('JANUS_GITHUB_APP_KEY');
-  const installationId = required('JANUS_GITHUB_INSTALLATION_ID');
-
-  // Nothing leaves this machine unless the report verifies.
-  const dir = resolve(cwd, reportDir);
-  const problems = await problemsOf(dir, store);
-  if (problems.length > 0) {
-    fail(`The report does not verify, nothing was published:\n  - ${problems.join('\n  - ')}`);
-  }
-
-  const path = resolve(cwd, workspace);
-  const git = (...gitArgs: string[]) =>
-    execFileSync('git', ['-c', 'user.name=Janus', '-c', 'user.email=janus@localhost', ...gitArgs], {
-      cwd: path,
-    })
-      .toString()
-      .trim();
-  if (git('status', '--porcelain') !== '') fail(`${path} has uncommitted changes`);
-  git('checkout', '--quiet', branch);
-  const origin = /github\.com[/:]([\w.-]+)\/([\w.-]+?)(?:\.git)?$/.exec(
-    git('remote', 'get-url', 'origin'),
-  );
-  if (origin === null) {
-    fail(`${path}'s origin is not a GitHub repository`);
-    return;
-  }
-  const [, owner = '', repo = ''] = origin;
-  await mkdir(join(path, 'janus-report'), { recursive: true });
-  for (const file of Object.values(FILES)) {
-    await copyFile(join(dir, file), join(path, 'janus-report', file));
-  }
-  await copyFile(PUBLIC_KEY, join(path, 'janus-report', 'janus.pub'));
-  git('add', 'janus-report');
-  if (git('status', '--porcelain') !== '') {
-    git(
-      'commit',
-      '--quiet',
-      '-m',
-      'docs(janus): signed dual report',
-      '-m',
-      'Verify with `cosign verify-blob --key janus-report/janus.pub --signature janus-report/dual-report.json.sig --insecure-ignore-tlog janus-report/dual-report.json`.',
-    );
-  }
-
-  const markdown = await readFile(join(dir, FILES.md), 'utf8');
-  const body = `${markdown}\n---\n\nOpened by Janus. The signed report and its public key are in \`janus-report/\` on this branch. Janus never merges and never approves: a person reviews this pull request.\n`;
-  const opened = await new GitHubPullRequests({
-    appId,
-    privatePem: await readFile(keyPath, 'utf8'),
-    installationId,
-  }).open({
-    owner,
-    repo,
+  const title = option('title');
+  const opened = await openReportPullRequest(store, {
+    workspace: resolve(cwd, workspace),
     branch,
-    workspace: {
-      id: basename(path),
-      path,
-      url: pathToFileURL(path).href,
-      baseSha: git('rev-parse', 'HEAD'),
-    },
-    title: option('title') ?? `Janus: ${branch}`,
-    body,
-  });
+    reportDir: resolve(cwd, reportDir),
+    ...(title === undefined ? {} : { title }),
+  }).catch((error: unknown) => fail(error instanceof Error ? error.message : String(error)));
   console.log(`${opened.existed ? 'Already open' : 'Opened'}: ${opened.url} (into ${opened.base})`);
 }
 

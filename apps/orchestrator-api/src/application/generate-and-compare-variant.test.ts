@@ -46,6 +46,10 @@ const SHOP = {
 class StubSynthLab implements SynthLabPort {
   readonly configs: RunConfig[] = [];
 
+  waitFor(): Promise<CompletedRun> {
+    return Promise.reject(new Error('not used'));
+  }
+
   runAndWait(config: RunConfig): Promise<CompletedRun> {
     this.configs.push(config);
     if (config.variants.length === 1) {

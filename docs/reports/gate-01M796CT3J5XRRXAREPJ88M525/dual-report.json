@@ -1,0 +1,78 @@
+{
+  "format": "janus-dual-report",
+  "version": 1,
+  "target": "shoplab",
+  "janusCommit": "a221f3b163ae7345d7cbd26193985d23d6a3b450",
+  "ux": {
+    "runId": "01M796YBE1ZZMFK0266VWSX956",
+    "variants": [
+      {
+        "variant": "a",
+        "personas": {
+          "successes": 0,
+          "n": 6
+        },
+        "baseline": {
+          "successes": 1,
+          "n": 1
+        }
+      },
+      {
+        "variant": "b",
+        "personas": {
+          "successes": 5,
+          "n": 6
+        },
+        "baseline": {
+          "successes": 1,
+          "n": 1
+        }
+      }
+    ],
+    "difference": {
+      "mean": 0.8333333333333334,
+      "low": 0.5,
+      "high": 1
+    },
+    "verdict": "b-higher"
+  },
+  "findings": [],
+  "pocs": [],
+  "fixes": [],
+  "tradeoffs": [],
+  "cost": {
+    "runs": [
+      {
+        "runId": "01M796YBE1ZZMFK0266VWSX956",
+        "role": "ux",
+        "eur": 0.27907935250000004
+      },
+      {
+        "runId": "01M797M96H2ZDM7K31R7ZM9SY3",
+        "role": "audit",
+        "eur": 0
+      }
+    ],
+    "totalEur": 0.27907935250000004
+  },
+  "eventLogs": [
+    {
+      "runId": "01M796YBE1ZZMFK0266VWSX956",
+      "sha256": "344e77ae35703b5e01b8a23ee00d6157322e11f89520d4928ccda07b29a00512"
+    },
+    {
+      "runId": "01M797M96H2ZDM7K31R7ZM9SY3",
+      "sha256": "ca8baa18f255c7e3d7032ed0b22db238a049db3fb121171d17429c831eff03e5"
+    }
+  ],
+  "tools": {
+    "node": "v24.12.0",
+    "janus": "a221f3b163ae7345d7cbd26193985d23d6a3b450",
+    "model navigator": "claude-haiku-5-5",
+    "model competent-baseline": "claude-sonnet-5-5",
+    "model ui-engineer": "claude-sonnet-5-5",
+    "model red-team": "claude-sonnet-5-5",
+    "model blue-team": "claude-sonnet-5-5",
+    "model architect": "claude-opus-5-5"
+  }
+}
