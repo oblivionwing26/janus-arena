@@ -772,6 +772,23 @@ Hecho cuando: los tres artículos están publicados y el paquete se instala desd
 - [ ] Comparar el ranking de abandonos sintético con el real y calcular la correlación
 - [ ] Documentar el método como posible tema de TFM
 
+### F4.7 · Capa de front de la consola — XL (sin estimar; solo planificado, no se desarrolla todavía)
+
+La consola se construyó para depurar, no para enseñar: hoy se ve muy poco cuidada (listas planas, estilos sueltos, etiquetas en español mezcladas con el banner de la demo en inglés, sin sistema de diseño). Este paso es una capa de front grande y propia, que se estima y se aprueba cuando se decida empezar. Hasta entonces no se toca la consola con fines visuales, y F4.1b solo añade lo que necesita (la página de curvas y las marcas del lienzo) con los estilos actuales.
+
+Alcance previsto, a refinar en su plan:
+
+- [ ] Sistema de diseño: tokens (color, tipografía, espaciado), modo claro y oscuro, componentes base reutilizables
+- [ ] Rediseño de las pantallas: lista de runs, línea de tiempo, replay, informe SynthLab, informe dual, grafo de ataque, FinOps, Launch Day
+- [ ] Lienzo del enjambre y gráficas (curvas, embudo, mapa de calor) con un estilo común y legible
+- [ ] Idioma único y coherente en toda la interfaz, y modo demo pulido para quien llega desde el enlace público
+- [ ] Responsive, accesibilidad (contraste, teclado, lectores de pantalla) y rendimiento con runs largos
+- [ ] Capturas y vídeo nuevos para el README y los artículos
+
+Restricciones: sin cambios en los esquemas de eventos ni en el replay (es solo la vista); cualquier dependencia nueva se pregunta antes; el modo demo sigue siendo estático y sin backend.
+
+Hecho cuando: una persona que no conoce el proyecto entiende en la demo pública qué hace Janus y qué encontró, sin explicación aparte.
+
 ## Rutina de trabajo con Claude Code
 
 La rutina convierte semanas irregulares en progreso constante: cada sesión empieza y termina en un estado limpio, así que da igual si la siguiente llega mañana o en diez días.
