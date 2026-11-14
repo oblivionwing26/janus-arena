@@ -698,10 +698,10 @@ F4 añade la demo más vistosa (Launch Day) y responde a la pregunta de negocio.
 
 ### F4.1 · Modo Launch Day — L (12–16 h)
 
-- [ ] Configuración de run con mezcla de roles (empezar con 18 legítimos + 2 saboteadores)
-- [ ] Cuentas canario para los legítimos, con datos distinguibles, para medir contaminación entre sesiones
-- [ ] Saboteadores reutilizan el Red Team con cadencia lenta y objetivos de saturación de endpoints
-- [ ] Etiqueta de rol solo en el event log, invisible para ShopLab
+- [x] Configuración de run con mezcla de roles (`saboteurs` y `clientIps` en el fichero de run; el run de 18 legítimos + 2 saboteadores por variante es de F4.1c)
+- [x] Cuentas canario para los legítimos, con datos distinguibles, para medir contaminación entre sesiones
+- [x] Saboteadores reutilizan el Red Team con cadencia lenta y objetivos de saturación de endpoints (su guardia, sus eventos y su estilo de oráculo, no su banco; ADR 0020)
+- [x] Etiqueta de rol solo en el event log, invisible para ShopLab
 - [ ] Tres curvas por ejecución: éxito de legítimos, éxito de ataques, falsos positivos de las defensas; antes y después de parchear
 - [ ] Lienzo PixiJS con los saboteadores marcados (solo en la vista, a posteriori)
 
@@ -737,7 +737,18 @@ Nota F4.1a, primera parte (cimientos, [ADR 0020](adr/0020-shoplab-may-be-loaded-
 - **Una dirección por sesión:** `session.started` gana `role` y `client`, y el fichero de run gana `clientIps` (`distinct` o `shared`) y `saboteurs`. La matriz da a cada hueco su dirección y la misma a los dos lados de un par. El navegador la manda como `X-Forwarded-For`.
 - **Esquemas:** `saturation` en los tipos de prueba y `unthrottled-requests` en los oráculos (la implementación del oráculo es de la segunda parte).
 - **Verificado:** tests unitarios de la configuración, la matriz de direcciones, la regla del entorno (rechaza una clave fuera de la lista y no deja a un objetivo de imagen tomar ninguna), la definición de ShopLab y el ciclo de vida de un run (el `env` llega al sandbox y queda en `run.started`; la dirección llega al navegador y a `session.started`). Y un test de sandbox sobre la imagen real de ShopLab (`pnpm test:sandbox`, sin gasto): sin verificar la propiedad, `saturation` se bloquea; verificada, pasa; `idor` se bloquea aun verificada; con la defensa por IP encendida (`6/60`), un cliente recibe 6 respuestas 200 y luego `429`, y otro cliente sigue pasando. Antes de crear la carpeta del token, el test falló con el guardia de `docker cp` (`/tmp` no acaba en `.well-known`), y se corrigió en la imagen de ShopLab.
-- **Falta de F4.1a:** los saboteadores (la clase de ataque, el oráculo y su ejecución junto a las sesiones) y los canarios.
+- **Falta de F4.1a:** nada; la segunda parte está debajo.
+
+Nota F4.1a, segunda parte (saboteadores y canarios; sin gasto de API, no hay LLM en nada de esto):
+
+- **Un saboteador es una sesión más de la cola**, de tipo `saboteur`, con su dirección (`10.99.0.k`, la misma en las dos variantes de un par) y su ritmo (`requestsPerSecond`). La matriz los pone primero, para que arranquen a la vez que los compradores, y no cambia nada de los demás huecos. Son acotados (40 peticiones o un intento de adivinar), así que no hace falta pararlos al acabar el run: `FinishRun` los espera como a cualquier sesión.
+- **Dos tareas, por turnos** (`saturation` el primero, `brute-force` el segundo, y así): la saturación manda 40 peticiones a ritmo constante a `POST /api/auth/logout` (una ruta anónima que el límite por cliente cuenta); la adivinación crea una cuenta propia, prueba 8 contraseñas erróneas y luego la buena. Nunca toca la cuenta de un comprador.
+- **Mismas reglas que el Red Team:** propiedad verificada una vez por variante (`SaboteurScopes` guarda la promesa y no la guarda si falla), toda petición pasa por el guardia, un `attack.attempt` por petición y un `attack.verdict` al final. Sin `finding.created`: ShopLab no tiene fallos que encontrar, se mide lo que una defensa hace al abuso. La sesión escribe `session.started` con `role: saboteur` y `client`.
+- **Oráculo `unthrottled-requests`** (puro): explotable si hubo al menos 10 peticiones, todas contestadas y ninguna rechazada (`429`) ni con la tienda caída (`503`). El de adivinación es el de F3.6 (`unthrottled-guessing`).
+- **Canarios:** cada comprador legítimo de un run con direcciones escribe en su dirección de envío un código propio (`CNR-XXXXXX`, función del run y de la sesión). Al verificar la tarea, si algún pedido que lee lleva el canario de otra sesión, `task.verified` añade el check `orders hold only its own canary` con `passed: false`. No cambia el estado de la tarea: la contaminación se lee aparte del éxito. Sin direcciones en el run, nada cambia.
+- **Cableado:** `AppAdapters.saboteurs` (http, tokens, política por objetivo) y `RunAgentSession` despacha el tipo `saboteur`; sin esa dependencia el hueco falla como error de plataforma y se reintenta.
+- **Verificado:** tests unitarios del oráculo, de la matriz, del saboteador (contra una ShopLab falsa con las defensas, con ritmo, direcciones, eventos, propiedad una sola vez y parada), del despacho y de los canarios (en un run completo en memoria). Y un test de sandbox sobre la imagen real de ShopLab (`SHOPLAB_REF=step/f4-1a-verify-route pnpm test:sandbox`): sin defensas, la saturación y la adivinación son explotables; con `20/60` por cliente y `3/60` por cuenta, ninguna lo es.
+- **Falta de F4.1:** las tres curvas y el lienzo (F4.1b) y el run real (F4.1c).
 
 ### F4.3 · Clon de Timbra (solo con permiso escrito) — M a L (8–12 h)
 

@@ -8,9 +8,11 @@ import type { LLMGatewayPort } from '../domain/llm/llm-gateway-port.js';
 import type { PersonaCatalogPort } from '../domain/persona/persona-catalog-port.js';
 import { InfrastructureError } from '../domain/run/run-errors.js';
 import type { ShopperAccountPort } from '../domain/task/shopper-account-port.js';
+import { canaryFor } from '../domain/task/canary.js';
 import { SHOPLAB_SHOPPER, type ShopperProfile } from '../domain/task/shopper-profile.js';
 import type { SessionJob, SessionResult } from '../domain/run/session-queue-port.js';
 import { NavigatorSession } from './navigator-session.js';
+import type { RunSaboteur } from './saboteur/run-saboteur.js';
 import type { RunControl } from './run-control.js';
 import { RunEventRecorder } from './run-event-recorder.js';
 import { ScriptedPurchaseAgent } from './scripted-purchase-agent.js';
@@ -32,6 +34,8 @@ export interface RunAgentSessionDeps {
   readonly shoppers?: Readonly<Record<string, ShopperProfile>>;
   /** Creates accounts before a session, for targets whose profile is `preregistered`. */
   readonly accounts?: Readonly<Record<string, ShopperAccountPort>>;
+  /** Plays the saboteur slots of a Launch Day run (F4.1); without it such a run fails to queue them. */
+  readonly saboteur?: Pick<RunSaboteur, 'execute'>;
 }
 
 /**
@@ -65,6 +69,7 @@ export class RunAgentSession {
     const signal = control.signal(runId);
     try {
       if (signal.aborted) return { sessionIndex, status: 'cancelled' };
+      if (spec.kind === 'saboteur') return await this.sabotage(job, signal);
       return spec.kind === 'scripted' || spec.persona === undefined
         ? await this.scripted(job, signal)
         : await this.navigate(job, spec.persona, signal);
@@ -80,6 +85,14 @@ export class RunAgentSession {
     } finally {
       releaseSlot();
     }
+  }
+
+  private sabotage(job: SessionJob, signal: AbortSignal): Promise<SessionResult> {
+    const { saboteur } = this.deps;
+    if (saboteur === undefined) {
+      throw new InfrastructureError(`Run ${job.runId} cannot run saboteurs in this process`);
+    }
+    return saboteur.execute(job, signal);
   }
 
   /**
@@ -161,6 +174,11 @@ export class RunAgentSession {
     const orders = this.deps.orders?.[job.target];
     const shopper = this.shopper(job);
     const name = `${persona.name} Sintética`;
+    // A Launch Day run (F4.1) marks each shopper's address, to see whether sessions leak into one another.
+    const canary =
+      job.spec.clientIp !== undefined && shopper.details.address !== undefined
+        ? canaryFor(job.runId, agentId)
+        : undefined;
     const preregistered = shopper.account === 'preregistered';
     if (preregistered) {
       const accounts = this.deps.accounts?.[job.target];
@@ -191,13 +209,16 @@ export class RunAgentSession {
       ...(job.spec.clientIp === undefined ? {} : { clientIp: job.spec.clientIp }),
       ...(job.task === undefined || orders === undefined
         ? {}
-        : { verify: { task: job.task, orders } }),
+        : { verify: { task: job.task, orders, ...(canary === undefined ? {} : { canary }) } }),
       task: {
         hasAccount: preregistered,
         savedCheckout: preregistered && shopper.savedCheckout === true,
         ...(job.task === undefined ? {} : { goal: job.task.goal }),
         details: {
           ...shopper.details,
+          ...(canary === undefined
+            ? {}
+            : { address: `${shopper.details.address ?? ''} ${canary}`.trim() }),
           name,
           email,
           password,

@@ -10,6 +10,9 @@ import type { ShopperProfile } from '../domain/task/shopper-profile.js';
 import type { LLMGatewayPort } from '../domain/llm/llm-gateway-port.js';
 import type { PersonaCatalogPort } from '../domain/persona/persona-catalog-port.js';
 import type { SandboxPort } from '../domain/sandbox/sandbox-port.js';
+import type { OwnershipTokenPort } from '../domain/scope/ownership-token-port.js';
+import type { ScopePolicy } from '../domain/scope/scope-policy.js';
+import type { ScopedHttpPort } from '../domain/scope/scoped-http-port.js';
 import type { SessionQueueRuntime } from '../infrastructure/queue/session-queue-runtime.js';
 
 /** Every adapter the app needs. main.ts passes the real ones; tests pass in-memory fakes. */
@@ -31,6 +34,13 @@ export interface AppAdapters {
   readonly artifacts?: ArtifactStorePort;
   /** Friction thresholds (config/friction.yaml); the engine defaults otherwise. */
   readonly friction?: FrictionConfig;
+  /** What saboteurs need to load a variant (F4.1, ADR 0020). Without it, a run cannot have any. */
+  readonly saboteurs?: {
+    readonly http: ScopedHttpPort;
+    readonly tokens: OwnershipTokenPort;
+    /** The target's policy for the origin a variant serves (config/scopes.yaml). */
+    readonly policyFor: (target: string, origin: string) => ScopePolicy;
+  };
   /** Report settings per target (config/funnels.yaml, F1.10). Without them, no reports. */
   readonly reports?: Readonly<Record<string, ReportConfig>>;
 }

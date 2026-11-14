@@ -4,6 +4,7 @@
 import { isKnownEvent } from '@janus/shared-kernel';
 import { describe, expect, it } from 'vitest';
 
+import { canaryFor } from '../domain/task/canary.js';
 import { ScriptedBrowser } from '../infrastructure/browser/scripted-browser.js';
 import { InMemoryEventStore } from '../infrastructure/event-store/in-memory-event-store.js';
 import { InMemoryOrderReader } from '../infrastructure/orders/in-memory-order-reader.js';
@@ -17,6 +18,7 @@ import { SHOPLAB_PAGES } from '../test-support/shoplab-pages.js';
 import { FinishRun } from './finish-run.js';
 import { RunAgentSession } from './run-agent-session.js';
 import { RunControl } from './run-control.js';
+import { CANARY_CHECK } from './navigator-session.js';
 import { runInputFromConfig, StartRun } from './start-run.js';
 
 const tasks = [
@@ -245,5 +247,145 @@ describe('a persona who forgets their password (F3.6)', () => {
     );
     // The right one is still there, last to try.
     expect(prompt).toMatch(/- password: \S+/);
+  });
+});
+
+describe('canary accounts in a Launch Day run (F4.1)', () => {
+  const RUN_ID = '01JC0F28CNS0000000000000AA';
+  const agent = (task: number) => `competent-baseline-a-t${String(task)}-s1-a1`;
+
+  it('marks each shopper’s address and checks that no order carries another one’s mark', async () => {
+    const store = new InMemoryEventStore();
+    const sandbox = new InMemorySandbox();
+    const queue = new InMemorySessionQueue({ autoRun: true, concurrency: 1 });
+    const control = new RunControl();
+    const personas = new InMemoryPersonaCatalog([
+      samplePersona('competent-baseline', {
+        modelRole: 'competent-baseline',
+        biases: [],
+        digitalLiteracy: 5,
+      }),
+    ]);
+    const orders = new InMemoryOrderReader();
+    const mug = (id: number, address: string) => ({
+      id,
+      items: [{ name: 'Taza de cerámica', quantity: 1 }],
+      discountCents: 0,
+      shippingAddress: address,
+    });
+    // The first shopper reads its own order; the second reads one with the first one's mark.
+    orders.set('scripted-1', [mug(6, `Calle Sintética 1 ${canaryFor(RUN_ID, agent(1))}`)]);
+    orders.set('scripted-2', [mug(7, `Calle Sintética 1 ${canaryFor(RUN_ID, agent(1))}`)]);
+    const gateway = new ScriptedGateway([
+      { tool: 'done', input: { outcome: 'success', reason: 'Hecho.' } },
+    ]);
+    const runSession = new RunAgentSession({
+      store,
+      browser: new ScriptedBrowser(SHOPLAB_PAGES),
+      control,
+      navigator: { gateway, personas },
+      orders: { shoplab: orders },
+    });
+    const finishRun = new FinishRun({ store, sandbox, control });
+    void queue.start({
+      runSession: (job) => runSession.execute(job),
+      finishRun: (plan, results) => finishRun.execute(plan, results),
+    });
+    const startRun = new StartRun({
+      store,
+      sandbox,
+      queue,
+      control,
+      personas,
+      newRunId: () => RUN_ID,
+    });
+
+    const { runId, launched } = await startRun.execute(
+      runInputFromConfig({
+        target: 'shoplab',
+        variants: [{ key: 'a', ref: 'main' }],
+        personas: [],
+        seeds: [1],
+        tasks,
+        clientIps: { mode: 'distinct' },
+        budget: { maxTokens: 1_000_000, maxEur: 1 },
+      }),
+    );
+    await launched;
+    await queue.drain();
+
+    const events = (await store.readRun(runId)).filter(isKnownEvent);
+    const verified = events.flatMap((event) => (event.type === 'task.verified' ? [event] : []));
+    const canaryChecks = verified.map((event) => [
+      event.actor.agentId,
+      event.payload.checks.find((check) => check.check === CANARY_CHECK)?.passed,
+    ]);
+    expect(canaryChecks).toEqual([
+      [agent(1), true],
+      [agent(2), false],
+    ]);
+    // Contamination is read apart from success: the second order is wrong for another reason only.
+    expect(verified.map((event) => event.payload.status)).toEqual(['passed', 'failed']);
+    // The shopper was told its address with the mark, to type it in the form.
+    const told = JSON.stringify(gateway.actionRequests()[0]);
+    expect(told).toContain(canaryFor(RUN_ID, agent(1)));
+  });
+
+  it('leaves a run without client addresses as it was, with no canary and no extra check', async () => {
+    const store = new InMemoryEventStore();
+    const sandbox = new InMemorySandbox();
+    const queue = new InMemorySessionQueue({ autoRun: true, concurrency: 1 });
+    const control = new RunControl();
+    const personas = new InMemoryPersonaCatalog([
+      samplePersona('competent-baseline', {
+        modelRole: 'competent-baseline',
+        biases: [],
+        digitalLiteracy: 5,
+      }),
+    ]);
+    const orders = new InMemoryOrderReader();
+    orders.set('scripted-1', [
+      {
+        id: 1,
+        items: [{ name: 'Taza de cerámica', quantity: 1 }],
+        discountCents: 0,
+        shippingAddress: 'x',
+      },
+    ]);
+    const gateway = new ScriptedGateway([
+      { tool: 'done', input: { outcome: 'success', reason: 'Hecho.' } },
+    ]);
+    const runSession = new RunAgentSession({
+      store,
+      browser: new ScriptedBrowser(SHOPLAB_PAGES),
+      control,
+      navigator: { gateway, personas },
+      orders: { shoplab: orders },
+    });
+    const finishRun = new FinishRun({ store, sandbox, control });
+    void queue.start({
+      runSession: (job) => runSession.execute(job),
+      finishRun: (plan, results) => finishRun.execute(plan, results),
+    });
+    const startRun = new StartRun({ store, sandbox, queue, control, personas });
+
+    const { runId, launched } = await startRun.execute(
+      runInputFromConfig({
+        target: 'shoplab',
+        variants: [{ key: 'a', ref: 'main' }],
+        personas: [],
+        seeds: [1],
+        tasks: tasks.slice(0, 1),
+        budget: { maxTokens: 1_000_000, maxEur: 1 },
+      }),
+    );
+    await launched;
+    await queue.drain();
+
+    const verified = (await store.readRun(runId))
+      .filter(isKnownEvent)
+      .flatMap((event) => (event.type === 'task.verified' ? [event] : []));
+    expect(verified[0]?.payload.checks.map((check) => check.check)).not.toContain(CANARY_CHECK);
+    expect(JSON.stringify(gateway.actionRequests()[0])).not.toContain('CNR-');
   });
 });

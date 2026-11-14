@@ -2,7 +2,7 @@ import { describe, expect, it } from 'vitest';
 
 import { InvalidRunConfigError } from './invalid-run-config-error.js';
 import { assertValidRunConfig, type RunConfig } from './run-config.js';
-import { clientAddress, sessionMatrix } from './session-matrix.js';
+import { clientAddress, saboteurAddress, sessionMatrix } from './session-matrix.js';
 
 const BASE: RunConfig = {
   target: 'shoplab',
@@ -86,5 +86,36 @@ describe('the address of each session (F4.1)', () => {
     expect(clientAddress({ mode: 'distinct' }, 249)).toBe('10.20.0.250');
     expect(clientAddress({ mode: 'distinct' }, 250)).toBe('10.20.1.1');
     expect(clientAddress({ mode: 'shared', addresses: 3 }, 4)).toBe('10.30.0.2');
+  });
+});
+
+describe('the saboteurs of a run (F4.1)', () => {
+  const withSaboteurs: RunConfig = { ...BASE, saboteurs: { count: 2, requestsPerSecond: 4 } };
+
+  it('adds the same saboteurs to every variant, first, each with an address of its own', () => {
+    const saboteurs = sessionMatrix(withSaboteurs).filter((slot) => slot.kind === 'saboteur');
+
+    expect(saboteurs).toHaveLength(4);
+    expect(saboteurs.map((slot) => slot.sessionIndex)).toEqual([0, 1, 2, 3]);
+    expect(saboteurs.map((slot) => [slot.variant, slot.clientIp])).toEqual([
+      ['a', '10.99.0.1'],
+      ['b', '10.99.0.1'],
+      ['a', '10.99.0.2'],
+      ['b', '10.99.0.2'],
+    ]);
+    expect(
+      saboteurs.every((slot) => slot.requestsPerSecond === 4 && slot.persona === undefined),
+    ).toBe(true);
+    expect(saboteurAddress(4)).toBe('10.99.0.5');
+  });
+
+  it('leaves the shoppers as they were, only after the saboteurs', () => {
+    const without = sessionMatrix(BASE);
+    const withThem = sessionMatrix(withSaboteurs).filter((slot) => slot.kind !== 'saboteur');
+
+    expect(withThem.map(({ sessionIndex: _index, ...slot }) => slot)).toEqual(
+      without.map(({ sessionIndex: _index, ...slot }) => slot),
+    );
+    expect(sessionMatrix(BASE).some((slot) => slot.kind === 'saboteur')).toBe(false);
   });
 });
