@@ -14,7 +14,7 @@ More context: `docs/VISION.md` (product), `docs/adr/` (decisions), `docs/ROADMAP
 
 ## Current step
 
-**F4.1 — Modo Launch Day.** Read this step in `docs/ROADMAP.md` before starting. Do not build features from later steps.
+**F4.5 — Artículos y open source.** F4.1 y F4.2 están cerrados (Launch Day, informe en `docs/reports/launch-day-shoplab.md`). Read this step in `docs/ROADMAP.md` before starting. F4.3 solo con permiso escrito de la clienta; F4.4 es independiente y casi sin código; F4.7 (capa de front) está planificada y no se desarrolla todavía. Do not build features from later steps.
 
 (Update this line every time a step is closed.)
 

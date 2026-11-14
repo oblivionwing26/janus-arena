@@ -1,0 +1,541 @@
+{
+  "format": "janus-launch-day-report",
+  "version": 1,
+  "runs": [
+    {
+      "runId": "01M7C042BQ18AAGTQ6983VY9D7",
+      "settings": {
+        "a": {
+          "SHOPLAB_TRUST_FORWARDED_FOR": "1"
+        },
+        "b": {
+          "SHOPLAB_RATE_LIMIT_IP": "20/60",
+          "SHOPLAB_TRUST_FORWARDED_FOR": "1"
+        }
+      },
+      "addresses": "distinct",
+      "variants": [
+        {
+          "variant": "a",
+          "legitimate": {
+            "sessions": 14,
+            "success": {
+              "rate": 0.8571428571428571,
+              "low": 0.6005862050302966,
+              "high": 0.9599060787285352,
+              "successes": 12,
+              "n": 14
+            },
+            "medianSteps": 13,
+            "blocked": {
+              "rate": 0,
+              "low": 0,
+              "high": 0.21531080273763575,
+              "successes": 0,
+              "n": 14
+            }
+          },
+          "attacks": {
+            "success": {
+              "rate": 1,
+              "low": 0.3423802275066532,
+              "high": 1,
+              "successes": 2,
+              "n": 2
+            },
+            "byTask": [
+              {
+                "task": "brute-force",
+                "verdicts": 1,
+                "exploitable": 1,
+                "refusedAfter": []
+              },
+              {
+                "task": "saturation",
+                "verdicts": 1,
+                "exploitable": 1,
+                "refusedAfter": []
+              }
+            ]
+          },
+          "contaminated": 0
+        },
+        {
+          "variant": "b",
+          "legitimate": {
+            "sessions": 16,
+            "success": {
+              "rate": 0.875,
+              "low": 0.6397717273424132,
+              "high": 0.9650225122567596,
+              "successes": 14,
+              "n": 16
+            },
+            "medianSteps": 15,
+            "blocked": {
+              "rate": 0,
+              "low": 0,
+              "high": 0.19360768053443644,
+              "successes": 0,
+              "n": 16
+            }
+          },
+          "attacks": {
+            "success": {
+              "rate": 0.5,
+              "low": 0.09453120573423074,
+              "high": 0.9054687942657693,
+              "successes": 1,
+              "n": 2
+            },
+            "byTask": [
+              {
+                "task": "brute-force",
+                "verdicts": 1,
+                "exploitable": 1,
+                "refusedAfter": []
+              },
+              {
+                "task": "saturation",
+                "verdicts": 1,
+                "exploitable": 0,
+                "refusedAfter": [
+                  20
+                ]
+              }
+            ]
+          },
+          "contaminated": 0
+        }
+      ]
+    },
+    {
+      "runId": "01M7C0X00PDK6TP50E5S4XFWFN",
+      "settings": {
+        "a": {
+          "SHOPLAB_TRUST_FORWARDED_FOR": "1"
+        },
+        "b": {
+          "SHOPLAB_RATE_LIMIT_IP": "20/60",
+          "SHOPLAB_TRUST_FORWARDED_FOR": "1"
+        }
+      },
+      "addresses": "shared",
+      "variants": [
+        {
+          "variant": "a",
+          "legitimate": {
+            "sessions": 15,
+            "success": {
+              "rate": 0.8,
+              "low": 0.5481455128483065,
+              "high": 0.9295245065301844,
+              "successes": 12,
+              "n": 15
+            },
+            "medianSteps": 16,
+            "blocked": {
+              "rate": 0,
+              "low": 0,
+              "high": 0.20388330103584854,
+              "successes": 0,
+              "n": 15
+            }
+          },
+          "attacks": {
+            "success": {
+              "rate": 1,
+              "low": 0.3423802275066532,
+              "high": 1,
+              "successes": 2,
+              "n": 2
+            },
+            "byTask": [
+              {
+                "task": "brute-force",
+                "verdicts": 1,
+                "exploitable": 1,
+                "refusedAfter": []
+              },
+              {
+                "task": "saturation",
+                "verdicts": 1,
+                "exploitable": 1,
+                "refusedAfter": []
+              }
+            ]
+          },
+          "contaminated": 0
+        },
+        {
+          "variant": "b",
+          "legitimate": {
+            "sessions": 14,
+            "success": {
+              "rate": 0.7142857142857143,
+              "low": 0.4535091567010683,
+              "high": 0.8827862135542308,
+              "successes": 10,
+              "n": 14
+            },
+            "medianSteps": 15,
+            "blocked": {
+              "rate": 0,
+              "low": 0,
+              "high": 0.21531080273763575,
+              "successes": 0,
+              "n": 14
+            }
+          },
+          "attacks": {
+            "success": {
+              "rate": 0.5,
+              "low": 0.09453120573423074,
+              "high": 0.9054687942657693,
+              "successes": 1,
+              "n": 2
+            },
+            "byTask": [
+              {
+                "task": "brute-force",
+                "verdicts": 1,
+                "exploitable": 1,
+                "refusedAfter": []
+              },
+              {
+                "task": "saturation",
+                "verdicts": 1,
+                "exploitable": 0,
+                "refusedAfter": [
+                  20
+                ]
+              }
+            ]
+          },
+          "contaminated": 0
+        }
+      ]
+    },
+    {
+      "runId": "01M7C1PZRN3DQ68BJVB8F9KHKX",
+      "settings": {
+        "a": {
+          "SHOPLAB_TRUST_FORWARDED_FOR": "1"
+        },
+        "b": {
+          "SHOPLAB_RATE_LIMIT_ACCOUNT": "3/60",
+          "SHOPLAB_TRUST_FORWARDED_FOR": "1"
+        }
+      },
+      "addresses": "distinct",
+      "variants": [
+        {
+          "variant": "a",
+          "legitimate": {
+            "sessions": 15,
+            "success": {
+              "rate": 0.8,
+              "low": 0.5481455128483065,
+              "high": 0.9295245065301844,
+              "successes": 12,
+              "n": 15
+            },
+            "medianSteps": 15,
+            "blocked": {
+              "rate": 0,
+              "low": 0,
+              "high": 0.20388330103584854,
+              "successes": 0,
+              "n": 15
+            }
+          },
+          "attacks": {
+            "success": {
+              "rate": 1,
+              "low": 0.3423802275066532,
+              "high": 1,
+              "successes": 2,
+              "n": 2
+            },
+            "byTask": [
+              {
+                "task": "brute-force",
+                "verdicts": 1,
+                "exploitable": 1,
+                "refusedAfter": []
+              },
+              {
+                "task": "saturation",
+                "verdicts": 1,
+                "exploitable": 1,
+                "refusedAfter": []
+              }
+            ]
+          },
+          "contaminated": 0
+        },
+        {
+          "variant": "b",
+          "legitimate": {
+            "sessions": 14,
+            "success": {
+              "rate": 0.7857142857142857,
+              "low": 0.5241076941339973,
+              "high": 0.9242861328730683,
+              "successes": 11,
+              "n": 14
+            },
+            "medianSteps": 14.5,
+            "blocked": {
+              "rate": 0,
+              "low": 0,
+              "high": 0.21531080273763575,
+              "successes": 0,
+              "n": 14
+            }
+          },
+          "attacks": {
+            "success": {
+              "rate": 0.5,
+              "low": 0.09453120573423074,
+              "high": 0.9054687942657693,
+              "successes": 1,
+              "n": 2
+            },
+            "byTask": [
+              {
+                "task": "brute-force",
+                "verdicts": 1,
+                "exploitable": 0,
+                "refusedAfter": [
+                  4
+                ]
+              },
+              {
+                "task": "saturation",
+                "verdicts": 1,
+                "exploitable": 1,
+                "refusedAfter": []
+              }
+            ]
+          },
+          "contaminated": 0
+        }
+      ]
+    },
+    {
+      "runId": "01M7C2Y015H82WC2XAHKYBGKD5",
+      "settings": {
+        "a": {
+          "SHOPLAB_TRUST_FORWARDED_FOR": "1"
+        },
+        "b": {
+          "SHOPLAB_STEP_UP_CHECKOUT": "new-accounts",
+          "SHOPLAB_TRUST_FORWARDED_FOR": "1"
+        }
+      },
+      "addresses": "distinct",
+      "variants": [
+        {
+          "variant": "a",
+          "legitimate": {
+            "sessions": 16,
+            "success": {
+              "rate": 0.75,
+              "low": 0.5050168346449122,
+              "high": 0.8981793250878696,
+              "successes": 12,
+              "n": 16
+            },
+            "medianSteps": 15,
+            "blocked": {
+              "rate": 0,
+              "low": 0,
+              "high": 0.19360768053443644,
+              "successes": 0,
+              "n": 16
+            }
+          },
+          "attacks": {
+            "success": {
+              "rate": 1,
+              "low": 0.3423802275066532,
+              "high": 1,
+              "successes": 2,
+              "n": 2
+            },
+            "byTask": [
+              {
+                "task": "brute-force",
+                "verdicts": 1,
+                "exploitable": 1,
+                "refusedAfter": []
+              },
+              {
+                "task": "saturation",
+                "verdicts": 1,
+                "exploitable": 1,
+                "refusedAfter": []
+              }
+            ]
+          },
+          "contaminated": 0
+        },
+        {
+          "variant": "b",
+          "legitimate": {
+            "sessions": 15,
+            "success": {
+              "rate": 0.7333333333333333,
+              "low": 0.48049565944019434,
+              "high": 0.8910254667430761,
+              "successes": 11,
+              "n": 15
+            },
+            "medianSteps": 16,
+            "blocked": {
+              "rate": 0,
+              "low": 0,
+              "high": 0.20388330103584854,
+              "successes": 0,
+              "n": 15
+            }
+          },
+          "attacks": {
+            "success": {
+              "rate": 1,
+              "low": 0.3423802275066532,
+              "high": 1,
+              "successes": 2,
+              "n": 2
+            },
+            "byTask": [
+              {
+                "task": "brute-force",
+                "verdicts": 1,
+                "exploitable": 1,
+                "refusedAfter": []
+              },
+              {
+                "task": "saturation",
+                "verdicts": 1,
+                "exploitable": 1,
+                "refusedAfter": []
+              }
+            ]
+          },
+          "contaminated": 0
+        }
+      ]
+    },
+    {
+      "runId": "01M7CZ2ZADFTJSJ1GZFF5M38EE",
+      "settings": {
+        "a": {
+          "SHOPLAB_TRUST_FORWARDED_FOR": "1"
+        },
+        "b": {
+          "SHOPLAB_RATE_LIMIT_IP": "6/60",
+          "SHOPLAB_TRUST_FORWARDED_FOR": "1"
+        }
+      },
+      "addresses": "shared",
+      "variants": [
+        {
+          "variant": "a",
+          "legitimate": {
+            "sessions": 16,
+            "success": {
+              "rate": 0.75,
+              "low": 0.5050168346449122,
+              "high": 0.8981793250878696,
+              "successes": 12,
+              "n": 16
+            },
+            "medianSteps": 14,
+            "blocked": {
+              "rate": 0,
+              "low": 0,
+              "high": 0.19360768053443644,
+              "successes": 0,
+              "n": 16
+            }
+          },
+          "attacks": {
+            "success": {
+              "rate": 1,
+              "low": 0.3423802275066532,
+              "high": 1,
+              "successes": 2,
+              "n": 2
+            },
+            "byTask": [
+              {
+                "task": "brute-force",
+                "verdicts": 1,
+                "exploitable": 1,
+                "refusedAfter": []
+              },
+              {
+                "task": "saturation",
+                "verdicts": 1,
+                "exploitable": 1,
+                "refusedAfter": []
+              }
+            ]
+          },
+          "contaminated": 0
+        },
+        {
+          "variant": "b",
+          "legitimate": {
+            "sessions": 11,
+            "success": {
+              "rate": 0.7272727272727273,
+              "low": 0.434354698823871,
+              "high": 0.9025394070997511,
+              "successes": 8,
+              "n": 11
+            },
+            "medianSteps": 15,
+            "blocked": {
+              "rate": 0.18181818181818182,
+              "low": 0.051367689746085105,
+              "high": 0.47698056196084415,
+              "successes": 2,
+              "n": 11
+            }
+          },
+          "attacks": {
+            "success": {
+              "rate": 0,
+              "low": 0,
+              "high": 0.6576197724933468,
+              "successes": 0,
+              "n": 2
+            },
+            "byTask": [
+              {
+                "task": "brute-force",
+                "verdicts": 1,
+                "exploitable": 0,
+                "refusedAfter": [
+                  6
+                ]
+              },
+              {
+                "task": "saturation",
+                "verdicts": 1,
+                "exploitable": 0,
+                "refusedAfter": [
+                  6
+                ]
+              }
+            ]
+          },
+          "contaminated": 0
+        }
+      ]
+    }
+  ]
+}

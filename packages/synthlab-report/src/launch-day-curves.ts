@@ -27,6 +27,11 @@ export interface LaunchDayVariant {
     readonly success: RateInterval | null;
     /** Share that met a defense: a 429 anywhere, or a 403 at checkout. Null without any. */
     readonly blocked: RateInterval | null;
+    /**
+     * The middle number of agent steps those shoppers took: what a defense that does not block
+     * anyone (a step-up code) still costs them. Null without any.
+     */
+    readonly medianSteps: number | null;
   };
   readonly attacks: {
     /** Share of saboteur verdicts that were exploitable. Null without verdicts. */
@@ -42,6 +47,16 @@ export interface LaunchDayCurves {
 }
 
 const REFUSED = new Set([429, 503]);
+
+/** The middle value (the mean of the two middle ones for an even count); null when empty. */
+function median(values: readonly number[]): number | null {
+  if (values.length === 0) return null;
+  const sorted = [...values].sort((a, b) => a - b);
+  const mid = Math.floor(sorted.length / 2);
+  return sorted.length % 2 === 1
+    ? (sorted[mid] ?? null)
+    : ((sorted[mid - 1] ?? 0) + (sorted[mid] ?? 0)) / 2;
+}
 
 /** A response that shows a defense stopped a shopper: the rate limit, or the checkout step-up. */
 function isDefenseResponse(status: number, url: string): boolean {
@@ -80,6 +95,7 @@ export function launchDayCurves(events: readonly (JanusEvent | UnknownEvent)[]):
   }
   const validShoppers = [...shoppers].filter((agentId) => !excluded.has(agentId));
 
+  const steps = new Map<string, number>();
   const blocked = new Set<string>();
   const contaminated = new Set<string>();
   const attempts = new Map<string, { agentId: string; task: string }>();
@@ -93,6 +109,8 @@ export function launchDayCurves(events: readonly (JanusEvent | UnknownEvent)[]):
       if (kind === 'http' && status !== undefined && isDefenseResponse(status, url)) {
         blocked.add(agentId);
       }
+    } else if (event.type === 'session.ended' && shoppers.has(agentId)) {
+      steps.set(agentId, event.payload.steps);
     } else if (event.type === 'task.verified' && shoppers.has(agentId)) {
       const check = event.payload.checks.find((each) => each.check === CANARY_CHECK);
       if (check?.passed === false) contaminated.add(agentId);
@@ -127,6 +145,7 @@ export function launchDayCurves(events: readonly (JanusEvent | UnknownEvent)[]):
         legitimate: {
           sessions: here.length,
           success: summary.variants.find((each) => each.variant === variant)?.personas ?? null,
+          medianSteps: median(here.flatMap((agentId) => steps.get(agentId) ?? [])),
           blocked:
             here.length === 0
               ? null

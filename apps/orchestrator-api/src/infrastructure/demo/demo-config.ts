@@ -11,7 +11,7 @@ const schema = z.object({
     .array(
       z.object({
         id: z.ulid(),
-        kind: z.enum(['ab', 'gate']),
+        kind: z.enum(['ab', 'gate', 'launch-day']),
         title: z.string().min(1).max(120),
         summary: z.string().min(1).max(900),
       }),

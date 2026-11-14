@@ -18,7 +18,12 @@ const variant = (
   blocked: number,
 ): LaunchDayVariant => ({
   variant: name,
-  legitimate: { sessions: 10, success: interval(legit, 10), blocked: interval(blocked, 10) },
+  legitimate: {
+    sessions: 10,
+    success: interval(legit, 10),
+    blocked: interval(blocked, 10),
+    medianSteps: 7,
+  },
   attacks: { success: interval(attack, 2), byTask: [] },
   contaminated: 0,
 });

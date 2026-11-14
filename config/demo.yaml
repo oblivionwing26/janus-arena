@@ -27,3 +27,21 @@ stories:
       fixes the basket IDOR and three independent verifiers agree: the PoC no longer works, a
       regression test fails on the base and passes on the fix, and the synthetic shoppers still
       buy. Open the attack graph and replay it: the endpoint turns red, then amber, then green.
+  - id: 01M7C042BQ18AAGTQ6983VY9D7
+    kind: launch-day
+    title: 'Launch Day: a rate limit stops the saboteurs and costs the shoppers nothing'
+    summary: >-
+      Eighteen synthetic shoppers and two saboteurs per variant on ShopLab. Variant B limits each
+      client to 20 requests per minute. The saturation saboteur is refused after 20 answered
+      requests; the account guesser is not touched by this defense. Shoppers are not blocked (0 of
+      16 in B), and their task success stays at 86 % and 88 %. Deterministic oracles judge the
+      saboteurs; a model writes none of the numbers.
+  - id: 01M7CZ2ZADFTJSJ1GZFF5M38EE
+    kind: launch-day
+    title: 'Launch Day: the same idea, too strict, blocks real shoppers'
+    summary: >-
+      Nine shoppers at once behind three shared addresses (an office, a campus) and a limit of 6
+      requests per minute per client. Both saboteurs are stopped (attack success 100 % to 0 %), but
+      2 of 11 shoppers in B were blocked (18 %, interval 5 to 48 %), where none were in A. Task
+      success is 75 % and 73 %: the cost of the defense is in who it stops, not only in how many
+      attacks.

@@ -748,7 +748,7 @@ Nota F4.1a, segunda parte (saboteadores y canarios; sin gasto de API, no hay LLM
 - **Canarios:** cada comprador legítimo de un run con direcciones escribe en su dirección de envío un código propio (`CNR-XXXXXX`, función del run y de la sesión). Al verificar la tarea, si algún pedido que lee lleva el canario de otra sesión, `task.verified` añade el check `orders hold only its own canary` con `passed: false`. No cambia el estado de la tarea: la contaminación se lee aparte del éxito. Sin direcciones en el run, nada cambia.
 - **Cableado:** `AppAdapters.saboteurs` (http, tokens, política por objetivo) y `RunAgentSession` despacha el tipo `saboteur`; sin esa dependencia el hueco falla como error de plataforma y se reintenta.
 - **Verificado:** tests unitarios del oráculo, de la matriz, del saboteador (contra una ShopLab falsa con las defensas, con ritmo, direcciones, eventos, propiedad una sola vez y parada), del despacho y de los canarios (en un run completo en memoria). Y un test de sandbox sobre la imagen real de ShopLab (`SHOPLAB_REF=step/f4-1a-verify-route pnpm test:sandbox`): sin defensas, la saturación y la adivinación son explotables; con `20/60` por cliente y `3/60` por cuenta, ninguna lo es.
-- **Falta de F4.1:** el run real (F4.1c).
+- **Falta de F4.1:** nada; el run real está en la nota de F4.1c, más abajo.
 
 Nota F4.1b (curvas y lienzo; sin gasto de API, sin dependencias nuevas):
 
@@ -757,6 +757,26 @@ Nota F4.1b (curvas y lienzo; sin gasto de API, sin dependencias nuevas):
 - **Lienzo:** los saboteadores no navegan, así que van en una banda propia al pie, como rombos (hueco mientras la tienda no los ha rechazado, relleno cuando sí), con variante, dirección y peticiones atendidas y rechazadas. Solo en la vista y a posteriori: salen de los mismos eventos, sin cambios de esquema.
 - **Verificado:** tests con valores calculados a mano (A sin defensa, B defendida; un 404 o un 403 fuera de checkout no cuentan como bloqueo; un comprador rechazado dos veces cuenta una; contaminación aparte del éxito; sesiones sin terminar fuera; run sin saboteadores o sin compradores), del modelo del lienzo y de los datos del gráfico. Y a mano, con un run sintético en el modo demo: la página da 100 % / 75 % de éxito de compradores, 100 % / 0 % de ataques y 0 % / 50 % de bloqueados, y el lienzo dibuja los cuatro saboteadores con los contadores de cada uno.
 - **Aviso:** el gráfico no usa todavía el rediseño de F4.7; está hecho con los estilos actuales.
+
+Nota F4.1c (el run real que cierra F4.1 y F4.2; informe en [docs/reports/launch-day-shoplab.md](reports/launch-day-shoplab.md) y `.json`, hecho por `pnpm run:launch-day` a partir de los eventos, sin LLM):
+
+- **Diseño:** por run, 18 compradores sintéticos (9 personas × 2 semillas) más la baseline y 2 saboteadores por variante, a 5 peticiones por segundo. La A va sin la defensa y la B con ella; ShopLab se construye desde la rama que sirve el token de propiedad. Un smoke previo (2 personas, 0,086 €) comprobó propiedad, saboteadores, canarios y curvas.
+- **Resultados** (A → B; los intervalos de Wilson están en el informe):
+
+| Defensa en B                         | Direcciones   | Éxito de ataques | Éxito de compradores | Compradores bloqueados |
+| ------------------------------------ | ------------- | ---------------- | -------------------- | ---------------------- |
+| límite por cliente 20/60             | propias       | 100 % → 50 %     | 86 % → 88 %          | 0 % → 0 %              |
+| límite por cliente 20/60             | 3 compartidas | 100 % → 50 %     | 80 % → 71 %          | 0 % → 0 %              |
+| límite por cuenta 3/60               | propias       | 100 % → 50 %     | 80 % → 79 %          | 0 % → 0 %              |
+| verificación en checkout             | propias       | 100 % → 100 %    | 75 % → 73 %          | 0 % → 0 %              |
+| límite por cliente 6/60, ráfaga de 9 | 3 compartidas | 100 % → 0 %      | 75 % → 73 %          | 0 % → 18 %             |
+
+- **Lectura:** cada defensa frena lo que le toca (el límite por cliente, la saturación; el de cuenta, la adivinación; ninguno frena al otro) y la verificación en checkout no frena ningún ataque de este tipo. El coste en compradores bloqueados solo aparece cuando el límite es estricto y los compradores coinciden tras pocas direcciones: con 20/60 no se bloquea a nadie, y con 6/60 y nueve a la vez, 2 de 11 (18 %, intervalo 5–48 %). Los intervalos son anchos (de 11 a 16 compradores por variante): es evidencia de cómo se mueven las tres curvas, no una medida fina. Ni el éxito de compradores ni los pasos cambian de forma distinguible con ninguna defensa que no bloquee.
+- **Qué no se probó:** que un límite sensato frene a la vez la saturación y la adivinación (cada defensa frena una); ni el efecto de las defensas combinadas.
+- **Fallos propios que aparecieron:** el primer intento de ráfaga con concurrencia 3 dio 0 bloqueados porque nunca coincidían varios compradores en una dirección (la ráfaga pide concurrencia 9); Windows reservó el puerto 53000 del relay tras un reinicio (`JANUS_BROWSER_PORT` en `docker-compose.yml` lo mueve); y `pnpm dev` por turbo no pasa `JANUS_BROWSER_WS` ni `SESSION_CONCURRENCY`, así que para esos valores se arranca `pnpm --filter @janus/orchestrator-api dev`. Un run quedó interrumpido por un apagado (0,25 €, cerrado como detenido y fuera del informe) y otro intento de ráfaga dio 44 `infra_error` por ese puerto (0 €).
+- **Gasto:** 1,64 € en total (smoke 0,09 + cinco runs 1,31 + el interrumpido 0,25), dentro del tope de 2 €; el plan era 1 € y la ráfaga se añadió para medir el coste en bloqueados. Por run, 0,24–0,29 €.
+- **Verificado:** tests del informe (descripción de defensas, direcciones por hueco con reintentos, formato) y de los ficheros de run (válidos, defensa solo en B, dentro de presupuesto, 18 + 2 por variante); el informe se genera de los eventos de los cinco runs; dos runs entran en la demo pública como historias `launch-day`.
+- **Hecho cuando (F4.1 y F4.2):** cumplido. Un run muestra que una defensa reduce los ataques (100 % → 0 % con 6/60) y su coste en compradores bloqueados (0 % → 18 %), y las tres curvas cambian de forma medible al activar cada defensa (la verificación en checkout solo mueve los pasos medios, 15 → 16).
 
 ### F4.3 · Clon de Timbra (solo con permiso escrito) — M a L (8–12 h)
 

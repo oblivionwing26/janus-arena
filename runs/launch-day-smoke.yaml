@@ -1,0 +1,23 @@
+# F4.1c smoke test: the whole Launch Day path on a small run, before the real ones (~0.04 EUR).
+#   pnpm run:start runs/launch-day-smoke.yaml        (needs pnpm dev running; calls the API)
+target: shoplab
+variants:
+  - { id: a, ref: step/f4-1a-verify-route, env: { SHOPLAB_TRUST_FORWARDED_FOR: '1' } }
+  - id: b
+    ref: step/f4-1a-verify-route
+    env:
+      SHOPLAB_TRUST_FORWARDED_FOR: '1'
+      SHOPLAB_RATE_LIMIT_IP: '20/60'
+personas: [carmen-retired, ines-forgetful]
+seeds: [1]
+tasks:
+  - id: buy-mug
+    goal: Buy one "Taza de cerámica" and have it sent to your home address.
+    expect:
+      items: [{ product: Taza de cerámica, quantity: 1 }]
+saboteurs: { count: 2, requestsPerSecond: 5 }
+clientIps: { mode: distinct }
+budget:
+  maxTokens: 1500000
+  maxEur: 0.1
+concurrency: 3

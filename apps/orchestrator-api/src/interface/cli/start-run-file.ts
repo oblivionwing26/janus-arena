@@ -53,7 +53,8 @@ const { runId } = z.object({ runId: z.string() }).parse(JSON.parse(body));
 // The same count as the session matrix: personas plus the baseline, per seed, task and variant.
 const { personas, seeds, variants, tasks } = parsed.data;
 const sessions =
-  (personas.length + 1) * seeds.length * variants.length * Math.max(1, tasks?.length ?? 0);
+  (personas.length + 1) * seeds.length * variants.length * Math.max(1, tasks?.length ?? 0) +
+  (parsed.data.saboteurs?.count ?? 0) * variants.length;
 console.log(
   `Run ${runId} started: ${String(sessions)} sessions on ${String(parsed.data.variants.length)} variants.`,
 );
