@@ -702,8 +702,8 @@ F4 añade la demo más vistosa (Launch Day) y responde a la pregunta de negocio.
 - [x] Cuentas canario para los legítimos, con datos distinguibles, para medir contaminación entre sesiones
 - [x] Saboteadores reutilizan el Red Team con cadencia lenta y objetivos de saturación de endpoints (su guardia, sus eventos y su estilo de oráculo, no su banco; ADR 0020)
 - [x] Etiqueta de rol solo en el event log, invisible para ShopLab
-- [ ] Tres curvas por ejecución: éxito de legítimos, éxito de ataques, falsos positivos de las defensas; antes y después de parchear
-- [ ] Lienzo PixiJS con los saboteadores marcados (solo en la vista, a posteriori)
+- [x] Tres curvas por ejecución: éxito de legítimos, éxito de ataques, falsos positivos de las defensas; antes y después de parchear (variante A sin defensa frente a B con ella; varios runs se juntan en F4.1c)
+- [x] Lienzo PixiJS con los saboteadores marcados (solo en la vista, a posteriori)
 
 Hecho cuando: un run muestra que una defensa reduce ataques y su coste en legítimos bloqueados.
 
@@ -748,7 +748,15 @@ Nota F4.1a, segunda parte (saboteadores y canarios; sin gasto de API, no hay LLM
 - **Canarios:** cada comprador legítimo de un run con direcciones escribe en su dirección de envío un código propio (`CNR-XXXXXX`, función del run y de la sesión). Al verificar la tarea, si algún pedido que lee lleva el canario de otra sesión, `task.verified` añade el check `orders hold only its own canary` con `passed: false`. No cambia el estado de la tarea: la contaminación se lee aparte del éxito. Sin direcciones en el run, nada cambia.
 - **Cableado:** `AppAdapters.saboteurs` (http, tokens, política por objetivo) y `RunAgentSession` despacha el tipo `saboteur`; sin esa dependencia el hueco falla como error de plataforma y se reintenta.
 - **Verificado:** tests unitarios del oráculo, de la matriz, del saboteador (contra una ShopLab falsa con las defensas, con ritmo, direcciones, eventos, propiedad una sola vez y parada), del despacho y de los canarios (en un run completo en memoria). Y un test de sandbox sobre la imagen real de ShopLab (`SHOPLAB_REF=step/f4-1a-verify-route pnpm test:sandbox`): sin defensas, la saturación y la adivinación son explotables; con `20/60` por cliente y `3/60` por cuenta, ninguna lo es.
-- **Falta de F4.1:** las tres curvas y el lienzo (F4.1b) y el run real (F4.1c).
+- **Falta de F4.1:** el run real (F4.1c).
+
+Nota F4.1b (curvas y lienzo; sin gasto de API, sin dependencias nuevas):
+
+- **`launchDayCurves(events)`** (`packages/synthlab-report`, pura): por variante, tres tasas con intervalo de Wilson. Éxito de los compradores (personas; la baseline es referencia), éxito de los ataques (veredictos de saboteadores explotables, con el desglose por tarea y cuántas peticiones atendió la tienda antes del primer rechazo) y compradores bloqueados por una defensa (un `429` en cualquier sitio o un `403` en `/api/checkout`, contado una vez por comprador). Aparte, la contaminación (checks de canario en rojo). Solo cuentan las sesiones que terminaron bien, como en las estadísticas. `CANARY_CHECK` pasa a `shared-kernel`.
+- **Página `/runs/<id>/launch-day`:** gráfico SVG a mano (un intervalo por variante y curva, con el color y la etiqueta de cada una) y dos tablas, por variante y por saboteador. Se enlaza desde el run solo si tiene datos de Launch Day, y funciona en la demo estática.
+- **Lienzo:** los saboteadores no navegan, así que van en una banda propia al pie, como rombos (hueco mientras la tienda no los ha rechazado, relleno cuando sí), con variante, dirección y peticiones atendidas y rechazadas. Solo en la vista y a posteriori: salen de los mismos eventos, sin cambios de esquema.
+- **Verificado:** tests con valores calculados a mano (A sin defensa, B defendida; un 404 o un 403 fuera de checkout no cuentan como bloqueo; un comprador rechazado dos veces cuenta una; contaminación aparte del éxito; sesiones sin terminar fuera; run sin saboteadores o sin compradores), del modelo del lienzo y de los datos del gráfico. Y a mano, con un run sintético en el modo demo: la página da 100 % / 75 % de éxito de compradores, 100 % / 0 % de ataques y 0 % / 50 % de bloqueados, y el lienzo dibuja los cuatro saboteadores con los contadores de cada uno.
+- **Aviso:** el gráfico no usa todavía el rediseño de F4.7; está hecho con los estilos actuales.
 
 ### F4.3 · Clon de Timbra (solo con permiso escrito) — M a L (8–12 h)
 

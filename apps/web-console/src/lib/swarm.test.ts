@@ -145,3 +145,64 @@ describe('agentOffset', () => {
     expect(agentOffset('diego-a-s1-a1', 20)).not.toEqual(offset);
   });
 });
+
+describe('buildSwarm: saboteurs (F4.1)', () => {
+  const saboteur = (agentId: string, variant: string, statuses: (number | null)[]) => [
+    event(agentId, 'session.started', {
+      variant,
+      kind: 'saboteur',
+      seed: 0,
+      attempt: 1,
+      role: 'saboteur',
+      client: '10.99.0.1',
+    }),
+    ...statuses.map((status, index) =>
+      event(agentId, 'attack.attempt', {
+        attemptId: `01JC0F112SW00000000000${String(index).padStart(4, '9')}`,
+        number: index + 1,
+        testType: 'saturation',
+        as: 'anonymous',
+        method: 'POST',
+        path: '/api/auth/logout',
+        status,
+        bytes: 2,
+      }),
+    ),
+  ];
+
+  it('keeps them off the route graph and counts what the shop answered and refused', () => {
+    const events = [
+      ...walk('carmen-a-s1-a1', 'a', ['/', '/cart']),
+      ...saboteur('saboteur-b-s0-a1', 'b', [200, 200, 429, 429, 503, null]),
+    ];
+
+    const model = buildSwarm(events);
+
+    expect(model.agents.map((agent) => agent.agentId)).toEqual(['carmen-a-s1-a1']);
+    expect(model.nodes.map((node) => node.route)).toEqual(['/', '/cart']);
+    expect(model.saboteurs).toEqual([
+      {
+        agentId: 'saboteur-b-s0-a1',
+        variant: 'b',
+        client: '10.99.0.1',
+        answered: 2,
+        refused: 3,
+        done: false,
+      },
+    ]);
+  });
+
+  it('marks a saboteur done when its session ends, and shows only what the cursor has reached', () => {
+    const events = [
+      ...saboteur('saboteur-a-s0-a1', 'a', [200, 200, 200]),
+      event('saboteur-a-s0-a1', 'session.ended', { outcome: 'success', steps: 3, durationMs: 1 }),
+    ];
+
+    expect(buildSwarm(events).saboteurs[0]).toMatchObject({ answered: 3, done: true });
+    expect(buildSwarm(events.slice(0, 3)).saboteurs[0]).toMatchObject({
+      answered: 2,
+      done: false,
+    });
+    expect(buildSwarm([]).saboteurs).toEqual([]);
+  });
+});

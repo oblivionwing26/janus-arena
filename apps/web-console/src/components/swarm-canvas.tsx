@@ -22,6 +22,9 @@ const FRICTION_MS = 1500;
 const PULSE_MS = 900;
 /** Time an agent takes to move between two routes at 1×. */
 const MOVE_MS = 600;
+/** Saboteurs sit in their own band at the foot of the canvas, off the route graph (F4.1). */
+const BAND = 58;
+const SABOTEUR_SIZE = 8;
 
 interface Palette {
   readonly text: string;
@@ -109,7 +112,17 @@ export function SwarmCanvas({ visible, known, speed }: SwarmCanvasProps) {
       const labels = new PIXI.Container();
       const pulsesLayer = new PIXI.Graphics();
       const agentsLayer = new PIXI.Graphics();
-      app.stage.addChild(edgesLayer, nodesLayer, labels, pulsesLayer, agentsLayer);
+      const saboteursLayer = new PIXI.Graphics();
+      const saboteurLabels = new PIXI.Container();
+      app.stage.addChild(
+        edgesLayer,
+        nodesLayer,
+        labels,
+        pulsesLayer,
+        agentsLayer,
+        saboteursLayer,
+        saboteurLabels,
+      );
 
       let drawn: SwarmModel | null = null;
       let width = element.clientWidth;
@@ -120,6 +133,7 @@ export function SwarmCanvas({ visible, known, speed }: SwarmCanvasProps) {
       const seenPulses = new Set<string>();
       const frictionUntil = new Map<string, number>();
       const labelTexts = new Map<string, InstanceType<typeof PIXI.Text>>();
+      const saboteurTexts = new Map<string, InstanceType<typeof PIXI.Text>>();
 
       const drawGraph = (current: SwarmModel) => {
         // A crowded column (many products) gets taller instead of overlapping its labels.
@@ -127,12 +141,16 @@ export function SwarmCanvas({ visible, known, speed }: SwarmCanvasProps) {
         for (const at of layoutSwarm(current, { width, height: HEIGHT }).values()) {
           perColumn.set(at.x, (perColumn.get(at.x) ?? 0) + 1);
         }
-        const needed = Math.max(HEIGHT, Math.max(0, ...perColumn.values()) * ROW);
+        const band = current.saboteurs.length > 0 ? BAND : 0;
+        const needed = Math.max(HEIGHT, Math.max(0, ...perColumn.values()) * ROW + band);
         if (needed !== height) {
           height = needed;
           app.renderer.resize(width, height);
         }
-        positions = layoutSwarm(current, { width, height });
+        positions = layoutSwarm(current, {
+          width,
+          height: height - (current.saboteurs.length > 0 ? BAND : 0),
+        });
         const busiest = Math.max(1, ...current.edges.map((edge) => edge.count));
         edgesLayer.clear();
         for (const edge of current.edges) {
@@ -204,6 +222,36 @@ export function SwarmCanvas({ visible, known, speed }: SwarmCanvasProps) {
           }
         }
 
+        // The saboteurs, apart from the graph: a diamond, red, solid once the shop refuses it.
+        saboteursLayer.clear();
+        current.saboteurs.forEach((saboteur, index) => {
+          const x = ((index + 0.5) / current.saboteurs.length) * width;
+          const y = height - BAND / 2 - 6;
+          const half = SABOTEUR_SIZE;
+          const shape = [x, y - half, x + half, y, x, y + half, x - half, y];
+          saboteursLayer.poly(shape).stroke({ width: 2, color: palette.status.abandon });
+          if (saboteur.refused > 0)
+            saboteursLayer.poly(shape).fill({ color: palette.status.abandon });
+          let text = saboteurTexts.get(saboteur.agentId);
+          if (text === undefined) {
+            text = new PIXI.Text({
+              text: '',
+              style: {
+                fontFamily: 'system-ui, sans-serif',
+                fontSize: 10,
+                align: 'center',
+                fill: palette.text,
+              },
+            });
+            text.anchor.set(0.5, 0);
+            saboteurLabels.addChild(text);
+            saboteurTexts.set(saboteur.agentId, text);
+          }
+          text.text = `${saboteur.variant === undefined ? '' : saboteur.variant.toUpperCase() + ' · '}${saboteur.client ?? 'saboteador'}
+✓ ${String(saboteur.answered)} · ✗ ${String(saboteur.refused)}`;
+          text.position.set(x, y + half + 3);
+        });
+
         pulsesLayer.clear();
         for (const [id, pulse] of pulseStarts) {
           const age = (now - pulse.at) / (PULSE_MS / currentSpeed);
@@ -255,6 +303,11 @@ export function SwarmCanvas({ visible, known, speed }: SwarmCanvasProps) {
         <span className="swarm-key success">Éxito {counts.success}</span>
         <span className="swarm-key abandon">Abandono {counts.abandon}</span>
         <span>● variante a · ■ variante b</span>
+        {model.saboteurs.length > 0 && (
+          <span className="swarm-key abandon">
+            ◆ Saboteador ({model.saboteurs.length}; relleno = la tienda lo rechazó)
+          </span>
+        )}
         <span>
           {model.nodes.length} rutas · {model.edges.length} transiciones · {model.pulses.length}{' '}
           pulsos

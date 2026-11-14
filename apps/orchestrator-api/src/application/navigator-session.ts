@@ -1,6 +1,6 @@
 import { detectFriction } from '@janus/friction-engine';
 import { ObservationBuilder, type ElementLocator } from '@janus/observation-builder';
-import { agentActionSchema, type SessionEndedEvent } from '@janus/shared-kernel';
+import { agentActionSchema, CANARY_CHECK, type SessionEndedEvent } from '@janus/shared-kernel';
 
 import type { ArtifactStorePort } from '../domain/artifacts/artifact-store-port.js';
 import type { BrowserPort } from '../domain/browser/browser-port.js';
@@ -30,9 +30,6 @@ export interface NavigatorSessionDeps {
   readonly now?: () => number;
   readonly sleep?: (ms: number) => Promise<void>;
 }
-
-/** The check of a task.verified that says whether another session's canary reached this one (F4.1). */
-export const CANARY_CHECK = 'orders hold only its own canary';
 
 export interface NavigatorSessionInput {
   readonly runId: string;

@@ -112,7 +112,11 @@ export {
   type TestType,
 } from './scope/scope-vocabulary.js';
 export { surfaceMappedEventSchema, type SurfaceMappedEvent } from './events/v1/surface-mapped.js';
-export { taskVerifiedEventSchema, type TaskVerifiedEvent } from './events/v1/task-verified.js';
+export {
+  CANARY_CHECK,
+  taskVerifiedEventSchema,
+  type TaskVerifiedEvent,
+} from './events/v1/task-verified.js';
 export {
   verificationResultEventSchema,
   type VerificationResultEvent,
