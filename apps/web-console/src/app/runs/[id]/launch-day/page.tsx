@@ -41,6 +41,7 @@ export default function RunLaunchDayPage() {
                   <th>Compradores</th>
                   <th>Éxito de compradores</th>
                   <th>Bloqueados</th>
+                  <th>Pasos (mediana)</th>
                   <th>Éxito de ataques</th>
                   <th>Contaminados</th>
                 </tr>
@@ -52,6 +53,7 @@ export default function RunLaunchDayPage() {
                     <td>{each.legitimate.sessions}</td>
                     <td>{rateText(each.legitimate.success)}</td>
                     <td>{rateText(each.legitimate.blocked)}</td>
+                    <td>{each.legitimate.medianSteps ?? '—'}</td>
                     <td>{rateText(each.attacks.success)}</td>
                     <td>{each.contaminated}</td>
                   </tr>

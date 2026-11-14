@@ -1,0 +1,39 @@
+# F4.1c: rate limit per client
+# Launch Day on ShopLab (ADR 0020): 9 personas x 2 seeds = 18 shoppers per variant, the competent
+# baseline on each seed, and 2 saboteurs per variant (one loads the shop, one guesses at an
+# account), at 5 requests per second. Variant A runs without the defense, B with it.
+# ShopLab is built from the branch that serves the ownership token (saboteurs need it).
+#   pnpm run:start runs/launch-day-ip.yaml        (needs pnpm dev running; calls the API, ~0.25 EUR)
+
+target: shoplab
+variants:
+  - { id: a, ref: step/f4-1a-verify-route, env: { SHOPLAB_TRUST_FORWARDED_FOR: '1' } }
+  - id: b
+    ref: step/f4-1a-verify-route
+    env:
+      SHOPLAB_TRUST_FORWARDED_FOR: '1'
+      SHOPLAB_RATE_LIMIT_IP: '20/60'
+personas:
+  [
+    carmen-retired,
+    diego-commuter,
+    ines-forgetful,
+    javier-budget,
+    lucia-private,
+    marta-first-phone,
+    pablo-student,
+    rosa-meticulous,
+    tomas-hurried,
+  ]
+seeds: [1, 2]
+tasks:
+  - id: buy-mug
+    goal: Buy one "Taza de cerámica" and have it sent to your home address.
+    expect:
+      items: [{ product: Taza de cerámica, quantity: 1 }]
+saboteurs: { count: 2, requestsPerSecond: 5 }
+clientIps: { mode: distinct }
+budget:
+  maxTokens: 4000000
+  maxEur: 0.4
+concurrency: 3

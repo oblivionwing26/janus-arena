@@ -19,6 +19,7 @@
     "db:migrate": "pnpm --filter @janus/orchestrator-api db:migrate",
     "run:replay": "node scripts/run-replay.mjs",
     "run:report": "node scripts/run-report.mjs",
+    "run:launch-day": "node scripts/launch-day-report.mjs",
     "run:start": "node scripts/run-start.mjs",
     "run:surface": "node scripts/run-surface.mjs",
     "run:ab-auto": "node scripts/run-ab-auto.mjs",

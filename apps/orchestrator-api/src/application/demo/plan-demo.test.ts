@@ -96,6 +96,16 @@ describe('planDemo (F3.12)', () => {
     ]);
   });
 
+  it('links a Launch Day run to its curves and its replay, and brings nothing else along', async () => {
+    const plan = await planDemo([story(AB, 'launch-day')], await store());
+
+    expect([...plan.runs.keys()]).toEqual([AB]);
+    expect(plan.featured[0]?.links.map((link) => link.href)).toEqual([
+      `/runs/${AB}/launch-day`,
+      `/runs/${AB}`,
+    ]);
+  });
+
   it('ships each run once, however many stories point at it', async () => {
     const plan = await planDemo([story(GATE, 'gate'), story(AB, 'ab')], await store());
 

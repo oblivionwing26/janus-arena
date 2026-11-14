@@ -16,6 +16,7 @@ function shopper(
     met?: { status: number; path: string };
     canary?: boolean;
     seed?: number;
+    steps?: number;
   },
 ) {
   run.emit(agentId, 'navigator', 'session.started', {
@@ -39,7 +40,7 @@ function shopper(
   }
   run.emit(agentId, 'navigator', 'session.ended', {
     outcome: options.passed ? 'success' : 'abandon',
-    steps: 3,
+    steps: options.steps ?? 3,
     durationMs: 10,
   });
   run.emit(agentId, 'navigator', 'task.verified', {
@@ -133,6 +134,22 @@ describe('launchDayCurves (F4.1)', () => {
     ]);
   });
 
+  it('reports the middle number of steps the shoppers took, the cost of a defense that blocks no one', () => {
+    const run = new ReportRun();
+    for (const [i, steps] of [3, 9, 5].entries()) {
+      shopper(run, `shopper-a-${String(i)}`, 'a', { passed: true, steps });
+    }
+    for (const [i, steps] of [4, 6, 10, 12].entries()) {
+      shopper(run, `shopper-b-${String(i)}`, 'b', { passed: true, steps });
+    }
+
+    const [a, b] = launchDayCurves(run.events()).variants;
+
+    expect(a?.legitimate.medianSteps).toBe(5);
+    expect(b?.legitimate.medianSteps).toBe(8);
+    expect(launchDayCurves([]).variants).toEqual([]);
+  });
+
   it('keeps a 429 or a checkout 403 apart from any other error a shopper meets', () => {
     const run = new ReportRun();
     shopper(run, 'shopper-a-0', 'a', { passed: true, met: { status: 404, path: '/nope' } });
@@ -202,6 +219,7 @@ describe('launchDayCurves (F4.1)', () => {
       sessions: 0,
       success: null,
       blocked: null,
+      medianSteps: null,
     });
     expect(launchDayCurves([]).variants).toEqual([]);
   });

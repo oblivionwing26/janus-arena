@@ -5,7 +5,7 @@ import type { StoredEvent } from '../../domain/event-store/stored-event.js';
 
 export interface DemoStory {
   readonly id: string;
-  readonly kind: 'ab' | 'gate';
+  readonly kind: 'ab' | 'gate' | 'launch-day';
   readonly title: string;
   readonly summary: string;
 }
@@ -105,6 +105,15 @@ export async function planDemo(
         const variant = variantRun(child);
         if (variant !== null) await read(variant);
       }
+    } else if (story.kind === 'launch-day') {
+      // Launch Day (F4.1): the three curves, the replay with saboteurs on the canvas, the report.
+      links.push(
+        {
+          label: 'The three curves, A without the defense and B with it',
+          href: `/runs/${story.id}/launch-day`,
+        },
+        { label: 'Replay the run: shoppers and saboteurs', href: `/runs/${story.id}` },
+      );
     } else {
       links.push(
         { label: 'SynthLab report: heatmap, funnel and the A/B', href: `/runs/${story.id}/report` },

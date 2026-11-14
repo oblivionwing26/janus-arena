@@ -74,7 +74,8 @@ services:
       - default
       - janus-sbx
     ports:
-      - '127.0.0.1:53000:3000'
+      # After a reboot Windows may reserve 53000: JANUS_BROWSER_PORT moves it (set JANUS_BROWSER_WS to match).
+      - '127.0.0.1:${JANUS_BROWSER_PORT:-53000}:3000'
 
 networks:
   # Variants and agent browsers live here (ADR 0005). DockerSandbox requires it to exist.

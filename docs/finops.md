@@ -20,32 +20,34 @@ history). The measure is ~2,850, at the low end: the observation builder keeps p
 
 ## Steps and cost per session
 
-| Run                                                    | Sessions | Steps / session | EUR / session |
-| ------------------------------------------------------ | -------: | --------------: | ------------: |
-| F1.7 A/A, personas (Haiku)                             |        8 |            11.3 |        0.0020 |
-| F1.7 A/A, baseline (Sonnet)                            |        2 |            12.0 |         0.032 |
-| F1.9 validation, baseline (Sonnet) over 5 tasks        |       10 |            27.0 |         0.083 |
-| F1.10 coupon task, personas (Haiku)                    |       10 |            20.5 |        0.0037 |
-| F1.10 coupon task, baseline (Sonnet)                   |        1 |            67.0 |         0.181 |
-| F1.11 A/B, personas (Haiku)                            |       33 |            14.9 |        0.0023 |
-| F1.11 A/B, baseline (Sonnet)                           |        4 |            13.0 |         0.032 |
-| F2.3 UI Engineer (Sonnet), per seeded flaw             |        3 |             4.0 |         0.037 |
-| F2.4 automatic A/B, whole command (coupon task)        |       29 |               — |  0.59 (total) |
-| F3.3 Red Team agent, declined by the provider          |        1 |             1.0 |         0.013 |
-| F3.5a Juice Shop, before saved checkout                |        8 |            25.5 |        0.0052 |
-| F3.5a Juice Shop, personas (Haiku)                     |        8 |            20.8 |        0.0038 |
-| F3.5a Juice Shop, baseline (Sonnet)                    |        2 |            22.0 |         0.066 |
-| F3.5 Blue Team (Sonnet), basket IDOR fix               |        1 |             3.0 |         0.026 |
-| F3.5 Blue Team loop, basket IDOR (1 iteration)         |        1 |               — |         0.033 |
-| F3.5 Blue Team loop, negative qty (2 iterations)       |        1 |               — |         0.049 |
-| F3.5 V3 SynthLab re-run, A/B (per fix)                 |       20 |               — |         0.025 |
-| F3.5 full loop V1–V3, one fix (1 iteration)            |        1 |               — |  0.54 (total) |
-| F3.6a smoke, Inés on Juice Shop (+ baseline)           |        2 |               — |         0.035 |
-| F3.6b trade-off, one alternative (Blue Team + V3)      |       17 |               — |          0.47 |
-| F3.9 gate, Juice Shop (A run + Blue Team, killed once) |        — |               — |  0.41 (total) |
-| F3.9 gate, ShopLab end to end (A, B, A/B, PR)          |        — |               — |  0.58 (total) |
-| F3.10 gate, Juice Shop (A run + a full fix V1–V3)      |        — |               — |  0.82 (total) |
-| F3.11 benchmark, control + 3 rounds (no LLM)           |        — |               — |  0.00 (total) |
+| Run                                                    | Sessions | Steps / session |     EUR / session |
+| ------------------------------------------------------ | -------: | --------------: | ----------------: |
+| F1.7 A/A, personas (Haiku)                             |        8 |            11.3 |            0.0020 |
+| F1.7 A/A, baseline (Sonnet)                            |        2 |            12.0 |             0.032 |
+| F1.9 validation, baseline (Sonnet) over 5 tasks        |       10 |            27.0 |             0.083 |
+| F1.10 coupon task, personas (Haiku)                    |       10 |            20.5 |            0.0037 |
+| F1.10 coupon task, baseline (Sonnet)                   |        1 |            67.0 |             0.181 |
+| F1.11 A/B, personas (Haiku)                            |       33 |            14.9 |            0.0023 |
+| F1.11 A/B, baseline (Sonnet)                           |        4 |            13.0 |             0.032 |
+| F2.3 UI Engineer (Sonnet), per seeded flaw             |        3 |             4.0 |             0.037 |
+| F2.4 automatic A/B, whole command (coupon task)        |       29 |               — |      0.59 (total) |
+| F3.3 Red Team agent, declined by the provider          |        1 |             1.0 |             0.013 |
+| F3.5a Juice Shop, before saved checkout                |        8 |            25.5 |            0.0052 |
+| F3.5a Juice Shop, personas (Haiku)                     |        8 |            20.8 |            0.0038 |
+| F3.5a Juice Shop, baseline (Sonnet)                    |        2 |            22.0 |             0.066 |
+| F3.5 Blue Team (Sonnet), basket IDOR fix               |        1 |             3.0 |             0.026 |
+| F3.5 Blue Team loop, basket IDOR (1 iteration)         |        1 |               — |             0.033 |
+| F3.5 Blue Team loop, negative qty (2 iterations)       |        1 |               — |             0.049 |
+| F3.5 V3 SynthLab re-run, A/B (per fix)                 |       20 |               — |             0.025 |
+| F3.5 full loop V1–V3, one fix (1 iteration)            |        1 |               — |      0.54 (total) |
+| F3.6a smoke, Inés on Juice Shop (+ baseline)           |        2 |               — |             0.035 |
+| F3.6b trade-off, one alternative (Blue Team + V3)      |       17 |               — |              0.47 |
+| F3.9 gate, Juice Shop (A run + Blue Team, killed once) |        — |               — |      0.41 (total) |
+| F3.9 gate, ShopLab end to end (A, B, A/B, PR)          |        — |               — |      0.58 (total) |
+| F3.10 gate, Juice Shop (A run + a full fix V1–V3)      |        — |               — |      0.82 (total) |
+| F3.11 benchmark, control + 3 rounds (no LLM)           |        — |               — |      0.00 (total) |
+| F4.1c Launch Day, one run (36 personas, 4 baselines)   |       44 |             ~14 | 0.24–0.29 (total) |
+| F4.1c Launch Day, all (smoke, 5 runs, 1 interrupted)   |        — |               — |      1.64 (total) |
 
 Steps per session dominate the bill. In F1.9 three sessions took 53–60 steps because the
 baseline bounced between cart and checkout (see the F1.9 note in the ROADMAP); without them the
