@@ -24,6 +24,8 @@ export interface StartRunInput {
     readonly repo?: string;
     /** The commit a patched image variant starts from (F3.5, ADR 0012); needs `repo`. */
     readonly base?: string;
+    /** The settings the variant runs with (F4.1), e.g. which defenses are on. */
+    readonly env?: Readonly<Record<string, string>>;
   }[];
   readonly sessions: readonly SessionSpec[];
   readonly budget: BudgetLimits;
@@ -99,13 +101,14 @@ export class StartRun {
   async execute(input: StartRunInput): Promise<{ runId: string; launched: Promise<void> }> {
     const runId = (this.deps.newRunId ?? newUlid)();
     const variants: (VariantSpec & { key: string })[] = input.variants.map(
-      ({ key, ref, repo, base }) => ({
+      ({ key, ref, repo, base, env }) => ({
         key,
         id: variantIdFor(runId, key),
         target: input.target,
         ref,
         ...(repo === undefined ? {} : { repo }),
         ...(base === undefined ? {} : { base }),
+        ...(env === undefined || Object.keys(env).length === 0 ? {} : { env }),
       }),
     );
     variants.forEach(assertValidVariant);
@@ -126,11 +129,12 @@ export class StartRun {
     await recorder.record('run.started', {
       budget: input.budget,
       target: input.target,
-      variants: input.variants.map(({ key, ref, repo, base }) => ({
+      variants: input.variants.map(({ key, ref, repo, base, env }) => ({
         key,
         ref,
         ...(repo === undefined ? {} : { repo }),
         ...(base === undefined ? {} : { base }),
+        ...(env === undefined || Object.keys(env).length === 0 ? {} : { env }),
       })),
     });
 

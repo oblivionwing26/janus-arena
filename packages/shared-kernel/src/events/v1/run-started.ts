@@ -22,6 +22,8 @@ export const runStartedEventSchema = defineEventSchema(
           key: z.string().regex(/^[a-z][a-z0-9]{0,3}$/),
           ref: z.string().min(1).max(100),
           repo: z.string().min(1).max(500).optional(),
+          /** The settings the variant ran with, e.g. which defenses were on (F4.1). */
+          env: z.record(z.string().regex(/^[A-Z][A-Z0-9_]{0,63}$/), z.string().max(200)).optional(),
           /** A patched image variant's base commit (F3.5). */
           base: z
             .string()

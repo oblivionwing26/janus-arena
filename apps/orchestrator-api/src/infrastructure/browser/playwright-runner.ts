@@ -111,6 +111,9 @@ export class PlaywrightRunner implements BrowserPort {
     const context = await this.browser.newContext({
       locale: 'es-ES',
       ...(options.device === 'mobile' ? MOBILE_CONTEXT : {}),
+      ...(options.clientIp === undefined
+        ? {}
+        : { extraHTTPHeaders: { 'x-forwarded-for': options.clientIp } }),
     });
     await context.route('**/*', (route) => {
       const request = {

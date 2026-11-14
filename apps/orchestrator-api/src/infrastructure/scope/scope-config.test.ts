@@ -29,13 +29,15 @@ describe('config/scopes.yaml', () => {
     ).toEqual({ allowed: true });
   });
 
-  it('allows no security test against ShopLab', async () => {
+  it('lets ShopLab be loaded and guessed at, never exploited (ADR 0006, ADR 0020)', async () => {
     const targets = await loadScopeConfig(repoScopeConfigPath());
 
-    expect(scopePolicyFor(targets, 'shoplab', ['http://janus-a-app:3000']).allowedTests).toEqual([
-      'browse',
-      'http-probe',
-    ]);
+    const allowed = scopePolicyFor(targets, 'shoplab', ['http://janus-a-app:3000']).allowedTests;
+
+    expect(allowed).toEqual(['browse', 'http-probe', 'brute-force', 'saturation']);
+    for (const exploit of ['idor', 'auth-bypass', 'xss', 'business-logic', 'race']) {
+      expect(allowed).not.toContain(exploit);
+    }
   });
 
   it('refuses a target with no scope', async () => {

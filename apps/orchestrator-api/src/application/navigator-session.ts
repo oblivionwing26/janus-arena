@@ -38,6 +38,8 @@ export interface NavigatorSessionInput {
   readonly startPath?: string;
   /** Its patience and device apply to every session; the rest only to the LLM. */
   readonly persona: Persona;
+  /** The address the session presents to the target (F4.1), when the run gives one. */
+  readonly clientIp?: string;
   /** Who decides. Defaults to the navigator LLM playing `persona` with `task` and `budget`. */
   readonly decider?: Decider;
   readonly task?: NavigatorTask;
@@ -159,7 +161,11 @@ export class NavigatorSession {
       return result;
     };
 
-    const session = await browser.newSession({ baseUrl, device: persona.device });
+    const session = await browser.newSession({
+      baseUrl,
+      device: persona.device,
+      ...(input.clientIp === undefined ? {} : { clientIp: input.clientIp }),
+    });
     let steps = 0;
     try {
       await browser.goto(session, `${baseUrl}${input.startPath ?? '/'}`);

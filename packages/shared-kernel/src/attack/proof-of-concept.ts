@@ -10,6 +10,8 @@ export const ORACLES = [
   'price-mismatch',
   'duplicate-effect',
   'unthrottled-guessing',
+  /** Launch Day's saturation (F4.1): requests at a steady rate that no defense refused. */
+  'unthrottled-requests',
 ] as const;
 export const oracleSchema = z.enum(ORACLES);
 export type OracleName = z.infer<typeof oracleSchema>;

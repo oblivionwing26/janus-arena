@@ -148,3 +148,15 @@ describe('sandbox definitions', () => {
     await expect(loadSandboxDefinition('../etc')).rejects.toThrow();
   });
 });
+
+describe('ShopLab sandbox definition (F4.1)', () => {
+  it('serves its ownership token and lists only its own defenses as variant settings', async () => {
+    const definition = await loadSandboxDefinition('shoplab');
+
+    expect(definition.verification).toEqual({ dir: '/app/.well-known' });
+    expect(definition.env).toEqual({ SHOPLAB_VERIFY_FILE: '/app/.well-known/janus-verify.txt' });
+    expect(definition.variantEnv.every((key) => key.startsWith('SHOPLAB_'))).toBe(true);
+    expect(definition.variantEnv).toContain('SHOPLAB_RATE_LIMIT_IP');
+    expect(definition.variantEnv).not.toContain('SHOPLAB_VERIFY_FILE');
+  });
+});

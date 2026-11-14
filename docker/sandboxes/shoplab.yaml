@@ -38,3 +38,19 @@ setup:
 app:
   port: 3100
   healthPath: /api/health
+
+# The ownership token (F3.1, F4.1, ADR 0020): Janus copies it here and ShopLab serves it at
+# /.well-known/janus-verify.txt (SHOPLAB_VERIFY_FILE below), as Juice Shop does from its own folder.
+# The folder is made by ShopLab's Dockerfile; the docker cp guard only accepts a .well-known path.
+verification:
+  dir: /app/.well-known
+env:
+  SHOPLAB_VERIFY_FILE: /app/.well-known/janus-verify.txt
+
+# What a run may switch on in a variant (F4.1, F4.2): ShopLab's defenses and nothing else.
+variantEnv:
+  - SHOPLAB_RATE_LIMIT_IP
+  - SHOPLAB_RATE_LIMIT_ACCOUNT
+  - SHOPLAB_STEP_UP_CHECKOUT
+  - SHOPLAB_STEP_UP_ACCOUNT_AGE_SECONDS
+  - SHOPLAB_TRUST_FORWARDED_FOR

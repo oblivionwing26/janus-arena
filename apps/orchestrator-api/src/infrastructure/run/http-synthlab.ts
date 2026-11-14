@@ -12,6 +12,7 @@ export function runConfigBody(config: RunConfig): Record<string, unknown> {
       ref: variant.ref,
       ...(variant.repo === undefined ? {} : { repo: variant.repo }),
       ...(variant.base === undefined ? {} : { base: variant.base }),
+      ...(variant.env === undefined ? {} : { env: variant.env }),
     })),
     personas: config.personas,
     ...(config.tasks === undefined ? {} : { tasks: config.tasks }),
@@ -19,6 +20,8 @@ export function runConfigBody(config: RunConfig): Record<string, unknown> {
     ...(config.maxSteps === undefined ? {} : { maxSteps: config.maxSteps }),
     budget: config.budget,
     ...(config.concurrency === undefined ? {} : { concurrency: config.concurrency }),
+    ...(config.saboteurs === undefined ? {} : { saboteurs: config.saboteurs }),
+    ...(config.clientIps === undefined ? {} : { clientIps: config.clientIps }),
   };
 }
 

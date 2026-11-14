@@ -149,6 +149,68 @@ describe('run lifecycle', () => {
     });
   });
 
+  it('starts a variant with its settings and records them in the run (F4.1)', async () => {
+    class RecordingSandbox extends InMemorySandbox {
+      readonly specs: VariantSpec[] = [];
+      override up(variant: VariantSpec): Promise<RunningVariant> {
+        this.specs.push(variant);
+        return super.up(variant);
+      }
+    }
+    const sandbox = new RecordingSandbox();
+    const { store, queue, startRun } = setup({ sandbox });
+    const defended = { key: 'b', ref: 'main', env: { SHOPLAB_RATE_LIMIT_IP: '20/30' } };
+
+    const { runId, launched } = await startRun.execute({
+      ...oneSession,
+      variants: [{ key: 'a', ref: 'main' }, defended],
+      sessions: oneSession.sessions,
+    });
+    await launched;
+    await queue.drain();
+
+    expect(sandbox.specs.map((spec) => spec.env)).toEqual([undefined, defended.env]);
+    expect((await knownEvents(store, runId))[0]).toMatchObject({
+      type: 'run.started',
+      payload: { variants: [{ key: 'a', ref: 'main' }, defended] },
+    });
+  });
+
+  it('refuses a setting that is not a plain upper-case variable before anything starts', async () => {
+    const { startRun } = setup();
+
+    await expect(
+      startRun.execute({
+        ...oneSession,
+        variants: [{ key: 'a', ref: 'main', env: { 'not-allowed': '1' } }],
+      }),
+    ).rejects.toThrow(/UPPER_CASE/);
+  });
+
+  it('gives a session the address of its slot and says it is a legitimate one (F4.1)', async () => {
+    class AddressBrowser extends ScriptedBrowser {
+      readonly clients: (string | undefined)[] = [];
+      override newSession(options: BrowserSessionOptions): Promise<string> {
+        this.clients.push(options.clientIp);
+        return super.newSession(options);
+      }
+    }
+    const browser = new AddressBrowser(SHOPLAB_PAGES);
+    const { store, queue, startRun } = setup({ browser });
+
+    const { runId, launched } = await startRun.execute({
+      ...oneSession,
+      sessions: oneSession.sessions.map((spec) => ({ ...spec, clientIp: '10.20.0.7' })),
+    });
+    await launched;
+    await queue.drain();
+
+    const started = (await knownEvents(store, runId)).flatMap((event) =>
+      event.type === 'session.started' ? [event.payload] : [],
+    );
+    expect(started).toMatchObject([{ role: 'legitimate', client: '10.20.0.7' }]);
+  });
+
   it('completes with error when the sandbox cannot start', async () => {
     const { store, startRun } = setup({ sandbox: new FailingSandbox() });
 
