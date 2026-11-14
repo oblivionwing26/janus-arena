@@ -1,0 +1,39 @@
+name: npm publish
+
+# Manual: publishing is the owner's decision (F4.5). It needs an `NPM_TOKEN` secret (an npm
+# automation token for the @oblivionwing26 scope). The kernel goes first because the engine
+# depends on it. Provenance links each package to this commit.
+on:
+  workflow_dispatch:
+    inputs:
+      dry-run:
+        description: 'Pack and check only, publish nothing'
+        type: boolean
+        default: true
+
+permissions:
+  contents: read
+  id-token: write
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: pnpm/action-setup@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          registry-url: https://registry.npmjs.org
+          cache: pnpm
+      - run: pnpm install --frozen-lockfile
+      - name: Pack both packages and install them in a clean folder
+        run: pnpm check:npm
+      - name: Publish
+        if: ${{ !inputs.dry-run }}
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+        run: |
+          for tarball in .npm/*shared-kernel*.tgz .npm/*friction-engine*.tgz; do
+            npm publish "$tarball" --access public --provenance
+          done

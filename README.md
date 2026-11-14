@@ -165,7 +165,9 @@ authorised to test. See [SECURITY.md](SECURITY.md).
 - [docs/ROADMAP.md](docs/ROADMAP.md): the step-by-step plan, in Spanish, with how each step was verified.
 - [docs/finops.md](docs/finops.md): what a session really costs.
 - [What synthetic users measure, and what they don't](https://dev.to/oblivionwing26/janus-arena-development-1ce): the article on the SynthLab half, on dev.to ([the same text](docs/articles/what-synthetic-users-measure.md) is in the repo).
+- [The UX cost of a security patch](docs/articles/ux-cost-of-a-security-patch.md) and [Our benchmark on Juice Shop, without makeup](docs/articles/benchmark-without-makeup.md): the Red/Blue half and Launch Day, drafts in the repo.
 - [docs/articles/](docs/articles): write-ups of what the runs showed.
+- [`@oblivionwing26/friction-engine`](packages/friction-engine/README.md): the friction detectors as an npm package (pure functions, no browser, no model).
 
 ## License
 

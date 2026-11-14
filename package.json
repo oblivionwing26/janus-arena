@@ -35,6 +35,8 @@
     "demo:export": "node scripts/demo-export.mjs",
     "demo:build": "pnpm --filter @janus/web-console build:demo",
     "janus": "node scripts/janus.mjs",
+    "pack:npm": "node scripts/pack-npm.mjs",
+    "check:npm": "node scripts/check-npm-pack.mjs",
     "check:arch": "turbo run build && depcruise --config .dependency-cruiser.cjs apps packages",
     "format": "prettier --write .",
     "format:check": "prettier --check ."

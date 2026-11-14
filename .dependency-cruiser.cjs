@@ -156,6 +156,8 @@ module.exports = {
         // Sample code the static analysis tools scan (F2.5), not part of any app.
         '/fixtures/static-analysis/',
         '/fixtures/surface/',
+        // The npm package's runnable example imports the published name (F4.5); check:npm runs it.
+        '^packages/[^/]+/examples/',
       ],
     },
     tsPreCompilationDeps: true,

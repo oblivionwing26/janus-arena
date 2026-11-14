@@ -46,6 +46,8 @@ pnpm janus verify <dir>       # signature, attestation and event-log hashes; exi
 pnpm run:gate <gates/x.yaml> [--resume <gateRunId>]  # the whole gate, stage by stage; resumes from its event log (needs pnpm dev; calls the API)
 pnpm janus pr --workspace <clone> --branch <janus/...> --report <dir>  # push the branch, add the signed report, open the PR as the GitHub App (never merges)
 pnpm run:benchmark juice-shop [--runs 3]  # the public benchmark: recall on Juice Shop's challenges, control + N fresh rounds, no LLM (needs Docker)
+pnpm pack:npm                # pack the two npm packages (@oblivionwing26/*) into .npm/; pnpm check:npm also installs them in a clean folder and runs the example
+pnpm run:launch-day <runId|file>... [--out <dir>]  # Launch Day report (curves per variant) from recorded events (no LLM)
 pnpm demo:export             # write the public demo's runs (config/demo.yaml) from the event log to apps/web-console/public/demo; refuses if a file carries a secret
 pnpm demo:build              # the console as a self-contained demo (NEXT_PUBLIC_DEMO=1), no backend
 pnpm run:ab-auto <runs/x.yaml>  # discovery on A, generated B, paired A/B report (needs pnpm dev; calls the API)
