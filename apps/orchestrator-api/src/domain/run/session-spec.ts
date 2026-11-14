@@ -6,7 +6,7 @@ export interface SessionSpec {
   readonly sessionIndex: number;
   /** Variant key in the run, e.g. `a` or `b`. */
   readonly variant: string;
-  readonly kind: 'scripted' | 'persona' | 'baseline';
+  readonly kind: 'scripted' | 'persona' | 'baseline' | 'saboteur';
   /** Persona id; absent for the scripted buyer. */
   readonly persona?: string;
   /** Fixes the session's synthetic data, so a pair plays with identical details. */
@@ -18,4 +18,6 @@ export interface SessionSpec {
    * presents the same one on both variants: the address belongs to the slot.
    */
   readonly clientIp?: string;
+  /** How fast a saboteur sends (F4.1); absent for every other kind. */
+  readonly requestsPerSecond?: number;
 }

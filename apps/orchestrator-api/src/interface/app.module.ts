@@ -3,6 +3,9 @@ import { Module, type DynamicModule } from '@nestjs/common';
 import { FinishRun } from '../application/finish-run.js';
 import { RunAgentSession } from '../application/run-agent-session.js';
 import { RunControl } from '../application/run-control.js';
+import { RunSaboteur } from '../application/saboteur/run-saboteur.js';
+import { SaboteurScopes } from '../application/saboteur/saboteur-scopes.js';
+import { VerifyOwnership } from '../application/scope/verify-ownership.js';
 import { StartRun } from '../application/start-run.js';
 import { StopRun } from '../application/stop-run.js';
 import { BROWSER_PORT } from '../domain/browser/browser-port.js';
@@ -33,10 +36,26 @@ export class AppModule {
       orders,
       shoppers,
       accounts,
+      saboteurs,
     } = adapters;
     const navigator =
       gateway === undefined || personas === undefined ? undefined : { gateway, personas };
     const control = new RunControl();
+    const saboteur =
+      saboteurs === undefined
+        ? undefined
+        : new RunSaboteur({
+            store,
+            http: saboteurs.http,
+            scopes: new SaboteurScopes({
+              verify: new VerifyOwnership({
+                tokens: saboteurs.tokens,
+                http: saboteurs.http,
+                store,
+              }),
+              policyFor: saboteurs.policyFor,
+            }),
+          });
     return {
       module: AppModule,
       controllers: [HealthController, RunsController, RunReportController],
@@ -64,6 +83,7 @@ export class AppModule {
             store,
             browser,
             control,
+            ...(saboteur === undefined ? {} : { saboteur }),
             ...(navigator === undefined
               ? {}
               : {

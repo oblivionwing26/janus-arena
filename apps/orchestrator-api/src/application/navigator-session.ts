@@ -10,6 +10,7 @@ import type { Budget } from '../domain/llm/budget.js';
 import type { LLMGatewayPort } from '../domain/llm/llm-gateway-port.js';
 import type { Persona } from '../domain/persona/persona.js';
 import { checkOrder } from '../domain/task/check-order.js';
+import { foreignCanaries } from '../domain/task/canary.js';
 import type { OrderReaderPort } from '../domain/task/order-reader-port.js';
 import type { TaskSpec } from '../domain/task/task-spec.js';
 import { ActionExecutor, type ActionResult } from './action-executor.js';
@@ -29,6 +30,9 @@ export interface NavigatorSessionDeps {
   readonly now?: () => number;
   readonly sleep?: (ms: number) => Promise<void>;
 }
+
+/** The check of a task.verified that says whether another session's canary reached this one (F4.1). */
+export const CANARY_CHECK = 'orders hold only its own canary';
 
 export interface NavigatorSessionInput {
   readonly runId: string;
@@ -50,7 +54,12 @@ export interface NavigatorSessionInput {
    * The task the session plays and how to read the target afterwards (F1.9): when the session
    * ends, the oracle checks the target and records task.verified.
    */
-  readonly verify?: { readonly task: TaskSpec; readonly orders: OrderReaderPort };
+  readonly verify?: {
+    readonly task: TaskSpec;
+    readonly orders: OrderReaderPort;
+    /** The marker this session put in its shipping address (F4.1); orders are checked for others'. */
+    readonly canary?: string;
+  };
 }
 
 type Outcome = SessionEndedEvent['payload']['outcome'];
@@ -224,7 +233,7 @@ export class NavigatorSession {
   /** The oracle (F1.9): what the target says happened, never what the agent claimed. */
   private async verifyTask(
     session: string,
-    verify: { readonly task: TaskSpec; readonly orders: OrderReaderPort },
+    verify: NonNullable<NavigatorSessionInput['verify']>,
     recorder: RunEventRecorder,
   ): Promise<void> {
     const taskId = verify.task.id;
@@ -242,10 +251,29 @@ export class NavigatorSession {
       return;
     }
     const verdict = checkOrder(orders, verify.task.expect);
+    // Contamination does not change the task's status: it says whether the run kept its sessions
+    // apart, and is read apart from success (F4.1).
+    const contamination = verify.canary === undefined ? [] : foreignCanaries(orders, verify.canary);
+    const checks = verdict.checks.map((check) => ({ ...check }));
+    if (verify.canary !== undefined) {
+      checks.push({
+        check: CANARY_CHECK,
+        passed: contamination.length === 0,
+        ...(contamination.length === 0
+          ? {}
+          : {
+              detail:
+                `order ${String(contamination[0]?.orderId)} carries the canary of another session`.slice(
+                  0,
+                  300,
+                ),
+            }),
+      });
+    }
     await recorder.record('task.verified', {
       taskId,
       status: verdict.passed ? 'passed' : 'failed',
-      checks: verdict.checks.map((check) => ({ ...check })),
+      checks,
       ...(verdict.orderId === undefined ? {} : { orderId: verdict.orderId }),
     });
   }

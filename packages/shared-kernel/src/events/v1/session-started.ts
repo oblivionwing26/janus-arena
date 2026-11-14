@@ -10,7 +10,7 @@ export const sessionStartedEventSchema = defineEventSchema(
   1,
   z.object({
     variant: z.string().regex(/^[a-z][a-z0-9]{0,3}$/),
-    kind: z.enum(['scripted', 'persona', 'baseline']),
+    kind: z.enum(['scripted', 'persona', 'baseline', 'saboteur']),
     persona: z
       .string()
       .regex(/^[a-z0-9][a-z0-9-]{0,47}$/)

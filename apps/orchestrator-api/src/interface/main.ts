@@ -13,6 +13,11 @@ import { ShopLabOrderReader } from '../infrastructure/orders/shoplab-order-reade
 import { JuiceShopShopperAccounts } from '../infrastructure/personas/juice-shop-shopper-accounts.js';
 import { PlaywrightScopedHttp } from '../infrastructure/scope/playwright-scoped-http.js';
 import {
+  loadScopeConfig,
+  repoScopeConfigPath,
+  scopePolicyFor,
+} from '../infrastructure/scope/scope-config.js';
+import {
   loadShoppersConfig,
   repoShoppersConfigPath,
 } from '../infrastructure/personas/shoppers-config.js';
@@ -63,12 +68,20 @@ if (gateway === undefined) {
 }
 
 const browser = new PlaywrightRunner();
+const sandbox = new DockerSandbox({
+  docker: new DockerCli(required('DOCKER_HOST')),
+  workspacesRoot: workspacesRoot(),
+});
+const scopes = await loadScopeConfig(repoScopeConfigPath());
 const app = await createApp({
   eventStore,
-  sandbox: new DockerSandbox({
-    docker: new DockerCli(required('DOCKER_HOST')),
-    workspacesRoot: workspacesRoot(),
-  }),
+  sandbox,
+  // Saboteurs reach the sandbox through the Playwright server, like the Red Team (ADR 0020).
+  saboteurs: {
+    http: new PlaywrightScopedHttp(),
+    tokens: sandbox,
+    policyFor: (target, origin) => scopePolicyFor(scopes, target, [origin]),
+  },
   browser,
   orders: {
     shoplab: new ShopLabOrderReader(browser),

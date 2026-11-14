@@ -13,6 +13,9 @@ export function clientAddress(
   return `10.20.${String(Math.floor(slot / 250))}.${String((slot % 250) + 1)}`;
 }
 
+/** The simulated address of the n-th saboteur (F4.1), apart from every legitimate one. */
+export const saboteurAddress = (index: number): string => `10.99.0.${String(index + 1)}`;
+
 /**
  * Every session of a run, paired by design (F1.7): each persona, task and seed plays every
  * variant, one after the other, and each variant gets the competent baseline for every task and
@@ -57,5 +60,19 @@ export function sessionMatrix(config: RunConfig): SessionSpec[] {
       }
     }
   }
-  return slots.map((slot, sessionIndex) => ({ sessionIndex, ...slot }));
+  // The saboteurs go first, so they start together with the shoppers (F4.1): each variant gets the
+  // same ones, with the same address, as the pairs get the same personas.
+  const saboteurs: Omit<SessionSpec, 'sessionIndex'>[] = [];
+  for (let index = 0; index < (config.saboteurs?.count ?? 0); index++) {
+    for (const { key } of config.variants) {
+      saboteurs.push({
+        variant: key,
+        kind: 'saboteur',
+        seed: index,
+        clientIp: saboteurAddress(index),
+        requestsPerSecond: config.saboteurs?.requestsPerSecond ?? 1,
+      });
+    }
+  }
+  return [...saboteurs, ...slots].map((slot, sessionIndex) => ({ sessionIndex, ...slot }));
 }
