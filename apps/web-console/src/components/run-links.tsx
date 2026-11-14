@@ -1,6 +1,7 @@
 import Link from 'next/link';
 
 import type { ConsoleEvent } from '@/lib/console-event';
+import { hasLaunchDay } from '@/lib/launch-day';
 
 const SECURITY = new Set(['finding.created', 'surface.mapped', 'audit.completed']);
 const ATTACK = new Set(['attack.attempt', 'gate.stage']);
@@ -13,7 +14,8 @@ export function RunLinks({ runId, events }: { runId: string; events: readonly Co
   const variant = events.some((event) => event.type === 'patch.proposed');
   const security = events.some((event) => SECURITY.has(event.type));
   const attack = events.some((event) => ATTACK.has(event.type));
-  if (!variant && !security && !attack) return null;
+  const launchDay = hasLaunchDay(events);
+  if (!variant && !security && !attack && !launchDay) return null;
   return (
     <p>
       {variant && <Link href={`/runs/${runId}/variant`}>Variante B: diff del UI Engineer →</Link>}
@@ -23,6 +25,8 @@ export function RunLinks({ runId, events }: { runId: string; events: readonly Co
       )}
       {attack && (variant || security) && ' · '}
       {attack && <Link href={`/runs/${runId}/attack`}>Grafo de ataque →</Link>}
+      {launchDay && (variant || security || attack) && ' · '}
+      {launchDay && <Link href={`/runs/${runId}/launch-day`}>Launch Day: las tres curvas →</Link>}
     </p>
   );
 }

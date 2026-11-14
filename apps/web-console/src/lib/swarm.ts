@@ -35,11 +35,27 @@ export interface SwarmPulse {
   readonly detector: string;
 }
 
+/**
+ * A saboteur (F4.1): it sends requests instead of navigating routes, so it has no place on the
+ * graph. The canvas draws it apart, with what the shop has done to it so far.
+ */
+export interface SwarmSaboteur {
+  readonly agentId: string;
+  readonly variant: string | undefined;
+  /** The simulated address it presents. */
+  readonly client: string | undefined;
+  /** Requests the shop answered, and requests it refused (429) or could not take (503). */
+  readonly answered: number;
+  readonly refused: number;
+  readonly done: boolean;
+}
+
 export interface SwarmModel {
   readonly nodes: readonly SwarmNode[];
   readonly edges: readonly SwarmEdge[];
   readonly agents: readonly SwarmAgent[];
   readonly pulses: readonly SwarmPulse[];
+  readonly saboteurs: readonly SwarmSaboteur[];
 }
 
 interface MutableAgent {
@@ -65,6 +81,7 @@ export function buildSwarm(
   const edges = new Map<string, SwarmEdge>();
   const agents = new Map<string, MutableAgent>();
   const stepRoutes = new Map<string, string>();
+  const saboteurs = new Map<string, { -readonly [K in keyof SwarmSaboteur]: SwarmSaboteur[K] }>();
 
   const agentOf = (agentId: string): MutableAgent => {
     let agent = agents.get(agentId);
@@ -79,8 +96,27 @@ export function buildSwarm(
     if (!isKnownEvent(event)) continue;
     switch (event.type) {
       case 'session.started':
+        if (event.payload.role === 'saboteur') {
+          saboteurs.set(event.actor.agentId, {
+            agentId: event.actor.agentId,
+            variant: event.payload.variant,
+            client: event.payload.client,
+            answered: 0,
+            refused: 0,
+            done: false,
+          });
+          break;
+        }
         agentOf(event.actor.agentId).variant = event.payload.variant;
         break;
+      case 'attack.attempt': {
+        const saboteur = saboteurs.get(event.actor.agentId);
+        const { status } = event.payload;
+        if (saboteur === undefined || status === null) break;
+        if (status === 429 || status === 503) saboteur.refused += 1;
+        else saboteur.answered += 1;
+        break;
+      }
       case 'agent.step': {
         const agent = agentOf(event.actor.agentId);
         const route = routeOf(event.payload.url);
@@ -95,10 +131,16 @@ export function buildSwarm(
         agent.steps += 1;
         break;
       }
-      case 'session.ended':
+      case 'session.ended': {
+        const saboteur = saboteurs.get(event.actor.agentId);
+        if (saboteur !== undefined) {
+          saboteur.done = true;
+          break;
+        }
         agentOf(event.actor.agentId).status =
           event.payload.outcome === 'success' ? 'success' : 'abandon';
         break;
+      }
       default:
         break;
     }
@@ -133,6 +175,7 @@ export function buildSwarm(
           ],
     ),
     pulses,
+    saboteurs: [...saboteurs.values()].sort((a, b) => a.agentId.localeCompare(b.agentId)),
   };
 }
 

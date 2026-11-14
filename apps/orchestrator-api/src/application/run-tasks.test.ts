@@ -1,7 +1,7 @@
 // A baseline-only run over tasks (F1.9), end to end with in-memory adapters: each task is its
 // own session, the baseline gets the task's goal, and the oracle verifies every session.
 
-import { isKnownEvent } from '@janus/shared-kernel';
+import { CANARY_CHECK, isKnownEvent } from '@janus/shared-kernel';
 import { describe, expect, it } from 'vitest';
 
 import { canaryFor } from '../domain/task/canary.js';
@@ -18,7 +18,6 @@ import { SHOPLAB_PAGES } from '../test-support/shoplab-pages.js';
 import { FinishRun } from './finish-run.js';
 import { RunAgentSession } from './run-agent-session.js';
 import { RunControl } from './run-control.js';
-import { CANARY_CHECK } from './navigator-session.js';
 import { runInputFromConfig, StartRun } from './start-run.js';
 
 const tasks = [

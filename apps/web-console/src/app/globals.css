@@ -759,3 +759,45 @@ input {
 .featured ul {
   padding-left: 18px;
 }
+
+/* Launch Day (F4.1): the three curves, one colour each and always labelled. */
+.launch-day-chart {
+  width: 100%;
+  max-width: 640px;
+  height: auto;
+}
+
+.launch-day-chart .chart-grid {
+  stroke: var(--border);
+  stroke-width: 1;
+}
+
+.launch-day-chart .chart-label {
+  fill: var(--muted);
+  font-size: 12px;
+}
+
+.launch-day-chart .chart-title {
+  fill: var(--text);
+  font-size: 13px;
+  font-weight: 600;
+}
+
+.launch-day-chart .chart-interval {
+  stroke-width: 3;
+}
+
+.chart-legit {
+  stroke: var(--ok);
+  fill: var(--ok);
+}
+
+.chart-attack {
+  stroke: var(--error);
+  fill: var(--error);
+}
+
+.chart-blocked {
+  stroke: var(--warning);
+  fill: var(--warning);
+}

@@ -5,6 +5,12 @@ import { defineEventSchema } from '../event-envelope.js';
 // What a deterministic oracle found after a session (F1.9): did the target end up in the state
 // the task asks for? This, not the agent's own `done`, is task success. `unverifiable` means the
 // oracle could not read the target; such sessions are left out of the statistics.
+/**
+ * The check a Launch Day run (F4.1) adds to task.verified: no order the shopper reads carries the
+ * canary of another session. Its failure is contamination, read apart from the task's success.
+ */
+export const CANARY_CHECK = 'orders hold only its own canary';
+
 export const taskVerifiedEventSchema = defineEventSchema(
   'task.verified',
   1,
