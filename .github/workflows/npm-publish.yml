@@ -1,8 +1,15 @@
 name: npm publish
 
 # Manual: publishing is the owner's decision (F4.5). It needs an `NPM_TOKEN` secret (an npm
-# automation token for the @oblivionwing26 scope). The kernel goes first because the engine
-# depends on it. Provenance links each package to this commit.
+# granular token for the @oblivionwing26 scope). The kernel goes first because the engine depends
+# on it. Provenance links each package to this commit.
+#
+# Two ways to put a package on npm, chosen when the workflow is run:
+#  - stage (default): `npm stage publish` sends the package to npm's staging area and nothing is
+#    public until a maintainer approves it on npmjs.com ("Staged Packages") or with
+#    `npm stage approve <id>`, both with 2FA. This is what a "stage only" token can do.
+#  - publish: `npm publish` goes live at once. It needs a token that may publish directly and
+#    bypass 2FA.
 on:
   workflow_dispatch:
     inputs:
@@ -10,6 +17,11 @@ on:
         description: 'Pack and check only, publish nothing'
         type: boolean
         default: true
+      method:
+        description: 'stage (review and approve on npm) or publish (live at once)'
+        type: choice
+        options: [stage, publish]
+        default: stage
 
 permissions:
   contents: read
@@ -26,11 +38,22 @@ jobs:
           node-version: 22
           registry-url: https://registry.npmjs.org
           cache: pnpm
+      # `npm stage` needs npm 11.15 or later; Node 22 ships an older one.
+      - run: npm install -g npm@^11.15
       - run: pnpm install --frozen-lockfile
       - name: Pack both packages and install them in a clean folder
         run: pnpm check:npm
+      - name: Stage
+        if: ${{ !inputs.dry-run && inputs.method == 'stage' }}
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+        # pack-npm leaves each package ready to publish in .npm/<name>; stage reads that folder.
+        run: |
+          for dir in .npm/shared-kernel .npm/friction-engine; do
+            (cd "$dir" && npm stage publish --access public --provenance)
+          done
       - name: Publish
-        if: ${{ !inputs.dry-run }}
+        if: ${{ !inputs.dry-run && inputs.method == 'publish' }}
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
         run: |
