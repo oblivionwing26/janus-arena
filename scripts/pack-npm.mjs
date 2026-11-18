@@ -7,7 +7,9 @@
 //   pnpm pack:npm            tarballs in .npm/
 //   pnpm check:npm           the same, then installs them in a clean folder and runs the example
 //
-// Publishing is not done here: `npm publish` needs the owner's account (see packages/friction-engine/README.md).
+// Publishing is not done here: it needs the owner's npm account. Each package is left ready in
+// .npm/<name> (what `npm stage publish` packs) and as a tarball (what `npm publish` takes); see
+// .github/workflows/npm-publish.yml.
 
 import { spawnSync } from 'node:child_process';
 import { cp, mkdir, readFile, rm, writeFile } from 'node:fs/promises';
