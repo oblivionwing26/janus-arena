@@ -21,8 +21,10 @@ seguir.
 | `janus-fallback.webp`     | 55 KB  | 1600 × 1000, vista de moneda (los dos perfiles). Para movimiento reducido o sin WebGL.                                                                                                                          |
 | `janus-fallback-alt.webp` | 44 KB  | 1600 × 1000, la cara joven en 3/4.                                                                                                                                                                              |
 
-En la web, la malla no se pinta como sólido: se muestrean puntos de su superficie y se dibuja como
-partículas (referencia: bricelab.dev).
+En la web, la malla no se pinta como sólido: `export.py` muestrea 40 000 puntos de su superficie
+(por área, semilla fija) y los guarda en `janus-points.bin` (360 KB: `uint32` N, posiciones `int16`
+en ejes de three.js y normales `int8`). La portada los dibuja como partículas (referencia:
+bricelab.dev) sin cargar el GLB ni el decodificador Draco.
 
 ## Regenerar
 
