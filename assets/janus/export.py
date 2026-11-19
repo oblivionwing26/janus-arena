@@ -34,6 +34,33 @@ bpy.ops.export_scene.gltf(
     export_cameras=False, export_lights=False)
 ex.hide_render = True
 
+# ---- the point cloud the web draws as particles: N points sampled by area on the surface,
+# in three.js axes (glTF: x, z, -y). File: uint32 N, then N*3 int16 positions (metres / 1.5 *
+# 32767), then N*3 int8 normals (* 127). Fixed seed, so the cloud is the same on every export.
+import numpy as np
+N = 40000
+me.calc_loop_triangles()
+tris = np.array([t.vertices[:] for t in me.loop_triangles], dtype=np.int64)
+vco = np.array([v.co[:] for v in me.vertices], dtype=np.float64)
+vno = np.array([v.normal[:] for v in me.vertices], dtype=np.float64)
+a, b, c = vco[tris[:, 0]], vco[tris[:, 1]], vco[tris[:, 2]]
+area = np.linalg.norm(np.cross(b - a, c - a), axis=1)
+gen = np.random.default_rng(2026)
+pick = gen.choice(len(tris), size=N, p=area / area.sum())
+u, v = gen.random(N), gen.random(N)
+flip = u + v > 1; u[flip], v[flip] = 1 - u[flip], 1 - v[flip]
+w = 1 - u - v
+t = tris[pick]
+pos = vco[t[:, 0]] * w[:, None] + vco[t[:, 1]] * u[:, None] + vco[t[:, 2]] * v[:, None]
+nor = vno[t[:, 0]] * w[:, None] + vno[t[:, 1]] * u[:, None] + vno[t[:, 2]] * v[:, None]
+nor /= np.linalg.norm(nor, axis=1)[:, None]
+to_three = lambda p: np.stack([p[:, 0], p[:, 2], -p[:, 1]], axis=1)
+pos, nor = to_three(pos), to_three(nor)
+with open(os.path.join(MODELS, 'janus-points.bin'), 'wb') as f:
+    f.write(np.uint32(N).tobytes())
+    f.write(np.clip(np.round(pos / 1.5 * 32767), -32767, 32767).astype('<i2').tobytes())
+    f.write(np.clip(np.round(nor * 127), -127, 127).astype('i1').tobytes())
+
 # ---- fallback renders: the coin view (both profiles) and a 3/4 view of the young face
 sc.render.resolution_x = 1600; sc.render.resolution_y = 1000; sc.render.resolution_percentage = 100
 sc.render.image_settings.file_format = 'WEBP'; sc.render.image_settings.quality = 88
