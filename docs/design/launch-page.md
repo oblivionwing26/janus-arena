@@ -83,6 +83,13 @@ fricción, el A/B +50 puntos con su intervalo dibujándose), a la derecha la car
 (clases de ataque, oráculos, «nada lo da por bueno sin prueba»). El ratón desplaza la costura y la
 cabeza de Jano gira hacia el lado en el que estás.
 
+**Estado: hecha.** «One shop, two faces»: las nueve páginas del embudo de compra de Juice Shop dos
+veces, una sobre otra. La cara de los compradores (sesiones que llegaron, pasos, personas, señales
+de fricción) y la del atacante (las llamadas a la API que hizo el propio navegador de los
+compradores desde esa página, cruzadas con el árbol de ataques). Una costura con la moneda de Jano
+sigue al ratón; en el móvil, un interruptor. El resumen se genera de los runs grabados y un test lo
+mantiene igual a ellos; nunca muestra rutas que el alcance excluye.
+
 ## Fase 5 · El árbol de ataques
 
 **Ambición.** La referencia 2 hecha con los datos del gate de Juice Shop: un orbe central con texto

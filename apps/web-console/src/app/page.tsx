@@ -6,11 +6,13 @@ import { CostSection } from '@/components/launch/cost-section';
 import { PipelineSection } from '@/components/launch/pipeline-section';
 import { ProblemSection } from '@/components/launch/problem-section';
 import { SectionRail } from '@/components/launch/section-rail';
+import { TwoFacesSection } from '@/components/launch/two-faces-section';
 
 import './launch.css';
 import './pipeline.css';
 import './attack-tree.css';
 import './cost.css';
+import './two-faces.css';
 
 export const metadata: Metadata = {
   title: 'Introducing Janus',
@@ -25,6 +27,7 @@ export default function LaunchPage() {
       <SectionRail />
       <ProblemSection />
       <PipelineSection />
+      <TwoFacesSection />
       <AttackTreeSection />
       <CostSection />
     </div>

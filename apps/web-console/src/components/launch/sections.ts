@@ -3,6 +3,7 @@
 export const SECTIONS = [
   { id: 'problem', label: 'The problem' },
   { id: 'how-it-works', label: 'How it works' },
+  { id: 'two-faces', label: 'The two faces' },
   { id: 'attack-tree', label: 'The attack tree' },
   { id: 'cost', label: 'What a fix costs' },
 ] as const;
