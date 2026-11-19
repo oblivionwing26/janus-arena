@@ -157,6 +157,13 @@ generados por código, oráculo determinista».
 vivo, vídeo, artículos, y lo que cuesta un gate (0,28–0,82 €) en una tabla de precio como la de
 los modelos.
 
+**Estado de las fases 10 y 11: hechas.** Seis afirmaciones tachadas, cada una con lo que Janus dice en
+su lugar y el archivo que lo compromete; acceso (código MIT, demo, vídeo, npm), una tabla de precio
+por run sacada del registro FinOps, los comandos para levantar la demo, los artículos y un cierre.
+`closing-data.test.ts` comprueba cada afirmación, cada precio y cada enlace contra el repositorio.
+
+**La presentación está completa:** once fases, de la portada al cierre.
+
 ## Orden
 
 1 → 2 → 3 → 5 → 6 → 4 → 7 → 8 → 9 → 10 → 11, un commit por fase; un PR al final que lo junta todo
