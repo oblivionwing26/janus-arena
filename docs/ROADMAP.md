@@ -799,9 +799,9 @@ Hecho cuando: la decisión está escrita con los datos que la justifican.
 
 ### F4.5 · Artículos y open source — M a L (8–12 h)
 
-- [x] Artículo 2: "El coste en UX de un parche de seguridad" con el informe de compromiso de F3.6 y Launch Day (borrador en [docs/articles/ux-cost-of-a-security-patch.md](articles/ux-cost-of-a-security-patch.md); falta publicarlo)
-- [x] Artículo 3: resultados del benchmark sin maquillar (borrador en [docs/articles/benchmark-without-makeup.md](articles/benchmark-without-makeup.md); falta publicarlo)
-- [x] Publicar `friction-engine` en npm con licencia, README, ejemplos y tests (empaquetado y probado; falta publicarlo, que es del dueño de la cuenta)
+- [x] Artículo 2: "El coste en UX de un parche de seguridad" con el informe de compromiso de F3.6 y Launch Day (publicado en [dev.to](https://dev.to/oblivionwing26/ux-cost-of-a-security-patch-4b7h); texto en [docs/articles/ux-cost-of-a-security-patch.md](articles/ux-cost-of-a-security-patch.md))
+- [x] Artículo 3: resultados del benchmark sin maquillar (publicado en [dev.to](https://dev.to/oblivionwing26/benchmark-on-juice-shop-1n46); texto en [docs/articles/benchmark-without-makeup.md](articles/benchmark-without-makeup.md))
+- [x] Publicar `friction-engine` en npm con licencia, README, ejemplos y tests (publicado como [`@oblivionwing26/friction-engine` 0.1.0](https://www.npmjs.com/package/@oblivionwing26/friction-engine), con `@oblivionwing26/shared-kernel`; instalado desde npm en una carpeta limpia)
 
 Hecho cuando: los tres artículos están publicados y el paquete se instala desde npm.
 
@@ -809,7 +809,8 @@ Nota F4.5 (lo que está hecho y lo que solo puede hacer el dueño de las cuentas
 
 - **Paquete:** se publican dos, `@oblivionwing26/shared-kernel` y `@oblivionwing26/friction-engine` 0.1.0, porque el motor lee el sobre de eventos. El espacio de trabajo conserva sus nombres `@janus/*`: `pnpm pack:npm` arma cada paquete en `.npm/` con el nombre publicado y el motor depende de `@janus/shared-kernel` como alias npm del paquete publicado (`npm:@oblivionwing26/shared-kernel@0.1.0`), así que no se toca una línea de código. Lleva README (uso, señales, umbrales, lo que no dice), ejemplo ejecutable, `LICENSE` y metadatos; el tarball no contiene tests.
 - **Verificado:** `pnpm check:npm` empaqueta, instala los dos tarballs en una carpeta vacía (con `overrides` para el núcleo, que aún no está en el registro) y ejecuta el ejemplo, que imprime `rage-click` y `dead-click`.
-- **Falta, y es tuyo:** publicar en npm. El flujo manual `.github/workflows/npm-publish.yml` tiene dos modos: `stage` (por defecto: `npm stage publish` deja los paquetes en el área de preparación de npm y nada es público hasta que apruebas cada uno, con 2FA, en npmjs.com → _Staged Packages_ o con `npm stage approve <id>`; es lo que permite un token «stage only», y exige npm 11.15 o posterior) y `publish` (`npm publish` directo, que necesita un token granular con _Bypass 2FA_). Primero el ensayo con `dry-run`; el núcleo se aprueba antes que el motor. Al preparar un paquete nuevo, npm publica un marcador público `0.0.0-stage`. Y publicar los artículos 2 y 3 (inglés solo) donde quieras.
+- **Publicación:** hecha con el modo `stage` del flujo `.github/workflows/npm-publish.yml` (`npm stage publish`, aprobado con 2FA en npmjs.com): el primer intento con `npm publish` falló por dos motivos, primero un token sin _Bypass 2FA_ (E403) y luego un token «stage only» (E_STAGE_REQUIRED). El modo `publish` sigue disponible para un token que publique directo. Los dos artículos están en dev.to, en inglés.
+- **Hecho cuando (F4.5):** cumplido. Los tres artículos están publicados (el primero, de F3.12, y estos dos) y el paquete se instala desde npm.
 - **Artículos:** solo con cifras de los informes del repositorio (compromiso de F3.6, Launch Day y benchmark), con lo que no se midió dicho en el texto.
 
 ### F4.6 · Calibración (opcional, semilla de TFM) — sin estimar
