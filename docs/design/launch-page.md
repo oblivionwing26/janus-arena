@@ -83,6 +83,13 @@ fricción, el A/B +50 puntos con su intervalo dibujándose), a la derecha la car
 (clases de ataque, oráculos, «nada lo da por bueno sin prueba»). El ratón desplaza la costura y la
 cabeza de Jano gira hacia el lado en el que estás.
 
+**Estado: hecha.** «One shop, two faces»: las nueve páginas del embudo de compra de Juice Shop dos
+veces, una sobre otra. La cara de los compradores (sesiones que llegaron, pasos, personas, señales
+de fricción) y la del atacante (las llamadas a la API que hizo el propio navegador de los
+compradores desde esa página, cruzadas con el árbol de ataques). Una costura con la moneda de Jano
+sigue al ratón; en el móvil, un interruptor. El resumen se genera de los runs grabados y un test lo
+mantiene igual a ellos; nunca muestra rutas que el alcance excluye.
+
 ## Fase 5 · El árbol de ataques
 
 **Ambición.** La referencia 2 hecha con los datos del gate de Juice Shop: un orbe central con texto
@@ -97,10 +104,21 @@ modelos: eje X compradores bloqueados, eje Y ataques que pasan; una flecha por d
 sus intervalos de Wilson al pasar el ratón. Al lado, las alternativas al bloqueo de cuenta en
 tarjetas con su diff y su veredicto.
 
+**Estado: hechas las fases 5 y 6.** El árbol se construye de los runs grabados del Red Team y del
+Blue Team (106 endpoints distintos en el mapa, 32 peticiones, 6 confirmados, 6 frenados por el
+alcance); la gráfica de coste usa las cinco defensas de Launch Day con sus intervalos, y las
+alternativas al bloqueo de cuenta citan el informe de trade-off. Los tests reconstruyen cada fila
+de los informes desde los datos.
+
 ## Fase 7 · Benchmark sin maquillaje
 
 **Ambición.** Tabla al estilo de las de los modelos, con barras e intervalos por categoría del
 benchmark de Juice Shop (6 de 60), y la explicación de por qué es bajo a propósito.
+
+**Estado: hecha.** El recall total con su intervalo, el control y las tres rondas como rejillas de 60
+puntos, la tabla por categoría, un mosaico con los 60 retos por categoría y dificultad (los
+resueltos en ámbar; el efecto secundario, discontinuo en oro), y por qué la cifra es baja a
+propósito. Los datos salen del informe con un parser puro; un test los mantiene iguales.
 
 ## Fase 8 · Por qué fiarse: el sello
 
@@ -108,11 +126,24 @@ benchmark de Juice Shop (6 de 60), y la explicación de por qué es bajo a prop�
 clave pública del repositorio). Un sello holográfico se forma si cuadra; un botón «cambia una
 cifra» lo rompe y señala el fallo. Mismo veredicto que `pnpm janus verify`.
 
+**Estado: hecha.** El informe firmado del gate de Juice Shop se verifica en el navegador con
+WebCrypto: firma ECDSA P-256 sobre sus bytes, la attestation DSSE, que esta nombre el informe por
+su SHA-256, y los cuatro registros de eventos recalculados desde los runs de la demo (coinciden).
+Los mensajes son los de `verifyBundle`. Tres falsificaciones (el coste, la gravedad, un evento) rompen
+el sello y señalan la comprobación que falla. `verify-report.test.ts` lo prueba con los archivos
+reales; las copias servidas son idénticas byte a byte a las de `docs/reports`.
+
 ## Fase 9 · Dentro de la consola
 
 **Ambición.** La referencia 1: el tablero de cristal sobre un paisaje propio (render de Blender: un
 templo en ruinas al amanecer), con los runs grabados reales como tarjetas que se pueden arrastrar
 entre columnas, y enlaces a la demo.
+
+**Estado: hecha.** El tablero de cristal flota sobre un paisaje propio: un templo dórico en ruinas
+sobre un acantilado al amanecer, generado por `assets/janus/temple.py` en Blender (36 KB). Las
+trece tarjetas son los runs grabados de la demo, cada una en la columna que dicen sus eventos y con
+su resumen; la búsqueda filtra de verdad y la vista Lista es una tabla. `console-board.test.ts`
+mantiene el tablero igual a los runs.
 
 ## Fase 10 · Lo que no afirmamos
 
@@ -125,6 +156,13 @@ generados por código, oráculo determinista».
 **Ambición.** Tarjetas finales: código abierto (MIT), paquetes npm (comando copiable), demo en
 vivo, vídeo, artículos, y lo que cuesta un gate (0,28–0,82 €) en una tabla de precio como la de
 los modelos.
+
+**Estado de las fases 10 y 11: hechas.** Seis afirmaciones tachadas, cada una con lo que Janus dice en
+su lugar y el archivo que lo compromete; acceso (código MIT, demo, vídeo, npm), una tabla de precio
+por run sacada del registro FinOps, los comandos para levantar la demo, los artículos y un cierre.
+`closing-data.test.ts` comprueba cada afirmación, cada precio y cada enlace contra el repositorio.
+
+**La presentación está completa:** once fases, de la portada al cierre.
 
 ## Orden
 

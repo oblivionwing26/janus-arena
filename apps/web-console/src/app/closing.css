@@ -1,0 +1,280 @@
+/* Phases 10 and 11 of the launch page: what we do not claim, availability, the finale. */
+
+.limits {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 12px;
+}
+
+.limit {
+  display: grid;
+  align-content: start;
+  gap: 10px;
+  padding: 20px;
+  border-radius: 18px;
+  border: 1px solid var(--hair);
+  background: linear-gradient(170deg, oklch(1 0 0 / 0.04), oklch(1 0 0 / 0.01));
+}
+
+.limit__not {
+  margin: 0;
+  font-size: 0.9375rem;
+  color: var(--stone);
+}
+
+.limit__not s {
+  text-decoration: none;
+  background-image: linear-gradient(var(--blood), var(--blood));
+  background-repeat: no-repeat;
+  background-position: 0 55%;
+  background-size: 100% 2px;
+}
+
+.limits[data-seen='true'] .limit__not s {
+  animation: strike 700ms var(--ease-out) calc(var(--i) * 140ms + 200ms) both;
+}
+
+@keyframes strike {
+  from {
+    background-size: 0% 2px;
+  }
+}
+
+.limit__instead {
+  margin: 0;
+  font-size: 1.25rem;
+  line-height: 1.2;
+  color: var(--marble);
+}
+
+.limits[data-seen='true'] .limit__instead {
+  animation: fade-up 600ms var(--ease-out) calc(var(--i) * 140ms + 700ms) both;
+}
+
+.limit__detail {
+  margin: 0;
+  font-size: 0.875rem;
+  color: var(--stone);
+}
+
+.limit__src {
+  font: 0.6875rem var(--font-mono);
+  color: var(--stone);
+}
+
+.limit__src:hover {
+  color: var(--aurora);
+}
+
+/* availability */
+
+.avail {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 12px;
+}
+
+.avail__card {
+  display: grid;
+  align-content: start;
+  gap: 8px;
+  padding: 18px;
+  color: var(--marble);
+  text-decoration: none;
+  transition:
+    transform 220ms var(--ease-out),
+    border-color 220ms var(--ease-out);
+}
+
+a.avail__card:hover {
+  transform: translateY(-2px);
+  border-color: oklch(1 0 0 / 0.22);
+}
+
+.avail__card b {
+  font-size: 0.9375rem;
+  overflow-wrap: anywhere;
+}
+
+.avail__card > span:not(.eyebrow) {
+  font-size: 0.8125rem;
+  color: var(--stone);
+}
+
+.avail__cmd {
+  padding: 8px 10px;
+  border-radius: 8px;
+  background: oklch(0 0 0 / 0.35);
+  font: 0.6875rem var(--font-mono);
+  color: var(--aurora);
+  overflow-wrap: anywhere;
+}
+
+.copy {
+  justify-self: start;
+  font-size: 0.75rem;
+}
+
+.pricing {
+  margin-top: 16px;
+  padding: 22px 24px;
+  background:
+    radial-gradient(ellipse 50% 70% at 100% 0%, oklch(0.82 0.11 85 / 0.1), transparent 70%),
+    var(--glass);
+}
+
+.pricing header {
+  display: grid;
+  gap: 8px;
+  margin-bottom: 8px;
+}
+
+.pricing h3 {
+  margin: 0;
+  font-size: 1.5rem;
+}
+
+.pricing table {
+  background: transparent;
+}
+
+.pricing th,
+.pricing td {
+  padding: 14px 0;
+  border-bottom: 1px solid var(--hair);
+}
+
+.pricing th {
+  font-weight: 600;
+  font-size: 1rem;
+}
+
+.pricing th span {
+  display: block;
+  margin-top: 3px;
+  font-weight: 400;
+  font-size: 0.8125rem;
+  color: var(--stone);
+}
+
+.pricing td {
+  text-align: right;
+  white-space: nowrap;
+  font-size: 0.9375rem;
+  color: var(--stone);
+}
+
+.pricing td b {
+  font: 500 1.9rem var(--font-display);
+  color: var(--gold);
+}
+
+.pricing tr:last-child th,
+.pricing tr:last-child td {
+  border-bottom: 0;
+}
+
+.pricing__note {
+  margin: 10px 0 0;
+  font-size: 0.75rem;
+  color: var(--stone);
+}
+
+.avail__bottom {
+  margin-top: 16px;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  gap: 12px;
+}
+
+.quick,
+.reading {
+  display: grid;
+  align-content: start;
+  gap: 10px;
+  padding: 18px;
+  border-radius: 16px;
+  border: 1px solid var(--hair);
+  background: oklch(0 0 0 / 0.25);
+}
+
+.quick pre {
+  margin: 0;
+  font: 0.8125rem/1.7 var(--font-mono);
+  color: var(--aurora);
+  overflow-x: auto;
+}
+
+.reading ul {
+  margin: 0;
+  padding-left: 18px;
+  display: grid;
+  gap: 8px;
+}
+
+.reading a {
+  color: var(--marble);
+  text-underline-offset: 3px;
+}
+
+/* the finale */
+
+.finale {
+  display: grid;
+  justify-items: center;
+  gap: 14px;
+  padding: clamp(96px, 16vh, 180px) 20px clamp(72px, 12vh, 140px);
+  text-align: center;
+  background: radial-gradient(
+    ellipse 50% 60% at 50% 40%,
+    oklch(0.7 0.18 45 / 0.12),
+    transparent 70%
+  );
+}
+
+.finale svg {
+  filter: drop-shadow(0 0 40px oklch(0.82 0.11 85 / 0.35));
+}
+
+.finale__line {
+  margin: 10px 0 0;
+  font: 500 clamp(2rem, 5vw, 3.6rem) / 1.05 var(--font-display);
+  letter-spacing: 0.03em;
+  text-wrap: balance;
+}
+
+.finale__sub {
+  margin: 0;
+  color: var(--stone);
+  font-size: 1.0625rem;
+}
+
+.finale__cta {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 10px;
+  margin-top: 10px;
+}
+
+@media (max-width: 1000px) {
+  .limits,
+  .avail {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 640px) {
+  .limits,
+  .avail,
+  .avail__bottom {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .limit__not s,
+  .limit__instead {
+    animation: none !important;
+  }
+}

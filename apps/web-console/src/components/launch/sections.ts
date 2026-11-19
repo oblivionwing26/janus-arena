@@ -3,6 +3,14 @@
 export const SECTIONS = [
   { id: 'problem', label: 'The problem' },
   { id: 'how-it-works', label: 'How it works' },
+  { id: 'two-faces', label: 'The two faces' },
+  { id: 'attack-tree', label: 'The attack tree' },
+  { id: 'cost', label: 'What a fix costs' },
+  { id: 'benchmark', label: 'Benchmark' },
+  { id: 'trust', label: 'Verify it' },
+  { id: 'console', label: 'The console' },
+  { id: 'limits', label: 'What we do not claim' },
+  { id: 'availability', label: 'Availability' },
 ] as const;
 
 export type SectionId = (typeof SECTIONS)[number]['id'];

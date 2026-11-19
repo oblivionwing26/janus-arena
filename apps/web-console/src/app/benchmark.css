@@ -1,0 +1,347 @@
+/* Phase 7 of the launch page: a benchmark without makeup (docs/design/launch-page.md). */
+
+.bench-head {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1.4fr);
+  gap: 16px;
+  align-items: stretch;
+}
+
+.bench-hero {
+  padding: 22px;
+  display: grid;
+  gap: 10px;
+  align-content: start;
+  background:
+    radial-gradient(ellipse 70% 60% at 0% 0%, oklch(0.7 0.18 45 / 0.16), transparent 70%),
+    var(--glass);
+}
+
+.bench-hero__big {
+  margin: 0;
+  font: 500 clamp(4rem, 9vw, 6.5rem) / 0.9 var(--font-display);
+  color: var(--marble);
+}
+
+.bench-hero__big span {
+  font-size: 0.45em;
+  color: var(--stone);
+}
+
+.bench-hero__pct {
+  margin: 0;
+  font: 500 1.4rem var(--font-ui);
+  color: var(--ember);
+}
+
+.bench-hero__pct small {
+  display: block;
+  font: 0.75rem var(--font-mono);
+  color: var(--stone);
+}
+
+.bench-hero__ci {
+  position: relative;
+  height: 18px;
+  border-radius: 999px;
+  background: oklch(1 0 0 / 0.05);
+  border: 1px solid var(--hair);
+}
+
+.bench-hero__ci i {
+  position: absolute;
+  top: 5px;
+  bottom: 5px;
+  border-radius: 999px;
+  background: oklch(0.7 0.18 45 / 0.55);
+}
+
+.bench-hero__ci b {
+  position: absolute;
+  top: 50%;
+  width: 10px;
+  height: 10px;
+  margin: -5px 0 0 -5px;
+  border-radius: 50%;
+  background: var(--ember);
+  box-shadow: 0 0 12px var(--ember);
+}
+
+.bench-hero__note {
+  margin: 0;
+  font-size: 0.8125rem;
+  color: var(--stone);
+}
+
+.bench-rounds {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 10px;
+}
+
+.bench-round {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding: 16px;
+  border-radius: 16px;
+  border: 1px solid var(--hair);
+  background: oklch(1 0 0 / 0.03);
+}
+
+.bench-round b {
+  font: 500 2rem/1 var(--font-display);
+  color: var(--marble);
+}
+
+.bench-round > span:not(.eyebrow):not(.dots60) {
+  font-size: 0.75rem;
+  color: var(--stone);
+}
+
+.dots60 {
+  margin-top: auto;
+  display: grid;
+  grid-template-columns: repeat(10, 1fr);
+  gap: 4px;
+}
+
+.dots60 i {
+  aspect-ratio: 1;
+  border-radius: 50%;
+  background: oklch(1 0 0 / 0.08);
+}
+
+.dots60 i[data-on='true'] {
+  background: var(--ember);
+  box-shadow: 0 0 8px oklch(0.7 0.18 45 / 0.7);
+}
+
+.bench-round[data-control] b {
+  color: var(--stone);
+}
+
+.bench-table {
+  margin-top: 16px;
+  padding: 6px 18px;
+  overflow-x: auto;
+}
+
+.bench-table table {
+  background: transparent;
+  min-width: 620px;
+}
+
+.bench-table th,
+.bench-table td {
+  padding: 12px 10px;
+  border-bottom: 1px solid var(--hair);
+  vertical-align: middle;
+}
+
+.bench-table thead th {
+  font: 500 0.6875rem var(--font-mono);
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--stone);
+}
+
+.bench-table tbody th {
+  font: 500 1rem var(--font-display);
+  letter-spacing: 0.03em;
+}
+
+.bench-table tr:last-child th,
+.bench-table tr:last-child td {
+  border-bottom: 0;
+}
+
+.bench-table td.num {
+  text-align: right;
+  font: 500 0.9375rem var(--font-mono);
+  font-variant-numeric: tabular-nums;
+}
+
+.bench-classes {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px;
+}
+
+.bench-classes code {
+  padding: 2px 7px;
+  border-radius: 6px;
+  font: 0.6875rem var(--font-mono);
+  color: var(--ember);
+  background: oklch(0.7 0.18 45 / 0.1);
+}
+
+.units {
+  display: inline-flex;
+  gap: 3px;
+  vertical-align: middle;
+}
+
+.units i {
+  width: 12px;
+  height: 18px;
+  border-radius: 3px;
+  background: oklch(1 0 0 / 0.07);
+}
+
+.units i[data-on='true'] {
+  background: var(--ember);
+  box-shadow: 0 0 10px oklch(0.7 0.18 45 / 0.6);
+}
+
+.units__txt {
+  margin-left: 10px;
+  font: 500 0.8125rem var(--font-mono);
+  color: var(--stone);
+}
+
+.mosaic {
+  margin-top: 16px;
+  display: grid;
+  grid-template-columns: repeat(6, minmax(0, 1fr));
+  gap: 10px;
+}
+
+.mosaic__col h3 {
+  margin: 0 0 8px;
+  min-height: 2.6em;
+  font: 500 0.8125rem/1.3 var(--font-display);
+  letter-spacing: 0.04em;
+}
+
+.mosaic__col h3 span {
+  font: 0.6875rem var(--font-mono);
+  color: var(--stone);
+}
+
+.mosaic ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: 5px;
+}
+
+.tile {
+  display: grid;
+  gap: 2px;
+  padding: 7px 9px;
+  border-radius: 9px;
+  border: 1px solid var(--hair);
+  background: oklch(1 0 0 / 0.025);
+  outline: none;
+}
+
+.tile:focus-visible {
+  border-color: var(--aurora);
+}
+
+.tile__name {
+  font-size: 0.75rem;
+  line-height: 1.25;
+  color: var(--stone);
+}
+
+.stars {
+  font-size: 0.5625rem;
+  letter-spacing: 1px;
+  color: oklch(0.72 0.012 70 / 0.6);
+}
+
+.tile[data-solved='true'] {
+  border-color: oklch(0.7 0.18 45 / 0.6);
+  background: linear-gradient(160deg, oklch(0.7 0.18 45 / 0.22), oklch(0.7 0.18 45 / 0.06));
+  box-shadow: 0 0 22px -6px oklch(0.7 0.18 45 / 0.7);
+}
+
+.tile[data-solved='true'] .tile__name {
+  color: var(--marble);
+  font-weight: 600;
+}
+
+.tile[data-solved='true'][data-side='true'] {
+  border-style: dashed;
+  border-color: var(--gold);
+  background: oklch(0.82 0.11 85 / 0.08);
+  box-shadow: none;
+}
+
+.tile__badge {
+  font: 500 0.625rem var(--font-mono);
+  color: var(--ember);
+}
+
+.tile[data-side='true'] .tile__badge {
+  color: var(--gold);
+}
+
+.bench-why {
+  margin-top: 32px;
+  display: grid;
+  grid-template-columns: minmax(0, 1.4fr) minmax(0, 1fr);
+  gap: 24px;
+  align-items: start;
+}
+
+.bench-why h3 {
+  margin: 0 0 12px;
+  font-size: 1.4rem;
+}
+
+.bench-why ul {
+  margin: 0;
+  padding-left: 18px;
+  display: grid;
+  gap: 10px;
+  color: var(--stone);
+  font-size: 0.9375rem;
+}
+
+.bench-cmd {
+  display: grid;
+  gap: 10px;
+  padding: 18px;
+  border-radius: 16px;
+  border: 1px solid var(--hair);
+  background: oklch(0 0 0 / 0.3);
+}
+
+.bench-cmd pre {
+  margin: 0;
+  font: 0.875rem var(--font-mono);
+  color: var(--aurora);
+  overflow-x: auto;
+}
+
+.bench-cmd button {
+  justify-self: start;
+}
+
+@media (max-width: 1100px) {
+  .mosaic {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 900px) {
+  .bench-head,
+  .bench-why {
+    grid-template-columns: 1fr;
+  }
+
+  .bench-rounds {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .mosaic {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}

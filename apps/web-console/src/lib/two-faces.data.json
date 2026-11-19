@@ -1,0 +1,321 @@
+{
+  "sessions": 10,
+  "passed": 6,
+  "pages": [
+    {
+      "route": "/",
+      "label": "Home",
+      "steps": 24,
+      "reached": 10,
+      "personas": [
+        "carmen-retired",
+        "competent-baseline",
+        "diego-commuter",
+        "rosa-meticulous",
+        "tomas-hurried"
+      ],
+      "friction": {
+        "extra-steps": 1
+      },
+      "endpoints": [
+        {
+          "endpoint": "GET /rest/admin/application-version",
+          "calls": 20,
+          "state": null
+        },
+        {
+          "endpoint": "GET /api/Quantitys",
+          "calls": 10,
+          "state": null
+        },
+        {
+          "endpoint": "GET /rest/languages",
+          "calls": 10,
+          "state": null
+        },
+        {
+          "endpoint": "GET /rest/products/search",
+          "calls": 10,
+          "state": null
+        }
+      ],
+      "pageState": null
+    },
+    {
+      "route": "/search",
+      "label": "Search",
+      "steps": 40,
+      "reached": 10,
+      "personas": [
+        "carmen-retired",
+        "competent-baseline",
+        "diego-commuter",
+        "rosa-meticulous",
+        "tomas-hurried"
+      ],
+      "friction": {
+        "performance": 12,
+        "abandonment": 1
+      },
+      "endpoints": [
+        {
+          "endpoint": "GET /rest/basket/:id",
+          "calls": 29,
+          "state": "fixed"
+        },
+        {
+          "endpoint": "POST /rest/user/login",
+          "calls": 1,
+          "state": "exploited"
+        },
+        {
+          "endpoint": "GET /rest/user/whoami",
+          "calls": 13,
+          "state": null
+        },
+        {
+          "endpoint": "GET /api/Products/:id",
+          "calls": 9,
+          "state": null
+        },
+        {
+          "endpoint": "POST /api/BasketItems",
+          "calls": 9,
+          "state": null
+        }
+      ],
+      "pageState": "exploited"
+    },
+    {
+      "route": "/login",
+      "label": "Log in",
+      "steps": 51,
+      "reached": 10,
+      "personas": [
+        "carmen-retired",
+        "competent-baseline",
+        "diego-commuter",
+        "rosa-meticulous",
+        "tomas-hurried"
+      ],
+      "friction": {
+        "rage-click": 1
+      },
+      "endpoints": [
+        {
+          "endpoint": "POST /rest/user/login",
+          "calls": 9,
+          "state": "exploited"
+        },
+        {
+          "endpoint": "GET /rest/basket/:id",
+          "calls": 8,
+          "state": "fixed"
+        },
+        {
+          "endpoint": "GET /rest/user/whoami",
+          "calls": 36,
+          "state": null
+        },
+        {
+          "endpoint": "GET /api/Quantitys",
+          "calls": 8,
+          "state": null
+        },
+        {
+          "endpoint": "GET /rest/products/search",
+          "calls": 8,
+          "state": null
+        }
+      ],
+      "pageState": null
+    },
+    {
+      "route": "/basket",
+      "label": "Basket",
+      "steps": 28,
+      "reached": 9,
+      "personas": [
+        "carmen-retired",
+        "competent-baseline",
+        "diego-commuter",
+        "rosa-meticulous",
+        "tomas-hurried"
+      ],
+      "friction": {
+        "performance": 6,
+        "backtrack": 12
+      },
+      "endpoints": [
+        {
+          "endpoint": "GET /api/Addresss",
+          "calls": 28,
+          "state": null
+        }
+      ],
+      "pageState": null
+    },
+    {
+      "route": "/address/select",
+      "label": "Address",
+      "steps": 42,
+      "reached": 9,
+      "personas": [
+        "carmen-retired",
+        "competent-baseline",
+        "diego-commuter",
+        "rosa-meticulous",
+        "tomas-hurried"
+      ],
+      "friction": {
+        "performance": 12,
+        "backtrack": 16,
+        "abandonment": 3
+      },
+      "endpoints": [
+        {
+          "endpoint": "GET /rest/basket/:id",
+          "calls": 16,
+          "state": "fixed"
+        },
+        {
+          "endpoint": "GET /rest/user/whoami",
+          "calls": 16,
+          "state": null
+        },
+        {
+          "endpoint": "GET /api/Addresss/:id",
+          "calls": 10,
+          "state": null
+        },
+        {
+          "endpoint": "GET /api/Deliverys",
+          "calls": 10,
+          "state": null
+        }
+      ],
+      "pageState": null
+    },
+    {
+      "route": "/delivery-method",
+      "label": "Delivery",
+      "steps": 16,
+      "reached": 6,
+      "personas": ["carmen-retired", "competent-baseline", "rosa-meticulous"],
+      "friction": {
+        "performance": 7
+      },
+      "endpoints": [
+        {
+          "endpoint": "GET /rest/basket/:id",
+          "calls": 3,
+          "state": "fixed"
+        },
+        {
+          "endpoint": "GET /api/Cards",
+          "calls": 6,
+          "state": null
+        },
+        {
+          "endpoint": "GET /api/Deliverys/:id",
+          "calls": 6,
+          "state": null
+        },
+        {
+          "endpoint": "GET /rest/wallet/balance",
+          "calls": 6,
+          "state": null
+        },
+        {
+          "endpoint": "GET /rest/user/whoami",
+          "calls": 3,
+          "state": null
+        }
+      ],
+      "pageState": null
+    },
+    {
+      "route": "/payment/shop",
+      "label": "Payment",
+      "steps": 12,
+      "reached": 6,
+      "personas": ["carmen-retired", "competent-baseline", "rosa-meticulous"],
+      "friction": {
+        "performance": 6
+      },
+      "endpoints": [
+        {
+          "endpoint": "GET /rest/basket/:id",
+          "calls": 6,
+          "state": "fixed"
+        },
+        {
+          "endpoint": "GET /api/Addresss/:id",
+          "calls": 6,
+          "state": null
+        },
+        {
+          "endpoint": "GET /api/Cards/:id",
+          "calls": 6,
+          "state": null
+        },
+        {
+          "endpoint": "GET /api/Deliverys/:id",
+          "calls": 6,
+          "state": null
+        },
+        {
+          "endpoint": "GET /rest/user/whoami",
+          "calls": 6,
+          "state": null
+        }
+      ],
+      "pageState": null
+    },
+    {
+      "route": "/order-summary",
+      "label": "Summary",
+      "steps": 6,
+      "reached": 6,
+      "personas": ["carmen-retired", "competent-baseline", "rosa-meticulous"],
+      "friction": {
+        "performance": 3
+      },
+      "endpoints": [
+        {
+          "endpoint": "GET /rest/basket/:id",
+          "calls": 6,
+          "state": "fixed"
+        },
+        {
+          "endpoint": "GET /api/Addresss/:id",
+          "calls": 6,
+          "state": null
+        },
+        {
+          "endpoint": "GET /rest/track-order/:id",
+          "calls": 6,
+          "state": null
+        },
+        {
+          "endpoint": "POST /rest/basket/:id/checkout",
+          "calls": 6,
+          "state": null
+        }
+      ],
+      "pageState": null
+    },
+    {
+      "route": "/order-completion/:id",
+      "label": "Order placed",
+      "steps": 6,
+      "reached": 6,
+      "personas": ["carmen-retired", "competent-baseline", "rosa-meticulous"],
+      "friction": {
+        "performance": 6
+      },
+      "endpoints": [],
+      "pageState": null
+    }
+  ]
+}
