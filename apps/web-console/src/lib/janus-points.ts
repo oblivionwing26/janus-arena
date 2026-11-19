@@ -40,6 +40,17 @@ export function turnForScroll(progress: number): number {
   return 0.75 * eased;
 }
 
+/**
+ * Adaptive resolution: given the mean frame time of the last window (ms) and the current pixel
+ * ratio, the pixel ratio to use next. Below 45 fps it steps down to 1, then to 0.75; it never
+ * steps back up, so a slow machine does not oscillate.
+ */
+export function nextPixelRatio(meanFrameMs: number, current: number): number {
+  if (meanFrameMs <= 1000 / 45) return current;
+  if (current > 1) return 1;
+  return Math.min(current, 0.75);
+}
+
 /** Exponential approach of `current` to `target`, frame-rate independent. */
 export function damp(current: number, target: number, lambda: number, dt: number): number {
   return current + (target - current) * (1 - Math.exp(-lambda * dt));

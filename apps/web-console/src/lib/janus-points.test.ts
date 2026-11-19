@@ -2,7 +2,7 @@ import { readFileSync } from 'node:fs';
 
 import { describe, expect, it } from 'vitest';
 
-import { damp, decodeJanusPoints, turnForScroll } from './janus-points';
+import { damp, decodeJanusPoints, nextPixelRatio, turnForScroll } from './janus-points';
 
 function encode(points: [number, number, number, number, number, number][]): ArrayBuffer {
   const n = points.length;
@@ -60,6 +60,19 @@ describe('turnForScroll', () => {
     expect(turnForScroll(1)).toBeCloseTo(0.75);
     expect(turnForScroll(-3)).toBeCloseTo(0);
     expect(turnForScroll(9)).toBeCloseTo(0.75);
+  });
+});
+
+describe('nextPixelRatio', () => {
+  it('keeps the resolution while frames are fast enough', () => {
+    expect(nextPixelRatio(16.7, 1.75)).toBe(1.75);
+    expect(nextPixelRatio(22, 1.75)).toBe(1.75);
+  });
+
+  it('steps down below 45 fps, first to 1 and then to 0.75, never up', () => {
+    expect(nextPixelRatio(30, 1.75)).toBe(1);
+    expect(nextPixelRatio(30, 1)).toBe(0.75);
+    expect(nextPixelRatio(30, 0.75)).toBe(0.75);
   });
 });
 

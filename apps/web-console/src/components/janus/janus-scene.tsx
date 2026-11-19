@@ -13,7 +13,7 @@ import {
   Vector2,
 } from 'three';
 
-import { damp, type JanusPoints, turnForScroll } from '@/lib/janus-points';
+import { damp, type JanusPoints, nextPixelRatio, turnForScroll } from '@/lib/janus-points';
 
 // The two faces' colours, from tokens.css (approximate sRGB of the OKLCH values).
 const EMBER = new Color('#f2733a');
@@ -136,6 +136,8 @@ function Scene({
   const headPoints = useRef<Points>(null);
   const world = useRef<Group>(null);
   const dpr = useThree((s) => s.viewport.dpr);
+  const setDpr = useThree((s) => s.setDpr);
+  const frames = useRef({ warm: 0, count: 0, total: 0 });
   const aspect = useThree((s) => s.size.width / Math.max(1, s.size.height));
 
   const { headGeometry, haloGeometry, sparkGeometry } = useMemo(() => {
@@ -218,6 +220,20 @@ function Scene({
 
   useFrame((_, rawDt) => {
     const dt = Math.min(rawDt, 0.05);
+    // Every 90 frames, step the resolution down if the machine cannot hold 45 fps. The first
+    // 120 frames (loading, shader compile) do not count.
+    const f = frames.current;
+    if (f.warm < 120) f.warm += 1;
+    else {
+      f.count += 1;
+      f.total += rawDt * 1000;
+    }
+    if (f.count === 90) {
+      const next = nextPixelRatio(f.total / f.count, dpr);
+      if (next !== dpr) setDpr(next);
+      f.count = 0;
+      f.total = 0;
+    }
     const p = pointer.current;
     const material = headPoints.current?.material;
     if (!(material instanceof ShaderMaterial)) return;
