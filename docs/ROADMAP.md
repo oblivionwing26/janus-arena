@@ -838,6 +838,8 @@ Restricciones: sin cambios en los esquemas de eventos ni en el replay (es solo l
 
 Hecho cuando: una persona que no conoce el proyecto entiende en la demo pública qué hace Janus y qué encontró, sin explicación aparte.
 
+**Replanteado:** F4.7 se rehace por partes, con una idea ambiciosa y un plan para cada una, en [docs/design/f4.7-vision.md](design/f4.7-vision.md). El primer intento (sistema «Observatorio» y portada, rama `step/f4-7a-design-system`) queda como prototipo.
+
 ## Rutina de trabajo con Claude Code
 
 La rutina convierte semanas irregulares en progreso constante: cada sesión empieza y termina en un estado limpio, así que da igual si la siguiente llega mañana o en diez días.
