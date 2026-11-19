@@ -14,7 +14,7 @@ More context: `docs/VISION.md` (product), `docs/adr/` (decisions), `docs/ROADMAP
 
 ## Current step
 
-**F4.4 — Validación SaaS.** F4.1, F4.2 y F4.5 están cerrados (Launch Day, artículos, paquete en npm). Read this step in `docs/ROADMAP.md` before starting. F4.4 es casi sin código: guion, lista de candidatos, hoja de notas y decisión escrita. F4.3 solo con permiso escrito de la clienta; F4.6 es opcional y necesita datos reales; F4.7 (capa de front) está planificada y no se desarrolla todavía. Do not build features from later steps.
+**Sin paso abierto: se sigue desarrollando Janus.** F4.1, F4.2 y F4.5 están cerrados (Launch Day, artículos, paquete en npm) y F4.4 (validación con empresas) está **aplazado** por decisión del dueño hasta que el producto sea presentable; su kit está en `docs/validation/`. El siguiente paso se elige y se planifica antes de empezar (candidatos: F4.7 capa de front, y mejoras del producto). F4.3 solo con permiso escrito de la clienta; F4.6 es opcional y necesita datos reales. Do not build features from later steps.
 
 (Update this line every time a step is closed.)
 

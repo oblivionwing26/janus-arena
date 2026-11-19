@@ -799,6 +799,8 @@ Hecho cuando: la decisión está escrita con los datos que la justifican.
 
 Nota F4.4 (el kit está listo; lo demás son conversaciones y solo las puede hacer el dueño del proyecto): [`docs/validation/`](validation/README.md) tiene el orden de trabajo, la plantilla de 20 candidatos con sus criterios, el guion de 25–30 minutos (primero lo que hacen hoy, Janus solo al final y el compromiso concreto separado del «me interesa»), la hoja de notas, la oferta de concierge con su texto de autorización y la decisión con la regla fijada antes de hablar con nadie. Las hojas reales viven fuera del repositorio. Sin código ni gasto de API. Quedan por hacer: los 20 candidatos, las 10 conversaciones y la decisión.
 
+**Aplazado (decisión del dueño):** F4.4 no se ejecuta todavía. Janus aún no es presentable, así que las conversaciones con empresas se harán cuando el producto se haya desarrollado y pulido más. El kit queda listo en `docs/validation/` y la regla de decisión se firma el día que empiecen. Hasta entonces se sigue desarrollando Janus; el siguiente paso se elige en un plan aparte.
+
 ### F4.5 · Artículos y open source — M a L (8–12 h)
 
 - [x] Artículo 2: "El coste en UX de un parche de seguridad" con el informe de compromiso de F3.6 y Launch Day (publicado en [dev.to](https://dev.to/oblivionwing26/ux-cost-of-a-security-patch-4b7h); texto en [docs/articles/ux-cost-of-a-security-patch.md](articles/ux-cost-of-a-security-patch.md))
