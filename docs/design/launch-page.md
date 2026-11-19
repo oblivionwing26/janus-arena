@@ -115,6 +115,11 @@ de los informes desde los datos.
 **Ambición.** Tabla al estilo de las de los modelos, con barras e intervalos por categoría del
 benchmark de Juice Shop (6 de 60), y la explicación de por qué es bajo a propósito.
 
+**Estado: hecha.** El recall total con su intervalo, el control y las tres rondas como rejillas de 60
+puntos, la tabla por categoría, un mosaico con los 60 retos por categoría y dificultad (los
+resueltos en ámbar; el efecto secundario, discontinuo en oro), y por qué la cifra es baja a
+propósito. Los datos salen del informe con un parser puro; un test los mantiene iguales.
+
 ## Fase 8 · Por qué fiarse: el sello
 
 **Ambición.** El informe firmado se verifica **en el navegador** con WebCrypto (ECDSA P-256 y la
