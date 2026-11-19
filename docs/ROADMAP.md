@@ -821,7 +821,7 @@ Nota F4.5 (lo que está hecho y lo que solo puede hacer el dueño de las cuentas
 - [ ] Comparar el ranking de abandonos sintético con el real y calcular la correlación
 - [ ] Documentar el método como posible tema de TFM
 
-### F4.7 · Capa de front de la consola — XL (sin estimar; solo planificado, no se desarrolla todavía)
+### F4.7 · Capa de front de la consola — XL (en cuatro PR: F4.7a–d)
 
 La consola se construyó para depurar, no para enseñar: hoy se ve muy poco cuidada (listas planas, estilos sueltos, etiquetas en español mezcladas con el banner de la demo en inglés, sin sistema de diseño). Este paso es una capa de front grande y propia, que se estima y se aprueba cuando se decida empezar. Hasta entonces no se toca la consola con fines visuales, y F4.1b solo añade lo que necesita (la página de curvas y las marcas del lienzo) con los estilos actuales.
 
@@ -837,6 +837,16 @@ Alcance previsto, a refinar en su plan:
 Restricciones: sin cambios en los esquemas de eventos ni en el replay (es solo la vista); cualquier dependencia nueva se pregunta antes; el modo demo sigue siendo estático y sin backend.
 
 Hecho cuando: una persona que no conoce el proyecto entiende en la demo pública qué hace Janus y qué encontró, sin explicación aparte.
+
+Plan aprobado: dirección «Observatorio» (oscuro por defecto, instrumento de precisión; los dos acentos son las dos caras de Jano, UX en aurora y seguridad en ámbar), interfaz en **inglés**, dependencias `motion` (14.9.0, en la consola) y Remotion (solo en `apps/video`, para el vídeo). Cuatro PR: F4.7a sistema de diseño, armazón y portada; F4.7b run y replay (línea de tiempo, reproductor, lienzo); F4.7c informes y gráficas; F4.7d movimiento, accesibilidad, rendimiento, vídeo con Remotion y capturas.
+
+Nota F4.7a (sistema y armazón):
+
+- **Sistema:** `tokens.css` (tinta, líneas, texto, las dos caras, azul interactivo, estados con su relleno suave, sombras, rejilla de puntos y aurora de fondo, tipografía, espaciado de 4 px, radios y movimiento), tema oscuro por defecto y claro igual de cuidado, y los nombres antiguos (`--bg`, `--text`…) como alias para que las pantallas aún no rediseñadas sigan el tema. `base.css` con el reinicio, la tipografía (Geist, Geist Mono e Instrument Serif con `next/font`, servidas desde el propio sitio), controles, tablas, chips, estados y `prefers-reduced-motion`.
+- **Armazón:** cabecera fija de cristal con la marca de Jano (un anillo, dos caras), navegación con `aria-current`, enlace al repositorio, cambio de tema sin destello (un script en `<head>` lee la elección antes de pintar), enlace para saltar al contenido y franja de demo en inglés.
+- **Portada:** el observatorio animado (usuarios sintéticos en órbita a la izquierda, con pulsos de fricción; sondas de ataque a la derecha que se detienen en el núcleo; ilustra la idea, no muestra datos), «cómo funciona» en cuatro pasos que aparecen al desplazarse, las historias de la demo como tarjetas con su color y la tabla de runs en inglés con estado y tiempo relativo. Los runs con sesiones fallidas se marcan en ámbar («Finished with errors»), no en rojo.
+- **Verificado:** lint, tipos, tests (73 de la consola), arquitectura y `pnpm demo:build`; a mano en el navegador en oscuro, claro y móvil (375 px, sin desplazamiento horizontal). Se corrigió un desajuste de hidratación del observatorio (redondeo de coordenadas) y la caja cuadrada del fondo.
+- **Pendiente en F4.7b–c:** las demás pantallas siguen con los estilos antiguos (ya en el tema nuevo) y en español; se pasan al sistema y al inglés en sus PR.
 
 ## Rutina de trabajo con Claude Code
 

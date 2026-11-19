@@ -3,15 +3,20 @@
 import Link from 'next/link';
 import { useEffect, useState } from 'react';
 
-import { DEMO } from '@/lib/demo';
+import { HowItWorks } from '@/components/landing/how-it-works';
+import { Observatory } from '@/components/landing/observatory';
+import { StoryCard } from '@/components/landing/story-card';
+import { RunsTable } from '@/components/runs-table';
 import { fetchDemoIndex, listRuns, type FeaturedRun, type RunRow } from '@/lib/backend';
+import { DEMO } from '@/lib/demo';
 
-const dateTime = new Intl.DateTimeFormat('es-ES', { dateStyle: 'short', timeStyle: 'medium' });
+const REPO = 'https://github.com/oblivionwing26/janus-arena';
 
-export default function RunsPage() {
+export default function HomePage() {
   const [runs, setRuns] = useState<RunRow[] | null>(null);
   const [featured, setFeatured] = useState<readonly FeaturedRun[]>([]);
   const [error, setError] = useState<string | null>(null);
+  const [now, setNow] = useState(() => Date.now());
 
   useEffect(() => {
     let cancelled = false;
@@ -24,6 +29,7 @@ export default function RunsPage() {
         }
         if (!cancelled) {
           setRuns(loaded);
+          setNow(Date.now());
           setError(null);
         }
       } catch (caught) {
@@ -39,66 +45,110 @@ export default function RunsPage() {
     };
   }, []);
 
+  const firstGate = featured.find((story) =>
+    story.links.some((link) => link.href.endsWith('/attack')),
+  );
+
   return (
     <>
-      <h1>{DEMO ? 'Janus Arena · demo' : 'Runs'}</h1>
+      {DEMO ? (
+        <section className="hero" aria-labelledby="hero-title">
+          <div className="hero-copy">
+            <p className="eyebrow">
+              <span className="eyebrow-dot" aria-hidden="true" />
+              Pre-release gate · UX and security
+            </p>
+            <h1 id="hero-title" className="hero-title">
+              Every release has <em>two faces.</em>
+            </h1>
+            <p className="hero-lede">
+              Janus sends synthetic users through your flows and attacks a sandboxed copy of your
+              app, on the same pull request. Then it measures what each security fix costs the
+              people it is meant to protect.
+            </p>
+            <div className="hero-actions">
+              {firstGate?.links[0] !== undefined && (
+                <Link className="btn btn-primary btn-lg" href={firstGate.links[0].href}>
+                  Watch a gate attack, fix and verify
+                  <span aria-hidden="true">→</span>
+                </Link>
+              )}
+              <a className="btn btn-lg" href="#stories">
+                Explore the recorded runs
+              </a>
+            </div>
+            <ul className="hero-proof" aria-label="What Janus guarantees">
+              <li>Deterministic oracles, never a model&apos;s opinion</li>
+              <li>Signed reports you can verify</li>
+              <li>A person merges, never Janus</li>
+            </ul>
+          </div>
+          <div className="hero-visual">
+            <Observatory />
+          </div>
+        </section>
+      ) : (
+        <header className="page-head">
+          <p className="eyebrow">Orchestrator</p>
+          <h1>Runs</h1>
+          <p className="muted">Live from the event log, refreshed every few seconds.</p>
+        </header>
+      )}
+
+      {DEMO && <HowItWorks />}
+
       {featured.length > 0 && (
-        <section aria-label="Featured runs">
-          <h2>Start here</h2>
-          <div className="featured">
-            {featured.map((story) => (
-              <article key={story.runId}>
-                <h3>{story.title}</h3>
-                <p>{story.summary}</p>
-                <ul>
-                  {story.links.map((link) => (
-                    <li key={link.href}>
-                      <Link href={link.href}>{link.label}</Link>
-                    </li>
-                  ))}
-                </ul>
-              </article>
+        <section id="stories" className="stories" aria-labelledby="stories-title">
+          <p className="eyebrow">Start here</p>
+          <h2 id="stories-title" className="section-title">
+            {featured.length} recorded stories, replayed from their event logs.
+          </h2>
+          <div className="story-grid">
+            {featured.map((story, index) => (
+              <StoryCard key={story.runId} story={story} index={index} />
             ))}
           </div>
-          <h2>All recorded runs</h2>
         </section>
       )}
-      {error !== null && (
-        <p role="alert" className="error">
-          {DEMO ? error : `No se puede contactar con el orquestador (${error}).`} Puedes{' '}
-          <Link href="/replay">reproducir un run exportado</Link> sin backend.
-        </p>
-      )}
-      {runs === null && error === null && <p>Cargando…</p>}
-      {runs !== null && runs.length === 0 && <p>Todavía no hay runs.</p>}
-      {runs !== null && runs.length > 0 && (
-        <table>
-          <thead>
-            <tr>
-              <th scope="col">Run</th>
-              <th scope="col">Inicio</th>
-              <th scope="col">Estado</th>
-              <th scope="col">Resultado</th>
-              <th scope="col">Eventos</th>
-            </tr>
-          </thead>
-          <tbody>
-            {runs.map((run) => (
-              <tr key={run.runId}>
-                <td>
-                  <Link href={`/runs/${run.runId}`}>{run.runId}</Link>
-                </td>
-                <td>{dateTime.format(new Date(run.startedAt))}</td>
-                <td>{run.status === 'running' ? 'en curso' : 'terminado'}</td>
-                <td>
-                  {run.outcome ?? '—'}
-                  {run.reason === null ? '' : ` · ${run.reason}`}
-                </td>
-                <td>{run.eventCount}</td>
-              </tr>
+
+      <section className="all-runs" aria-labelledby="runs-title">
+        {DEMO && (
+          <>
+            <p className="eyebrow">Event log</p>
+            <h2 id="runs-title" className="section-title">
+              Every run in the demo
+            </h2>
+          </>
+        )}
+        {!DEMO && (
+          <h2 id="runs-title" className="visually-hidden">
+            All runs
+          </h2>
+        )}
+        {error !== null && (
+          <p role="alert" className="notice notice-error">
+            {DEMO ? error : `The orchestrator cannot be reached (${error}).`} You can still{' '}
+            <Link href="/replay">replay an exported run</Link> without a backend.
+          </p>
+        )}
+        {runs === null && error === null && (
+          <div className="skeleton-table" aria-busy="true" aria-label="Loading runs">
+            {Array.from({ length: 4 }, (_, index) => (
+              <span key={index} />
             ))}
-          </tbody>
-        </table>
+          </div>
+        )}
+        {runs !== null && runs.length === 0 && <p className="muted">No runs yet.</p>}
+        {runs !== null && runs.length > 0 && <RunsTable runs={runs} now={now} />}
+      </section>
+
+      {DEMO && (
+        <footer className="site-footer">
+          <p>
+            Synthetic users do not predict revenue: reports speak of synthetic task success, with
+            confidence intervals. <a href={REPO}>Read the code and the reports</a>.
+          </p>
+        </footer>
       )}
     </>
   );

@@ -1,0 +1,151 @@
+/*
+ * Janus design tokens (F4.7a). "Observatory": a precision instrument at night. Dark is the
+ * default; light is equally considered. Two accents carry the brand, the two faces of Janus:
+ * UX (aurora) and security (ember). Everything else is ink, lines and a calm interactive blue.
+ *
+ * Every screen reads these names. The short legacy names at the end (--bg, --text...) keep the
+ * screens that have not been redesigned yet following the theme.
+ */
+
+:root,
+:root[data-theme='dark'] {
+  color-scheme: dark;
+
+  /* Ink: the night sky, from the deepest layer up. */
+  --surface-0: #06080c;
+  --surface-1: #0b0f16;
+  --surface-2: #10161f;
+  --surface-3: #172030;
+  --surface-glass: rgb(12 17 25 / 72%);
+
+  /* Lines and text. */
+  --line: rgb(148 163 184 / 11%);
+  --line-strong: rgb(148 163 184 / 22%);
+  --fg: #e7ecf3;
+  --fg-muted: #93a0b4;
+  --fg-faint: #5f6b7e;
+
+  /* The two faces, and the interactive blue. */
+  --face-ux: #5fe3cf;
+  --face-ux-soft: rgb(95 227 207 / 14%);
+  --face-sec: #f5a35d;
+  --face-sec-soft: rgb(245 163 93 / 14%);
+  --accent: #8fb4ff;
+  --accent-strong: #b5ccff;
+  --accent-soft: rgb(143 180 255 / 14%);
+  --on-accent: #06080c;
+
+  /* States. Each has a soft fill for backgrounds; text always pairs with a word or an icon. */
+  --ok: #5fd39a;
+  --ok-soft: rgb(95 211 154 / 13%);
+  --warning: #f2c45c;
+  --warning-soft: rgb(242 196 92 / 13%);
+  --danger: #f47a76;
+  --danger-soft: rgb(244 122 118 / 13%);
+
+  /* Depth: in the dark, light comes from the edges, not from below. */
+  --shadow-1: 0 1px 0 rgb(255 255 255 / 4%) inset, 0 1px 2px rgb(0 0 0 / 40%);
+  --shadow-2: 0 1px 0 rgb(255 255 255 / 5%) inset, 0 8px 24px -8px rgb(0 0 0 / 60%);
+  --shadow-3: 0 1px 0 rgb(255 255 255 / 6%) inset, 0 24px 60px -20px rgb(0 0 0 / 75%);
+  --glow-ux: 0 0 24px rgb(95 227 207 / 22%);
+  --glow-sec: 0 0 24px rgb(245 163 93 / 22%);
+
+  /* The faint grid of the observatory, behind the page. */
+  --grid-dot: rgb(148 163 184 / 9%);
+  --aurora:
+    radial-gradient(60% 50% at 20% 0%, rgb(95 227 207 / 9%), transparent 70%),
+    radial-gradient(50% 45% at 85% 5%, rgb(245 163 93 / 7%), transparent 70%);
+}
+
+:root[data-theme='light'] {
+  color-scheme: light;
+
+  --surface-0: #f5f6f8;
+  --surface-1: #ffffff;
+  --surface-2: #f7f8fa;
+  --surface-3: #eceff3;
+  --surface-glass: rgb(255 255 255 / 76%);
+
+  --line: rgb(15 23 42 / 9%);
+  --line-strong: rgb(15 23 42 / 17%);
+  --fg: #0c1118;
+  --fg-muted: #4f5b6d;
+  --fg-faint: #8590a0;
+
+  --face-ux: #0b8f80;
+  --face-ux-soft: rgb(11 143 128 / 10%);
+  --face-sec: #c25e0c;
+  --face-sec-soft: rgb(194 94 12 / 10%);
+  --accent: #2d5bd8;
+  --accent-strong: #1f46b3;
+  --accent-soft: rgb(45 91 216 / 9%);
+  --on-accent: #ffffff;
+
+  --ok: #157a4a;
+  --ok-soft: rgb(21 122 74 / 10%);
+  --warning: #9a6200;
+  --warning-soft: rgb(154 98 0 / 10%);
+  --danger: #b92c26;
+  --danger-soft: rgb(185 44 38 / 9%);
+
+  --shadow-1: 0 1px 2px rgb(15 23 42 / 6%);
+  --shadow-2: 0 1px 2px rgb(15 23 42 / 5%), 0 8px 24px -10px rgb(15 23 42 / 16%);
+  --shadow-3: 0 2px 4px rgb(15 23 42 / 5%), 0 28px 60px -24px rgb(15 23 42 / 24%);
+  --glow-ux: 0 0 0 transparent;
+  --glow-sec: 0 0 0 transparent;
+
+  --grid-dot: rgb(15 23 42 / 7%);
+  --aurora:
+    radial-gradient(60% 50% at 20% 0%, rgb(11 143 128 / 6%), transparent 70%),
+    radial-gradient(50% 45% at 85% 5%, rgb(194 94 12 / 5%), transparent 70%);
+}
+
+:root {
+  /* Type: Geist for the interface, Geist Mono for data, Instrument Serif for the few display lines. */
+  --font-sans: var(--font-geist), ui-sans-serif, system-ui, sans-serif;
+  --font-mono: var(--font-geist-mono), ui-monospace, 'SFMono-Regular', monospace;
+  --font-display: var(--font-instrument), 'Iowan Old Style', Georgia, serif;
+
+  --text-xs: 0.75rem;
+  --text-sm: 0.8125rem;
+  --text-md: 0.9375rem;
+  --text-lg: 1.0625rem;
+  --text-xl: 1.375rem;
+  --text-2xl: 1.875rem;
+  --text-display: clamp(2.6rem, 6vw, 4.6rem);
+
+  /* Space: a 4 px rhythm. */
+  --space-1: 4px;
+  --space-2: 8px;
+  --space-3: 12px;
+  --space-4: 16px;
+  --space-5: 24px;
+  --space-6: 32px;
+  --space-7: 48px;
+  --space-8: 72px;
+  --space-9: 112px;
+
+  --radius-sm: 6px;
+  --radius-md: 10px;
+  --radius-lg: 16px;
+  --radius-xl: 24px;
+  --radius-pill: 999px;
+
+  --page-max: 1240px;
+  --gutter: clamp(16px, 4vw, 40px);
+
+  /* Motion: quick to answer, slow to settle. Reduced motion turns it all off (base.css). */
+  --ease-out: cubic-bezier(0.22, 1, 0.36, 1);
+  --ease-in-out: cubic-bezier(0.65, 0, 0.35, 1);
+  --dur-1: 120ms;
+  --dur-2: 220ms;
+  --dur-3: 420ms;
+
+  /* Legacy names: the screens not redesigned yet read these. */
+  --bg: var(--surface-0);
+  --surface: var(--surface-1);
+  --text: var(--fg);
+  --muted: var(--fg-muted);
+  --border: var(--line-strong);
+  --error: var(--danger);
+}
