@@ -1,12 +1,14 @@
 import type { Metadata } from 'next';
 
 import { JanusHero } from '@/components/janus/janus-hero';
+import { AttackTreeSection } from '@/components/launch/attack-tree-section';
 import { PipelineSection } from '@/components/launch/pipeline-section';
 import { ProblemSection } from '@/components/launch/problem-section';
 import { SectionRail } from '@/components/launch/section-rail';
 
 import './launch.css';
 import './pipeline.css';
+import './attack-tree.css';
 
 export const metadata: Metadata = {
   title: 'Introducing Janus',
@@ -21,6 +23,7 @@ export default function LaunchPage() {
       <SectionRail />
       <ProblemSection />
       <PipelineSection />
+      <AttackTreeSection />
     </div>
   );
 }

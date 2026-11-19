@@ -1,0 +1,483 @@
+/* Phase 5 of the launch page: the attack tree (docs/design/launch-page.md). */
+
+.atree {
+  display: grid;
+  grid-template-columns: minmax(0, 1.7fr) minmax(300px, 1fr);
+  gap: 16px;
+  align-items: start;
+}
+
+.atree__canvas {
+  position: relative;
+  padding: 16px;
+  min-width: 0;
+  overflow-x: auto;
+  background:
+    radial-gradient(ellipse 50% 60% at 10% 50%, oklch(0.7 0.18 45 / 0.12), transparent 70%),
+    var(--glass);
+}
+
+.atree__canvas svg {
+  display: block;
+  width: 100%;
+  min-width: 720px;
+  height: auto;
+}
+
+.atree__empty {
+  color: var(--stone);
+  padding: 40px;
+}
+
+.atree__arc {
+  fill: none;
+  stroke: oklch(1 0 0 / 0.08);
+  stroke-dasharray: 2 6;
+}
+
+.atree__surface {
+  fill: oklch(1 0 0 / 0.28);
+}
+
+.atree__spoke {
+  fill: none;
+  stroke: oklch(1 0 0 / 0.2);
+  transition: stroke 300ms var(--ease-out);
+}
+
+.atree__spoke[data-on='false'] {
+  stroke: oklch(1 0 0 / 0.06);
+}
+
+.atree__curve {
+  fill: none;
+  stroke-width: 1.3;
+  stroke-opacity: 0.75;
+  stroke-dasharray: 1;
+  stroke-dashoffset: 1;
+  transition:
+    stroke-opacity 300ms var(--ease-out),
+    stroke 400ms var(--ease-out);
+}
+
+.atree[data-in-view='true'] .atree__curve {
+  animation: curve-draw 1200ms var(--ease-out) calc(var(--i) * 120ms + 200ms) forwards;
+}
+
+.atree__curve[data-dim='true'] {
+  stroke-opacity: 0.08;
+}
+
+.atree__curve[data-state='refused'] {
+  stroke-opacity: 0.35;
+}
+
+@keyframes curve-draw {
+  to {
+    stroke-dashoffset: 0;
+  }
+}
+
+.atree__box {
+  cursor: pointer;
+}
+
+.atree__box rect {
+  fill: oklch(0.2 0.012 50 / 0.92);
+  stroke: oklch(1 0 0 / 0.14);
+  transition: stroke 200ms var(--ease-out);
+}
+
+.atree__box:hover rect,
+.atree__box:focus-visible rect {
+  stroke: oklch(1 0 0 / 0.4);
+}
+
+.atree__box[data-on='true'] rect {
+  stroke: var(--gold);
+  stroke-width: 1.6;
+  fill: oklch(0.26 0.03 85 / 0.9);
+}
+
+.atree__box:focus-visible {
+  outline: none;
+}
+
+.atree__count {
+  font: 500 22px var(--font-ui);
+  fill: var(--marble);
+}
+
+.atree__label {
+  font: 12px var(--font-ui);
+  fill: var(--stone);
+}
+
+.atree__conf {
+  font: 11px var(--font-mono);
+  fill: var(--stone);
+}
+
+.atree__conf[data-any='true'] {
+  fill: var(--blood);
+}
+
+.atree__leaf {
+  cursor: pointer;
+}
+
+.atree__leaf:focus-visible {
+  outline: none;
+}
+
+.atree__leaf:focus-visible .atree__route,
+.atree__leaf[data-here='true'] .atree__route {
+  fill: var(--gold);
+}
+
+.atree__route {
+  font: 12.5px var(--font-mono);
+  fill: var(--marble);
+}
+
+.atree__status {
+  font: 10.5px var(--font-ui);
+}
+
+.atree__leader {
+  fill: none;
+  stroke: oklch(1 0 0 / 0.18);
+}
+
+.atree__pulse {
+  opacity: 0.35;
+  transform-box: fill-box;
+  transform-origin: center;
+  animation: leaf-pulse 1800ms ease-out infinite;
+}
+
+@keyframes leaf-pulse {
+  from {
+    transform: scale(0.6);
+    opacity: 0.6;
+  }
+  to {
+    transform: scale(2.2);
+    opacity: 0;
+  }
+}
+
+.atree__ripple {
+  fill: none;
+  stroke: var(--aurora);
+  transform-box: fill-box;
+  transform-origin: center;
+  animation: ripple 1200ms var(--ease-out) both;
+}
+
+@keyframes ripple {
+  from {
+    transform: scale(0.5);
+    opacity: 1;
+  }
+  to {
+    transform: scale(4);
+    opacity: 0;
+  }
+}
+
+.atree__halo {
+  fill: none;
+  stroke: oklch(1 0 0 / 0.08);
+}
+
+.atree__ring {
+  transform-origin: 92px 360px;
+  animation: spin 40s linear infinite;
+}
+
+.atree__ringtext {
+  font: 9px var(--font-mono);
+  letter-spacing: 0.18em;
+  fill: var(--stone);
+}
+
+.atree__orbname {
+  font: 600 14px var(--font-display);
+  letter-spacing: 0.08em;
+  fill: var(--marble);
+}
+
+.atree__legend {
+  list-style: none;
+  margin: 8px 0 0;
+  padding: 0;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px 18px;
+  font-size: 0.75rem;
+  color: var(--stone);
+}
+
+.atree__legend i {
+  display: inline-block;
+  width: 8px;
+  height: 8px;
+  margin-right: 6px;
+  border-radius: 50%;
+}
+
+.atree__legend-dot {
+  background: oklch(1 0 0 / 0.28);
+}
+
+.atree__panel {
+  padding: 18px;
+  display: grid;
+  gap: 16px;
+  min-width: 0;
+  background:
+    radial-gradient(ellipse 70% 40% at 100% 0%, oklch(0.82 0.1 185 / 0.1), transparent 70%),
+    var(--glass);
+}
+
+.atree__tiles {
+  margin: 0;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px;
+}
+
+.atree__tiles div {
+  display: flex;
+  flex-direction: column-reverse;
+  gap: 4px;
+  padding: 12px;
+  border-radius: 12px;
+  border: 1px solid var(--hair);
+  background: oklch(1 0 0 / 0.03);
+}
+
+.atree__tiles dt {
+  font-size: 0.75rem;
+  color: var(--stone);
+}
+
+.atree__tiles dd {
+  margin: 0;
+  font: 500 1.7rem/1 var(--font-display);
+}
+
+.atree__tiles dd[data-tone='blood'] {
+  color: var(--blood);
+}
+
+.atree__tiles dd[data-tone='gold'] {
+  color: var(--gold);
+}
+
+.leaf {
+  display: grid;
+  gap: 12px;
+  animation: row-in 400ms var(--ease-out) both;
+}
+
+.leaf__chips {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px;
+}
+
+.leaf__state {
+  font-size: 0.8125rem;
+  font-weight: 600;
+}
+
+.leaf__route {
+  margin: 0;
+  font-size: 1.1rem;
+}
+
+.leaf__route code {
+  font-family: var(--font-mono);
+  overflow-wrap: anywhere;
+}
+
+.leaf__quote {
+  margin: 0;
+  padding: 12px 14px;
+  border-left: 2px solid var(--blood);
+  border-radius: 0 10px 10px 0;
+  background: oklch(0.68 0.19 28 / 0.08);
+}
+
+.leaf__quote p {
+  margin: 6px 0 0;
+  color: var(--marble);
+}
+
+.leaf__note {
+  margin: 0;
+  font-size: 0.875rem;
+  color: var(--stone);
+}
+
+.leaf__term {
+  list-style: none;
+  margin: 0;
+  padding: 10px 12px;
+  border-radius: 10px;
+  background: oklch(0 0 0 / 0.4);
+  border: 1px solid var(--hair);
+  font: 0.75rem/1.7 var(--font-mono);
+  max-height: 170px;
+  overflow: auto;
+}
+
+.leaf__term li {
+  display: grid;
+  grid-template-columns: 34px 46px 40px 1fr;
+  gap: 6px;
+  color: var(--stone);
+  animation: row-in 300ms var(--ease-out) calc(var(--i) * 70ms) both;
+}
+
+.leaf__term [data-ok='true'] {
+  color: var(--blood);
+}
+
+.leaf__n,
+.leaf__status {
+  color: var(--marble);
+}
+
+.lifecycle {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 6px;
+  font-size: 0.75rem;
+}
+
+.lifecycle li {
+  padding: 8px;
+  border-radius: 8px;
+  border: 1px solid var(--hair);
+  color: var(--stone);
+  text-align: center;
+  transition:
+    background-color 400ms var(--ease-out),
+    color 400ms var(--ease-out);
+}
+
+.lifecycle li:nth-child(1)[data-done='true'] {
+  color: var(--blood);
+  border-color: oklch(0.68 0.19 28 / 0.4);
+}
+
+.lifecycle li:nth-child(2)[data-done='true'] {
+  color: var(--gold);
+  border-color: oklch(0.82 0.11 85 / 0.4);
+}
+
+.lifecycle li:nth-child(3)[data-done='true'] {
+  color: var(--void);
+  background: var(--aurora);
+}
+
+.leaf__diff {
+  margin: 0;
+  padding: 10px 12px;
+  border-radius: 10px;
+  background: oklch(0 0 0 / 0.4);
+  border: 1px solid var(--hair);
+  font: 0.6875rem/1.55 var(--font-mono);
+  white-space: pre;
+  overflow-x: auto;
+}
+
+.leaf__diff [data-sign='+'] {
+  color: var(--aurora);
+}
+
+.leaf__diff [data-sign='-'] {
+  color: var(--blood);
+}
+
+.leaf__checks {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: 6px;
+  font-size: 0.75rem;
+  color: var(--stone);
+  opacity: 0.25;
+  transition: opacity 400ms var(--ease-out);
+}
+
+.leaf__checks[data-show='true'] {
+  opacity: 1;
+}
+
+.leaf__checks span {
+  color: var(--aurora);
+  font-weight: 700;
+}
+
+.leaf__checks b {
+  color: var(--marble);
+  font-weight: 600;
+}
+
+.leaf__replay {
+  justify-self: start;
+}
+
+.atree__table {
+  margin-top: 16px;
+  color: var(--stone);
+}
+
+.atree__table summary {
+  cursor: pointer;
+  font-size: 0.875rem;
+}
+
+.atree__table-scroll {
+  overflow-x: auto;
+  margin-top: 10px;
+}
+
+.atree__table td,
+.atree__table th {
+  font-size: 0.8125rem;
+}
+
+@media (max-width: 1000px) {
+  .atree {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .atree__curve {
+    stroke-dashoffset: 0;
+  }
+
+  .atree *,
+  .leaf,
+  .leaf * {
+    animation: none !important;
+  }
+}
+
+/* Long code lines scroll inside their box instead of widening the panel. */
+.atree__panel > *,
+.leaf,
+.leaf > * {
+  min-width: 0;
+}
