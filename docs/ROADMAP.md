@@ -790,12 +790,14 @@ Hecho cuando: la clienta recibe un informe útil y decide qué se puede mostrar 
 ### F4.4 · Validación SaaS — M a L (10–15 h, casi sin código)
 
 - [ ] Lista de 20 candidatos (fundadores de SaaS pequeños, agencias que lanzan a menudo)
-- [ ] Guion centrado en lo que hacen hoy antes de un release, no en tu producto
+- [x] Guion centrado en lo que hacen hoy antes de un release, no en tu producto ([`docs/validation/interview-script.md`](validation/interview-script.md))
 - [ ] 10 conversaciones con notas en una hoja: dolor, herramientas actuales, presupuesto, disposición a un piloto
-- [ ] Oferta de auditoría manual (concierge) con precio a validar
+- [x] Oferta de auditoría manual (concierge) con precio a validar ([`docs/validation/concierge-offer.md`](validation/concierge-offer.md); el precio son tres hipótesis a probar, sin datos detrás)
 - [ ] Decisión escrita: seguir si al menos 3 pagan un piloto y 1 repite; si no, Janus queda como portfolio
 
 Hecho cuando: la decisión está escrita con los datos que la justifican.
+
+Nota F4.4 (el kit está listo; lo demás son conversaciones y solo las puede hacer el dueño del proyecto): [`docs/validation/`](validation/README.md) tiene el orden de trabajo, la plantilla de 20 candidatos con sus criterios, el guion de 25–30 minutos (primero lo que hacen hoy, Janus solo al final y el compromiso concreto separado del «me interesa»), la hoja de notas, la oferta de concierge con su texto de autorización y la decisión con la regla fijada antes de hablar con nadie. Las hojas reales viven fuera del repositorio. Sin código ni gasto de API. Quedan por hacer: los 20 candidatos, las 10 conversaciones y la decisión.
 
 ### F4.5 · Artículos y open source — M a L (8–12 h)
 
