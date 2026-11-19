@@ -39,8 +39,9 @@ export default function RootLayout({ children }: { children: ReactNode }) {
             JANUS
           </Link>
           <nav aria-label="Principal">
-            <Link href="/">Runs</Link>
-            <Link href="/replay">Replay sin backend</Link>
+            <Link href="/">Overview</Link>
+            <Link href="/runs">Runs</Link>
+            <Link href="/replay">Replay</Link>
           </nav>
         </header>
         {DEMO && (
