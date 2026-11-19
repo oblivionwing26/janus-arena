@@ -3,6 +3,7 @@
 import Link from 'next/link';
 import { useEffect, useState } from 'react';
 
+import { JanusHero } from '@/components/janus/janus-hero';
 import { DEMO } from '@/lib/demo';
 import { fetchDemoIndex, listRuns, type FeaturedRun, type RunRow } from '@/lib/backend';
 
@@ -41,7 +42,8 @@ export default function RunsPage() {
 
   return (
     <>
-      <h1>{DEMO ? 'Janus Arena · demo' : 'Runs'}</h1>
+      <JanusHero />
+      <h2 id="runs">{DEMO ? 'Janus Arena · demo' : 'Runs'}</h2>
       {featured.length > 0 && (
         <section aria-label="Featured runs">
           <h2>Start here</h2>

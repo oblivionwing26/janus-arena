@@ -1,0 +1,44 @@
+/* Janus design tokens (F4.7 Part 0). One dark world: smoke and marble, ember for the attacker's
+   face, aurora for the shoppers' face, gold for what is selected or verified. The OKLCH values
+   live in src/lib/palette.ts too; palette.test.ts keeps both in step and checks contrast. */
+
+:root {
+  color-scheme: dark;
+
+  --void: oklch(0.14 0.008 50);
+  --ash: oklch(0.21 0.01 50);
+  --stone: oklch(0.72 0.012 70);
+  --marble: oklch(0.94 0.01 80);
+  --ember: oklch(0.7 0.18 45);
+  --blood: oklch(0.68 0.19 28);
+  --aurora: oklch(0.82 0.1 185);
+  --gold: oklch(0.82 0.11 85);
+
+  /* Glass: translucent surfaces over smoke or an image, with a hairline edge. */
+  --glass: oklch(0.2 0.01 50 / 0.58);
+  --glass-hi: oklch(1 0 0 / 0.06);
+  --hair: oklch(1 0 0 / 0.09);
+  --hair-strong: oklch(1 0 0 / 0.18);
+  --blur: 26px;
+
+  --font-display: var(--font-cinzel), 'Trajan Pro', Georgia, serif;
+  --font-ui: var(--font-instrument-sans), system-ui, sans-serif;
+  --font-mono: var(--font-jetbrains-mono), ui-monospace, monospace;
+
+  --r-slab: 22px;
+  --r-card: 12px;
+  --r-control: 10px;
+
+  --ease-out: cubic-bezier(0.2, 0.8, 0.2, 1);
+
+  /* The console's older names, mapped onto the new palette until each page is redone. */
+  --bg: var(--void);
+  --surface: var(--ash);
+  --text: var(--marble);
+  --muted: var(--stone);
+  --border: var(--hair-strong);
+  --accent: var(--aurora);
+  --ok: var(--aurora);
+  --warning: var(--gold);
+  --error: var(--blood);
+}
