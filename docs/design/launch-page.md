@@ -97,6 +97,12 @@ modelos: eje X compradores bloqueados, eje Y ataques que pasan; una flecha por d
 sus intervalos de Wilson al pasar el ratón. Al lado, las alternativas al bloqueo de cuenta en
 tarjetas con su diff y su veredicto.
 
+**Estado: hechas las fases 5 y 6.** El árbol se construye de los runs grabados del Red Team y del
+Blue Team (106 endpoints distintos en el mapa, 32 peticiones, 6 confirmados, 6 frenados por el
+alcance); la gráfica de coste usa las cinco defensas de Launch Day con sus intervalos, y las
+alternativas al bloqueo de cuenta citan el informe de trade-off. Los tests reconstruyen cada fila
+de los informes desde los datos.
+
 ## Fase 7 · Benchmark sin maquillaje
 
 **Ambición.** Tabla al estilo de las de los modelos, con barras e intervalos por categoría del

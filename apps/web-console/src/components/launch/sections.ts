@@ -4,6 +4,7 @@ export const SECTIONS = [
   { id: 'problem', label: 'The problem' },
   { id: 'how-it-works', label: 'How it works' },
   { id: 'attack-tree', label: 'The attack tree' },
+  { id: 'cost', label: 'What a fix costs' },
 ] as const;
 
 export type SectionId = (typeof SECTIONS)[number]['id'];
