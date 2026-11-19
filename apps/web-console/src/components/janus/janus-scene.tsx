@@ -250,8 +250,11 @@ function Scene({
     u.uMouseStrength.value = damp(u.uMouseStrength.value, p.active ? 1 : 0, 4, dt);
     if (head.current) {
       const turn = turnForScroll(progress.current);
-      head.current.rotation.y = damp(head.current.rotation.y, turn + p.x * 0.18, 3, dt);
-      head.current.rotation.x = damp(head.current.rotation.x, -p.y * 0.08, 3, dt);
+      // Until the pointer is over the hero its position means nothing (it starts off-screen).
+      const px = p.active ? p.x : 0;
+      const py = p.active ? p.y : 0;
+      head.current.rotation.y = damp(head.current.rotation.y, turn + px * 0.18, 3, dt);
+      head.current.rotation.x = damp(head.current.rotation.x, -py * 0.08, 3, dt);
     }
     if (world.current) {
       // 'right': on wide screens the head stands to the right of the headline.
@@ -260,7 +263,7 @@ function Scene({
       world.current.position.x = damp(world.current.position.x, shift, 6, dt);
       // In a portrait frame the title takes more height, so the head sits lower and smaller.
       const portrait = aspect < 1;
-      world.current.position.y = layout === 'center' ? (portrait ? -1.05 : -1.14) : 0;
+      world.current.position.y = layout === 'center' ? (portrait ? -1.05 : -1.3) : 0;
       world.current.scale.setScalar(layout === 'center' ? (portrait ? 0.6 : 0.6) : 1);
     }
   });

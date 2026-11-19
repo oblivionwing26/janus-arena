@@ -1,10 +1,12 @@
 import type { Metadata } from 'next';
 
 import { JanusHero } from '@/components/janus/janus-hero';
+import { PipelineSection } from '@/components/launch/pipeline-section';
 import { ProblemSection } from '@/components/launch/problem-section';
 import { SectionRail } from '@/components/launch/section-rail';
 
 import './launch.css';
+import './pipeline.css';
 
 export const metadata: Metadata = {
   title: 'Introducing Janus',
@@ -18,6 +20,7 @@ export default function LaunchPage() {
       <JanusHero />
       <SectionRail />
       <ProblemSection />
+      <PipelineSection />
     </div>
   );
 }

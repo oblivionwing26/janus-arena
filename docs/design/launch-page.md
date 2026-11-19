@@ -58,7 +58,7 @@ con transición; contador en vivo de ataques que pasan y compradores bloqueados;
 
 **Hecho cuando.** Alguien que no sabe nada entiende «el parche cuesta usuarios» pulsando una vez.
 
-## Fase 3 · Cómo funciona: «Un pull request, siete estaciones»
+## Fase 3 · Cómo funciona: «Un pull request, ocho estaciones»
 
 **Ambición.** Una escena fijada al desplazarse: un raíl curvo con siete estaciones (PR → SynthLab
 → variante B → A/B → Red Team → Blue Team con V1·V2·V3 → informe firmado → una persona fusiona).
@@ -66,8 +66,15 @@ Un testigo luminoso (el PR) recorre el raíl; en cada estación se despliega una
 con el artefacto real de esa etapa (una persona, un mapa de fricción, una prueba de concepto, los
 tres verificadores, la firma).
 
-**Plan.** SVG del raíl con `stroke-dashoffset` ligado al desplazamiento (GSAP ScrollTrigger);
-tarjetas con contenido de los informes; versión estática como lista numerada.
+**Plan.** SVG del raíl con `stroke-dashoffset` ligado al desplazamiento; tarjetas con contenido de
+los informes; versión estática como lista numerada.
+
+**Estado: hecha.** Sin GSAP: un contenedor fijado (`position: sticky`) y el progreso del
+desplazamiento bastan. Ocho estaciones (SynthLab, variante B, A/B, auditoría diferencial, Red Team,
+Blue Team, informe firmado, una persona fusiona), cada una con su artefacto real: las personas de
+`personas/*.yaml`, los dos parches grabados de ShopLab, el A/B +83 [50, 100], el resultado de la
+auditoría, los seis hallazgos y los cuatro verificadores del gate de Juice Shop. `pipeline-data.test.ts`
+comprueba cada cita contra su archivo.
 
 ## Fase 4 · Las dos caras
 
