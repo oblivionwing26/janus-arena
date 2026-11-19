@@ -123,14 +123,18 @@ function dotMaterial(vertexShader: string, uniforms: Record<string, { value: unk
   });
 }
 
+export type JanusLayout = 'right' | 'center';
+
 function Scene({
   points,
   pointer,
   progress,
+  layout,
 }: {
   points: JanusPoints;
   pointer: RefObject<Pointer>;
   progress: RefObject<number>;
+  layout: JanusLayout;
 }) {
   const head = useRef<Group>(null);
   const headPoints = useRef<Points>(null);
@@ -250,10 +254,14 @@ function Scene({
       head.current.rotation.x = damp(head.current.rotation.x, -p.y * 0.08, 3, dt);
     }
     if (world.current) {
-      // On wide screens the head stands to the right of the headline.
-      const shift = aspect > 1.25 ? Math.min(1.45, (aspect - 1) * 1.3) : 0;
+      // 'right': on wide screens the head stands to the right of the headline.
+      // 'center': the head rises from the horizon, under the title.
+      const shift = layout === 'right' && aspect > 1.25 ? Math.min(1.45, (aspect - 1) * 1.3) : 0;
       world.current.position.x = damp(world.current.position.x, shift, 6, dt);
-      world.current.position.y = 0;
+      // In a portrait frame the title takes more height, so the head sits lower and smaller.
+      const portrait = aspect < 1;
+      world.current.position.y = layout === 'center' ? (portrait ? -1.05 : -1.14) : 0;
+      world.current.scale.setScalar(layout === 'center' ? (portrait ? 0.6 : 0.6) : 1);
     }
   });
 
@@ -274,12 +282,14 @@ export default function JanusScene({
   progress,
   running,
   onReady,
+  layout = 'right',
 }: {
   points: JanusPoints;
   pointer: RefObject<Pointer>;
   progress: RefObject<number>;
   running: boolean;
   onReady: () => void;
+  layout?: JanusLayout;
 }) {
   return (
     <Canvas
@@ -291,7 +301,7 @@ export default function JanusScene({
       onCreated={() => onReady()}
       aria-hidden
     >
-      <Scene points={points} pointer={pointer} progress={progress} />
+      <Scene points={points} pointer={pointer} progress={progress} layout={layout} />
     </Canvas>
   );
 }
