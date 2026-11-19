@@ -1,0 +1,119 @@
+[
+  {
+    "runId": "01M7CZ2ZADFTJSJ1GZFF5M38EE",
+    "column": "launch-day",
+    "title": "Launch Day · ShopLab",
+    "line": "42 shopper sessions · 4 saboteurs",
+    "outcome": "error",
+    "events": 4728,
+    "startedAt": "2026-11-14T12:04:04.564Z"
+  },
+  {
+    "runId": "01M7C042BQ18AAGTQ6983VY9D7",
+    "column": "launch-day",
+    "title": "Launch Day · ShopLab",
+    "line": "41 shopper sessions · 4 saboteurs",
+    "outcome": "error",
+    "events": 3658,
+    "startedAt": "2026-11-14T03:02:54.590Z"
+  },
+  {
+    "runId": "01M79ZT16FG1W3EAX2WJNJRQD4",
+    "column": "synthlab",
+    "title": "Paired A/B · Juice Shop",
+    "line": "10/20 sessions bought · 231 friction signals",
+    "outcome": "error",
+    "events": 3178,
+    "startedAt": "2026-11-13T08:18:56.848Z"
+  },
+  {
+    "runId": "01M79ZC3PHE7YQA5EQR02YHTBC",
+    "column": "blue-team",
+    "title": "A fix on Juice Shop",
+    "line": "fixed in 1 iteration · 4 checks passed",
+    "outcome": "success",
+    "events": 14,
+    "startedAt": "2026-11-13T08:11:20.657Z"
+  },
+  {
+    "runId": "01M79ZA35SZ9QRNF6K3AAGXNQN",
+    "column": "red-team",
+    "title": "Attacks on Juice Shop",
+    "line": "6 confirmed · 32 requests · 6 stopped by scope",
+    "outcome": "success",
+    "events": 80,
+    "startedAt": "2026-11-13T08:10:14.585Z"
+  },
+  {
+    "runId": "01M79YYRATK9KNKWMMD4317E77",
+    "column": "synthlab",
+    "title": "Synthetic shoppers · Juice Shop",
+    "line": "6/10 sessions bought · 86 friction signals",
+    "outcome": "error",
+    "events": 1418,
+    "startedAt": "2026-11-13T08:04:03.042Z"
+  },
+  {
+    "runId": "01M79YYR766FTNCYF5STGZ3ANY",
+    "column": "gate",
+    "title": "The gate on Juice Shop",
+    "line": "8 stages, each with its own event log",
+    "outcome": "success",
+    "events": 22,
+    "startedAt": "2026-11-13T08:04:02.918Z"
+  },
+  {
+    "runId": "01M797M96H2ZDM7K31R7ZM9SY3",
+    "column": "variant",
+    "title": "Differential audit · ShopLab",
+    "line": "B introduces 0 findings and 0 endpoints",
+    "outcome": "success",
+    "events": 4,
+    "startedAt": "2026-11-13T01:16:35.308Z"
+  },
+  {
+    "runId": "01M796YBE1ZZMFK0266VWSX956",
+    "column": "synthlab",
+    "title": "Paired A/B · ShopLab",
+    "line": "7/19 sessions bought · 155 friction signals",
+    "outcome": "error",
+    "events": 2551,
+    "startedAt": "2026-11-13T01:04:24.002Z"
+  },
+  {
+    "runId": "01M796SFQ01XX971E4VC99YNR3",
+    "column": "variant",
+    "title": "Variant B · ShopLab",
+    "line": "2 patches · 2 checks passed",
+    "outcome": "success",
+    "events": 13,
+    "startedAt": "2026-11-13T01:01:44.544Z"
+  },
+  {
+    "runId": "01M796CT6SAG1KM8Y2YEKA027R",
+    "column": "synthlab",
+    "title": "Synthetic shoppers · ShopLab",
+    "line": "0/9 sessions bought · 141 friction signals",
+    "outcome": "error",
+    "events": 1708,
+    "startedAt": "2026-11-13T00:54:49.312Z"
+  },
+  {
+    "runId": "01M796CT3J5XRRXAREPJ88M525",
+    "column": "gate",
+    "title": "The gate on ShopLab",
+    "line": "8 stages, each with its own event log",
+    "outcome": "success",
+    "events": 22,
+    "startedAt": "2026-11-13T00:54:49.202Z"
+  },
+  {
+    "runId": "01M6VD0MWENHQCSKST7EHK0WG1",
+    "column": "synthlab",
+    "title": "Synthetic shoppers · ShopLab",
+    "line": "7/19 sessions bought · 147 friction signals",
+    "outcome": "error",
+    "events": 2362,
+    "startedAt": "2026-11-07T16:21:08.622Z"
+  }
+]

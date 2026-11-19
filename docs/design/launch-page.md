@@ -139,6 +139,12 @@ reales; las copias servidas son idénticas byte a byte a las de `docs/reports`.
 templo en ruinas al amanecer), con los runs grabados reales como tarjetas que se pueden arrastrar
 entre columnas, y enlaces a la demo.
 
+**Estado: hecha.** El tablero de cristal flota sobre un paisaje propio: un templo dórico en ruinas
+sobre un acantilado al amanecer, generado por `assets/janus/temple.py` en Blender (36 KB). Las
+trece tarjetas son los runs grabados de la demo, cada una en la columna que dicen sus eventos y con
+su resumen; la búsqueda filtra de verdad y la vista Lista es una tabla. `console-board.test.ts`
+mantiene el tablero igual a los runs.
+
 ## Fase 10 · Lo que no afirmamos
 
 **Ambición.** Tarjetas con la afirmación tachada y la que sí hacemos: «aumento de conversión» →
