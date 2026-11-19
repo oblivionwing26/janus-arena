@@ -126,6 +126,13 @@ propósito. Los datos salen del informe con un parser puro; un test los mantiene
 clave pública del repositorio). Un sello holográfico se forma si cuadra; un botón «cambia una
 cifra» lo rompe y señala el fallo. Mismo veredicto que `pnpm janus verify`.
 
+**Estado: hecha.** El informe firmado del gate de Juice Shop se verifica en el navegador con
+WebCrypto: firma ECDSA P-256 sobre sus bytes, la attestation DSSE, que esta nombre el informe por
+su SHA-256, y los cuatro registros de eventos recalculados desde los runs de la demo (coinciden).
+Los mensajes son los de `verifyBundle`. Tres falsificaciones (el coste, la gravedad, un evento) rompen
+el sello y señalan la comprobación que falla. `verify-report.test.ts` lo prueba con los archivos
+reales; las copias servidas son idénticas byte a byte a las de `docs/reports`.
+
 ## Fase 9 · Dentro de la consola
 
 **Ambición.** La referencia 1: el tablero de cristal sobre un paisaje propio (render de Blender: un

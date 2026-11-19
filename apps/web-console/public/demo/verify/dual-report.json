@@ -1,0 +1,271 @@
+{
+  "format": "janus-dual-report",
+  "version": 1,
+  "target": "juice-shop",
+  "janusCommit": "213424e8f8ebd463be75e48038eed846a3252502",
+  "ux": {
+    "runId": "01M79YYRATK9KNKWMMD4317E77",
+    "variants": [
+      {
+        "variant": "a",
+        "personas": {
+          "successes": 4,
+          "n": 8
+        },
+        "baseline": {
+          "successes": 2,
+          "n": 2
+        }
+      }
+    ],
+    "difference": null,
+    "verdict": null
+  },
+  "findings": [
+    {
+      "findingId": "01M79ZBMZWG2PHK9P0G3DHAV3G",
+      "runId": "01M79ZA35SZ9QRNF6K3AAGXNQN",
+      "kind": "dynamic",
+      "severity": "high",
+      "title": "Another user’s data is reachable (IDOR): GET /rest/basket/:id (user 26 received a record of user 25 holding \"Apple Juice (1000ml)\")",
+      "status": "confirmed",
+      "where": "GET /rest/basket/:id",
+      "tool": "red-team"
+    },
+    {
+      "findingId": "01M79ZBNBRE27DA9SP23WVWE8F",
+      "runId": "01M79ZA35SZ9QRNF6K3AAGXNQN",
+      "kind": "dynamic",
+      "severity": "critical",
+      "title": "A session opens without the right credentials: POST /rest/user/login (a session for admin@juice-sh.op was opened without its credentials)",
+      "status": "confirmed",
+      "where": "POST /rest/user/login",
+      "tool": "red-team"
+    },
+    {
+      "findingId": "01M79ZBVMBPC30P07KQFAN41GN",
+      "runId": "01M79ZA35SZ9QRNF6K3AAGXNQN",
+      "kind": "dynamic",
+      "severity": "high",
+      "title": "Injected script runs in the page (XSS): GET /#/search (a dialog (alert) showed the marker janus-01M79ZA35SZ9QRNF6K3AAGXNQN on http://janus-red-3aagxnqn-app:3000/#/search)",
+      "status": "confirmed",
+      "where": "GET /#/search",
+      "tool": "red-team"
+    },
+    {
+      "findingId": "01M79ZBVX4P6HXR9P9VV5898FT",
+      "runId": "01M79ZA35SZ9QRNF6K3AAGXNQN",
+      "kind": "dynamic",
+      "severity": "high",
+      "title": "The shop accepts a request it should refuse: PUT /api/BasketItems/:id (the order total is negative: -1.99)",
+      "status": "confirmed",
+      "where": "PUT /api/BasketItems/:id",
+      "tool": "red-team"
+    },
+    {
+      "findingId": "01M79ZBX8QWPA3GY4KBAM24JJ6",
+      "runId": "01M79ZA35SZ9QRNF6K3AAGXNQN",
+      "kind": "dynamic",
+      "severity": "high",
+      "title": "The shop accepts a request it should refuse: POST /rest/products/reviews (janus-b-01m79zbmcx7mm4bnxwmpm29gxv@janus.test appears 6 times where at most 1 is allowed)",
+      "status": "confirmed",
+      "where": "POST /rest/products/reviews",
+      "tool": "red-team"
+    },
+    {
+      "findingId": "01M79ZBZAR62J3V3NS50ED7A9W",
+      "runId": "01M79ZA35SZ9QRNF6K3AAGXNQN",
+      "kind": "dynamic",
+      "severity": "high",
+      "title": "An account’s password can be guessed without limit: POST /rest/user/login (20 wrong passwords were refused in 48 ms each on average, none throttled, and the right one still signed in)",
+      "status": "confirmed",
+      "where": "POST /rest/user/login",
+      "tool": "red-team"
+    }
+  ],
+  "pocs": [
+    {
+      "findingId": "01M79ZBMZWG2PHK9P0G3DHAV3G",
+      "poc": {
+        "version": 1,
+        "target": "juice-shop",
+        "class": "idor",
+        "oracle": "canary-leak",
+        "endpoint": "GET /rest/basket/:id",
+        "steps": {
+          "kind": "idor",
+          "method": "GET",
+          "route": "/rest/basket/:id",
+          "bind": {
+            "victim": "basketId"
+          }
+        }
+      }
+    },
+    {
+      "findingId": "01M79ZBNBRE27DA9SP23WVWE8F",
+      "poc": {
+        "version": 1,
+        "target": "juice-shop",
+        "class": "auth-bypass",
+        "oracle": "authenticated-as",
+        "endpoint": "POST /rest/user/login",
+        "steps": {
+          "kind": "auth-bypass",
+          "method": "POST",
+          "path": "/rest/user/login",
+          "body": "{\"email\":\"' OR 1=1--\",\"password\":\"janus-not-the-password\"}"
+        }
+      }
+    },
+    {
+      "findingId": "01M79ZBVMBPC30P07KQFAN41GN",
+      "poc": {
+        "version": 1,
+        "target": "juice-shop",
+        "class": "xss",
+        "oracle": "script-executed",
+        "endpoint": "GET /#/search",
+        "steps": {
+          "kind": "xss",
+          "template": "/#/search?q={payload}",
+          "payload": 0
+        }
+      }
+    },
+    {
+      "findingId": "01M79ZBVX4P6HXR9P9VV5898FT",
+      "poc": {
+        "version": 1,
+        "target": "juice-shop",
+        "class": "business-logic",
+        "oracle": "price-mismatch",
+        "endpoint": "PUT /api/BasketItems/:id",
+        "steps": {
+          "kind": "order-quantity",
+          "quantity": -1
+        }
+      }
+    },
+    {
+      "findingId": "01M79ZBX8QWPA3GY4KBAM24JJ6",
+      "poc": {
+        "version": 1,
+        "target": "juice-shop",
+        "class": "business-logic",
+        "oracle": "duplicate-effect",
+        "endpoint": "POST /rest/products/reviews",
+        "steps": {
+          "kind": "once-effect-race",
+          "size": 6
+        }
+      }
+    },
+    {
+      "findingId": "01M79ZBZAR62J3V3NS50ED7A9W",
+      "poc": {
+        "version": 1,
+        "target": "juice-shop",
+        "class": "brute-force",
+        "oracle": "unthrottled-guessing",
+        "endpoint": "POST /rest/user/login",
+        "steps": {
+          "kind": "login-guessing",
+          "method": "POST",
+          "path": "/rest/user/login",
+          "identity": "email",
+          "password": "password",
+          "guesses": 20
+        }
+      }
+    }
+  ],
+  "fixes": [
+    {
+      "runId": "01M79ZC3PHE7YQA5EQR02YHTBC",
+      "findingId": "01M79ZBMZWG2PHK9P0G3DHAV3G",
+      "status": "fixed",
+      "iterations": 1,
+      "branch": "janus/fix-01M79ZBMZWG2PHK9P0G3DHAV3G",
+      "patchId": "01M79ZD3GBB1EYV9BSEHBD75EK",
+      "diff": "diff --git a/routes/basket.ts b/routes/basket.ts\n--- a/routes/basket.ts\n+++ b/routes/basket.ts\n@@ -6,23 +6,20 @@\n import { type Request, type Response, type NextFunction } from 'express'\n import { ProductModel } from '../models/product'\n import { BasketModel } from '../models/basket'\n-import * as challengeUtils from '../lib/challengeUtils'\n \n import * as utils from '../lib/utils'\n import * as security from '../lib/insecurity'\n-import { challenges } from '../data/datacache'\n \n export function retrieveBasket () {\n   return async (req: Request, res: Response, next: NextFunction) => {\n     try {\n       const id = req.params.id\n       const basket = await BasketModel.findOne({ where: { id }, include: [{ model: ProductModel, paranoid: false, as: 'Products' }] })\n-      /* jshint eqeqeq:false */\n-      challengeUtils.solveIf(challenges.basketAccessChallenge, () => {\n-        const user = security.authenticatedUsers.from(req)\n-        const isValidId = id && id !== 'undefined' && id !== 'null' && id !== 'NaN'\n-        return user && isValidId && user.bid && user?.bid != parseInt(id, 10) // eslint-disable-line eqeqeq\n-      })\n+      const user = security.authenticatedUsers.from(req)\n+      if (basket != null && (user?.data?.id == null || basket.UserId !== user.data.id)) {\n+        res.status(403).json({ error: 'Forbidden' })\n+        return\n+      }\n       if (((basket?.Products) != null) && basket.Products.length > 0) {\n         for (let i = 0; i < basket.Products.length; i++) {\n           basket.Products[i].name = req.__(basket.Products[i].name)\n",
+      "verifications": [
+        {
+          "verifier": "build-checks",
+          "passed": true,
+          "details": "the patched variant compiles (tsc) and starts"
+        },
+        {
+          "verifier": "poc-replay",
+          "passed": true,
+          "details": "the PoC no longer works: status 403"
+        },
+        {
+          "verifier": "regression-tests",
+          "passed": true,
+          "details": "the regression test fails on the base and passes on the fix; 937 tests pass, 3 tests asserted the flaw"
+        },
+        {
+          "verifier": "synthlab-rerun",
+          "passed": true,
+          "details": "run 01M79ZT16FG1W3EAX2WJNJRQD4: success A 4/8, B 2/8; GET /rest/basket/:id p95 108 → 118 ms (budget 158 ms)"
+        }
+      ]
+    }
+  ],
+  "tradeoffs": [],
+  "cost": {
+    "runs": [
+      {
+        "runId": "01M79YYRATK9KNKWMMD4317E77",
+        "role": "ux",
+        "eur": 0.25998044239999996
+      },
+      {
+        "runId": "01M79ZA35SZ9QRNF6K3AAGXNQN",
+        "role": "red-team",
+        "eur": 0
+      },
+      {
+        "runId": "01M79ZC3PHE7YQA5EQR02YHTBC",
+        "role": "blue-team",
+        "eur": 0.03487988
+      },
+      {
+        "runId": "01M79ZT16FG1W3EAX2WJNJRQD4",
+        "role": "v3",
+        "eur": 0.5266735201999999
+      }
+    ],
+    "totalEur": 0.8215338425999998
+  },
+  "eventLogs": [
+    {
+      "runId": "01M79YYRATK9KNKWMMD4317E77",
+      "sha256": "1b5236549655dc6ef6382754ff55687a2fea1ffd0e8a517928fe02e134e98f42"
+    },
+    {
+      "runId": "01M79ZA35SZ9QRNF6K3AAGXNQN",
+      "sha256": "27c28b195042b0cf196ffeb563558b082eeddec46b84cab329199adf5ec5fd3f"
+    },
+    {
+      "runId": "01M79ZC3PHE7YQA5EQR02YHTBC",
+      "sha256": "988bd418f2aca911f7efb73b7b0fe6a231b96b0d9c5842476bb9273fb22b3ef7"
+    },
+    {
+      "runId": "01M79ZT16FG1W3EAX2WJNJRQD4",
+      "sha256": "8bca6d4fd76c6b32fd8eee6ad91c3256e3f2dbf1c1ddba66be5f03e5ae44dfef"
+    }
+  ],
+  "tools": {
+    "node": "v24.12.0",
+    "janus": "213424e8f8ebd463be75e48038eed846a3252502",
+    "juice-shop image": "bkimminich/juice-shop:v20.3.0@sha256:cea5a4af4aacee498c491491af0408934ec81d004035c0a02ef3e54395e3bf27",
+    "model navigator": "claude-haiku-5-5",
+    "model competent-baseline": "claude-sonnet-5-5",
+    "model ui-engineer": "claude-sonnet-5-5",
+    "model red-team": "claude-sonnet-5-5",
+    "model blue-team": "claude-sonnet-5-5",
+    "model architect": "claude-opus-5-5"
+  }
+}
