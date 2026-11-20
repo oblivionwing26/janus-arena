@@ -61,6 +61,7 @@ Team. La interfaz de al lado cambia con ella.
 
 1. El dueño descarga el escaneo (cuenta gratuita de MyMiniFactory) y lo deja en
    `assets/janus/scan/`.
-2. Blender: limpiar, orientar las caras en ±X, reducir y exportar a GLB con Draco; render de
-   respaldo de cada cara. Script en `assets/janus/scan.py`.
+2. Blender: orientar las caras en ±X, reducir a 5 200 triángulos y exportar a GLB
+   (`assets/janus/wire.py`); las imágenes de respaldo de cada cara se capturan del wireframe en
+   la consola (`assets/janus/stills.cjs`).
 3. Portada nueva, torno, ajustes; capturas a 1440 y 390; un PR.

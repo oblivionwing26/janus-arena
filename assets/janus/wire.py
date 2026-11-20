@@ -1,4 +1,5 @@
-# The same scanned bust as scan.py, reduced to a low-poly shell for the lathe's wireframe: a few
+# The scanned Janus bust (Scan The World, State Russian Museum, CC BY-NC-SA 4.0; see
+# scan/LICENCE.md) reduced to a low-poly shell for the lathe's wireframe: a few
 # thousand flat triangles whose edges read as a mesh at full screen height. No Draco, so the edges
 # keep their exact vertices.
 #   D:\blender.exe -b --python assets/janus/wire.py
@@ -19,7 +20,7 @@ bpy.ops.wm.stl_import(filepath=STL)
 bust = [o for o in bpy.data.objects if o.type == 'MESH'][0]
 bust.name = 'JanusWire'
 
-# Same frame as scan.py: centred on the vertical axis, base at z = 0, 2.6 units tall.
+# Centred on the vertical axis, base at z = 0, 2.6 units tall.
 co = np.array([v.co[:] for v in bust.data.vertices])
 mn, mx = co.min(0), co.max(0)
 scale = 2.6 / (mx[2] - mn[2])
