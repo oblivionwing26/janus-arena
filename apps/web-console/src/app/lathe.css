@@ -1,105 +1,90 @@
 /* F4.7-3: the monolith hero and the lathe (docs/design/lathe.md). */
 
-/* ---------- the hero ---------- */
+/* ---------- the hero: an angel in points between two words ---------- */
 
-.mono {
+.angel {
   position: relative;
   isolation: isolate;
   overflow: hidden;
-  min-height: max(720px, calc(100svh - 52px));
+  min-height: max(680px, calc(100svh - 52px));
   display: grid;
-  grid-template-rows: 1fr auto;
-  background:
-    radial-gradient(ellipse 40% 45% at 50% 72%, oklch(0.3 0 0 / 0.55), transparent 70%), #050505;
+  grid-template-rows: 1fr auto auto;
+  background: radial-gradient(ellipse 60% 55% at 50% 42%, oklch(0.2 0 0), #030303 75%);
 }
 
-.mono__dunes {
+.angel__stage {
   position: absolute;
   inset: 0;
-  width: 100%;
-  height: 100%;
-  z-index: -2;
-}
-
-.mono__beam {
-  position: absolute;
-  left: 50%;
-  top: 0;
-  bottom: 0;
-  width: 220px;
-  transform: translateX(-50%);
   z-index: -1;
-  background:
-    linear-gradient(
-      90deg,
-      transparent,
-      oklch(1 0 0 / 0.07) 45%,
-      oklch(1 0 0 / 0.16) 50%,
-      oklch(1 0 0 / 0.07) 55%,
-      transparent
-    ),
-    radial-gradient(ellipse 50% 22% at 50% 76%, oklch(1 0 0 / 0.18), transparent 70%);
-  -webkit-mask-image: linear-gradient(180deg, transparent 20%, black 60%, black 78%, transparent);
-  mask-image: linear-gradient(180deg, transparent 20%, black 60%, black 78%, transparent);
-  animation: beam 6s ease-in-out infinite alternate;
 }
 
-@keyframes beam {
-  from {
-    opacity: 0.75;
-  }
+.angel__stage .angel__canvas {
+  position: absolute !important;
+  inset: 0;
+  width: 100% !important;
+  height: 100% !important;
 }
 
-.mono__inner {
+.angel__title {
   align-self: center;
+  margin: 0;
+  padding: 0 20px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: clamp(16px, 4.5vw, 88px);
+  pointer-events: none;
+  translate: 0 4vh;
+}
+
+.angel__word {
+  font: 600 clamp(3.5rem, 12.5vw, 13.5rem) / 0.9 var(--font-ui);
+  letter-spacing: -0.055em;
+  color: #fafafa;
+  text-shadow: 0 0 60px oklch(0 0 0 / 0.7);
+}
+
+.angel__name {
+  font: 500 clamp(1rem, 2.2vw, 2.2rem) / 1 var(--font-display);
+  letter-spacing: 0.22em;
+  color: #fafafa;
+  text-shadow: 0 0 30px oklch(0 0 0 / 0.9);
+}
+
+.angel__foot {
   display: grid;
   justify-items: center;
-  gap: 18px;
-  padding: 72px 20px 24px;
+  gap: 14px;
+  padding: 0 20px 36px;
   text-align: center;
 }
 
-.mono__eyebrow {
+.angel__eyebrow {
   margin: 0;
-  padding: 5px 12px;
-  border-radius: 999px;
-  border: 1px solid oklch(1 0 0 / 0.14);
-  background: oklch(1 0 0 / 0.04);
   font: 500 0.6875rem var(--font-mono);
-  letter-spacing: 0.12em;
+  letter-spacing: 0.14em;
   text-transform: uppercase;
-  color: oklch(0.85 0 0);
+  color: oklch(0.75 0 0);
 }
 
-.mono__title {
+.angel__sub {
   margin: 0;
-  font-family: var(--font-display);
-  max-width: 14ch;
-  font-size: clamp(2.4rem, 6.4vw, 5.6rem);
-  line-height: 1;
-  font-weight: 500;
-  letter-spacing: 0.02em;
-  color: #f5f5f5;
-  text-wrap: balance;
+  max-width: 52ch;
+  font-size: clamp(1rem, 1.3vw, 1.2rem);
+  color: oklch(0.82 0 0);
+  text-shadow: 0 0 20px oklch(0 0 0 / 0.9);
 }
 
-.mono__sub {
-  margin: 0;
-  max-width: 46ch;
-  font-size: clamp(1rem, 1.5vw, 1.15rem);
-  color: oklch(0.78 0 0);
-}
-
-.mono__cta {
+.angel__cta {
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
   align-items: center;
   gap: 18px;
-  margin-top: 6px;
+  margin-top: 4px;
 }
 
-.mono__btn {
+.angel__btn {
   padding: 12px 22px;
   border-radius: 999px;
   background: #f5f5f5;
@@ -107,53 +92,45 @@
   font-weight: 600;
   font-size: 0.9375rem;
   text-decoration: none;
-  box-shadow: 0 0 40px oklch(1 0 0 / 0.18);
 }
 
-.mono__btn:hover {
+.angel__btn:hover {
   background: #fff;
 }
 
-.mono__link {
-  color: oklch(0.82 0 0);
+.angel__link {
+  color: oklch(0.85 0 0);
   font-size: 0.9375rem;
   text-decoration: none;
 }
 
-.mono__link:hover {
+.angel__link:hover {
   color: #fff;
 }
 
-.mono__tile {
-  margin-top: clamp(28px, 7vh, 80px);
-  display: grid;
-  place-items: center;
-  width: 112px;
-  height: 112px;
-  border-radius: 28px;
-  background: linear-gradient(160deg, oklch(0.24 0 0), oklch(0.1 0 0));
-  box-shadow:
-    inset 0 1px 0 oklch(1 0 0 / 0.18),
-    0 0 0 1px oklch(1 0 0 / 0.08),
-    0 30px 80px -20px oklch(0 0 0 / 0.9),
-    0 0 90px oklch(1 0 0 / 0.12);
-}
-
-.mono__stack {
+.angel__stack {
   list-style: none;
   margin: 0;
-  padding: 26px 20px 40px;
+  padding: 22px 20px 30px;
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
-  gap: 14px 40px;
-  border-top: 1px solid oklch(1 0 0 / 0.06);
+  gap: 12px 40px;
+  border-top: 1px solid oklch(1 0 0 / 0.07);
+  background: oklch(0 0 0 / 0.5);
 }
 
-.mono__stack li {
+.angel__stack li {
   font: 600 0.9375rem var(--font-ui);
-  letter-spacing: 0.01em;
-  color: oklch(0.7 0 0);
+  color: oklch(0.65 0 0);
+}
+
+@media (max-width: 700px) {
+  .angel__title {
+    flex-direction: column;
+    gap: 6px;
+    translate: none;
+  }
 }
 
 /* ---------- the lathe ---------- */
@@ -580,10 +557,6 @@
 
 @media (prefers-reduced-motion: reduce) {
   .sample__verdict {
-    animation: none;
-  }
-
-  .mono__beam {
     animation: none;
   }
 }

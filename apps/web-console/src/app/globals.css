@@ -496,12 +496,16 @@ input {
   vertical-align: middle;
 }
 
+/* the same marks the swarm draws: hollow, ringed, solid, dim and struck through */
 .swarm-key.navigating::before {
-  background: var(--accent);
+  box-shadow: inset 0 0 0 1.5px var(--accent);
 }
 
 .swarm-key.friction::before {
   background: var(--warning);
+  box-shadow:
+    0 0 0 2px var(--bg),
+    0 0 0 3.5px var(--warning);
 }
 
 .swarm-key.success::before {
@@ -509,7 +513,9 @@ input {
 }
 
 .swarm-key.abandon::before {
-  background: var(--error);
+  background:
+    linear-gradient(135deg, transparent 43%, var(--error) 43% 57%, transparent 57%),
+    oklch(0.86 0 0 / 0.35);
 }
 
 .swarm .fps {

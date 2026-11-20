@@ -226,14 +226,29 @@ export function SwarmCanvas({ visible, known, speed }: SwarmCanvasProps) {
           at.y += (target.y - at.y) * step;
           agents.set(agent.agentId, at);
           const inFriction = (frictionUntil.get(agent.agentId) ?? 0) > now;
-          const color = palette.status[inFriction ? 'friction' : agent.status];
-          // Variant a is a dot, b a square: readable without colour.
-          if (agent.variant === 'b') {
+          const state = inFriction ? 'friction' : agent.status;
+          const color = palette.status[state];
+          // Variant a is a dot, b a square; the state is in the fill, so both read in black and
+          // white: navigating is hollow, success solid, abandon dim and struck through.
+          const shape =
+            agent.variant === 'b'
+              ? agentsLayer.rect(
+                  at.x - AGENT_RADIUS,
+                  at.y - AGENT_RADIUS,
+                  AGENT_RADIUS * 2,
+                  AGENT_RADIUS * 2,
+                )
+              : agentsLayer.circle(at.x, at.y, AGENT_RADIUS);
+          if (state === 'navigating') {
+            shape.stroke({ width: 1.5, color });
+          } else if (state === 'abandon') {
+            shape.fill({ color, alpha: 0.35 });
             agentsLayer
-              .rect(at.x - AGENT_RADIUS, at.y - AGENT_RADIUS, AGENT_RADIUS * 2, AGENT_RADIUS * 2)
-              .fill({ color });
+              .moveTo(at.x - AGENT_RADIUS - 2, at.y + AGENT_RADIUS + 2)
+              .lineTo(at.x + AGENT_RADIUS + 2, at.y - AGENT_RADIUS - 2)
+              .stroke({ width: 1.5, color });
           } else {
-            agentsLayer.circle(at.x, at.y, AGENT_RADIUS).fill({ color });
+            shape.fill({ color });
           }
         }
 
