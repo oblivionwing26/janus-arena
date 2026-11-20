@@ -33,7 +33,7 @@
   display: grid;
   grid-template-columns: 58px minmax(0, 1fr);
   min-height: 520px;
-  background: oklch(0.16 0.01 50 / 0.62);
+  background: oklch(0.16 0 0 / 0.62);
   -webkit-backdrop-filter: blur(28px) saturate(130%);
   backdrop-filter: blur(28px) saturate(130%);
   border-radius: 20px;
@@ -121,7 +121,7 @@
 }
 
 .app__search:focus-within {
-  border-color: oklch(0.82 0.1 185 / 0.6);
+  border-color: oklch(0.82 0 0 / 0.6);
 }
 
 .app__spacer {
@@ -184,7 +184,7 @@
 }
 
 .app__seg button[aria-pressed='true'] {
-  background: oklch(0.1 0.008 50 / 0.85);
+  background: oklch(0.1 0 0 / 0.85);
   color: var(--marble);
 }
 
@@ -243,7 +243,7 @@
   padding: 11px 12px;
   border-radius: 12px;
   border: 1px solid var(--hair);
-  background: oklch(0.15 0.008 50 / 0.72);
+  background: oklch(0.15 0 0 / 0.72);
   color: var(--marble);
   text-decoration: none;
   transition:
@@ -278,7 +278,7 @@
   border-radius: 50%;
   display: grid;
   place-items: center;
-  font: 600 0.6875rem var(--font-display);
+  font: 600 0.6875rem var(--font-ui);
   color: var(--void);
   background: var(--stone);
 }
@@ -311,7 +311,7 @@
 
 .bcard__line {
   font-size: 0.75rem;
-  color: oklch(0.86 0.01 80);
+  color: oklch(0.86 0 0);
 }
 
 .bcard__meta {
@@ -370,10 +370,10 @@
   border-radius: 999px;
   font-size: 0.75rem;
   color: var(--marble);
-  background: oklch(0.12 0.01 50 / 0.85);
+  background: oklch(0.12 0 0 / 0.85);
   box-shadow:
-    0 0 0 1px oklch(0.82 0.1 185 / 0.5),
-    0 0 24px -6px oklch(0.82 0.1 185 / 0.6);
+    0 0 0 1px oklch(0.82 0 0 / 0.5),
+    0 0 24px -6px oklch(0.82 0 0 / 0.6);
 }
 
 @media (max-width: 760px) {

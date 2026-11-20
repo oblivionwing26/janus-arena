@@ -18,183 +18,11 @@
   margin-bottom: -48px;
 }
 
-/* ---------- Phase 1 · the dawn ---------- */
-
-.launch-hero {
-  position: relative;
-  isolation: isolate;
-  overflow: hidden;
-  min-height: max(700px, calc(100svh - 52px));
-  display: grid;
-  grid-template-rows: auto 1fr auto;
-  justify-items: center;
-  padding: clamp(48px, 9vh, 96px) max(20px, env(safe-area-inset-left, 0px)) 36px;
-  text-align: center;
-}
-
-.dawn {
-  position: absolute;
-  inset: 0;
-  width: 100%;
-  height: 100%;
-  z-index: -3;
-}
-
-.dawn__rim,
-.dawn__glow {
-  transform-box: view-box;
-  transform-origin: 50% 70%;
-  animation: dawn-open 1800ms var(--ease-out) both;
-}
-
-.dawn__glow {
-  opacity: 0.85;
-}
-
-.dawn__sun {
-  transform-box: fill-box;
-  transform-origin: center;
-  animation: dawn-sun 2400ms var(--ease-out) 300ms both;
-}
-
-@keyframes dawn-open {
-  from {
-    transform: scaleX(0.04);
-    opacity: 0;
-  }
-}
-
-@keyframes dawn-sun {
-  from {
-    transform: scale(0.2);
-    opacity: 0;
-  }
-}
-
-.launch-hero__still {
-  position: absolute;
-  left: 50%;
-  bottom: 2%;
-  width: min(820px, 110vw);
-  height: auto;
-  transform: translateX(-50%);
-  z-index: -2;
-  opacity: 0.9;
-  -webkit-mask-image: radial-gradient(ellipse 46% 52% at 50% 46%, black 55%, transparent 100%);
-  mask-image: radial-gradient(ellipse 46% 52% at 50% 46%, black 55%, transparent 100%);
-  transition: opacity 900ms var(--ease-out);
-}
-
-.launch-hero .janus-hero__canvas {
-  position: absolute !important;
-  inset: 0;
-  z-index: -1;
-  opacity: 0;
-  transition: opacity 900ms var(--ease-out);
-}
-
-.launch-hero[data-ready='true'] .launch-hero__still {
-  opacity: 0;
-}
-
-.launch-hero[data-ready='true'] .janus-hero__canvas {
-  opacity: 1;
-}
-
-.launch-hero__top {
-  display: grid;
-  justify-items: center;
-  gap: 18px;
-  max-width: 980px;
-}
-
-.launch-hero__date {
-  color: oklch(0.82 0.04 70);
-}
-
-.launch-hero__title {
-  margin: 0;
-  font-size: clamp(2.2rem, 7.4vw, 7rem);
-  line-height: 0.95;
-  letter-spacing: 0.04em;
-  font-weight: 500;
-  text-shadow: 0 6px 60px oklch(0 0 0 / 0.7);
-}
-
-.launch-hero__word {
-  display: inline-block;
-  white-space: nowrap;
-  overflow: hidden;
-  padding: 0.04em 0.12em 0.08em;
-  vertical-align: bottom;
-}
-
-.launch-hero__char {
-  display: inline-block;
-  animation: char-rise 900ms var(--ease-out) both;
-}
-
-@keyframes char-rise {
-  from {
-    transform: translateY(110%);
-    opacity: 0;
-  }
-}
-
-.launch-hero__sub {
-  margin: 0;
-  max-width: 44ch;
-  font-size: clamp(1rem, 1.6vw, 1.25rem);
-  line-height: 1.5;
-  color: oklch(0.86 0.012 80);
-  text-shadow: 0 2px 24px oklch(0 0 0 / 0.9);
-  animation: fade-up 900ms var(--ease-out) 700ms both;
-}
-
 @keyframes fade-up {
   from {
     transform: translateY(12px);
     opacity: 0;
   }
-}
-
-.launch-hero__toc {
-  grid-row: 3;
-  width: min(460px, 100%);
-  animation: fade-up 900ms var(--ease-out) 1100ms both;
-}
-
-.launch-hero__toc ol {
-  list-style: none;
-  margin: 0;
-  padding: 0;
-  display: grid;
-  gap: 6px;
-}
-
-.launch-hero__toc a {
-  display: grid;
-  grid-template-columns: auto 1fr auto;
-  align-items: baseline;
-  gap: 10px;
-  color: var(--stone);
-  text-decoration: none;
-  font: 500 0.75rem/1.6 var(--font-mono);
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
-}
-
-.launch-hero__toc a:hover {
-  color: var(--marble);
-}
-
-.launch-hero__toc-dots {
-  border-bottom: 1px dotted oklch(1 0 0 / 0.25);
-  transform: translateY(-4px);
-}
-
-.launch-hero__toc-num {
-  color: var(--gold);
 }
 
 /* ---------- the side rail ---------- */
@@ -262,19 +90,21 @@
 
 /* ---------- the section frame ---------- */
 
+/* An editorial frame, as launch posts set it: the heading and its lede in a narrow reading column
+   in the middle, the evidence below it wider, and plenty of air between sections. */
 .launch-section {
-  max-width: 1240px;
+  max-width: 1160px;
   margin: 0 auto;
-  padding: clamp(96px, 14vh, 160px) max(20px, env(safe-area-inset-right, 0px)) 24px
+  padding: clamp(120px, 18vh, 200px) max(20px, env(safe-area-inset-right, 0px)) 24px
     max(20px, env(safe-area-inset-left, 0px));
   scroll-margin-top: 40px;
 }
 
 .launch-section__head {
   display: grid;
-  gap: 14px;
-  max-width: 900px;
-  margin-bottom: 48px;
+  gap: 20px;
+  max-width: 760px;
+  margin: 0 auto clamp(48px, 7vh, 80px);
 }
 
 .launch-section__num {
@@ -283,20 +113,21 @@
 
 .launch-section__head h2 {
   margin: 0;
-  font-size: clamp(2.1rem, 5vw, 4.2rem);
-  line-height: 1.02;
+  font-size: clamp(2.25rem, 4.2vw, 3.75rem);
+  line-height: 1.06;
   font-weight: 500;
+  letter-spacing: -0.035em;
 }
 
 .launch-section__head h2 em {
   font-style: normal;
-  color: var(--ember);
+  color: var(--stone);
 }
 
 .launch-section__lede {
   margin: 0;
-  max-width: 60ch;
-  font-size: 1.125rem;
+  font-size: clamp(1.125rem, 1.35vw, 1.3125rem);
+  line-height: 1.55;
   color: var(--stone);
 }
 
@@ -370,7 +201,7 @@
 
 .stat-card dd {
   margin: 0;
-  font: 500 clamp(2rem, 3.4vw, 2.8rem) / 1 var(--font-display);
+  font: 500 clamp(2rem, 3.4vw, 2.8rem) / 1 var(--font-ui);
   font-variant-numeric: tabular-nums;
   color: var(--marble);
 }
@@ -440,8 +271,7 @@
   display: block;
   border-radius: 12px;
   background:
-    radial-gradient(ellipse at 74% 50%, oklch(0.7 0.18 45 / 0.06), transparent 60%),
-    oklch(0 0 0 / 0.22);
+    radial-gradient(ellipse at 74% 50%, oklch(0.7 0 0 / 0.06), transparent 60%), oklch(0 0 0 / 0.22);
 }
 
 .sim__legend {
@@ -488,8 +318,8 @@
 .sim__readout > div {
   padding: 12px 14px;
   border-radius: 12px;
-  border: 1px solid var(--hair);
-  background: oklch(1 0 0 / 0.03);
+  border: 1px solid oklch(1 0 0 / 0.06);
+  background: oklch(1 0 0 / 0.055);
 }
 
 .sim__big {
@@ -531,22 +361,9 @@
   .stats {
     grid-template-columns: 1fr;
   }
-
-  .launch-hero__still {
-    bottom: 26%;
-  }
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .dawn__rim,
-  .dawn__glow,
-  .dawn__sun,
-  .launch-hero__char,
-  .launch-hero__sub,
-  .launch-hero__toc {
-    animation: none;
-  }
-
   .section-rail,
   .section-rail__label {
     transition: none;

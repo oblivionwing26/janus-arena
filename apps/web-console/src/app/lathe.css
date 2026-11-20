@@ -1,0 +1,562 @@
+/* F4.7-3: the monolith hero and the lathe (docs/design/lathe.md). */
+
+/* ---------- the hero: an angel in points between two words ---------- */
+
+.angel {
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+  min-height: max(680px, calc(100svh - 52px));
+  display: grid;
+  grid-template-rows: 1fr auto auto;
+  background: radial-gradient(ellipse 60% 55% at 50% 42%, oklch(0.2 0 0), #030303 75%);
+}
+
+.angel__stage {
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+}
+
+.angel__stage .angel__canvas {
+  position: absolute !important;
+  inset: 0;
+  width: 100% !important;
+  height: 100% !important;
+}
+
+.angel__title {
+  align-self: center;
+  margin: 0;
+  padding: 0 20px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: clamp(16px, 4.5vw, 88px);
+  pointer-events: none;
+  translate: 0 4vh;
+}
+
+.angel__word {
+  font: 600 clamp(3.5rem, 12.5vw, 13.5rem) / 0.9 var(--font-ui);
+  letter-spacing: -0.055em;
+  color: #fafafa;
+  text-shadow: 0 0 60px oklch(0 0 0 / 0.7);
+}
+
+.angel__name {
+  font: 500 clamp(1rem, 2.2vw, 2.2rem) / 1 var(--font-display);
+  letter-spacing: 0.22em;
+  color: #fafafa;
+  text-shadow: 0 0 30px oklch(0 0 0 / 0.9);
+}
+
+.angel__foot {
+  display: grid;
+  justify-items: center;
+  gap: 14px;
+  padding: 0 20px 36px;
+  text-align: center;
+}
+
+.angel__eyebrow {
+  margin: 0;
+  font: 500 0.6875rem var(--font-mono);
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: oklch(0.75 0 0);
+}
+
+.angel__sub {
+  margin: 0;
+  max-width: 52ch;
+  font-size: clamp(1rem, 1.3vw, 1.2rem);
+  color: oklch(0.82 0 0);
+  text-shadow: 0 0 20px oklch(0 0 0 / 0.9);
+}
+
+.angel__cta {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+  gap: 18px;
+  margin-top: 4px;
+}
+
+.angel__btn {
+  padding: 12px 22px;
+  border-radius: 999px;
+  background: #f5f5f5;
+  color: #070707;
+  font-weight: 600;
+  font-size: 0.9375rem;
+  text-decoration: none;
+}
+
+.angel__btn:hover {
+  background: #fff;
+}
+
+.angel__link {
+  color: oklch(0.85 0 0);
+  font-size: 0.9375rem;
+  text-decoration: none;
+}
+
+.angel__link:hover {
+  color: #fff;
+}
+
+.angel__stack {
+  list-style: none;
+  margin: 0;
+  padding: 22px 20px 30px;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 12px 40px;
+  border-top: 1px solid oklch(1 0 0 / 0.07);
+  background: oklch(0 0 0 / 0.5);
+}
+
+.angel__stack li {
+  font: 600 0.9375rem var(--font-ui);
+  color: oklch(0.65 0 0);
+}
+
+@media (max-width: 700px) {
+  .angel__title {
+    flex-direction: column;
+    gap: 6px;
+    translate: none;
+  }
+}
+
+/* ---------- the lathe ---------- */
+
+.lathe {
+  /* the two faces' own colours, used only by the lathe */
+  --face: #ff5a32;
+  position: relative;
+  height: 340vh;
+  /* the head bleeds to the window's left edge, out of the section's column */
+  margin-inline: calc(50% - 50vw);
+}
+
+.lathe[data-chapter='defense'] {
+  --face: #5cf0c6;
+}
+
+.lathe__stage {
+  position: sticky;
+  top: 52px;
+  height: calc(100vh - 52px);
+  display: grid;
+  grid-template-columns: minmax(0, 46fr) minmax(0, 54fr);
+  align-items: center;
+}
+
+/* the head spans the whole stage, its axis on the window's left edge; the text sits over its right */
+.lathe__head {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  -webkit-mask-image:
+    linear-gradient(90deg, black 50%, transparent 72%), linear-gradient(black 78%, transparent);
+  -webkit-mask-composite: source-in;
+  mask-image:
+    linear-gradient(90deg, black 50%, transparent 72%), linear-gradient(black 78%, transparent);
+  mask-composite: intersect;
+}
+
+.lathe__still,
+.lathe__head .lathe__canvas {
+  position: absolute !important;
+  inset: 0;
+  width: 100% !important;
+  height: 100% !important;
+  object-fit: cover;
+  object-position: 0% 35%;
+  transition: opacity 600ms var(--ease-out);
+}
+
+.lathe__still {
+  opacity: 0;
+  filter: grayscale(1) contrast(1.1);
+}
+
+.lathe[data-static] .lathe__still[data-face='attack'],
+.lathe:not([data-static]) .lathe__head:not([data-ready='true']) .lathe__still[data-face='attack'] {
+  opacity: 1;
+}
+
+.lathe[data-static][data-chapter='defense'] .lathe__still[data-face='attack'] {
+  opacity: 0;
+}
+
+.lathe[data-static][data-chapter='defense'] .lathe__still[data-face='defense'] {
+  opacity: 1;
+}
+
+.lathe__head .lathe__canvas {
+  opacity: 0;
+}
+
+.lathe__head[data-ready='true'] .lathe__canvas {
+  opacity: 1;
+}
+
+.lathe__hud {
+  position: absolute;
+  left: max(20px, env(safe-area-inset-left, 0px));
+  bottom: 36px;
+  margin: 0;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font: 500 0.6875rem var(--font-mono);
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--stone);
+}
+
+.lathe__hud::before {
+  content: '';
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--face);
+  box-shadow: 0 0 10px var(--face);
+  transition: background 600ms var(--ease-out);
+}
+
+.lathe__credit {
+  position: absolute;
+  left: max(20px, env(safe-area-inset-left, 0px));
+  bottom: 14px;
+  margin: 0;
+  font: 0.625rem var(--font-mono);
+  color: oklch(0.6 0 0);
+}
+
+.lathe__text {
+  grid-column: 2;
+  position: relative;
+  min-height: min(720px, 80vh);
+  max-width: clamp(520px, 40vw, 820px);
+  margin-right: max(24px, env(safe-area-inset-right, 0px));
+}
+
+.chapter {
+  position: absolute;
+  inset: 0 0 auto;
+  top: 50%;
+  display: grid;
+  gap: 16px;
+  transform: translateY(calc(-50% + 24px));
+  opacity: 0;
+  visibility: hidden;
+  transition:
+    opacity 500ms var(--ease-out),
+    transform 500ms var(--ease-out),
+    visibility 0s linear 500ms;
+}
+
+.lathe[data-chapter='attack'] .chapter[data-face='attack'],
+.lathe[data-chapter='turn'] .chapter[data-face='turn'],
+.lathe[data-chapter='defense'] .chapter[data-face='defense'] {
+  opacity: 1;
+  visibility: visible;
+  transform: translateY(-50%);
+  transition-delay: 0s;
+}
+
+.chapter h3 {
+  margin: 0;
+  font-family: var(--font-display);
+  letter-spacing: 0.02em;
+  font-size: clamp(2.4rem, 4.6vw, 5.6rem);
+  line-height: 1;
+}
+
+.chapter .eyebrow {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: clamp(0.6875rem, 0.75vw, 0.875rem);
+  color: var(--face);
+  transition: color 600ms var(--ease-out);
+}
+
+.chapter .eyebrow::before {
+  content: '';
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: currentColor;
+  box-shadow: 0 0 12px currentColor;
+}
+
+.chapter > p:not(.eyebrow) {
+  margin: 0;
+  max-width: 54ch;
+  color: oklch(0.82 0 0);
+  font-size: clamp(1.0625rem, 1.25vw, 1.4rem);
+  line-height: 1.6;
+}
+
+.chapter .sample {
+  font-size: clamp(1em, 0.95vw, 1.2em);
+}
+
+.chapter h3 {
+  color: var(--marble);
+}
+
+.sample {
+  margin-top: 6px;
+  padding: 18px;
+  display: grid;
+  gap: 12px;
+}
+
+.sample__head {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 10px;
+  font-weight: 600;
+}
+
+.sample__head code {
+  font: 0.8125em var(--font-mono);
+  color: var(--face);
+}
+
+.sample__sev {
+  padding: 2px 8px;
+  border-radius: 6px;
+  font: 600 0.625em var(--font-mono);
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--void);
+  background: var(--blood);
+}
+
+.sample__oracle {
+  margin: 0;
+  padding: 10px 12px;
+  border-radius: 10px;
+  background: oklch(0 0 0 / 0.45);
+  font: 0.8125em/1.5 var(--font-mono);
+  color: var(--marble);
+}
+
+.sample__oracle > span:first-child {
+  margin-right: 8px;
+  color: var(--face);
+}
+
+.sample__typed:not([data-done='true'])::after {
+  content: '';
+  display: inline-block;
+  width: 0.55em;
+  height: 1.05em;
+  margin-left: 2px;
+  vertical-align: -0.15em;
+  background: var(--face);
+  animation: caret 0.9s steps(2) infinite;
+}
+
+@keyframes caret {
+  50% {
+    opacity: 0;
+  }
+}
+
+.sample__verdict {
+  display: inline-block;
+  margin-left: 8px;
+  padding: 1px 7px;
+  border-radius: 5px;
+  font: 600 0.625em var(--font-mono);
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--void);
+  background: var(--face);
+  animation: verdict 400ms var(--ease-out) both;
+}
+
+@keyframes verdict {
+  from {
+    opacity: 0;
+    transform: scale(0.8);
+  }
+}
+
+.sample__stats {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px 18px;
+  font-size: 0.8125em;
+  color: var(--stone);
+}
+
+.sample__stats b {
+  color: var(--marble);
+  font-size: 1em;
+}
+
+.sample__checks {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: 8px;
+}
+
+.sample__checks li {
+  display: grid;
+  grid-template-columns: 22px 140px minmax(0, 1fr);
+  align-items: center;
+  gap: 10px;
+  font-size: 0.8125em;
+  color: var(--stone);
+}
+
+.sample__checks li > span:first-child {
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  display: grid;
+  place-items: center;
+  font-weight: 700;
+  font-size: 0.75em;
+  color: var(--void);
+  background: var(--face);
+}
+
+/* the verifiers wait in grey and pass, one after another, when the defending face arrives */
+.lathe:not([data-static]) .sample__checks li > span:first-child {
+  color: transparent;
+  background: oklch(1 0 0 / 0.1);
+}
+
+.lathe:not([data-static])[data-chapter='defense'] .sample__checks li > span:first-child {
+  animation: pass 450ms var(--ease-out) calc(var(--i, 0) * 380ms + 350ms) both;
+}
+
+@keyframes pass {
+  from {
+    color: transparent;
+    background: oklch(1 0 0 / 0.1);
+    transform: scale(0.7);
+  }
+  to {
+    color: var(--void);
+    background: var(--face);
+    transform: scale(1);
+  }
+}
+
+.sample__checks b {
+  color: var(--marble);
+  font-weight: 600;
+}
+
+.sample__tradeoff {
+  margin: 0;
+  font-size: 0.875em;
+  color: var(--stone);
+}
+
+.sample__tradeoff b {
+  color: var(--marble);
+}
+
+/* phones and reduced motion: the head on top, the chapters one after another */
+@media (max-width: 900px) {
+  .lathe {
+    height: auto;
+  }
+
+  .lathe__stage {
+    position: static;
+    height: auto;
+    display: grid;
+    grid-template-columns: 1fr;
+  }
+
+  .lathe__head {
+    position: relative;
+    inset: auto;
+    height: min(110vw, 560px);
+  }
+
+  .lathe__text {
+    grid-column: 1;
+    max-width: none;
+  }
+
+  .lathe__hud {
+    display: none;
+  }
+
+  .lathe__text {
+    min-height: 0;
+    display: grid;
+    gap: 40px;
+    margin: 0;
+    padding-inline: max(20px, env(safe-area-inset-left, 0px))
+      max(20px, env(safe-area-inset-right, 0px));
+  }
+
+  .lathe[data-chapter] .chapter[data-face] {
+    position: static;
+    transform: none;
+    opacity: 1;
+    visibility: visible;
+  }
+
+  .sample__checks li {
+    grid-template-columns: 22px minmax(0, 1fr);
+  }
+
+  .sample__checks li > span:last-child {
+    grid-column: 2;
+  }
+}
+
+.lathe[data-static] {
+  height: auto;
+}
+
+.lathe[data-static] .lathe__stage {
+  position: static;
+  height: auto;
+}
+
+.lathe[data-static] .lathe__text {
+  min-height: 0;
+  padding-left: max(20px, env(safe-area-inset-left, 0px));
+  display: grid;
+  gap: 40px;
+}
+
+.lathe[data-static][data-chapter] .chapter[data-face] {
+  position: static;
+  transform: none;
+  opacity: 1;
+  visibility: visible;
+  transition: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .sample__verdict {
+    animation: none;
+  }
+}

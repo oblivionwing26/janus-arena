@@ -27,7 +27,7 @@ export const metadata: Metadata = {
   description: 'Runs, event timeline and replay for Janus Arena.',
 };
 
-export const viewport: Viewport = { themeColor: '#0f0d0b', colorScheme: 'dark' };
+export const viewport: Viewport = { themeColor: '#0d0d0d', colorScheme: 'dark' };
 
 export default function RootLayout({ children }: { children: ReactNode }) {
   return (

@@ -119,7 +119,7 @@ a.avail__card:hover {
   margin-top: 16px;
   padding: 22px 24px;
   background:
-    radial-gradient(ellipse 50% 70% at 100% 0%, oklch(0.82 0.11 85 / 0.1), transparent 70%),
+    radial-gradient(ellipse 50% 70% at 100% 0%, oklch(0.82 0 0 / 0.1), transparent 70%),
     var(--glass);
 }
 
@@ -165,7 +165,7 @@ a.avail__card:hover {
 }
 
 .pricing td b {
-  font: 500 1.9rem var(--font-display);
+  font: 500 1.9rem var(--font-ui);
   color: var(--gold);
 }
 
@@ -225,20 +225,16 @@ a.avail__card:hover {
   gap: 14px;
   padding: clamp(96px, 16vh, 180px) 20px clamp(72px, 12vh, 140px);
   text-align: center;
-  background: radial-gradient(
-    ellipse 50% 60% at 50% 40%,
-    oklch(0.7 0.18 45 / 0.12),
-    transparent 70%
-  );
+  background: radial-gradient(ellipse 50% 60% at 50% 40%, oklch(0.7 0 0 / 0.12), transparent 70%);
 }
 
 .finale svg {
-  filter: drop-shadow(0 0 40px oklch(0.82 0.11 85 / 0.35));
+  filter: drop-shadow(0 0 40px oklch(0.82 0 0 / 0.35));
 }
 
 .finale__line {
   margin: 10px 0 0;
-  font: 500 clamp(2rem, 5vw, 3.6rem) / 1.05 var(--font-display);
+  font: 500 clamp(2rem, 5vw, 3.6rem) / 1.05 var(--font-ui);
   letter-spacing: 0.03em;
   text-wrap: balance;
 }

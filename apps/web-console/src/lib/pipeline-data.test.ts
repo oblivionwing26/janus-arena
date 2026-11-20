@@ -2,8 +2,10 @@ import { readFileSync } from 'node:fs';
 
 import { describe, expect, it } from 'vitest';
 
+import { buildAttackTree, type RunEvent } from './attack-tree';
 import {
   JUICE_FINDINGS,
+  JUICE_RED_TOTALS,
   JUICE_SYNTHLAB_A,
   JUICE_VERIFIERS,
   PERSONAS,
@@ -17,6 +19,17 @@ const repo = new URL('../../../../', import.meta.url);
 const read = (path: string) => readFileSync(new URL(path, repo), 'utf8');
 
 describe('pipeline station data', () => {
+  it('the Red Team totals are what the recorded run counts', () => {
+    const events = (JSON.parse(read(JUICE_RED_TOTALS.source)) as { events: RunEvent[] }).events;
+    const { totals } = buildAttackTree(events);
+    expect(read(JUICE_RED_TOTALS.source)).toContain(JUICE_RED_TOTALS.evidence);
+    expect(JUICE_RED_TOTALS.value).toEqual({
+      mapped: totals.mapped,
+      attempts: totals.attempts,
+      blocked: totals.blocked,
+    });
+  });
+
   it.each(PERSONAS.map((p) => [p.name, p] as const))('persona %s matches its file', (name, p) => {
     const text = read(p.source);
     expect(text).toContain(`name: ${name}`);
