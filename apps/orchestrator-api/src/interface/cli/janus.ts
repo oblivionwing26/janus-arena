@@ -45,7 +45,15 @@ const fail = (message: string): never => {
   process.exit(2);
 };
 
-const ROLES = ['ux', 'audit', 'red-team', 'blue-team', 'v3'] as const;
+const ROLES = [
+  'ux',
+  'discovery',
+  'ui-engineer',
+  'audit',
+  'red-team',
+  'blue-team',
+  'v3',
+] as const satisfies readonly ReportRunRole[];
 const ULID = /^[0-9A-HJKMNP-TV-Z]{26}$/;
 
 async function keygen(): Promise<void> {

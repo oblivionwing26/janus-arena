@@ -2,8 +2,13 @@ import type { ProofOfConcept } from '@janus/shared-kernel';
 
 import type { TradeoffRow } from '../fix/tradeoff.js';
 
-/** What each run contributes to a dual report (F3.7). */
-export type ReportRunRole = 'ux' | 'audit' | 'red-team' | 'blue-team' | 'v3';
+/**
+ * What each run contributes to a dual report (F3.7). `discovery` (SynthLab on A when the A/B is
+ * the `ux` run) and `ui-engineer` (the run that wrote variant B) add only their cost and their
+ * event log: a report counts everything the gate spent.
+ */
+export type ReportRunRole =
+  'ux' | 'discovery' | 'ui-engineer' | 'audit' | 'red-team' | 'blue-team' | 'v3';
 
 export interface ReportFinding {
   readonly findingId: string;
