@@ -1,0 +1,214 @@
+{
+  "shoplab": {
+    "gateRunId": "01M796CT3J5XRRXAREPJ88M525",
+    "target": "shoplab",
+    "budgetEur": 1.2,
+    "seconds": 1312,
+    "spentEur": 0.5770666306000001,
+    "stages": [
+      {
+        "stage": "synthlab-a",
+        "status": "completed",
+        "at": 0,
+        "seconds": 415,
+        "allowanceEur": 0.36,
+        "spentEur": 0.2115195241,
+        "runIds": [
+          "01M796CT6SAG1KM8Y2YEKA027R"
+        ],
+        "reason": null,
+        "pr": null
+      },
+      {
+        "stage": "variant-b",
+        "status": "completed",
+        "at": 415,
+        "seconds": 159,
+        "allowanceEur": 0.3884804759,
+        "spentEur": 0.086467754,
+        "runIds": [
+          "01M796SFQ01XX971E4VC99YNR3"
+        ],
+        "reason": null,
+        "pr": null
+      },
+      {
+        "stage": "ab",
+        "status": "completed",
+        "at": 575,
+        "seconds": 719,
+        "allowanceEur": 0.9020127219,
+        "spentEur": 0.27907935250000004,
+        "runIds": [
+          "01M796YBE1ZZMFK0266VWSX956"
+        ],
+        "reason": null,
+        "pr": null
+      },
+      {
+        "stage": "audit",
+        "status": "completed",
+        "at": 1293,
+        "seconds": 13,
+        "allowanceEur": 0.6229333694,
+        "spentEur": 0,
+        "runIds": [
+          "01M797M96H2ZDM7K31R7ZM9SY3"
+        ],
+        "reason": null,
+        "pr": null
+      },
+      {
+        "stage": "red-team",
+        "status": "skipped",
+        "at": 1306,
+        "seconds": 0,
+        "allowanceEur": 0.6229333694,
+        "spentEur": null,
+        "runIds": [],
+        "reason": "the scope of shoplab allows only browse, http-probe (config/scopes.yaml, ADR 0006)",
+        "pr": null
+      },
+      {
+        "stage": "blue-team",
+        "status": "skipped",
+        "at": 1306,
+        "seconds": 0,
+        "allowanceEur": 0.6229333694,
+        "spentEur": null,
+        "runIds": [],
+        "reason": "no finding confirmed by the Red Team",
+        "pr": null
+      },
+      {
+        "stage": "report",
+        "status": "completed",
+        "at": 1306,
+        "seconds": 0,
+        "allowanceEur": 0.6229333694,
+        "spentEur": 0,
+        "runIds": [],
+        "reason": null,
+        "pr": null
+      },
+      {
+        "stage": "pr",
+        "status": "completed",
+        "at": 1307,
+        "seconds": 5,
+        "allowanceEur": 0.6229333694,
+        "spentEur": 0,
+        "runIds": [],
+        "reason": null,
+        "pr": {
+          "url": "https://github.com/oblivionwing26/janus-shoplab/pull/5",
+          "number": 5
+        }
+      }
+    ]
+  },
+  "juice": {
+    "gateRunId": "01M79YYR766FTNCYF5STGZ3ANY",
+    "target": "juice-shop",
+    "budgetEur": 1.5,
+    "seconds": 1723,
+    "spentEur": 0.8215338426000002,
+    "stages": [
+      {
+        "stage": "synthlab-a",
+        "status": "completed",
+        "at": 0,
+        "seconds": 371,
+        "allowanceEur": 0.375,
+        "spentEur": 0.25998044239999996,
+        "runIds": [
+          "01M79YYRATK9KNKWMMD4317E77"
+        ],
+        "reason": null,
+        "pr": null
+      },
+      {
+        "stage": "variant-b",
+        "status": "skipped",
+        "at": 372,
+        "seconds": 0,
+        "allowanceEur": 0.11501955760000004,
+        "spentEur": null,
+        "runIds": [],
+        "reason": "juice-shop declares no UI Engineer policy and checks (docker/sandboxes/juice-shop.yaml)",
+        "pr": null
+      },
+      {
+        "stage": "ab",
+        "status": "skipped",
+        "at": 372,
+        "seconds": 0,
+        "allowanceEur": 0.11501955760000004,
+        "spentEur": null,
+        "runIds": [],
+        "reason": "no variant B to compare with A",
+        "pr": null
+      },
+      {
+        "stage": "audit",
+        "status": "skipped",
+        "at": 372,
+        "seconds": 0,
+        "allowanceEur": 0.11501955760000004,
+        "spentEur": null,
+        "runIds": [],
+        "reason": "no variant B to audit against A",
+        "pr": null
+      },
+      {
+        "stage": "red-team",
+        "status": "completed",
+        "at": 372,
+        "seconds": 66,
+        "allowanceEur": 0.11501955760000004,
+        "spentEur": 0,
+        "runIds": [
+          "01M79ZA35SZ9QRNF6K3AAGXNQN"
+        ],
+        "reason": null,
+        "pr": null
+      },
+      {
+        "stage": "blue-team",
+        "status": "completed",
+        "at": 438,
+        "seconds": 1285,
+        "allowanceEur": 1.2400195576000002,
+        "spentEur": 0.5615534002000002,
+        "runIds": [
+          "01M79ZC3PHE7YQA5EQR02YHTBC",
+          "01M79ZT16FG1W3EAX2WJNJRQD4"
+        ],
+        "reason": null,
+        "pr": null
+      },
+      {
+        "stage": "report",
+        "status": "completed",
+        "at": 1723,
+        "seconds": 0,
+        "allowanceEur": 0.6784661574000013,
+        "spentEur": 0,
+        "runIds": [],
+        "reason": null,
+        "pr": null
+      },
+      {
+        "stage": "pr",
+        "status": "skipped",
+        "at": 1723,
+        "seconds": 0,
+        "allowanceEur": 0.6784661574000013,
+        "spentEur": null,
+        "runIds": [],
+        "reason": "Juice Shop is upstream OWASP code; Janus opens pull requests only where its GitHub App is installed",
+        "pr": null
+      }
+    ]
+  }
+}
