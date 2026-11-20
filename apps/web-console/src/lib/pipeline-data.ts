@@ -92,6 +92,13 @@ export const JUICE_FINDINGS: Sourced<readonly Finding[]> = {
   ],
 };
 
+/** What the Red Team run of the Juice Shop gate covered (recorded run; attack-tree.ts counts it). */
+export const JUICE_RED_TOTALS: Sourced<{ mapped: number; attempts: number; blocked: number }> = {
+  source: 'apps/web-console/public/demo/runs/01M79ZA35SZ9QRNF6K3AAGXNQN.json',
+  evidence: '"scope.blocked"',
+  value: { mapped: 106, attempts: 32, blocked: 6 },
+};
+
 export interface Verifier {
   name: string;
   label: string;

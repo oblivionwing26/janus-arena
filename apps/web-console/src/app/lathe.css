@@ -334,9 +334,46 @@
   color: var(--marble);
 }
 
-.sample__oracle span {
+.sample__oracle > span:first-child {
   margin-right: 8px;
   color: var(--ember);
+}
+
+.sample__typed:not([data-done='true'])::after {
+  content: '';
+  display: inline-block;
+  width: 0.55em;
+  height: 1.05em;
+  margin-left: 2px;
+  vertical-align: -0.15em;
+  background: var(--ember);
+  animation: caret 0.9s steps(2) infinite;
+}
+
+@keyframes caret {
+  50% {
+    opacity: 0;
+  }
+}
+
+.sample__verdict {
+  display: inline-block;
+  margin-left: 8px;
+  padding: 1px 7px;
+  border-radius: 5px;
+  font: 600 0.625rem var(--font-mono);
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--void);
+  background: var(--ember);
+  animation: verdict 400ms var(--ease-out) both;
+}
+
+@keyframes verdict {
+  from {
+    opacity: 0;
+    transform: scale(0.8);
+  }
 }
 
 .sample__stats {
@@ -382,6 +419,29 @@
   font-size: 0.75rem;
   color: var(--void);
   background: var(--aurora);
+}
+
+/* the verifiers wait in grey and pass, one after another, when the defending face arrives */
+.lathe:not([data-static]) .sample__checks li > span:first-child {
+  color: transparent;
+  background: oklch(1 0 0 / 0.1);
+}
+
+.lathe:not([data-static])[data-chapter='defense'] .sample__checks li > span:first-child {
+  animation: pass 450ms var(--ease-out) calc(var(--i, 0) * 380ms + 350ms) both;
+}
+
+@keyframes pass {
+  from {
+    color: transparent;
+    background: oklch(1 0 0 / 0.1);
+    transform: scale(0.7);
+  }
+  to {
+    color: var(--void);
+    background: var(--aurora);
+    transform: scale(1);
+  }
 }
 
 .sample__checks b {
@@ -462,6 +522,10 @@
 }
 
 @media (prefers-reduced-motion: reduce) {
+  .sample__verdict {
+    animation: none;
+  }
+
   .mono__beam {
     animation: none;
   }

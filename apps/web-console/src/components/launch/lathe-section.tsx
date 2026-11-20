@@ -5,7 +5,7 @@ import { useCallback, useEffect, useRef, useState } from 'react';
 
 import { chapterAt, type Chapter } from '@/lib/lathe';
 import { LAUNCH } from '@/lib/launch-data';
-import { JUICE_FINDINGS, JUICE_VERIFIERS } from '@/lib/pipeline-data';
+import { JUICE_FINDINGS, JUICE_RED_TOTALS, JUICE_VERIFIERS } from '@/lib/pipeline-data';
 import { LOCKOUT_ALTERNATIVES } from '@/lib/tradeoff-data';
 
 import { LaunchSection } from './launch-section';
@@ -25,16 +25,36 @@ function canWebGL(): boolean {
   }
 }
 
-function AttackChapter() {
+const RED = JUICE_RED_TOTALS.value;
+
+/** Types `text` out each time `on` turns true; all of it at once when motion is reduced. */
+function useTyped(text: string, on: boolean, instant: boolean): string {
+  const [shown, setShown] = useState(0);
+  useEffect(() => {
+    if (instant || !on) return;
+    let i = 0;
+    const id = window.setInterval(() => {
+      i += 1;
+      setShown(i);
+      if (i >= text.length) window.clearInterval(id);
+    }, 24);
+    return () => window.clearInterval(id);
+  }, [text, on, instant]);
+  return instant ? text : text.slice(0, shown);
+}
+
+function AttackChapter({ on, instant }: { on: boolean; instant: boolean }) {
+  const oracle = useTyped(CRITICAL?.oracle ?? '', on, instant);
+  const done = oracle.length === (CRITICAL?.oracle.length ?? 0);
   return (
     <article className="chapter" data-face="attack">
       <p className="eyebrow">Face one · the Red Team</p>
       <h3>The face that attacks</h3>
       <p>
-        It reads the target&apos;s code, maps every HTTP endpoint, and attacks what each class can
-        reach: another user&apos;s data, a login without the password, an injected script, a basket
-        with a negative total, a password guessed without limit. All of it inside a sandbox with no
-        internet, and only on a target that has proved it is yours.
+        It reads the target&apos;s code, maps every HTTP endpoint ({RED.mapped} on Juice Shop), and
+        attacks what each class can reach: another user&apos;s data, a login without the password,
+        an injected script, a basket with a negative total, a password guessed without limit. All of
+        it inside a sandbox with no internet, and only on a target that has proved it is yours.
       </p>
       <p>
         No model invents an attack or decides one worked. Attacks are written as code, and a
@@ -47,18 +67,26 @@ function AttackChapter() {
             <span>{CRITICAL.kind}</span>
             <code>{CRITICAL.where}</code>
           </div>
-          <p className="sample__oracle">
-            <span>oracle</span> {CRITICAL.oracle}
+          <p className="sample__oracle" aria-label={`oracle: ${CRITICAL.oracle}`}>
+            <span aria-hidden>oracle</span>{' '}
+            <span className="sample__typed" aria-hidden data-done={done}>
+              {oracle}
+            </span>
+            {done && (
+              <b className="sample__verdict" aria-hidden>
+                confirmed
+              </b>
+            )}
           </p>
           <ul className="sample__stats">
             <li>
               <b>{LAUNCH.juiceGate.confirmed.value}</b> confirmed on Juice Shop
             </li>
             <li>
-              <b>32</b> attack requests
+              <b>{RED.attempts}</b> attack requests
             </li>
             <li>
-              <b>6</b> stopped by the scope
+              <b>{RED.blocked}</b> stopped by the scope
             </li>
           </ul>
         </div>
@@ -92,8 +120,8 @@ function DefenseChapter() {
       </p>
       <div className="sample sample--defense">
         <ol className="sample__checks">
-          {JUICE_VERIFIERS.value.map((v) => (
-            <li key={v.name}>
+          {JUICE_VERIFIERS.value.map((v, i) => (
+            <li key={v.name} style={{ ['--i' as string]: i }}>
               <span aria-hidden>✓</span>
               <b>{v.label}</b>
               <span>{v.detail}</span>
@@ -191,7 +219,7 @@ export function LatheSection() {
             </p>
           </div>
           <div className="lathe__text">
-            <AttackChapter />
+            <AttackChapter on={chapter === 'attack'} instant={!live} />
             <TurnChapter />
             <DefenseChapter />
           </div>
