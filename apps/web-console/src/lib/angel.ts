@@ -59,14 +59,19 @@ export function wing(side: Side, random: () => number): Cloud {
     const length = covert ? 0.45 + 0.65 * u : 0.9 + 2.1 * u;
     const width = 0.2 + 0.14 * u;
     for (let p = 0; p < POINTS_PER_FEATHER; p++, k++) {
-      const t = Math.pow(random(), 0.8);
-      const spread = (random() - 0.5) * width * Math.sin(Math.PI * Math.min(1, t * 1.15));
+      // denser at the root and thinning towards the tip, so a feather fades out instead of
+      // ending in a stroke; its edges are soft (a sum of two draws), never a hard line, and a
+      // quarter of its points trace a faint shaft down the middle
+      const t = 1 - Math.sqrt(random());
+      const shaft = random() < 0.25 ? 0.12 : 1;
+      const spread =
+        (random() + random() - 1) * width * shaft * (0.55 + 0.45 * Math.sin(Math.PI * t));
       const x = (base[0] ?? 0) + (dir[0] ?? 0) * length * t + (normal[0] ?? 0) * spread;
       const y = (base[1] ?? 0) + (dir[1] ?? 0) * length * t + (normal[1] ?? 0) * spread;
       const z = (base[2] ?? 0) - 0.25 * t * u + (covert ? 0.06 : 0) + (random() - 0.5) * 0.04;
       positions.set([x, y, z], k * 3);
       // lit along the arm, fading towards the tips, which take the side's colour
-      const light = (0.45 + 0.55 * (1 - t)) * (0.55 + 0.45 * random());
+      const light = (0.5 + 0.5 * (1 - t)) * (1 - 0.8 * t * t) * (0.55 + 0.45 * random());
       const c = mix([1, 1, 1], tint, 0.15 + 0.6 * t * u);
       colors.set([(c[0] ?? 0) * light, (c[1] ?? 0) * light, (c[2] ?? 0) * light], k * 3);
     }
