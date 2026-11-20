@@ -17,27 +17,40 @@ function listOf(context: GateStageContext, stage: 'blue-team', key: string): str
   return Array.isArray(value) ? value : [];
 }
 
+/**
+ * Every run the gate made, with what it contributes to the report. The A/B is the `ux` run when
+ * there is one, and SynthLab on A then counts as `discovery`; otherwise SynthLab on A is `ux`.
+ */
+export function gateReportRuns(
+  context: GateStageContext,
+): { role: ReportRunRole; runId: string }[] {
+  const ab = outputOf(context, 'ab', 'runId');
+  const a = outputOf(context, 'synthlab-a', 'runId');
+  const runs: { role: ReportRunRole; runId: string | undefined }[] = [
+    { role: 'ux', runId: ab ?? a },
+    { role: 'discovery', runId: ab === undefined ? undefined : a },
+    { role: 'ui-engineer', runId: outputOf(context, 'variant-b', 'runId') },
+    { role: 'audit', runId: outputOf(context, 'audit', 'runId') },
+    { role: 'red-team', runId: outputOf(context, 'red-team', 'runId') },
+    ...listOf(context, 'blue-team', 'runs').map((runId) => ({
+      role: 'blue-team' as const,
+      runId,
+    })),
+    ...listOf(context, 'blue-team', 'v3Runs').map((runId) => ({ role: 'v3' as const, runId })),
+  ];
+  return runs.flatMap(({ role, runId }) => (runId === undefined ? [] : [{ role, runId }]));
+}
+
 export function reportStage(deps: GateDeps): GateStage {
   return {
     name: 'report',
     async run(context) {
-      const ux = outputOf(context, 'ab', 'runId') ?? outputOf(context, 'synthlab-a', 'runId');
-      const runs: { role: ReportRunRole; runId: string | undefined }[] = [
-        { role: 'ux', runId: ux },
-        { role: 'audit', runId: outputOf(context, 'audit', 'runId') },
-        { role: 'red-team', runId: outputOf(context, 'red-team', 'runId') },
-        ...listOf(context, 'blue-team', 'runs').map((runId) => ({
-          role: 'blue-team' as const,
-          runId,
-        })),
-        ...listOf(context, 'blue-team', 'v3Runs').map((runId) => ({ role: 'v3' as const, runId })),
-      ];
       const sha = outputOf(context, 'variant-b', 'sha');
       const dir = `${deps.root}docs/reports/gate-${context.gateRunId}`;
       const dual = await writeSignedReport(deps.store, {
         dir,
         target: deps.gate.target,
-        runs: runs.flatMap(({ role, runId }) => (runId === undefined ? [] : [{ role, runId }])),
+        runs: gateReportRuns(context),
         commits: sha === undefined ? [] : [{ name: deps.gate.target, sha }],
       });
       return {

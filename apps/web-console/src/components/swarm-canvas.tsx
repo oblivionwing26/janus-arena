@@ -34,9 +34,24 @@ interface Palette {
   readonly status: Record<AgentStatus | 'friction', string>;
 }
 
+/**
+ * A CSS colour in any syntax the browser knows (the tokens are OKLCH) as #rrggbb, which PixiJS
+ * parses: the browser paints one pixel with it and the pixel is read back.
+ */
+function toHex(css: string, fallback: string): string {
+  const ctx = document.createElement('canvas').getContext('2d', { willReadFrequently: true });
+  if (!ctx || css === '') return fallback;
+  ctx.fillStyle = fallback;
+  ctx.fillStyle = css;
+  ctx.fillRect(0, 0, 1, 1);
+  const [r = 0, g = 0, b = 0] = ctx.getImageData(0, 0, 1, 1).data;
+  return `#${[r, g, b].map((v) => v.toString(16).padStart(2, '0')).join('')}`;
+}
+
 function readPalette(): Palette {
   const style = getComputedStyle(document.documentElement);
-  const token = (name: string, fallback: string) => style.getPropertyValue(name).trim() || fallback;
+  const token = (name: string, fallback: string) =>
+    toHex(style.getPropertyValue(name).trim(), fallback);
   return {
     text: token('--text', '#1c1c1a'),
     muted: token('--muted', '#62625c'),
