@@ -31,10 +31,6 @@
   display: grid;
   gap: 10px;
   padding: 18px 18px 16px 26px;
-  border-radius: 20px;
-  border: 1px solid oklch(1 0 0 / 0.08);
-  background: linear-gradient(180deg, oklch(0.16 0.006 60 / 0.9), oklch(0.11 0.004 60 / 0.9));
-  box-shadow: inset 0 1px 0 oklch(1 0 0 / 0.06);
 }
 
 /* how far down the gate the reader is: a line that fills on the board's left edge */
@@ -292,19 +288,19 @@
 }
 
 .station[data-face='ux'] {
-  --station-tint: oklch(0.82 0.1 185 / 0.12);
+  --station-tint: oklch(0.82 0 0 / 0.12);
 }
 
 .station[data-face='gate'] {
-  --station-tint: oklch(0.94 0.01 80 / 0.08);
+  --station-tint: oklch(0.94 0 0 / 0.08);
 }
 
 .station[data-face='security'] {
-  --station-tint: oklch(0.7 0.18 45 / 0.14);
+  --station-tint: oklch(0.7 0 0 / 0.14);
 }
 
 .station[data-face='trust'] {
-  --station-tint: oklch(0.82 0.11 85 / 0.12);
+  --station-tint: oklch(0.82 0 0 / 0.12);
 }
 
 .station__head {
@@ -364,8 +360,8 @@
   margin: 0;
   padding: 10px 14px;
   border-radius: 10px;
-  border: 1px solid oklch(0.82 0.1 185 / 0.35);
-  background: oklch(0.82 0.1 185 / 0.08);
+  border: 1px solid oklch(0.82 0 0 / 0.35);
+  background: oklch(0.82 0 0 / 0.08);
   color: var(--aurora);
   font-weight: 600;
 }
@@ -404,9 +400,9 @@
   column-gap: 10px;
   row-gap: 2px;
   padding: 10px 12px;
-  border-radius: 12px;
-  border: 1px solid var(--hair);
-  background: oklch(1 0 0 / 0.03);
+  border-radius: 14px;
+  border: 1px solid oklch(1 0 0 / 0.06);
+  background: oklch(1 0 0 / 0.055);
 }
 
 .station[data-active='true'] .persona {
@@ -441,7 +437,7 @@
   place-items: center;
   font: 600 0.9375rem var(--font-display);
   color: var(--void);
-  background: radial-gradient(circle at 35% 30%, oklch(0.95 0.06 185), var(--aurora));
+  background: radial-gradient(circle at 35% 30%, oklch(0.95 0 0), var(--aurora));
 }
 
 .persona__name {
@@ -495,8 +491,8 @@
   gap: 6px;
   padding: 14px 16px;
   border-radius: 14px;
-  border: 1px solid var(--hair);
-  background: oklch(1 0 0 / 0.03);
+  border: 1px solid oklch(1 0 0 / 0.06);
+  background: oklch(1 0 0 / 0.055);
 }
 
 .station[data-active='true'] .zone {
@@ -521,8 +517,8 @@
   width: 14px;
   height: 14px;
   border-radius: 50%;
-  background: radial-gradient(circle, oklch(0.75 0.2 30), oklch(0.7 0.18 45 / 0));
-  box-shadow: 0 0 14px oklch(0.7 0.2 35 / 0.8);
+  background: radial-gradient(circle, oklch(0.75 0 0), oklch(0.7 0 0 / 0));
+  box-shadow: 0 0 14px oklch(0.7 0 0 / 0.8);
 }
 
 .zone__problem {
@@ -572,14 +568,14 @@
   flex: 1;
   height: 26px;
   border-radius: 8px;
-  border: 1px solid var(--hair);
-  background: oklch(1 0 0 / 0.03);
+  border: 1px solid oklch(1 0 0 / 0.06);
+  background: oklch(1 0 0 / 0.055);
 }
 
 .ab__track i[data-won='true'] {
-  background: linear-gradient(180deg, oklch(0.88 0.08 185), var(--aurora));
+  background: linear-gradient(180deg, oklch(0.88 0 0), var(--aurora));
   border-color: transparent;
-  box-shadow: 0 0 18px oklch(0.82 0.1 185 / 0.35);
+  box-shadow: 0 0 18px oklch(0.82 0 0 / 0.35);
 }
 
 .station[data-active='true'] .ab__track i[data-won='true'] {
@@ -628,7 +624,7 @@
   top: 8px;
   bottom: 8px;
   border-radius: 999px;
-  background: linear-gradient(90deg, oklch(0.82 0.1 185 / 0.35), oklch(0.82 0.1 185 / 0.7));
+  background: linear-gradient(90deg, oklch(0.82 0 0 / 0.35), oklch(0.82 0 0 / 0.7));
   transform-origin: left;
 }
 
@@ -690,8 +686,8 @@
   gap: 8px;
   padding: 12px 14px;
   border-radius: 12px;
-  border: 1px solid var(--hair);
-  background: oklch(1 0 0 / 0.03);
+  border: 1px solid oklch(1 0 0 / 0.06);
+  background: oklch(1 0 0 / 0.055);
   color: var(--stone);
   font-size: 0.875rem;
 }
@@ -740,7 +736,7 @@
   letter-spacing: 0.08em;
   text-transform: uppercase;
   color: var(--ember);
-  background: oklch(0.7 0.18 45 / 0.14);
+  background: oklch(0.7 0 0 / 0.14);
 }
 
 .finding__sev[data-sev='critical'] {
@@ -781,8 +777,8 @@
   gap: 12px;
   padding: 12px 14px;
   border-radius: 12px;
-  border: 1px solid var(--hair);
-  background: oklch(1 0 0 / 0.03);
+  border: 1px solid oklch(1 0 0 / 0.06);
+  background: oklch(1 0 0 / 0.055);
 }
 
 .verifier__check {
@@ -794,7 +790,7 @@
   font-weight: 700;
   color: var(--void);
   background: var(--aurora);
-  box-shadow: 0 0 16px oklch(0.82 0.1 185 / 0.5);
+  box-shadow: 0 0 16px oklch(0.82 0 0 / 0.5);
 }
 
 .station[data-active='true'] .verifier__check {
@@ -804,12 +800,12 @@
 @keyframes check-pass {
   0% {
     background: var(--blood);
-    box-shadow: 0 0 12px oklch(0.68 0.19 28 / 0.6);
+    box-shadow: 0 0 12px oklch(0.68 0 0 / 0.6);
     transform: scale(0.85);
   }
   45% {
     background: var(--gold);
-    box-shadow: 0 0 12px oklch(0.82 0.11 85 / 0.6);
+    box-shadow: 0 0 12px oklch(0.82 0 0 / 0.6);
   }
   100% {
     background: var(--aurora);
@@ -853,8 +849,8 @@
   place-items: center;
   font: 600 1.6rem var(--font-display);
   color: var(--void);
-  background: radial-gradient(circle at 35% 30%, oklch(0.95 0.06 85), var(--gold));
-  box-shadow: 0 0 30px oklch(0.82 0.11 85 / 0.45);
+  background: radial-gradient(circle at 35% 30%, oklch(0.95 0 0), var(--gold));
+  box-shadow: 0 0 30px oklch(0.82 0 0 / 0.45);
 }
 
 @keyframes spin {

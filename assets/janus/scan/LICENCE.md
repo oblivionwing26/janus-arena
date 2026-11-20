@@ -1,6 +1,6 @@
 # The Janus bust: licence
 
-`apps/web-console/public/models/janus-bust.glb` and the renders `janus-attack.webp` and
+`apps/web-console/public/models/janus-wire.glb` and the renders `janus-attack.webp` and
 `janus-defense.webp` are made from **"Bust of Two-Faced Janus"**, a 3D scan of the bust in the
 State Russian Museum, St Petersburg, published by **Scan The World** on MyMiniFactory:
 <https://www.myminifactory.com/object/3d-print-bust-of-two-faced-janus-30038>

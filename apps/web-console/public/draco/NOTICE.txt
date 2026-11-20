@@ -1,3 +1,0 @@
-draco_decoder.wasm and draco_wasm_wrapper.js are the Draco glTF decoder by Google, Apache License
-2.0, copied unchanged from three@0.187.0 (examples/jsm/libs/draco/gltf). They are served from this
-site so the launch page decodes its model without a request to any other host.

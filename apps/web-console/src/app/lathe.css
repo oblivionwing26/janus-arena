@@ -10,7 +10,7 @@
   display: grid;
   grid-template-rows: 1fr auto;
   background:
-    radial-gradient(ellipse 40% 45% at 50% 72%, oklch(0.3 0.01 60 / 0.55), transparent 70%), #050505;
+    radial-gradient(ellipse 40% 45% at 50% 72%, oklch(0.3 0 0 / 0.55), transparent 70%), #050505;
 }
 
 .mono__dunes {
@@ -78,7 +78,7 @@
   line-height: 1;
   font-weight: 500;
   letter-spacing: 0.02em;
-  color: #f4f1ec;
+  color: #f5f5f5;
   text-wrap: balance;
 }
 
@@ -101,7 +101,7 @@
 .mono__btn {
   padding: 12px 22px;
   border-radius: 999px;
-  background: #f4f1ec;
+  background: #f5f5f5;
   color: #070707;
   font-weight: 600;
   font-size: 0.9375rem;
@@ -159,7 +159,9 @@
 
 .lathe {
   position: relative;
-  height: 320vh;
+  height: 340vh;
+  /* the head bleeds to the window's left edge, out of the section's column */
+  margin-inline: calc(50% - 50vw);
 }
 
 .lathe__stage {
@@ -167,18 +169,20 @@
   top: 52px;
   height: calc(100vh - 52px);
   display: grid;
-  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
-  gap: clamp(24px, 4vw, 64px);
+  grid-template-columns: minmax(0, 52fr) minmax(0, 48fr);
   align-items: center;
 }
 
 .lathe__head {
   position: relative;
-  height: min(86vh, 860px);
-  border-radius: 28px;
+  height: 100%;
   overflow: hidden;
-  background: radial-gradient(ellipse 60% 50% at 50% 45%, oklch(0.2 0.01 60), #050505 75%);
-  border: 1px solid oklch(1 0 0 / 0.06);
+  -webkit-mask-image:
+    linear-gradient(90deg, black 70%, transparent), linear-gradient(black 75%, transparent);
+  -webkit-mask-composite: source-in;
+  mask-image:
+    linear-gradient(90deg, black 70%, transparent), linear-gradient(black 75%, transparent);
+  mask-composite: intersect;
 }
 
 .lathe__still,
@@ -188,12 +192,13 @@
   width: 100% !important;
   height: 100% !important;
   object-fit: cover;
-  object-position: 50% 30%;
+  object-position: 30% 35%;
   transition: opacity 600ms var(--ease-out);
 }
 
 .lathe__still {
   opacity: 0;
+  filter: grayscale(1) contrast(1.1);
 }
 
 .lathe[data-static] .lathe__still[data-face='attack'],
@@ -217,21 +222,43 @@
   opacity: 1;
 }
 
+.lathe__hud {
+  position: absolute;
+  left: max(20px, env(safe-area-inset-left, 0px));
+  bottom: 36px;
+  margin: 0;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font: 500 0.6875rem var(--font-mono);
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--stone);
+}
+
+.lathe__hud::before {
+  content: '';
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--marble);
+  box-shadow: 0 0 10px oklch(1 0 0 / 0.6);
+}
+
 .lathe__credit {
   position: absolute;
-  left: 16px;
-  right: 16px;
-  bottom: 0;
-  margin: 0 -16px;
-  padding: 28px 16px 12px;
-  background: linear-gradient(transparent, oklch(0 0 0 / 0.85) 55%);
+  left: max(20px, env(safe-area-inset-left, 0px));
+  bottom: 14px;
+  margin: 0;
   font: 0.625rem var(--font-mono);
   color: oklch(0.6 0 0);
 }
 
 .lathe__text {
   position: relative;
-  min-height: 560px;
+  min-height: 600px;
+  max-width: 600px;
+  margin-right: max(20px, env(safe-area-inset-right, 0px));
 }
 
 .chapter {
@@ -275,7 +302,7 @@
 .chapter > p:not(.eyebrow) {
   margin: 0;
   max-width: 52ch;
-  color: oklch(0.82 0.01 80);
+  color: oklch(0.82 0 0);
   font-size: 1.0625rem;
   line-height: 1.6;
 }
@@ -286,20 +313,9 @@
 
 .sample {
   margin-top: 6px;
-  padding: 16px;
-  border-radius: 16px;
-  border: 1px solid oklch(1 0 0 / 0.1);
-  background: oklch(0.12 0.005 60 / 0.85);
+  padding: 18px;
   display: grid;
   gap: 12px;
-}
-
-.sample--attack {
-  box-shadow: 0 0 60px -20px oklch(0.7 0.18 45 / 0.5);
-}
-
-.sample--defense {
-  box-shadow: 0 0 60px -20px oklch(0.82 0.1 185 / 0.45);
 }
 
 .sample__head {
@@ -480,6 +496,9 @@
     min-height: 0;
     display: grid;
     gap: 40px;
+    margin: 0;
+    padding-inline: max(20px, env(safe-area-inset-left, 0px))
+      max(20px, env(safe-area-inset-right, 0px));
   }
 
   .lathe[data-chapter] .chapter[data-face] {
@@ -509,6 +528,7 @@
 
 .lathe[data-static] .lathe__text {
   min-height: 0;
+  padding-left: max(20px, env(safe-area-inset-left, 0px));
   display: grid;
   gap: 40px;
 }

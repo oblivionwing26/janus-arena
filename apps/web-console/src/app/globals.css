@@ -5,10 +5,11 @@
 body {
   margin: 0;
   font-family: var(--font-ui);
+  /* soft, out-of-focus light behind everything, so the glass above it has something to blur */
   background:
-    radial-gradient(ellipse 80% 50% at 15% -10%, oklch(0.7 0.18 45 / 0.1), transparent 60%),
-    radial-gradient(ellipse 70% 50% at 100% 0%, oklch(0.82 0.1 185 / 0.07), transparent 60%),
-    var(--bg);
+    radial-gradient(ellipse 45% 40% at 12% 18%, oklch(0.62 0 0 / 0.16), transparent 70%),
+    radial-gradient(ellipse 38% 46% at 92% 42%, oklch(0.75 0 0 / 0.11), transparent 70%),
+    radial-gradient(ellipse 55% 35% at 40% 105%, oklch(0.55 0 0 / 0.14), transparent 70%), var(--bg);
   background-attachment: fixed;
   min-height: 100dvh;
   overflow-x: clip;
@@ -84,16 +85,26 @@ h1 {
   word-break: break-word;
 }
 
-/* Glass primitives (F4.7 Part 0). A slab sets off one panel; chips encode state. */
+/* Glass primitives. A slab is smoked glass: lighter where the light comes from, a bright top edge,
+   a deep soft shadow. A pane is the glass inside a slab (a row, a tile), with no edge of its own. */
 .glass {
-  background: var(--glass);
-  -webkit-backdrop-filter: blur(var(--blur)) saturate(125%);
-  backdrop-filter: blur(var(--blur)) saturate(125%);
-  border: 1px solid var(--hair);
+  background:
+    linear-gradient(160deg, oklch(1 0 0 / 0.1), oklch(1 0 0 / 0.025) 45%, oklch(1 0 0 / 0.04)),
+    var(--glass);
+  -webkit-backdrop-filter: blur(var(--blur)) saturate(140%);
+  backdrop-filter: blur(var(--blur)) saturate(140%);
+  border: 1px solid oklch(1 0 0 / 0.12);
   border-radius: var(--r-slab);
   box-shadow:
-    0 30px 80px -30px oklch(0 0 0 / 0.7),
-    inset 0 1px 0 oklch(1 0 0 / 0.06);
+    0 40px 90px -40px oklch(0 0 0 / 0.85),
+    inset 0 1px 0 oklch(1 0 0 / 0.16),
+    inset 0 0 0 1px oklch(1 0 0 / 0.02);
+}
+
+.pane {
+  background: oklch(1 0 0 / 0.055);
+  border: 1px solid oklch(1 0 0 / 0.06);
+  border-radius: 14px;
 }
 
 .chip {

@@ -14,20 +14,20 @@
   gap: 14px;
   padding: 28px 20px 26px;
   background:
-    radial-gradient(circle at 50% 38%, oklch(0.82 0.11 85 / 0.12), transparent 60%), var(--glass);
+    radial-gradient(circle at 50% 38%, oklch(0.82 0 0 / 0.12), transparent 60%), var(--glass);
   transition: box-shadow 600ms var(--ease-out);
 }
 
 .seal-stage[data-state='valid'] {
   box-shadow:
-    0 0 0 1px oklch(0.82 0.11 85 / 0.35),
-    0 40px 120px -40px oklch(0.82 0.11 85 / 0.45);
+    0 0 0 1px oklch(0.82 0 0 / 0.35),
+    0 40px 120px -40px oklch(0.82 0 0 / 0.45);
 }
 
 .seal-stage[data-state='broken'] {
   box-shadow:
-    0 0 0 1px oklch(0.68 0.19 28 / 0.45),
-    0 40px 120px -40px oklch(0.68 0.19 28 / 0.5);
+    0 0 0 1px oklch(0.68 0 0 / 0.45),
+    0 40px 120px -40px oklch(0.68 0 0 / 0.5);
   animation: seal-shake 420ms var(--ease-out);
 }
 
@@ -84,17 +84,17 @@
 
 .seal__arc[data-st='ok'] {
   stroke: var(--aurora);
-  filter: drop-shadow(0 0 6px oklch(0.82 0.1 185 / 0.8));
+  filter: drop-shadow(0 0 6px oklch(0.82 0 0 / 0.8));
 }
 
 .seal-stage[data-state='valid'] .seal__arc[data-st='ok'] {
   stroke: var(--gold);
-  filter: drop-shadow(0 0 8px oklch(0.82 0.11 85 / 0.9));
+  filter: drop-shadow(0 0 8px oklch(0.82 0 0 / 0.9));
 }
 
 .seal__arc[data-st='fail'] {
   stroke: var(--blood);
-  filter: drop-shadow(0 0 8px oklch(0.68 0.19 28 / 0.9));
+  filter: drop-shadow(0 0 8px oklch(0.68 0 0 / 0.9));
 }
 
 @keyframes arc-pulse {
@@ -124,11 +124,11 @@
   top: calc(28px + min(160px, 40vw));
   left: 50%;
   transform: translate(-50%, -50%);
-  filter: drop-shadow(0 0 24px oklch(0.82 0.11 85 / 0.35));
+  filter: drop-shadow(0 0 24px oklch(0.82 0 0 / 0.35));
 }
 
 .seal-stage[data-state='broken'] .seal__core {
-  filter: grayscale(0.7) drop-shadow(0 0 20px oklch(0.68 0.19 28 / 0.5));
+  filter: grayscale(0.7) drop-shadow(0 0 20px oklch(0.68 0 0 / 0.5));
 }
 
 .seal__verdict {
@@ -174,8 +174,8 @@
   row-gap: 4px;
   padding: 12px 14px;
   border-radius: 14px;
-  border: 1px solid var(--hair);
-  background: oklch(1 0 0 / 0.03);
+  border: 1px solid oklch(1 0 0 / 0.06);
+  background: oklch(1 0 0 / 0.055);
   transition:
     border-color 300ms var(--ease-out),
     background-color 300ms var(--ease-out);
@@ -194,7 +194,7 @@
 }
 
 .check[data-st='ok'] {
-  border-color: oklch(0.82 0.1 185 / 0.35);
+  border-color: oklch(0.82 0 0 / 0.35);
 }
 
 .check[data-st='ok'] .check__icon {
@@ -204,8 +204,8 @@
 }
 
 .check[data-st='fail'] {
-  border-color: oklch(0.68 0.19 28 / 0.5);
-  background: oklch(0.68 0.19 28 / 0.07);
+  border-color: oklch(0.68 0 0 / 0.5);
+  background: oklch(0.68 0 0 / 0.07);
 }
 
 .check[data-st='fail'] .check__icon {
@@ -241,7 +241,7 @@
 }
 
 .digest mark {
-  background: oklch(0.68 0.19 28 / 0.35);
+  background: oklch(0.68 0 0 / 0.35);
   color: var(--marble);
   border-radius: 2px;
 }
@@ -260,8 +260,8 @@
   gap: 10px;
   padding: 16px;
   border-radius: 16px;
-  border: 1px dashed oklch(0.68 0.19 28 / 0.45);
-  background: oklch(0.68 0.19 28 / 0.04);
+  border: 1px dashed oklch(0.68 0 0 / 0.45);
+  background: oklch(0.68 0 0 / 0.04);
 }
 
 .forge__buttons {
@@ -294,7 +294,7 @@
 }
 
 .forge__buttons button[aria-pressed='true'] span {
-  color: oklch(0.2 0.02 30);
+  color: oklch(0.2 0 0);
 }
 
 .forge__reset {

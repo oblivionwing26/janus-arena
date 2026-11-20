@@ -180,9 +180,9 @@ export function AttackTreeSection() {
             >
               <defs>
                 <radialGradient id="orb-core" cx="40%" cy="35%" r="65%">
-                  <stop offset="0" stopColor="oklch(0.97 0.04 85)" />
-                  <stop offset="0.45" stopColor="oklch(0.72 0.17 45)" />
-                  <stop offset="1" stopColor="oklch(0.28 0.08 30)" />
+                  <stop offset="0" stopColor="oklch(0.97 0 0)" />
+                  <stop offset="0.45" stopColor="oklch(0.72 0 0)" />
+                  <stop offset="1" stopColor="oklch(0.28 0 0)" />
                 </radialGradient>
                 <filter id="atree-glow" x="-50%" y="-50%" width="200%" height="200%">
                   <feGaussianBlur stdDeviation="5" />

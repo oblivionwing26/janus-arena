@@ -13,7 +13,7 @@
   min-width: 0;
   overflow-x: auto;
   background:
-    radial-gradient(ellipse 50% 60% at 10% 50%, oklch(0.7 0.18 45 / 0.12), transparent 70%),
+    radial-gradient(ellipse 50% 60% at 10% 50%, oklch(0.7 0 0 / 0.12), transparent 70%),
     var(--glass);
 }
 
@@ -83,7 +83,7 @@
 }
 
 .atree__box rect {
-  fill: oklch(0.2 0.012 50 / 0.92);
+  fill: oklch(0.2 0 0 / 0.92);
   stroke: oklch(1 0 0 / 0.14);
   transition: stroke 200ms var(--ease-out);
 }
@@ -96,7 +96,7 @@
 .atree__box[data-on='true'] rect {
   stroke: var(--gold);
   stroke-width: 1.6;
-  fill: oklch(0.26 0.03 85 / 0.9);
+  fill: oklch(0.26 0 0 / 0.9);
 }
 
 .atree__box:focus-visible {
@@ -237,7 +237,7 @@
   gap: 16px;
   min-width: 0;
   background:
-    radial-gradient(ellipse 70% 40% at 100% 0%, oklch(0.82 0.1 185 / 0.1), transparent 70%),
+    radial-gradient(ellipse 70% 40% at 100% 0%, oklch(0.82 0 0 / 0.1), transparent 70%),
     var(--glass);
 }
 
@@ -254,8 +254,8 @@
   gap: 4px;
   padding: 12px;
   border-radius: 12px;
-  border: 1px solid var(--hair);
-  background: oklch(1 0 0 / 0.03);
+  border: 1px solid oklch(1 0 0 / 0.06);
+  background: oklch(1 0 0 / 0.055);
 }
 
 .atree__tiles dt {
@@ -309,7 +309,7 @@
   padding: 12px 14px;
   border-left: 2px solid var(--blood);
   border-radius: 0 10px 10px 0;
-  background: oklch(0.68 0.19 28 / 0.08);
+  background: oklch(0.68 0 0 / 0.08);
 }
 
 .leaf__quote p {
@@ -375,12 +375,12 @@
 
 .lifecycle li:nth-child(1)[data-done='true'] {
   color: var(--blood);
-  border-color: oklch(0.68 0.19 28 / 0.4);
+  border-color: oklch(0.68 0 0 / 0.4);
 }
 
 .lifecycle li:nth-child(2)[data-done='true'] {
   color: var(--gold);
-  border-color: oklch(0.82 0.11 85 / 0.4);
+  border-color: oklch(0.82 0 0 / 0.4);
 }
 
 .lifecycle li:nth-child(3)[data-done='true'] {

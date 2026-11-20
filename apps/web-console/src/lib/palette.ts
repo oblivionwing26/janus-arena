@@ -4,14 +4,14 @@
 export type Oklch = readonly [l: number, c: number, h: number];
 
 export const PALETTE = {
-  void: [0.14, 0.008, 50],
-  ash: [0.21, 0.01, 50],
-  stone: [0.72, 0.012, 70],
-  marble: [0.94, 0.01, 80],
-  ember: [0.7, 0.18, 45],
-  blood: [0.68, 0.19, 28],
-  aurora: [0.82, 0.1, 185],
-  gold: [0.82, 0.11, 85],
+  void: [0.13, 0, 0],
+  ash: [0.2, 0, 0],
+  stone: [0.74, 0, 0],
+  marble: [0.96, 0, 0],
+  ember: [0.98, 0, 0],
+  blood: [0.86, 0, 0],
+  aurora: [0.8, 0, 0],
+  gold: [0.9, 0, 0],
 } as const satisfies Record<string, Oklch>;
 
 export type PaletteToken = keyof typeof PALETTE;

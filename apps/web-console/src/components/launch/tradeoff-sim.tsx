@@ -16,11 +16,11 @@ const STAGES = [
 
 // sRGB stand-ins for the OKLCH tokens (canvas needs concrete colours on every browser).
 const C = {
-  aurora: '#5fd6c8',
-  ember: '#f2733a',
-  blood: '#f05a4f',
-  marble: '#ece6dc',
-  stone: '#aaa298',
+  aurora: '#bdbdbd',
+  ember: '#ffffff',
+  blood: '#7a7a7a',
+  marble: '#f2f2f2',
+  stone: '#a6a6a6',
   hair: 'rgba(255,255,255,0.1)',
 };
 
@@ -129,17 +129,17 @@ export function TradeoffSim() {
       if (shieldGlow > 0.01) {
         const sx = X(SHIELD_X) + 10;
         const g = ctx.createLinearGradient(sx - 18, 0, sx + 6, 0);
-        g.addColorStop(0, 'rgba(242,115,58,0)');
-        g.addColorStop(1, `rgba(242,115,58,${0.35 * shieldGlow})`);
+        g.addColorStop(0, 'rgba(255,255,255,0)');
+        g.addColorStop(1, `rgba(255,255,255,${0.35 * shieldGlow})`);
         ctx.fillStyle = g;
         ctx.fillRect(sx - 18, midY - laneH - 14, 24, laneH * 2 + 28);
-        ctx.strokeStyle = `rgba(255,190,150,${0.9 * shieldGlow})`;
+        ctx.strokeStyle = `rgba(230,230,230,${0.9 * shieldGlow})`;
         ctx.lineWidth = 2;
         ctx.beginPath();
         ctx.moveTo(sx + 6, midY - laneH - 14);
         ctx.lineTo(sx + 6, midY + laneH + 14);
         ctx.stroke();
-        ctx.fillStyle = `rgba(236,230,220,${0.9 * shieldGlow})`;
+        ctx.fillStyle = `rgba(242,242,242,${0.9 * shieldGlow})`;
         ctx.fillText('RATE LIMIT', sx + 6, midY - laneH - 22);
       }
       // walkers
@@ -148,14 +148,14 @@ export function TradeoffSim() {
         const y = midY + w.lane * laneH + (w.fate === 'stopped' ? w.bounce * w.bounce * 60 : 0);
         const fade = w.fate === 'stopped' ? Math.max(0, 1 - w.bounce / 1.4) : Math.min(1, w.x * 12);
         if (w.kind === 'attacker') {
-          ctx.strokeStyle = `rgba(242,115,58,${0.35 * fade})`;
+          ctx.strokeStyle = `rgba(255,255,255,${0.35 * fade})`;
           ctx.lineWidth = 1.5;
           ctx.beginPath();
           ctx.moveTo(x - 22 * (w.fate === 'stopped' ? -0.3 : 1), y);
           ctx.lineTo(x, y);
           ctx.stroke();
           ctx.fillStyle =
-            w.fate === 'stopped' ? `rgba(240,90,79,${fade})` : `rgba(242,115,58,${fade})`;
+            w.fate === 'stopped' ? `rgba(122,122,122,${fade})` : `rgba(255,255,255,${fade})`;
           ctx.beginPath();
           ctx.moveTo(x + 5, y);
           ctx.lineTo(x - 3, y - 3.5);
@@ -163,12 +163,12 @@ export function TradeoffSim() {
           ctx.fill();
         } else {
           ctx.fillStyle =
-            w.fate === 'stopped' ? `rgba(240,90,79,${fade})` : `rgba(95,214,200,${0.9 * fade})`;
+            w.fate === 'stopped' ? `rgba(122,122,122,${fade})` : `rgba(189,189,189,${0.9 * fade})`;
           ctx.beginPath();
           ctx.arc(x, y, w.fate === 'stopped' ? 3.6 : 3, 0, Math.PI * 2);
           ctx.fill();
           if (w.fate === 'stopped') {
-            ctx.strokeStyle = `rgba(240,90,79,${0.5 * fade})`;
+            ctx.strokeStyle = `rgba(122,122,122,${0.5 * fade})`;
             ctx.beginPath();
             ctx.arc(x, y, 7 + w.bounce * 8, 0, Math.PI * 2);
             ctx.stroke();

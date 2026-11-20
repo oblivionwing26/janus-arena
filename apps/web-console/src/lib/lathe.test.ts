@@ -3,10 +3,11 @@ import { describe, expect, it } from 'vitest';
 import { ATTACK_ANGLE, chapterAt, DEFENSE_ANGLE, latheAngle, turnProgress } from './lathe';
 
 describe('the lathe', () => {
-  it('rests on the attack face, turns through both profiles, rests on the defense face', () => {
+  it('rests on the attack face, turns half a turn, rests on the defense face', () => {
     expect(latheAngle(0)).toBeCloseTo(ATTACK_ANGLE);
     expect(latheAngle(0.2)).toBeCloseTo(ATTACK_ANGLE);
-    expect(latheAngle(0.5)).toBeCloseTo(0);
+    expect(latheAngle(0.5)).toBeCloseTo(ATTACK_ANGLE + Math.PI / 2);
+    expect(DEFENSE_ANGLE - ATTACK_ANGLE).toBeCloseTo(Math.PI);
     expect(latheAngle(0.8)).toBeCloseTo(DEFENSE_ANGLE);
     expect(latheAngle(1)).toBeCloseTo(DEFENSE_ANGLE);
   });
@@ -20,11 +21,13 @@ describe('the lathe', () => {
     }
   });
 
-  it('shows the bearded face in three-quarter view first and the young one last', () => {
-    // +X after a turn of θ is (cos θ, 0, -sin θ); towards the camera (+Z) means -sin θ > 0.
-    expect(-Math.sin(ATTACK_ANGLE)).toBeGreaterThan(0.5);
+  it('turns each face right, towards the text, and a little towards the reader', () => {
+    // +X after a turn of θ is (cos θ, 0, -sin θ): right is +X, towards the camera is +Z.
+    expect(Math.cos(ATTACK_ANGLE)).toBeGreaterThan(0.9);
+    expect(-Math.sin(ATTACK_ANGLE)).toBeGreaterThan(0.2);
     // -X after a turn of θ is (-cos θ, 0, sin θ).
-    expect(Math.sin(DEFENSE_ANGLE)).toBeGreaterThan(0.5);
+    expect(-Math.cos(DEFENSE_ANGLE)).toBeGreaterThan(0.9);
+    expect(Math.sin(DEFENSE_ANGLE)).toBeGreaterThan(0.2);
   });
 
   it('names the chapter for the text column, clamping outside the section', () => {

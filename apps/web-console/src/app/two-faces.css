@@ -61,15 +61,15 @@
 .faces__layer[data-face='ux'] {
   clip-path: inset(0 calc(100% - var(--seam)) 0 0);
   background:
-    radial-gradient(ellipse 70% 60% at 0% 0%, oklch(0.82 0.1 185 / 0.16), transparent 70%),
-    oklch(0.17 0.02 190);
+    radial-gradient(ellipse 70% 60% at 0% 0%, oklch(0.82 0 0 / 0.16), transparent 70%),
+    oklch(0.17 0 0);
 }
 
 .faces__layer[data-face='security'] {
   clip-path: inset(0 0 0 var(--seam));
   background:
-    radial-gradient(ellipse 70% 60% at 100% 100%, oklch(0.7 0.18 45 / 0.18), transparent 70%),
-    oklch(0.16 0.02 40);
+    radial-gradient(ellipse 70% 60% at 100% 100%, oklch(0.7 0 0 / 0.18), transparent 70%),
+    oklch(0.16 0 0);
 }
 
 .face-card {
@@ -133,7 +133,7 @@
   place-items: center;
   font: 600 0.6875rem var(--font-display);
   color: var(--void);
-  background: radial-gradient(circle at 35% 30%, oklch(0.95 0.06 185), var(--aurora));
+  background: radial-gradient(circle at 35% 30%, oklch(0.95 0 0), var(--aurora));
 }
 
 .face-card__bars,
@@ -158,7 +158,7 @@
   height: 6px;
   min-width: 4px;
   border-radius: 999px;
-  background: linear-gradient(90deg, oklch(0.82 0.1 185 / 0.5), var(--aurora));
+  background: linear-gradient(90deg, oklch(0.82 0 0 / 0.5), var(--aurora));
 }
 
 .face-card__bars b {
@@ -239,7 +239,7 @@
   width: 2px;
   margin-left: -1px;
   background: linear-gradient(180deg, var(--aurora), var(--marble) 50%, var(--ember));
-  box-shadow: 0 0 24px oklch(0.94 0.01 80 / 0.5);
+  box-shadow: 0 0 24px oklch(0.94 0 0 / 0.5);
   cursor: ew-resize;
   outline: none;
 }
@@ -254,7 +254,7 @@
   width: 58px;
   height: 58px;
   border-radius: 50%;
-  background: oklch(0.12 0.01 50 / 0.85);
+  background: oklch(0.12 0 0 / 0.85);
   box-shadow:
     0 0 0 1px oklch(1 0 0 / 0.15),
     0 10px 30px oklch(0 0 0 / 0.6);
@@ -271,7 +271,7 @@
   top: 10px;
   padding: 4px 8px;
   border-radius: 999px;
-  background: oklch(0.12 0.01 50 / 0.85);
+  background: oklch(0.12 0 0 / 0.85);
   white-space: nowrap;
   font: 500 0.6875rem var(--font-mono);
   letter-spacing: 0.1em;

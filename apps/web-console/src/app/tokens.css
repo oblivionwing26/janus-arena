@@ -1,25 +1,26 @@
-/* Janus design tokens (F4.7 Part 0). One dark world: smoke and marble, ember for the attacker's
-   face, aurora for the shoppers' face, gold for what is selected or verified. The OKLCH values
+/* Janus design tokens. Black and white only: ink, smoke glass and marble. The old names stay as
+   roles (ember: the attacking face, aurora: the defending face and the shoppers, gold: what is
+   selected or verified, blood: what is critical), each now a step of grey. The OKLCH values
    live in src/lib/palette.ts too; palette.test.ts keeps both in step and checks contrast. */
 
 :root {
   color-scheme: dark;
 
-  --void: oklch(0.14 0.008 50);
-  --ash: oklch(0.21 0.01 50);
-  --stone: oklch(0.72 0.012 70);
-  --marble: oklch(0.94 0.01 80);
-  --ember: oklch(0.7 0.18 45);
-  --blood: oklch(0.68 0.19 28);
-  --aurora: oklch(0.82 0.1 185);
-  --gold: oklch(0.82 0.11 85);
+  --void: oklch(0.13 0 0);
+  --ash: oklch(0.2 0 0);
+  --stone: oklch(0.74 0 0);
+  --marble: oklch(0.96 0 0);
+  --ember: oklch(0.98 0 0);
+  --blood: oklch(0.86 0 0);
+  --aurora: oklch(0.8 0 0);
+  --gold: oklch(0.9 0 0);
 
   /* Glass: translucent surfaces over smoke or an image, with a hairline edge. */
-  --glass: oklch(0.2 0.01 50 / 0.58);
+  --glass: oklch(0.26 0 0 / 0.42);
   --glass-hi: oklch(1 0 0 / 0.06);
   --hair: oklch(1 0 0 / 0.09);
   --hair-strong: oklch(1 0 0 / 0.18);
-  --blur: 26px;
+  --blur: 30px;
 
   --font-display: var(--font-cinzel), 'Trajan Pro', Georgia, serif;
   --font-ui: var(--font-instrument-sans), system-ui, sans-serif;

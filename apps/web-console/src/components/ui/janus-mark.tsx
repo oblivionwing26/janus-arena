@@ -23,13 +23,13 @@ export function JanusMark({ size = 32, title }: { size?: number; title?: string 
     >
       <defs>
         <linearGradient id={`${id}-marble`} x1="0" y1="0" x2="1" y2="1">
-          <stop offset="0" stopColor="oklch(0.96 0.01 80)" />
-          <stop offset=".55" stopColor="oklch(0.80 0.015 75)" />
-          <stop offset="1" stopColor="oklch(0.58 0.02 60)" />
+          <stop offset="0" stopColor="oklch(0.96 0 0)" />
+          <stop offset=".55" stopColor="oklch(0.80 0 0)" />
+          <stop offset="1" stopColor="oklch(0.58 0 0)" />
         </linearGradient>
         <linearGradient id={`${id}-ember`} x1="0" y1="0" x2="0" y2="1">
-          <stop offset="0" stopColor="oklch(0.80 0.16 60)" />
-          <stop offset="1" stopColor="oklch(0.62 0.20 35)" />
+          <stop offset="0" stopColor="oklch(0.80 0 0)" />
+          <stop offset="1" stopColor="oklch(0.62 0 0)" />
         </linearGradient>
         <clipPath id={`${id}-clip`}>
           <circle cx="60" cy="60" r="49" />
@@ -39,7 +39,7 @@ export function JanusMark({ size = 32, title }: { size?: number; title?: string 
         cx="60"
         cy="60"
         r="57"
-        fill="oklch(0.18 0.01 50)"
+        fill="oklch(0.18 0 0)"
         stroke={`url(#${id}-ember)`}
         strokeWidth="3"
       />
@@ -57,7 +57,7 @@ export function JanusMark({ size = 32, title }: { size?: number; title?: string 
             />
           </g>
         ))}
-        <path d="M60 12 V118" stroke="oklch(0.18 0.01 50)" strokeWidth="1.2" />
+        <path d="M60 12 V118" stroke="oklch(0.18 0 0)" strokeWidth="1.2" />
       </g>
     </svg>
   );

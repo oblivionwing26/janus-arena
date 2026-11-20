@@ -42,7 +42,7 @@ export function GateBoard({
   const current = stations[active];
 
   return (
-    <div ref={boardRef} className="board">
+    <div ref={boardRef} className="board glass">
       <div className="board__head">
         <span className="board__corner">Two real gates, one clock each</span>
         {GATES.map(({ label, track }) => (

@@ -61,7 +61,7 @@ function Dunes() {
             else ctx.lineTo(x, y);
           }
           const a = 0.05 + 0.22 * (1 - t) * (1 - t);
-          ctx.strokeStyle = side === -1 ? `rgba(255,140,90,${a})` : `rgba(110,225,210,${a})`;
+          ctx.strokeStyle = side === -1 ? `rgba(255,255,255,${a})` : `rgba(200,200,200,${a})`;
           ctx.lineWidth = 1;
           ctx.stroke();
         }

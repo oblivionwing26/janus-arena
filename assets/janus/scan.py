@@ -1,6 +1,7 @@
 # The scanned Janus bust (Scan The World, State Russian Museum, CC BY-NC-SA 4.0) prepared for the
-# launch page's lathe: centred, scaled, reduced, exported as a Draco GLB, and one still render per
-# face for reduced motion. The raw STL is not in the repository (35 MB); see LICENCE.md here.
+# launch page's lathe: centred, scaled, reduced, and rendered once per face for reduced motion and
+# browsers without WebGL. The lathe's own mesh comes from wire.py. The raw STL is not in the
+# repository (35 MB); see LICENCE.md here.
 #   D:\blender.exe -b --python assets/janus/scan.py
 import math
 import os
@@ -50,12 +51,6 @@ b.inputs['Roughness'].default_value = 0.5
 bust.data.materials.append(marble)
 
 os.makedirs(MODELS, exist_ok=True)
-bpy.ops.export_scene.gltf(
-    filepath=os.path.join(MODELS, 'janus-bust.glb'), export_format='GLB', use_selection=True,
-    export_apply=True, export_draco_mesh_compression_enable=True,
-    export_draco_mesh_compression_level=7, export_draco_position_quantization=14,
-    export_draco_normal_quantization=10, export_texcoords=False,
-    export_cameras=False, export_lights=False)
 
 # --- still renders: each face in three-quarter view, rim-lit in its team's colour
 w = bpy.data.worlds.new('World')
@@ -103,4 +98,3 @@ for face, sign, rim, name in ((+1, 1, EMBER, 'attack'), (-1, -1, AURORA, 'defens
     bpy.ops.render.render(write_still=True)
 
 print('TRIS', sum(len(p.vertices) - 2 for p in bust.data.polygons))
-print('GLB', os.path.getsize(os.path.join(MODELS, 'janus-bust.glb')))

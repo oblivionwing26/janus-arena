@@ -61,7 +61,7 @@ function AttackChapter({ on, instant }: { on: boolean; instant: boolean }) {
         deterministic oracle is the only judge.
       </p>
       {CRITICAL && (
-        <div className="sample sample--attack">
+        <div className="sample sample--attack glass">
           <div className="sample__head">
             <span className="sample__sev">critical</span>
             <span>{CRITICAL.kind}</span>
@@ -118,7 +118,7 @@ function DefenseChapter() {
         longer works, the tests pass, and synthetic shoppers still finish. Then it measures what the
         fix costs them, and tries the alternatives.
       </p>
-      <div className="sample sample--defense">
+      <div className="sample sample--defense glass">
         <ol className="sample__checks">
           {JUICE_VERIFIERS.value.map((v, i) => (
             <li key={v.name} style={{ ['--i' as string]: i }}>
@@ -214,6 +214,9 @@ export function LatheSection() {
               height={1500}
             />
             {live && <LatheScene progress={progress} running={visible} onReady={onReady} />}
+            <p className="lathe__hud" aria-hidden>
+              {chapter === 'defense' ? 'Face 02 · Blue Team' : 'Face 01 · Red Team'}
+            </p>
             <p className="lathe__credit">
               Scan: Two-Faced Janus, State Russian Museum · Scan The World · CC BY-NC-SA 4.0
             </p>

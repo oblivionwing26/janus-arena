@@ -36,7 +36,8 @@ export function SectionRail() {
   }, []);
 
   return (
-    <nav className="section-rail" data-shown={shown} aria-label="Sections">
+    // the lathe fills the left edge with the head, so the index steps aside while it is on screen
+    <nav className="section-rail" data-shown={shown && current !== 'teams'} aria-label="Sections">
       <ol>
         {SECTIONS.map((s, i) => (
           <li key={s.id}>
