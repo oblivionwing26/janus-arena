@@ -15,6 +15,10 @@ import { loadSandboxDefinition } from '../sandbox/sandbox-definition.js';
 import { workspacesRoot } from '../sandbox/workspace.js';
 import { LocalGitAdapter } from './local-git-adapter.js';
 
+// ShopLab's main has since taken Janus's own variant (ShopLab #5) and the F4.2 defenses (#6); these
+// tests and their recordings were made against the store before both, so they pin that commit.
+const SHOPLAB_REF = '11d7024474a295c70fd81e7b7556e5ebe481ca7a';
+
 const CART = 'src/app/cart/page.tsx';
 const runId = newUlid();
 const vcs = new LocalGitAdapter();
@@ -43,7 +47,7 @@ beforeAll(async () => {
   const shoplab = await loadSandboxDefinition('shoplab');
   workspace = await vcs.clone(shoplab.repo, {
     runId,
-    ref: 'main',
+    ref: SHOPLAB_REF,
     excludeFiles: shoplab.excludeFiles,
   });
 }, 120_000);

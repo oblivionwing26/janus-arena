@@ -26,6 +26,10 @@ import { LocalGitAdapter } from '../../infrastructure/vcs/local-git-adapter.js';
 import { LlmEventObserver } from '../llm-event-observer.js';
 import { ProposeVariant } from './propose-variant.js';
 
+// ShopLab's main has since taken Janus's own variant (ShopLab #5) and the F4.2 defenses (#6); these
+// tests and their recordings were made against the store before both, so they pin that commit.
+const SHOPLAB_REF = '11d7024474a295c70fd81e7b7556e5ebe481ca7a';
+
 const ROUTES = ['/products/:slug', '/orders/:id'];
 const fixtures = fileURLToPath(
   new URL('../../../../../recordings/fixtures/ui-engineer/', import.meta.url),
@@ -64,7 +68,7 @@ describe('the recorded UI Engineer patches for the seeded flaws', () => {
       const vcs = new LocalGitAdapter();
       const workspace = await vcs.clone(shoplab.repo, {
         runId,
-        ref: 'main',
+        ref: SHOPLAB_REF,
         excludeFiles: shoplab.excludeFiles,
       });
       const store = new InMemoryEventStore();
