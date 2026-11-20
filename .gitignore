@@ -42,3 +42,6 @@ next-env.d.ts
 
 # Report signing keys (F3.7, ADR 0014): the private key never leaves this machine.
 .janus/
+
+# The raw Janus scan (35 MB) stays out; assets/janus/scan.py turns it into public/models/janus-bust.glb
+assets/janus/scan/*.stl

@@ -1,6 +1,7 @@
 // The sections of the launch page, in order. The index in the hero and the side rail read
 // from here; a section is listed only once it is built (docs/design/launch-page.md).
 export const SECTIONS = [
+  { id: 'teams', label: 'Attack and defense' },
   { id: 'problem', label: 'The problem' },
   { id: 'how-it-works', label: 'How it works' },
   { id: 'two-faces', label: 'The two faces' },

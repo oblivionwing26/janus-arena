@@ -1,0 +1,468 @@
+/* F4.7-3: the monolith hero and the lathe (docs/design/lathe.md). */
+
+/* ---------- the hero ---------- */
+
+.mono {
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+  min-height: max(720px, calc(100svh - 52px));
+  display: grid;
+  grid-template-rows: 1fr auto;
+  background:
+    radial-gradient(ellipse 40% 45% at 50% 72%, oklch(0.3 0.01 60 / 0.55), transparent 70%), #050505;
+}
+
+.mono__dunes {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  z-index: -2;
+}
+
+.mono__beam {
+  position: absolute;
+  left: 50%;
+  top: 0;
+  bottom: 0;
+  width: 220px;
+  transform: translateX(-50%);
+  z-index: -1;
+  background:
+    linear-gradient(
+      90deg,
+      transparent,
+      oklch(1 0 0 / 0.07) 45%,
+      oklch(1 0 0 / 0.16) 50%,
+      oklch(1 0 0 / 0.07) 55%,
+      transparent
+    ),
+    radial-gradient(ellipse 50% 22% at 50% 76%, oklch(1 0 0 / 0.18), transparent 70%);
+  -webkit-mask-image: linear-gradient(180deg, transparent 20%, black 60%, black 78%, transparent);
+  mask-image: linear-gradient(180deg, transparent 20%, black 60%, black 78%, transparent);
+  animation: beam 6s ease-in-out infinite alternate;
+}
+
+@keyframes beam {
+  from {
+    opacity: 0.75;
+  }
+}
+
+.mono__inner {
+  align-self: center;
+  display: grid;
+  justify-items: center;
+  gap: 18px;
+  padding: 72px 20px 24px;
+  text-align: center;
+}
+
+.mono__eyebrow {
+  margin: 0;
+  padding: 5px 12px;
+  border-radius: 999px;
+  border: 1px solid oklch(1 0 0 / 0.14);
+  background: oklch(1 0 0 / 0.04);
+  font: 500 0.6875rem var(--font-mono);
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: oklch(0.85 0 0);
+}
+
+.mono__title {
+  margin: 0;
+  max-width: 14ch;
+  font-size: clamp(2.4rem, 6.4vw, 5.6rem);
+  line-height: 1;
+  font-weight: 500;
+  letter-spacing: 0.02em;
+  color: #f4f1ec;
+  text-wrap: balance;
+}
+
+.mono__sub {
+  margin: 0;
+  max-width: 46ch;
+  font-size: clamp(1rem, 1.5vw, 1.15rem);
+  color: oklch(0.78 0 0);
+}
+
+.mono__cta {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+  gap: 18px;
+  margin-top: 6px;
+}
+
+.mono__btn {
+  padding: 12px 22px;
+  border-radius: 999px;
+  background: #f4f1ec;
+  color: #070707;
+  font-weight: 600;
+  font-size: 0.9375rem;
+  text-decoration: none;
+  box-shadow: 0 0 40px oklch(1 0 0 / 0.18);
+}
+
+.mono__btn:hover {
+  background: #fff;
+}
+
+.mono__link {
+  color: oklch(0.82 0 0);
+  font-size: 0.9375rem;
+  text-decoration: none;
+}
+
+.mono__link:hover {
+  color: #fff;
+}
+
+.mono__tile {
+  margin-top: clamp(28px, 7vh, 80px);
+  display: grid;
+  place-items: center;
+  width: 112px;
+  height: 112px;
+  border-radius: 28px;
+  background: linear-gradient(160deg, oklch(0.24 0 0), oklch(0.1 0 0));
+  box-shadow:
+    inset 0 1px 0 oklch(1 0 0 / 0.18),
+    0 0 0 1px oklch(1 0 0 / 0.08),
+    0 30px 80px -20px oklch(0 0 0 / 0.9),
+    0 0 90px oklch(1 0 0 / 0.12);
+}
+
+.mono__stack {
+  list-style: none;
+  margin: 0;
+  padding: 26px 20px 40px;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 14px 40px;
+  border-top: 1px solid oklch(1 0 0 / 0.06);
+}
+
+.mono__stack li {
+  font: 600 0.9375rem var(--font-ui);
+  letter-spacing: 0.01em;
+  color: oklch(0.7 0 0);
+}
+
+/* ---------- the lathe ---------- */
+
+.lathe {
+  position: relative;
+  height: 320vh;
+}
+
+.lathe__stage {
+  position: sticky;
+  top: 52px;
+  height: calc(100vh - 52px);
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  gap: clamp(24px, 4vw, 64px);
+  align-items: center;
+}
+
+.lathe__head {
+  position: relative;
+  height: min(86vh, 860px);
+  border-radius: 28px;
+  overflow: hidden;
+  background: radial-gradient(ellipse 60% 50% at 50% 45%, oklch(0.2 0.01 60), #050505 75%);
+  border: 1px solid oklch(1 0 0 / 0.06);
+}
+
+.lathe__still,
+.lathe__head .lathe__canvas {
+  position: absolute !important;
+  inset: 0;
+  width: 100% !important;
+  height: 100% !important;
+  object-fit: cover;
+  object-position: 50% 30%;
+  transition: opacity 600ms var(--ease-out);
+}
+
+.lathe__still {
+  opacity: 0;
+}
+
+.lathe[data-static] .lathe__still[data-face='attack'],
+.lathe:not([data-static]) .lathe__head:not([data-ready='true']) .lathe__still[data-face='attack'] {
+  opacity: 1;
+}
+
+.lathe[data-static][data-chapter='defense'] .lathe__still[data-face='attack'] {
+  opacity: 0;
+}
+
+.lathe[data-static][data-chapter='defense'] .lathe__still[data-face='defense'] {
+  opacity: 1;
+}
+
+.lathe__head .lathe__canvas {
+  opacity: 0;
+}
+
+.lathe__head[data-ready='true'] .lathe__canvas {
+  opacity: 1;
+}
+
+.lathe__credit {
+  position: absolute;
+  left: 16px;
+  right: 16px;
+  bottom: 0;
+  margin: 0 -16px;
+  padding: 28px 16px 12px;
+  background: linear-gradient(transparent, oklch(0 0 0 / 0.85) 55%);
+  font: 0.625rem var(--font-mono);
+  color: oklch(0.6 0 0);
+}
+
+.lathe__text {
+  position: relative;
+  min-height: 560px;
+}
+
+.chapter {
+  position: absolute;
+  inset: 0 0 auto;
+  top: 50%;
+  display: grid;
+  gap: 16px;
+  transform: translateY(calc(-50% + 24px));
+  opacity: 0;
+  visibility: hidden;
+  transition:
+    opacity 500ms var(--ease-out),
+    transform 500ms var(--ease-out),
+    visibility 0s linear 500ms;
+}
+
+.lathe[data-chapter='attack'] .chapter[data-face='attack'],
+.lathe[data-chapter='turn'] .chapter[data-face='turn'],
+.lathe[data-chapter='defense'] .chapter[data-face='defense'] {
+  opacity: 1;
+  visibility: visible;
+  transform: translateY(-50%);
+  transition-delay: 0s;
+}
+
+.chapter h3 {
+  margin: 0;
+  font-size: clamp(2rem, 4vw, 3.4rem);
+  line-height: 1.02;
+}
+
+.chapter[data-face='attack'] h3 {
+  color: var(--ember);
+}
+
+.chapter[data-face='defense'] h3 {
+  color: var(--aurora);
+}
+
+.chapter > p:not(.eyebrow) {
+  margin: 0;
+  max-width: 52ch;
+  color: oklch(0.82 0.01 80);
+  font-size: 1.0625rem;
+  line-height: 1.6;
+}
+
+.chapter--turn h3 {
+  color: var(--marble);
+}
+
+.sample {
+  margin-top: 6px;
+  padding: 16px;
+  border-radius: 16px;
+  border: 1px solid oklch(1 0 0 / 0.1);
+  background: oklch(0.12 0.005 60 / 0.85);
+  display: grid;
+  gap: 12px;
+}
+
+.sample--attack {
+  box-shadow: 0 0 60px -20px oklch(0.7 0.18 45 / 0.5);
+}
+
+.sample--defense {
+  box-shadow: 0 0 60px -20px oklch(0.82 0.1 185 / 0.45);
+}
+
+.sample__head {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 10px;
+  font-weight: 600;
+}
+
+.sample__head code {
+  font: 0.8125rem var(--font-mono);
+  color: var(--ember);
+}
+
+.sample__sev {
+  padding: 2px 8px;
+  border-radius: 6px;
+  font: 600 0.625rem var(--font-mono);
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--void);
+  background: var(--blood);
+}
+
+.sample__oracle {
+  margin: 0;
+  padding: 10px 12px;
+  border-radius: 10px;
+  background: oklch(0 0 0 / 0.45);
+  font: 0.8125rem/1.5 var(--font-mono);
+  color: var(--marble);
+}
+
+.sample__oracle span {
+  margin-right: 8px;
+  color: var(--ember);
+}
+
+.sample__stats {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px 18px;
+  font-size: 0.8125rem;
+  color: var(--stone);
+}
+
+.sample__stats b {
+  color: var(--marble);
+  font-size: 1rem;
+}
+
+.sample__checks {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: 8px;
+}
+
+.sample__checks li {
+  display: grid;
+  grid-template-columns: 22px 140px minmax(0, 1fr);
+  align-items: center;
+  gap: 10px;
+  font-size: 0.8125rem;
+  color: var(--stone);
+}
+
+.sample__checks li > span:first-child {
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  display: grid;
+  place-items: center;
+  font-weight: 700;
+  font-size: 0.75rem;
+  color: var(--void);
+  background: var(--aurora);
+}
+
+.sample__checks b {
+  color: var(--marble);
+  font-weight: 600;
+}
+
+.sample__tradeoff {
+  margin: 0;
+  font-size: 0.875rem;
+  color: var(--stone);
+}
+
+.sample__tradeoff b {
+  color: var(--marble);
+}
+
+/* phones and reduced motion: the head on top, the chapters one after another */
+@media (max-width: 900px) {
+  .lathe {
+    height: auto;
+  }
+
+  .lathe__stage {
+    position: static;
+    height: auto;
+    display: grid;
+    grid-template-columns: 1fr;
+  }
+
+  .lathe__head {
+    height: min(110vw, 560px);
+  }
+
+  .lathe__text {
+    min-height: 0;
+    display: grid;
+    gap: 40px;
+  }
+
+  .lathe[data-chapter] .chapter[data-face] {
+    position: static;
+    transform: none;
+    opacity: 1;
+    visibility: visible;
+  }
+
+  .sample__checks li {
+    grid-template-columns: 22px minmax(0, 1fr);
+  }
+
+  .sample__checks li > span:last-child {
+    grid-column: 2;
+  }
+}
+
+.lathe[data-static] {
+  height: auto;
+}
+
+.lathe[data-static] .lathe__stage {
+  position: static;
+  height: auto;
+}
+
+.lathe[data-static] .lathe__text {
+  min-height: 0;
+  display: grid;
+  gap: 40px;
+}
+
+.lathe[data-static][data-chapter] .chapter[data-face] {
+  position: static;
+  transform: none;
+  opacity: 1;
+  visibility: visible;
+  transition: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .mono__beam {
+    animation: none;
+  }
+}
