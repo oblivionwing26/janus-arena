@@ -180,4 +180,44 @@ describe('buildDualReport (F3.7)', () => {
       { runId: BLUE, sha256: '3'.repeat(64) },
     ]);
   });
+
+  it('counts the discovery and UI Engineer runs in the cost, and in nothing else', () => {
+    const DISCOVERY = '01JC0F2JB7E0000000000000DA';
+    const ENGINEER = '01JC0F2JB7E0000000000000EN';
+    const discovery = log(DISCOVERY);
+    discovery.add('carmen-a', 'session.started', {
+      variant: 'a',
+      kind: 'persona',
+      persona: 'carmen-retired',
+      seed: 1,
+      attempt: 1,
+    });
+    discovery.add(
+      'carmen-a',
+      'session.ended',
+      { outcome: 'abandon', steps: 3, durationMs: 1 },
+      0.2,
+    );
+    const engineer = log(ENGINEER);
+    engineer.add('orchestrator', 'run.started', { budget: { maxTokens: 1, maxEur: 1 } }, 0.05);
+    const withAll = buildDualReport({
+      target: 'shoplab',
+      janusCommit: 'a'.repeat(40),
+      tools: {},
+      runs: [
+        { runId: UX, role: 'ux', events: ux },
+        { runId: DISCOVERY, role: 'discovery', events: discovery.events },
+        { runId: ENGINEER, role: 'ui-engineer', events: engineer.events },
+      ],
+      pocs: [],
+      tradeoffs: [],
+      eventLogs: { [UX]: '1'.repeat(64), [DISCOVERY]: '4'.repeat(64), [ENGINEER]: '5'.repeat(64) },
+      reportConfig: reportConfigSchema.parse({ funnel: [{ name: 'Inicio', route: '/' }] }),
+    });
+    expect(withAll.cost.runs.map((run) => run.role)).toEqual(['ux', 'discovery', 'ui-engineer']);
+    expect(withAll.cost.totalEur).toBeCloseTo((report.cost.runs[0]?.eur ?? 0) + 0.25, 6);
+    expect(withAll.ux?.runId).toBe(UX);
+    expect(withAll.ux?.variants).toEqual(report.ux?.variants);
+    expect(withAll.eventLogs.map((l) => l.runId)).toEqual([UX, DISCOVERY, ENGINEER]);
+  });
 });
