@@ -42,7 +42,8 @@ describe('verifyReport on the signed Juice Shop gate report', () => {
     for (const f of ['dual-report.json', 'dual-report.json.sig', 'dual-report.intoto.json']) {
       expect(bytes(`${PUBLIC}${f}`)).toEqual(bytes(`${GATE}${f}`));
     }
-    expect(bytes(`${PUBLIC}janus.pub`)).toEqual(bytes('keys/janus.pub'));
+    // The key is a text file that git may check out with CRLF; the served copy keeps LF.
+    expect(text(`${PUBLIC}janus.pub`)).toBe(text('keys/janus.pub').replace(/\r\n/g, '\n'));
   });
 
   it('passes every check, the four event logs recomputed from the demo runs', async () => {
