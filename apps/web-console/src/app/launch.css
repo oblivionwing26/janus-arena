@@ -90,19 +90,21 @@
 
 /* ---------- the section frame ---------- */
 
+/* An editorial frame, as launch posts set it: the heading and its lede in a narrow reading column
+   in the middle, the evidence below it wider, and plenty of air between sections. */
 .launch-section {
-  max-width: 1240px;
+  max-width: 1160px;
   margin: 0 auto;
-  padding: clamp(96px, 14vh, 160px) max(20px, env(safe-area-inset-right, 0px)) 24px
+  padding: clamp(120px, 18vh, 200px) max(20px, env(safe-area-inset-right, 0px)) 24px
     max(20px, env(safe-area-inset-left, 0px));
   scroll-margin-top: 40px;
 }
 
 .launch-section__head {
   display: grid;
-  gap: 14px;
-  max-width: 900px;
-  margin-bottom: 48px;
+  gap: 20px;
+  max-width: 760px;
+  margin: 0 auto clamp(48px, 7vh, 80px);
 }
 
 .launch-section__num {
@@ -111,20 +113,21 @@
 
 .launch-section__head h2 {
   margin: 0;
-  font-size: clamp(2.1rem, 5vw, 4.2rem);
-  line-height: 1.02;
+  font-size: clamp(2.25rem, 4.2vw, 3.75rem);
+  line-height: 1.06;
   font-weight: 500;
+  letter-spacing: -0.035em;
 }
 
 .launch-section__head h2 em {
   font-style: normal;
-  color: var(--ember);
+  color: var(--stone);
 }
 
 .launch-section__lede {
   margin: 0;
-  max-width: 60ch;
-  font-size: 1.125rem;
+  font-size: clamp(1.125rem, 1.35vw, 1.3125rem);
+  line-height: 1.55;
   color: var(--stone);
 }
 
@@ -198,7 +201,7 @@
 
 .stat-card dd {
   margin: 0;
-  font: 500 clamp(2rem, 3.4vw, 2.8rem) / 1 var(--font-display);
+  font: 500 clamp(2rem, 3.4vw, 2.8rem) / 1 var(--font-ui);
   font-variant-numeric: tabular-nums;
   color: var(--marble);
 }

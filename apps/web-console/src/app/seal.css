@@ -133,7 +133,7 @@
 
 .seal__verdict {
   margin: 0;
-  font: 500 1.35rem var(--font-display);
+  font: 500 1.35rem var(--font-ui);
   letter-spacing: 0.04em;
   text-align: center;
 }

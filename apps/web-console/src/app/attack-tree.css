@@ -203,7 +203,7 @@
 }
 
 .atree__orbname {
-  font: 600 14px var(--font-display);
+  font: 600 14px var(--font-ui);
   letter-spacing: 0.08em;
   fill: var(--marble);
 }
@@ -265,7 +265,7 @@
 
 .atree__tiles dd {
   margin: 0;
-  font: 500 1.7rem/1 var(--font-display);
+  font: 500 1.7rem/1 var(--font-ui);
 }
 
 .atree__tiles dd[data-tone='blood'] {

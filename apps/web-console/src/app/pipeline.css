@@ -88,7 +88,7 @@
 }
 
 .board__lane-head b {
-  font: 500 0.875rem var(--font-display);
+  font: 500 0.875rem var(--font-ui);
   letter-spacing: 0.05em;
   color: var(--marble);
 }
@@ -144,7 +144,7 @@
   gap: 8px;
   align-items: baseline;
   padding-left: 8px;
-  font: 500 0.875rem var(--font-display);
+  font: 500 0.875rem var(--font-ui);
   letter-spacing: 0.05em;
   color: var(--stone);
   transition: color 300ms var(--ease-out);
@@ -435,7 +435,7 @@
   border-radius: 50%;
   display: grid;
   place-items: center;
-  font: 600 0.9375rem var(--font-display);
+  font: 600 0.9375rem var(--font-ui);
   color: var(--void);
   background: radial-gradient(circle at 35% 30%, oklch(0.95 0 0), var(--aurora));
 }
@@ -556,7 +556,7 @@
 }
 
 .ab__label {
-  font: 600 1.25rem var(--font-display);
+  font: 600 1.25rem var(--font-ui);
 }
 
 .ab__track {
@@ -693,7 +693,7 @@
 }
 
 .audit__row b {
-  font: 500 1.6rem var(--font-display);
+  font: 500 1.6rem var(--font-ui);
   color: var(--marble);
 }
 
@@ -847,7 +847,7 @@
   border-radius: 50%;
   display: grid;
   place-items: center;
-  font: 600 1.6rem var(--font-display);
+  font: 600 1.6rem var(--font-ui);
   color: var(--void);
   background: radial-gradient(circle at 35% 30%, oklch(0.95 0 0), var(--gold));
   box-shadow: 0 0 30px oklch(0.82 0 0 / 0.45);

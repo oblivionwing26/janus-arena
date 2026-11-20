@@ -2,11 +2,12 @@
 // attacks to the face that defends. Pure: scroll progress in, angle and chapter out.
 //
 // The bust's bearded face looks along +X and the young one along -X (three.js axes); the camera
-// looks down -Z and the text sits to the right of the head. A turn of θ around Y sends +X to
-// (cos θ, 0, -sin θ), so at θ = -18° the bearded face looks right, towards the text, a little
-// towards the reader. Half a turn later the young face looks the same way.
+// looks down -Z, the head's axis sits on the window's left edge and the text to its right. A turn
+// of θ around Y sends +X to (cos θ, 0, -sin θ), so at θ = -8° the bearded face looks right, towards
+// the text, barely towards the reader, and the young face is off the window. Half a turn later the
+// two have changed places.
 
-export const ATTACK_ANGLE = (-18 * Math.PI) / 180;
+export const ATTACK_ANGLE = (-8 * Math.PI) / 180;
 export const DEFENSE_ANGLE = ATTACK_ANGLE + Math.PI;
 
 /** The turn happens in this slice of the section's scroll; before and after, the head rests. */

@@ -23,7 +23,7 @@
 }
 
 .faces-head__big b {
-  font: 500 2.2em/1 var(--font-display);
+  font: 500 2.2em/1 var(--font-ui);
   margin-right: 6px;
   vertical-align: -0.12em;
 }
@@ -97,7 +97,7 @@
 
 .face-card h4 {
   margin: 0;
-  font: 500 1.05rem var(--font-display);
+  font: 500 1.05rem var(--font-ui);
   letter-spacing: 0.04em;
 }
 
@@ -131,7 +131,7 @@
   border-radius: 50%;
   display: grid;
   place-items: center;
-  font: 600 0.6875rem var(--font-display);
+  font: 600 0.6875rem var(--font-ui);
   color: var(--void);
   background: radial-gradient(circle at 35% 30%, oklch(0.95 0 0), var(--aurora));
 }

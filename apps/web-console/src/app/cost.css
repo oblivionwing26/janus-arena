@@ -314,7 +314,7 @@
 
 .alt h4 {
   margin: 0;
-  font: 500 1.15rem var(--font-display);
+  font: 500 1.15rem var(--font-ui);
 }
 
 .alt__badge {

@@ -71,12 +71,14 @@ main {
   letter-spacing: 0.18em;
 }
 
+/* Headings are set in the text face, tight and in sentence case; the inscribed capitals of the
+   display face are kept for the brand, the hero and the lathe. */
 h1,
 h2,
 h3 {
-  font-family: var(--font-display);
+  font-family: var(--font-ui);
   font-weight: 500;
-  letter-spacing: 0.02em;
+  letter-spacing: -0.025em;
   text-wrap: balance;
 }
 

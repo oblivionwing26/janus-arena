@@ -165,7 +165,7 @@ a.avail__card:hover {
 }
 
 .pricing td b {
-  font: 500 1.9rem var(--font-display);
+  font: 500 1.9rem var(--font-ui);
   color: var(--gold);
 }
 
@@ -234,7 +234,7 @@ a.avail__card:hover {
 
 .finale__line {
   margin: 10px 0 0;
-  font: 500 clamp(2rem, 5vw, 3.6rem) / 1.05 var(--font-display);
+  font: 500 clamp(2rem, 5vw, 3.6rem) / 1.05 var(--font-ui);
   letter-spacing: 0.03em;
   text-wrap: balance;
 }

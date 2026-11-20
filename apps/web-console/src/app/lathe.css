@@ -73,6 +73,7 @@
 
 .mono__title {
   margin: 0;
+  font-family: var(--font-display);
   max-width: 14ch;
   font-size: clamp(2.4rem, 6.4vw, 5.6rem);
   line-height: 1;
@@ -158,10 +159,16 @@
 /* ---------- the lathe ---------- */
 
 .lathe {
+  /* the two faces' own colours, used only by the lathe */
+  --face: #ff5a32;
   position: relative;
   height: 340vh;
   /* the head bleeds to the window's left edge, out of the section's column */
   margin-inline: calc(50% - 50vw);
+}
+
+.lathe[data-chapter='defense'] {
+  --face: #5cf0c6;
 }
 
 .lathe__stage {
@@ -169,19 +176,20 @@
   top: 52px;
   height: calc(100vh - 52px);
   display: grid;
-  grid-template-columns: minmax(0, 52fr) minmax(0, 48fr);
+  grid-template-columns: minmax(0, 46fr) minmax(0, 54fr);
   align-items: center;
 }
 
+/* the head spans the whole stage, its axis on the window's left edge; the text sits over its right */
 .lathe__head {
-  position: relative;
-  height: 100%;
+  position: absolute;
+  inset: 0;
   overflow: hidden;
   -webkit-mask-image:
-    linear-gradient(90deg, black 70%, transparent), linear-gradient(black 75%, transparent);
+    linear-gradient(90deg, black 50%, transparent 72%), linear-gradient(black 78%, transparent);
   -webkit-mask-composite: source-in;
   mask-image:
-    linear-gradient(90deg, black 70%, transparent), linear-gradient(black 75%, transparent);
+    linear-gradient(90deg, black 50%, transparent 72%), linear-gradient(black 78%, transparent);
   mask-composite: intersect;
 }
 
@@ -192,7 +200,7 @@
   width: 100% !important;
   height: 100% !important;
   object-fit: cover;
-  object-position: 30% 35%;
+  object-position: 0% 35%;
   transition: opacity 600ms var(--ease-out);
 }
 
@@ -241,8 +249,9 @@
   width: 6px;
   height: 6px;
   border-radius: 50%;
-  background: var(--marble);
-  box-shadow: 0 0 10px oklch(1 0 0 / 0.6);
+  background: var(--face);
+  box-shadow: 0 0 10px var(--face);
+  transition: background 600ms var(--ease-out);
 }
 
 .lathe__credit {
@@ -255,10 +264,11 @@
 }
 
 .lathe__text {
+  grid-column: 2;
   position: relative;
-  min-height: 600px;
-  max-width: 600px;
-  margin-right: max(20px, env(safe-area-inset-right, 0px));
+  min-height: min(720px, 80vh);
+  max-width: clamp(520px, 40vw, 820px);
+  margin-right: max(24px, env(safe-area-inset-right, 0px));
 }
 
 .chapter {
@@ -287,27 +297,43 @@
 
 .chapter h3 {
   margin: 0;
-  font-size: clamp(2rem, 4vw, 3.4rem);
-  line-height: 1.02;
+  font-family: var(--font-display);
+  letter-spacing: 0.02em;
+  font-size: clamp(2.4rem, 4.6vw, 5.6rem);
+  line-height: 1;
 }
 
-.chapter[data-face='attack'] h3 {
-  color: var(--ember);
+.chapter .eyebrow {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: clamp(0.6875rem, 0.75vw, 0.875rem);
+  color: var(--face);
+  transition: color 600ms var(--ease-out);
 }
 
-.chapter[data-face='defense'] h3 {
-  color: var(--aurora);
+.chapter .eyebrow::before {
+  content: '';
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: currentColor;
+  box-shadow: 0 0 12px currentColor;
 }
 
 .chapter > p:not(.eyebrow) {
   margin: 0;
-  max-width: 52ch;
+  max-width: 54ch;
   color: oklch(0.82 0 0);
-  font-size: 1.0625rem;
+  font-size: clamp(1.0625rem, 1.25vw, 1.4rem);
   line-height: 1.6;
 }
 
-.chapter--turn h3 {
+.chapter .sample {
+  font-size: clamp(1em, 0.95vw, 1.2em);
+}
+
+.chapter h3 {
   color: var(--marble);
 }
 
@@ -327,14 +353,14 @@
 }
 
 .sample__head code {
-  font: 0.8125rem var(--font-mono);
-  color: var(--ember);
+  font: 0.8125em var(--font-mono);
+  color: var(--face);
 }
 
 .sample__sev {
   padding: 2px 8px;
   border-radius: 6px;
-  font: 600 0.625rem var(--font-mono);
+  font: 600 0.625em var(--font-mono);
   letter-spacing: 0.1em;
   text-transform: uppercase;
   color: var(--void);
@@ -346,13 +372,13 @@
   padding: 10px 12px;
   border-radius: 10px;
   background: oklch(0 0 0 / 0.45);
-  font: 0.8125rem/1.5 var(--font-mono);
+  font: 0.8125em/1.5 var(--font-mono);
   color: var(--marble);
 }
 
 .sample__oracle > span:first-child {
   margin-right: 8px;
-  color: var(--ember);
+  color: var(--face);
 }
 
 .sample__typed:not([data-done='true'])::after {
@@ -362,7 +388,7 @@
   height: 1.05em;
   margin-left: 2px;
   vertical-align: -0.15em;
-  background: var(--ember);
+  background: var(--face);
   animation: caret 0.9s steps(2) infinite;
 }
 
@@ -377,11 +403,11 @@
   margin-left: 8px;
   padding: 1px 7px;
   border-radius: 5px;
-  font: 600 0.625rem var(--font-mono);
+  font: 600 0.625em var(--font-mono);
   letter-spacing: 0.1em;
   text-transform: uppercase;
   color: var(--void);
-  background: var(--ember);
+  background: var(--face);
   animation: verdict 400ms var(--ease-out) both;
 }
 
@@ -399,13 +425,13 @@
   display: flex;
   flex-wrap: wrap;
   gap: 8px 18px;
-  font-size: 0.8125rem;
+  font-size: 0.8125em;
   color: var(--stone);
 }
 
 .sample__stats b {
   color: var(--marble);
-  font-size: 1rem;
+  font-size: 1em;
 }
 
 .sample__checks {
@@ -421,7 +447,7 @@
   grid-template-columns: 22px 140px minmax(0, 1fr);
   align-items: center;
   gap: 10px;
-  font-size: 0.8125rem;
+  font-size: 0.8125em;
   color: var(--stone);
 }
 
@@ -432,9 +458,9 @@
   display: grid;
   place-items: center;
   font-weight: 700;
-  font-size: 0.75rem;
+  font-size: 0.75em;
   color: var(--void);
-  background: var(--aurora);
+  background: var(--face);
 }
 
 /* the verifiers wait in grey and pass, one after another, when the defending face arrives */
@@ -455,7 +481,7 @@
   }
   to {
     color: var(--void);
-    background: var(--aurora);
+    background: var(--face);
     transform: scale(1);
   }
 }
@@ -467,7 +493,7 @@
 
 .sample__tradeoff {
   margin: 0;
-  font-size: 0.875rem;
+  font-size: 0.875em;
   color: var(--stone);
 }
 
@@ -489,7 +515,18 @@
   }
 
   .lathe__head {
+    position: relative;
+    inset: auto;
     height: min(110vw, 560px);
+  }
+
+  .lathe__text {
+    grid-column: 1;
+    max-width: none;
+  }
+
+  .lathe__hud {
+    display: none;
   }
 
   .lathe__text {

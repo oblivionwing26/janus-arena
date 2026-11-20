@@ -21,13 +21,13 @@ describe('the lathe', () => {
     }
   });
 
-  it('turns each face right, towards the text, and a little towards the reader', () => {
+  it('turns each face right, towards the text, nearly in profile', () => {
     // +X after a turn of θ is (cos θ, 0, -sin θ): right is +X, towards the camera is +Z.
-    expect(Math.cos(ATTACK_ANGLE)).toBeGreaterThan(0.9);
-    expect(-Math.sin(ATTACK_ANGLE)).toBeGreaterThan(0.2);
+    expect(Math.cos(ATTACK_ANGLE)).toBeGreaterThan(0.98);
+    expect(-Math.sin(ATTACK_ANGLE)).toBeGreaterThan(0);
     // -X after a turn of θ is (-cos θ, 0, sin θ).
-    expect(-Math.cos(DEFENSE_ANGLE)).toBeGreaterThan(0.9);
-    expect(Math.sin(DEFENSE_ANGLE)).toBeGreaterThan(0.2);
+    expect(-Math.cos(DEFENSE_ANGLE)).toBeGreaterThan(0.98);
+    expect(Math.sin(DEFENSE_ANGLE)).toBeGreaterThan(0);
   });
 
   it('names the chapter for the text column, clamping outside the section', () => {
